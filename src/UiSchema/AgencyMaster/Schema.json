@@ -1,0 +1,66 @@
+{
+    "type":"object",
+   "properties": {
+      "PortfoliosAgency": {
+        "type": "array",
+        "title":"Portfolio Agency Category Mapping",
+        "items": {
+          "type": "object",
+          "properties": {
+          }
+        }
+      },
+      "RCU_Products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Active": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      
+      "agentAuthrizedSignatureList":{
+        "type": "array",
+         "items": {
+          "type": "object",
+          "properties": {
+            }
+          }
+        },
+        "Branches":{
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+            }
+        }
+      }, 
+      "Agency_Branch_Location_Mapping":{ 
+        "type": "array",
+          "title":"Agency Branch Location Mapping",
+          "items": {
+            "type": "object",
+            "properties": {
+              "AgencyBranchName":{
+                "type":"string"
+              },
+              "KotakState":{
+                "type":"string"
+              }
+            }
+      }
+  
+    },
+    "Proprietors":{
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+        }
+    }
+  }
+  }
+  }
