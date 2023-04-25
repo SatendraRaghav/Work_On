@@ -3,16 +3,22 @@ import { useLocalStorage } from "./Authentication/useLocalStorage";
 export const DataContext = createContext<any>({}); 
 export const actions = {
     isDrawerOpen:"isDrawerOpen",
+    currentMenuChange :"currentMenuChange"
   }
 const initialState:any = {
   drawerBoolean:false,
-  drawerWidth: 200
+  drawerWidth: 200,
+  currentMenu:" "
 };
 const reducer = (state:any, action:any) => {
     switch (action.type) {
         case actions.isDrawerOpen:
           return {
            ...state,drawerBoolean:!(state.drawerBoolean)
+          };
+          case actions.currentMenuChange:
+          return {
+           ...state,currentMenu:action.payload
           };
         default:
           return state;

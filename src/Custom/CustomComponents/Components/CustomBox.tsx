@@ -8,14 +8,9 @@ import { DataContext } from '../../../Context';
 const CustomBox = ({data,path}:any) => {
   const { state } = useContext(DataContext);
   const pagePath = window.location.pathname.replaceAll("/", "_");
-  const hidden = checkHiddenCondition(pagePath,path,state.accessPermissions);
   return (
-   <Box sx={{...data.style}}>
-    {
-      hidden?<></>:
-      <Typography variant={data.content.variant}>{data.content.heading}</Typography>
-     } 
-   </Box>
+  
+      <Typography sx={{fontFamily:'inter',  paddingLeft:"20px",...data.content.style}}variant={data.content.variant}>{data.content.heading}</Typography>
   )
 }
 

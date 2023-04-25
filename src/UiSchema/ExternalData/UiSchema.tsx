@@ -8,55 +8,6 @@ export const  ExternalDataUiSchema = {
     borderRadius:"20px"
    },
   elements: [
-    {
-      type: "Control",
-      scope: "#/properties/headerWrapper",
-      label: "",
-      value: {
-        style: {
-          wrapperStyle: {
-            background:"#eef2f6",
-            color: "black",
-            boxShadow: "none",
-            margin: "0",
-            paddingTop:"0",
-            borderRadius:"20px",
-            width:"100%",
-            marginTop:"-28px",
-            // marginLeft:"-10px"
-          },
-          labelStyle: {
-            fontSize: "18px",
-          },
-        },
-      },
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/BoxDemo",
-              layout: {xs:8,sm:4,md:3,lg:2},
-              options: {
-                widget: "Box",
-              },
-      
-              value: {
-                content: {
-                  heading: " ",
-                  variant: "h4",
-                },
-                style: {
-                  width: "100%",
-                  margin: "none",
-                  textAlign: "center",
-                  color: "white",
-                 
-                },
-              },
-            },
             {
               type: "Control",
               scope: "#/properties/EmptyBox",
@@ -64,10 +15,10 @@ export const  ExternalDataUiSchema = {
                 widget: "EmptyBox",
               },
               layout: {
-                xs: 3,
-                sm: 2,
-                md: 4,
-                lg: 5,
+                xs: 0,
+                sm: 5,
+                md: 7.5,
+                lg: 8.5,
               },
             },
             {
@@ -76,8 +27,8 @@ export const  ExternalDataUiSchema = {
               layout: {
                 xs: 12,
                 sm: 6,
-                md: 5,
-                lg: 4,
+                md: 4,
+                lg: 3,
               },
               options: {
                 widget: "SelectInputField",
@@ -91,15 +42,10 @@ export const  ExternalDataUiSchema = {
                   conditionalLoadFunc:"typeLoadFunction",
                 },
                 style: {
-                  // padding:"5px 0 0 5px",
-                   '& label':{
-                           paddingLeft:"20px"
-                          },
-                  background:"inherit"
+                 background:"white"
                 },
               },
-            }
-          ]}}},
+            },
     {
       type: "Control",
       scope: "#/properties/DataLoadParentWrapper",
@@ -123,34 +69,28 @@ export const  ExternalDataUiSchema = {
           elements: [
             {
               type: "Control",
-              scope: "#/properties/uploadDataWraper",
-              label: "Upload Data",
+              scope: "#/properties/docAggrementCopy",
+              options: {
+                widget:"Box",
+              },
               value: {
+                content: {
+                  heading:"Upload Data"
+                },
                 style: {
-                  wrapperStyle: {
-                    backgroundColor: "#E4E9EB",
-                    borderRadius:"20px",
-                    color: "black",
-                    boxShadow: "none",
-                  },
-                  labelStyle: {
-                    fontSize: "18px",
-                  },
+                 paddingLeft:"20px",
+                 fontFamily:'inter'
                 },
               },
-              options: {
-                widget: "Wrapper",
-                detail: {
-                  type: "HorizontalLayout",
-                  elements: [
+            },
                     {
                       type: "Control",
                       scope: "#/properties/agencyType",
                       layout: {
-                        xs: 12,
-                        sm: 12,
-                        md: 6,
-                        lg: 6,
+                        xs: 11,
+                        sm: 11,
+                        md: 5.5,
+                        lg: 5.5,
                       },
                       options: {
                         widget: "SelectInputField",
@@ -175,10 +115,10 @@ export const  ExternalDataUiSchema = {
                         widget: "FileInputField",
                       },
                       layout: {
-                        xs: 12,
-                        sm: 12,
-                        md: 6,
-                        lg: 6,
+                        xs: 11,
+                        sm: 11,
+                        md: 5.5,
+                        lg: 5.5,
                       },
                       value: {
                         content: {
@@ -199,18 +139,10 @@ export const  ExternalDataUiSchema = {
                       },
                       layout: {
                         xs: 0,
-                        sm: 4,
-                        md: 7,
-                        lg: 7,
+                        sm: 6.5,
+                        md: 7.5,
+                        lg: 8.5,
                       },
-                    },
-                    {
-                      type: "Control",
-                      scope: "#/properties/EmptyBox",
-                      options: {
-                        widget: "Notify",
-                      },
-                      layout:6
                     },
                     {
                       type: "Control",
@@ -220,9 +152,9 @@ export const  ExternalDataUiSchema = {
                       },
                       layout: {
                         xs: 12,
-                        sm: 7,
-                        md: 4,
-                        lg: 4,
+                        sm: 4.5,
+                        md: 3.5,
+                        lg: 2.5,
                       },
                       value: {
                         content: {
@@ -238,31 +170,30 @@ export const  ExternalDataUiSchema = {
                         },
                       },
                     },
-                  ],
-                },
-              },
-            },
-            {
-              type: "Control",
-              scope: "#/properties/DataListWrapper",
-              label: "External Data List",
-              value: {
-                style: {
-                  wrapperStyle: {
-                      background:"#eef2f6",
-                    color: "black",
-                    boxShadow: "none",
-                  },
-                  labelStyle: {
-                    fontSize: "18px",
-                  },
-                },
-              },
-              options: {
-                widget: "Wrapper",
-                detail: {
-                  type: "HorizontalLayout",
-                  elements: [
+                    {
+                      type: "Control",
+                      scope: "#/properties/EmptyBox",
+                      options: {
+                        widget: "Notify",
+                      },
+                      layout:6
+                    },
+                    {
+                      type: "Control",
+                      scope: "#/properties/docAggrementCopy",
+                      options: {
+                        widget:"Box",
+                      },
+                      value: {
+                        content: {
+                          heading:"External Data List"
+                        },
+                        style: {
+                         paddingLeft:"20px",
+                         fontFamily:'inter'
+                        },
+                      },
+                    },
                     {
                       type: "Control",
                       scope: "#/properties/LoadRecords",
@@ -287,14 +218,14 @@ export const  ExternalDataUiSchema = {
                           },
                           {
                             field: "name",
-                            width: "150",
+                           flex:1,
                             headerName: "Name",
                             widget: "api",
                           },
                           {
                             field: "type",
                             headerName: "Type",
-                            width: "150",
+                           flex:1,
                             widget: "api",
                           },
                           {
@@ -327,10 +258,6 @@ export const  ExternalDataUiSchema = {
                         ],
                       },
                     }
-                  ],
-                },
-              },
-            },
           ],
         },
       },

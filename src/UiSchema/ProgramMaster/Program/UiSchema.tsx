@@ -94,8 +94,8 @@ export const ProgramMasterUiSchema = {
         content: {
           label: "Groups",
           type: "text",
-          // multiple: true,
-          // variant:"standard",
+          multiple: true,
+          variant:"standard",
           options: [
             { label: "DSL", value: "DSL" },
             { label: "HL", value: "HL" },

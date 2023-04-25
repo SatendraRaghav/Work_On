@@ -35,7 +35,8 @@ export default function CustomRadio({ data, value, updateValue, path }: any) {
           variant="outlined"
           className={classes.radioStyle}
           sx={{
-           border:"2px solid #828f9f",
+          //  border:"2px solid #828f9f",
+          border:"0.8px solid #BFC1C7",
              '&:hover': {
               border:"0.8px solid black", // set the color on hover
             },  
@@ -48,7 +49,7 @@ export default function CustomRadio({ data, value, updateValue, path }: any) {
             <FormLabel
               id="demo-row-radio-buttons-group-label"
             //  className={classes.inputLabelStyle}
-             sx={{width:"20%",paddingTop:"10px",fontFamily:"roboto",
+             sx={{ flexGrow:0,fontFamily:"roboto",padding:"auto 20px",paddingTop:"8px"
             //  color:"#828f9f",
             //  '&:hover': {
             //   color: '#828f9f', // set the color on hover
@@ -64,12 +65,12 @@ export default function CustomRadio({ data, value, updateValue, path }: any) {
               {data.content.label}
             </FormLabel>
             <RadioGroup
-              sx={{ paddingLeft: "20px" }}
+              sx={{ paddingLeft: "20px",flexGrow:1 }}
               row
-              
               value={value}
+              // aria-label="ghhn"
               defaultValue={value}
-              // className={classes.input}
+              className={classes.input}
               defaultChecked={value}
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
@@ -80,7 +81,8 @@ export default function CustomRadio({ data, value, updateValue, path }: any) {
               {apiOption.map((elem: any, i: number) => (
                 <FormControlLabel
                   value={elem}
-                  control={<Radio  value={elem} />}
+          
+                  control={<Radio size="small"  value={elem} />}
                   label={elem}
                 />
               ))}

@@ -33,8 +33,8 @@ export const InputFieldStyle = {
 export const RadioStyle = {
    borderRadius:"20px",
    padding:"6px",
-   border:"0.8px solid #e3e8ef",
-   backgroundColor:"white",
+  //  border:"1.6px solid rgb(227, 232, 239)",
+   background:"#f8fafc",
    color: '#828f9f',
    fontFamily:"roboto",
   '& .MuiTypography-body1': {
@@ -42,11 +42,12 @@ export const RadioStyle = {
     padding:"4px",
   },
   '& .MuiRadio-root': {
-    color: '#828f9f'
+    color: '#828f9f',
   },
-  '&.Mui-focused': {
-    borderColor: 'green',
-  }
+  '& .MuiOutlinedRadio-root': {
+    // color: '#828f9f',
+    
+  },
 }
 export const InputLabelStyle = {
   marginTop:"1px",
@@ -97,10 +98,11 @@ export const Buttonstyle={
   background:"#091f3c",
   color:"white",
   // width:"30px",
-  height:"30px",
+  // height:"30px",
   padding:"8px 10px",
 //  fontWeight:"bold",
 //  fontSize:"30px",
+// maxWidth:'100px',
   marginLeft:"5px",
   '&:hover': {
     backgroundColor: '#0d2e59',

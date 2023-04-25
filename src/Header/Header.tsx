@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { actions, DataContext } from '../Reducer';
+import {DataContext, actions } from '../Reducer';
 import { useContext } from 'react';
 import logo from "../Image/Act21-logo-300x75_adobe_express.svg"
 import {userValue, setUserValue } from '../Apple';
@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useProSidebar } from 'react-pro-sidebar';
 import "./style.css"
+import { Badge, Tooltip, TooltipProps, tooltipClasses } from '@mui/material';
 
 
 export default function Header() {
@@ -59,10 +60,23 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
+// React.useEffect(()=>{
+//    dispatch({type:actions.currentMenuChange,payload:"new"})
+// },[])
   const handleDrawerOpen = () => {
      collapseSidebar()
   };
-
+  const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
+    <Tooltip {...props} arrow classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.arrow}`]: {
+      color:"#ede7f6",
+    },
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "#ede7f6",
+      color:"#673ab7"
+    },
+  }));
 
   return (
     <Box sx={{ display: 'flex',height:"70px" }}>
@@ -71,6 +85,10 @@ const AppBar = styled(MuiAppBar, {
         <Toolbar>
           <Box sx={{marginRight:"40px"}}>
         <img src = {logo} alt="impakt_logo" width={120} height={40}/></Box>
+        {/* <Badge badgeContent={state.currentMenu}  color="primary"> */}
+        <BootstrapTooltip open={true} title={`${state.currentMenu}`} placement="right">
+            {/* <Button>Hover or touch</Button> */}
+        
           <IconButton
             // color="primary"
             aria-label="open drawer"
@@ -90,7 +108,9 @@ const AppBar = styled(MuiAppBar, {
           >
             <MenuIcon />
           </IconButton>
-         
+          {/* <MailIcon color="action" /> */}
+{/* </Badge> */}
+  </BootstrapTooltip>
           <Box component={"div"} sx={{flexGrow:1}} />
           <Box id="userPrifile"
           sx={{display:"flex",alignItems:"center",background:"#e3f2fd",padding:"0 10px",borderRadius:"15px"}}>

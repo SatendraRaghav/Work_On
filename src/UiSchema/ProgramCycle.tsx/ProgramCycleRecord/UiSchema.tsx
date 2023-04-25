@@ -77,28 +77,28 @@ export const ProgramMasterCycleRecordUiSchema = {
                     field: "id",
                     // width: "100",
                     headerName: "Id",
-                    flex: 1,
+                    width:"flex",
                     hide: true,
                     widget: "api",
                   },
                   {
                     field: "program",
                     // width: "80",
-                    flex: 1,
+                    width:"flex",
                     headerName: "Program Name",
+                    cellOverflow:"wrap",
                     widget: "api",
                   },
                   {
                     field: "startDate",
                     headerName: "Start Date",
-                    width: "120",
-                    flex: 1,
+                    width:"flex",
                     widget: "api",
                   },
                   {
                     field: "endDate",
                     headerName: "End Date",
-                    width: "120",
+                    width:"flex",
                     flex: 1,
                     widget: "api",
                   },
@@ -106,7 +106,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                   {
                     field: "Edit_Approve_Records",
                     headerName: "Edit Records",
-                    width: 150,
+                    width: "flex",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Edit_Records",
@@ -139,35 +139,35 @@ export const ProgramMasterCycleRecordUiSchema = {
                   {
                     field: "id",
                     // width: "100",
-                    flex: 1,
+                    width:"flex",
                     hide: true,
                     widget: "api",
                   },
                   {
                     field: "program",
                     // width: "80",
-                    flex: 1,
+                    width:"flex",
                     headerName: "Program Name",
                     widget: "api",
                   },
                   {
                     field: "startDate",
                     headerName: "Start Date",
-                    width: "120",
-                    flex: 1,
+                   
+                   width:"flex",
                     widget: "api",
                   },
                   {
                     field: "endDate",
                     headerName: "End Date",
-                    width: "120",
+                    width: "flex",
                     widget: "api",
                     flex: 1,
                   },
                   {
                     field: "Approve_Records",
                     headerName: "Approve",
-                    width: 150,
+                    width: "flex",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Approve Records",
@@ -189,7 +189,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                   {
                     field: "Reject_Records",
                     headerName: "Reject",
-                    width: 150,
+                    width: "flex",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Reject_Records",

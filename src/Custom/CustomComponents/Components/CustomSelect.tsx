@@ -15,7 +15,7 @@ import { useJsonForms } from "@jsonforms/react";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { useStyles } from "../../../Styles/InputField";
-
+import { InputFieldStyle } from "../../../Styles/InputField";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -51,6 +51,14 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
   };
   //@ts-ignore
   const classes = useStyles();
+  const customStyles = {
+    label: {
+      ...InputFieldStyle
+    },
+    input: {
+      ...InputFieldStyle
+    }
+  };
   return (
     // <Paper
     //   elevation={2}
@@ -58,13 +66,14 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
     // >
     <>
       {data.content.multiple ? (
-        <FormControl fullWidth={true} 
-        sx={{background:"white",borderRadius:"20px"}}
-        // className={classes.autoCompleteStyle}
-        // className={classes.autoCompleteStyle.inputRoot}
-        variant="filled"
-        >
+        // <FormControl fullWidth={true} 
+        // // sx={{background:"white",borderRadius:"20px"}}
+        // // className={classes.autoCompleteStyle}
+        // // className={classes.autoCompleteStyle.inputRoot}
+        // // variant="filled"
+        // >
           <Autocomplete
+           
             onChange={(event, newValue) => {
               const value = newValue.map((elem) => {
                 if (typeof elem === "string") {
@@ -74,12 +83,15 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
               });
               updateValue(value);
             }}
+            // sx={{border:"none"}}
             multiple
             // sx={{border:"none"}}
             // classes={{
             //   inputRoot: classes.autoCompleteStyle.inputRoot,
             //   option: classes.autoCompleteStyle.option,
             // }}
+            size="medium"
+            sx={{height:"50px"}}
             disableCloseOnSelect
             id="tags-standard"
             options={apiOption}
@@ -98,21 +110,35 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
                 {option.label}
               </li>
             )}
-            renderInput={(params) => (
+            renderInput={(params) => {
+              const {InputProps, InputLabelProps} = params;
+              return (
               <TextField
                 {...params}
-                // className={classes.autoCompleteStyle.inputRoot}
+                className={classes.input}
+                variant="outlined"
                 // sx={{borderRadius:"20px",border:"2ps solid black"}}
                 // variant="standard"
+                // sx={{border:"none"}}
+                // InputLabelProps={{style: customStyles.label }}
+                // InputProps={{
+                //   ...InputProps,
+                //   // style: { ...customStyles.input },
+                //   // endAdornment: <div {...InputAdornmentProps}>Custom Adornment</div>,
+                //   // classes: { root: 'custom-input-root', focused: 'custom-input-focused', notchedOutline: 'custom-input-notched-outline' }
+                // }}
                 label={data.content.label}
                 placeholder={data.content.placeholder}
-              />
-            )}
+              />)
+            }}
           />
-        </FormControl>
       ) : (
         <>
-          <FormControl fullWidth={true} className={classes.input}>
+          <FormControl fullWidth={true} 
+          className={classes.input}
+          //  sx={{...data.content.style}}
+          >
+           
             <InputLabel
               id="demo-simple-select-label"
               variant={data.content.variant}
@@ -124,6 +150,7 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={value}
+              // sx={{...data.content.style}}
               label={data.content.label}
               // className={classes.input}
               onChange={(e) => {

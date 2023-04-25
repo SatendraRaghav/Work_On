@@ -47,15 +47,14 @@ import { setUserValue,userValue } from "../Apple";
             ...ctx.core.data,
             notifySuccess: "You Login Successfully",
           });
-          console.log(userValue)
-        console.log(`${res.data} - my response`)
       })
       .catch((er)=>{
           setFormdata({
             ...ctx.core.data,
-            notifyFail: "Invalid username or password",
+            notifyFail:ctx.core.data.notifyFail==="Invalid username or password"
+            ?"Invalid Details":
+            "Invalid username or password",
           });
-        console.log(`${er} - my err`)
       })
      
         

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { actions, DataContext } from '../Reducer';
+import { useContext } from 'react';
 import { navigator } from "../Logic";
 import { userValue } from "../App";
 import {  myService } from "../service/service";
@@ -14,6 +16,7 @@ import {
 
 export default function ProSidebar() {
   const [activeValue, setActiveValue] = useState<string>("");
+  const { dispatch, state } = useContext(DataContext);
   const [menu, setMenu] = useState<any>([]);
   const [rtlBoolean, setRtlBoolean] = useState(false);
   // const { collapseSidebar } = useProSidebar();
@@ -33,9 +36,10 @@ export default function ProSidebar() {
     callApi();
   }, [userValue]);
 
-  const clickHandler = (text: string) => {
-    setActiveValue(text);
-    navigator(text);
+  const clickHandler = (url: string,name) => {
+    setActiveValue(url);
+    navigator(url);
+    dispatch({type:actions.currentMenuChange,payload:name})
   };
   return (
     <>
@@ -54,6 +58,7 @@ export default function ProSidebar() {
             closeOnClick={true}
             menuItemStyles={{
               button: ({ level, active, disabled }) => {
+                console.log(level)
                 return {
                   color: active ? "#673ab7" : "black",
                   backgroundColor: active ? "#ede7f6" : undefined,
@@ -86,7 +91,7 @@ export default function ProSidebar() {
                                         return(
                                         <MenuItem
                                           onClick={() =>
-                                            clickHandler(grandChildElem.url)
+                                            clickHandler(grandChildElem.url,grandChildElem.name)
                                           }
                                           active={
                                             activeValue === grandChildElem.url
@@ -103,7 +108,7 @@ export default function ProSidebar() {
                               ) : (
                                 <>
                                   <MenuItem
-                                    onClick={() => clickHandler(childElem.url)}
+                                    onClick={() => clickHandler(childElem.url,childElem.name)}
                                     active={
                                       activeValue === childElem.url
                                         ? true
@@ -123,7 +128,7 @@ export default function ProSidebar() {
                   ) : (
                     <>
                       <MenuItem
-                        onClick={() => clickHandler(elem.url)}
+                        onClick={() => clickHandler(elem.url,elem.name)}
                         active={activeValue === elem.url ? true : false}
                       >
                         {` ${elem.name}`}
