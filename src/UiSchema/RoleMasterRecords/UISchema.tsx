@@ -10,50 +10,55 @@ export const  RoleMasterRecordsUISchema = {
    },
   "elements": [
     {
-      "type": "Control",
-      "scope": "#/properties/Appbar",
-      "options": {
-        "widget": "EmptyBox"
-      },
-      "layout": 12,
-      "value": {
-        "content": {
-          "eventName": "LogoutUser",  
-          "ButtonName": "Log Out"
-        }
-      }
-    },
-    {
       type: "Control",
-      scope: "#/properties/New_Records_Button",
-      // layout: {
-      //   xs: 4,
-      //   sm: 4,
-      //   md: 1,
-      //   lg: 1,
-      // },
-      layout:11,
+      scope: "#/properties/reportListWrapper",
       options: {
-        widget: "Button",
-      },
-      value: {
-        content: {
-          name: "\u002B",
-          variant: "contained",
-          color: "primary",
-          type: "button",
-          size: "large",
-          "funcName":"newRecord",
+        widget: "Wrapper",
+        detail: {
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+              layout: 5.5,
+              options: {
+                widget: "Box",
+              },
+              value: {
+                content: {
+                  heading: "Role Master",
+                }
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/New_Record",
+              layout: {
+                xs: 6,
+                sm: 4,
+                md: 5.5,
+                lg: 5.5,
+              },
+              options: {
+                widget: "Button",
+              },
+              value: {
+                content: {
+                  name: "New Records",
+                  icon: "AddIcon",
+                  size:"small",
+                  styleDefault: true,
+
+                  funcName: "newRecord",
+                },
+                style: {
+                  float: "right",
+                 
+                },
+              },
+            },
+          ],
         },
-        style:{
-          width:"50px",
-          float:"right",
-          marginTop:"10px",
-          background:"#091f3c",
-          color:"white",
-         fontSize:"40px",
-         height:"40px",
-        }
       },
     },
     {
@@ -98,14 +103,15 @@ export const  RoleMasterRecordsUISchema = {
                   },
                   {
                     "field": "name",
-                    "width": "80",
+                   flex:1,
                     "headerName": "Name",
                     "widget": "api"
                   },
                   {
                     field:"Edit_Approve_Records",
-                    "headerName": "Edit_Records",
-                   "flex":1,
+                    "headerName": "Edit",
+
+                  "width": "100",
                     "widget": {
                       "type": "Control",
                       "scope": "#/properties/Edit_Records",
@@ -147,14 +153,14 @@ export const  RoleMasterRecordsUISchema = {
                   },
                   {
                     "field": "name",
-                    "width": "80",
+                   flex:1,
                     "headerName": "Name",
                     "widget": "api"
                   },
                   {
                     field:"RoleApprover",
-                    "headerName": "RoleApprover",
-                   "flex":1,
+                    "headerName": "Approve",
+                    "width": "100",
                     "widget": {
                       "type": "Control",
                       "scope": "#/properties/Approve2Button",
@@ -173,8 +179,8 @@ export const  RoleMasterRecordsUISchema = {
                   },
                   {
                     field:"Reject_Records",
-                    "headerName": "Reject_Records",
-                   "flex":1,
+                    "headerName": "Reject",
+                    "width": "100",
                     "widget": {
                       "type": "Control",
                       "scope": "#/properties/RejectButton",
@@ -212,7 +218,7 @@ export const  RoleMasterRecordsUISchema = {
                   },
                   {
                     "field": "name",
-                    "width": "80",
+                   flex:1,
                     "headerName": "Name",
                     "widget": "api"
                   },

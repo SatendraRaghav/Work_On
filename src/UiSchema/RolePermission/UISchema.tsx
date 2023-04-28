@@ -1,77 +1,80 @@
 export const  RolePermissionUISchema = {
     "type": "HorizontalLayout",
-    stylePage:{
-      background:"#eef2f6",
-      // background:"#051327",
-      minHeight:"100vh",
-      margin:"10px 20px",
-      height:"auto",
-      borderRadius:"20px"
-     },
   "elements": [
     {
-      "type": "Control",
-      "scope": "#/properties/Appbar",
-      "layout": 12,
-      "options": {
-        "widget": "EmptyBox"
+      type: "Control",
+      scope: "#/properties/reportListWrapper",
+      options: {
+        widget: "Wrapper",
+        detail: {
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+              layout: 5.5,
+              options: {
+                widget: "Box",
+              },
+              value: {
+                content: {
+                  heading: " Program Master",
+                },
+                style: {
+                  // marginTop: "18px",
+                  fontFamily: "Roboto",
+                  fontWeight: "500",
+                  // paddingTop: "8px",
+                  fontSize: "20px",
+                  // paddingBottom: "8px",
+                  // borderRadius: "20px",
+                  background: "white",
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/Back_Button",
+              layout: 5.5,
+              options: {
+                widget: "Button",
+              },
+              value: {
+                content: { 
+                  icon:"BackIcon",
+                  styleDefault:true,
+                  size:"small",
+                  funcName: "backHandler",
+                },
+                style: {
+                  // width:"20%",
+                  float:"right",
+                  // marginTop:"20px",
+                  // marginRight:"15px"
+                },
+              },
+            }
+        ],
+        },
       },
-      "value": {
-        "content": {
-        }
-      }
     },
-    
     {
       type: "Control",
-      scope: "#/properties/Back_Button",
-      layout: {
-        xs: 6,
-        sm: 4,
-        md: 2,
-        lg: 2,
-      },
+      scope: "#/properties/reportListWrapper",
       options: {
-        widget: "Button",
-      },
-      value: {
-        content: {
-          name: "\u2190",
-          variant: "contained",
-          color: "primary",
-          type: "button",
-          size: "large",
-          funcName: "backHandler",
-        },
-        style:{
-          background:"#091f3c",
-          color:"white",
-          width:"30px",
-          height:"30px",
-          paddingTop:"5px",
-         fontWeight:"bold",
-         fontSize:"30px",
-          marginLeft:"5px"
-        }
-      },
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/EmptyBox",
-      "options": {
-        "widget": "EmptyBox"
-      },
-      "layout": {
-        "xs": 7,
-        "sm": 7,
-        "md": 8,
-        "lg": 8
-      }
-    },
+        widget: "Wrapper",
+        detail: {
+          type: "HorizontalLayout",
+          elements: [
     {
       "type": "Control",
       "scope": "#/properties/name",
-      "layout": 6,
+      layout: {
+        xs: 11,
+        sm: 11,
+        md: 5.5,
+        lg: 5.5,
+      },
       "options": {
         "widget": "InputField"
       },
@@ -85,7 +88,12 @@ export const  RolePermissionUISchema = {
     {
       "type": "Control",
       "scope": "#/properties/active",
-      "layout": 6,
+      layout: {
+        xs: 11,
+        sm: 11,
+        md: 5.5,
+        lg: 5.5,
+      },
       "options": {
         "widget": "RadioInputField"
       },
@@ -100,34 +108,45 @@ export const  RolePermissionUISchema = {
      ,
      {
       type: "Control",
-      scope: "#/properties/LoginPage",
+      scope: "#/properties/EmptyBox",
+      layout: {
+        xs: 11,
+        sm: 11,
+        md: 8.5,
+        lg: 9.5,
+      },
+      options: {
+        widget: "EmptyBox",
+      },
+    },
+    {
+      type: "Control",
+      scope: "#/properties/btn",
       options: {
         widget: "Button",
       },
       layout: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 12,
+        xs: 11,
+        sm: 11,
+        md: 2.5,
+        lg: 1.5,
       },
       value: {
         content: {
-          name: " \u2713 Submit",
+          name: "Submit",
+          startIcon:"ApproveIcon",
           variant: "contained",
           color: "info",
           type: "text",
-          "funcName":"Submit_RolePermission",
-          size: "large"
+         "funcName":"Submit_RolePermission",
+          size: "small",
         },
         style: {
-          background:"#091f3c",
-          color:"white",
-          width:"200px",
-          marginRight:"50px",
-          float:"right"
+        
         },
       },
     },
+  ]}}},
     {
       type: "Control",
       scope: "#/properties/notify",

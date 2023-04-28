@@ -11,7 +11,7 @@ import { useLocalStorage } from "./Authentication/useLocalStorage";
 import { useProSidebar } from "react-pro-sidebar";
 export let userValue: any = false;
 export let setUserValue: any;
-
+import './App.css'
 function Apple() {
   const { collapsed } = useProSidebar();
   const { dispatch, state } = useContext(DataContext);

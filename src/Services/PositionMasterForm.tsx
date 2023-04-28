@@ -104,7 +104,7 @@ export const PositionMasterForm = (
             selectOption = res.data?.payload?.map((e: any) => {
                 return { label: e.name, value: e.id }
             });
-            Ui.elements[4].value.content.options = selectOption?selectOption:[{id:1}];
+            // Ui.elements[4].value.content.options = selectOption?selectOption:[{id:1}];
         })
         ;
         await serviceApi
@@ -114,7 +114,7 @@ export const PositionMasterForm = (
             selectParentData = res.data?.payload?.map((e: any) => {
                 return { label: e.name, value: e.id }
             });
-            Ui.elements[5].value.content.options = selectParentData?selectParentData:[{id:1}];
+            // Ui.elements[5].value.content.options = selectParentData?selectParentData:[{id:1}];
         })
         ;
 

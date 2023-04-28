@@ -4,22 +4,40 @@ export const HomeUiSchema = {
       {
         "type": "Control",
         "scope": "#/properties/username", 
-        "layout":8,
         "options": {
           "widget": "Box"
         },
         value:{
           content:{},
-          style:{
-            "height":"80px"
-          }
+          "style":{
+          marginTop:"20vh"
+        }  
         }
-       
+           
       },
+      {
+        type: "Control",
+        scope: "#/properties/reportListWrapper",
+        layout:7,
+        options: {
+          widget: "Wrapper",
+          
+          detail: {
+            type: "HorizontalLayout",
+           
+            elements: [
+              {
+                type: "Control",
+                scope: "#/properties/EmptyBox",
+                options: {
+                  widget: "EmptyBox",
+                },
+                layout:12
+              },
       {
         "type": "Control",
         "scope": "#/properties/username",
-        "layout": {xs:12,sm:8,md:6,lg:5},
+        "layout": 11,
         "options": {
           "widget": "InputField"
         },
@@ -44,7 +62,7 @@ export const HomeUiSchema = {
       {
         "type": "Control",
         "scope": "#/properties/password",
-        "layout": {xs:12,sm:8,md:6,lg:5},
+        "layout":11,
         "options": {
           "widget": "InputField"
         },
@@ -65,17 +83,18 @@ export const HomeUiSchema = {
         options: {
           widget: "EmptyBox",
         },
+        layout:12
       },
       {
         "type": "Control",
         "scope": "#/properties/LoginButton",
-        "layout": {xs:11,sm:7,md:5,lg:4},
+        "layout": 11,
         "options": {
           "widget": "Button"
         },
         "value": {
           "content": {
-            "name": "LogIn",
+            "name": "Login",
             "variant": "contained",
             "color": "info",
             funcName:"userLogIn",
@@ -83,14 +102,8 @@ export const HomeUiSchema = {
             "size": "large"
           },
           "style": {
-            "width": "40%",
-           float:"right",
-           backgroundColor:"#091f3c",
-           color:"white",
-           height:"40px",
-          fontWeight:"bold",
-          // fontSize:"40px",
-           marginLeft:"5px"
+            width:"30%",
+            float:"right"
           }
         }
       },
@@ -100,6 +113,7 @@ export const HomeUiSchema = {
         options: {
           widget: "EmptyBox",
         },
+        layout:12
       },
       {
         type: "Control",
@@ -109,6 +123,7 @@ export const HomeUiSchema = {
         },
         layout:6
       },
+    ]}}}
     ]
   }
   

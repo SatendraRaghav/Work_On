@@ -34,10 +34,11 @@ import { setUserValue,userValue } from "../Apple";
       return HomeSchema;
     },
     userLogIn: function () {
+      console.log(ctx);
       const data = JSON.stringify({
         payload: {
-          username: ctx.core.data.username,
-          password: ctx.core.data.password,
+          username: ctx.core.data.reportListWrapper[0].username,
+          password: ctx.core.data.reportListWrapper[0].password,
         },
       });
       myLoginService.post("/auth/authenticate",data).then((res)=>{

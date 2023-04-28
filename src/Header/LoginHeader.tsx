@@ -72,42 +72,6 @@ const AppBar = styled(MuiAppBar, {
           <Box sx={{marginRight:"40px"}}>
         <img src = {logo} alt="impakt_logo" width={120} height={40}/></Box>
           <Box component={"div"} sx={{flexGrow:1}} />
-          <Box id="userPrifile"
-          sx={{display:"flex",alignItems:"center",background:"#e3f2fd",padding:"0 10px",borderRadius:"15px"}}>
-          <div>
-        
-          <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                sx={{left:"calc(100vw - 400px)",top:"35px"}}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose} >
-                 You are not login, please login first
-                </MenuItem>
-              </Menu>  
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                onClick={(e)=>handleMenu(e)}
-                sx={{
-                  // marginRight: 5,
-                  fontWeight:"bolder",
-                  color:"#673abd",
-                  // background:"#ede7f6",
-                  borderRadius:"10px",
-                  '&:hover':{
-                    color:"white",
-                  background:"#2196f3",
-                  }
-                }}
-              > 
-               <AccountCircle />
-              </IconButton>
-              </div>
-              </Box>
         </Toolbar>
       </AppBar>
     </Box>

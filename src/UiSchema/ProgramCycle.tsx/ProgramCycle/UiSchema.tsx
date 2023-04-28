@@ -11,48 +11,49 @@ export const ProgramMasterCycleUiSchema = {
   elements: [
     {
       type: "Control",
-      scope: "#/properties/Back_Button",
-      layout: {
-        xs: 6,
-        sm: 4,
-        md: 3,
-        lg: 3,
-      },
+      scope: "#/properties/reportListWrapper",
       options: {
-        widget: "Button",
-      },
-      value: {
-        content: {
-          name: "\u2190",
-          variant: "contained",
-          color: "primary",
-          type: "button",
-          size: "large",
-          funcName: "backHandler",
+        widget: "Wrapper",
+        detail: {
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+              layout: 5.5,
+              options: {
+                widget: "Box",
+              },
+              value: {
+                content: {
+                  heading: "Cycle Master",
+                }
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/Back_Button",
+              layout: 5.5,
+              options: {
+                widget: "Button",
+              },
+              value: {
+                content: { 
+                  icon:"BackIcon",
+                  styleDefault:true,
+                  size:"small",
+                  funcName: "backHandler",
+                },
+                style: {
+                  // width:"20%",
+                  float:"right",
+                  // marginTop:"20px",
+                  // marginRight:"15px"
+                },
+              },
+            }
+        ],
         },
-        style:{
-          background:"#091f3c",
-          color:"white",
-          width:"30px",
-          height:"30px",
-          paddingTop:"5px",
-         fontWeight:"bold",
-         fontSize:"30px",
-          marginLeft:"5px"
-        }
-      },
-    },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      layout: {
-        xs: 5.5,
-        sm: 7.5,
-        md: 8,
-        lg: 8,
-      },
-      options: {
-        widget: "EmptyBox",
       },
     },
     {
@@ -155,17 +156,34 @@ export const ProgramMasterCycleUiSchema = {
                   elements: [
                     {
                       type: "Control",
+                      scope: "#/properties/programType",
+                      layout: { xs: 11, sm: 11, md: 3.5, lg: 2.5 },
+                      options: {
+                        widget: "Box",
+                      },
+                      value: {
+                        content: {
+                          heading: "Work Flow File",
+                        },
+                        style:{
+                          color:"#828f9f",
+                          // textAlign:"center"
+                        }
+                      },
+                    },
+                    {
+                      type: "Control",
                       scope: "#/properties/workflowFile",
                       options: {
                         widget: "FileInputField",
                       },
-                      layout: { xs: 12, sm: 12, md: 6, lg: 6 },
+                      layout: { xs: 11, sm: 11, md: 7.5, lg: 8.5 },
                       value: {
                         content: {
                           label: "Workflow File",
                          
                           funcName: "workspaceFileSaveFunction",
-                          // loadFunction:"fileSaveFunction",
+                          downloadFuncName: "Download_Workspace_File",
                         },
                         style: {
                           backgroundColor: "none",
@@ -174,43 +192,34 @@ export const ProgramMasterCycleUiSchema = {
                     },
                     {
                       type: "Control",
-                      scope: "#/properties/processDefKey",
-                      layout: {
-                        xs: 12,
-                        sm: 12,
-                        md: 6,
-                        lg: 6,
+                      scope: "#/properties/programType",
+                      layout: { xs: 11, sm: 11, md: 3.5, lg: 2.5 },
+                      options: {
+                        widget: "Box",
                       },
+                      value: {
+                        content: {
+                          heading: "Process Def Key",
+                        },
+                        style:{
+                          color:"#828f9f",
+                          // textAlign:"center"
+                        }
+                      },
+                    },
+                    {
+                      type: "Control",
+                      scope: "#/properties/processDefKey",
+                      layout: { xs: 11, sm: 11, md: 7.5, lg: 8.5 },
                       options: {
                         widget: "InputField",
                       },
                       value: {
                         content: {
-                          label: "Process Def Key",
+                          label: "",
                         },
                       },
-                    },
-                    {
-                      type: "Control",
-                      scope: "#/properties/Upload_Button",
-                      layout: { xs: 10, sm: 8, md: 6, lg: 6 },
-                      options: {
-                        widget: "Button",
-                      },
-                      value: {
-                        content: {
-                          name: "DownLoad_File",
-                          variant: "contained",
-                          color: "primary",
-                          type: "button",
-                          size: "large",
-                          funcName: "Download_Workspace_File",
-                        },
-                        style: {
-                          marginTop: "40px",
-                        },
-                      },
-                    },
+                    }
                   ],
                 },
               },
@@ -225,17 +234,34 @@ export const ProgramMasterCycleUiSchema = {
                   elements: [
                     {
                       type: "Control",
+                      scope: "#/properties/programType",
+                      layout: { xs: 11, sm: 11, md: 3.5, lg: 2.5 },
+                      options: {
+                        widget: "Box",
+                      },
+                      value: {
+                        content: {
+                          heading: "Upload Invoice File",
+                        },
+                        style:{
+                          color:"#828f9f",
+                        }
+                      },
+                    },
+                    
+                    {
+                      type: "Control",
                       scope: "#/properties/invoiceFile",
                       options: {
                         widget: "FileInputField",
                       },
-                      layout: { xs: 12, sm: 12, md: 6, lg: 6 },
+                      layout: { xs: 11, sm: 11, md: 7.5, lg: 8.5 },
                       value: {
                         content: {
                           label: "Upload Invoice File",
-                      
+                          downloadFuncName: "Download_Invioce_File",
                           funcName: "invioceFileSaveFunction",
-                          // loadFunction:"fileSaveFunction",
+                          
                         },
                         style: {
                           backgroundColor: "none",
@@ -244,37 +270,32 @@ export const ProgramMasterCycleUiSchema = {
                     },
                     {
                       type: "Control",
+                      scope: "#/properties/programType",
+                      layout: { xs: 11, sm: 11, md: 3.5, lg: 2.5 },
+                      options: {
+                        widget: "Box",
+                      },
+                      value: {
+                        content: {
+                          heading: "Enabled",
+                        },
+                        style:{
+                          color:"#828f9f",
+                        }
+                      },
+                    },
+                    {
+                      type: "Control",
                       scope: "#/properties/enabled",
-                      layout: { xs: 12, sm: 12, md: 6, lg: 6 },
+                      layout: { xs: 11, sm: 11, md: 7.5, lg: 8.5 },
                       options: {
                         widget: "RadioInputField",
                       },
                       value: {
                         content: {
-                          label: "Enabled",
+                          label: "",
                           options: ["YES", "NO"],
                           
-                        },
-                      },
-                    },
-                    {
-                      type: "Control",
-                      scope: "#/properties/Upload_Button",
-                      layout: { xs: 10, sm: 8, md: 6, lg: 6 },
-                      options: {
-                        widget: "Button",
-                      },
-                      value: {
-                        content: {
-                          name: "DownLoad_File",
-                          variant: "contained",
-                          color: "primary",
-                          type: "button",
-                          size: "large",
-                          funcName: "Download_Invioce_File",
-                        },
-                        style: {
-                          marginTop: "40px",
                         },
                       },
                     },
@@ -391,38 +412,40 @@ export const ProgramMasterCycleUiSchema = {
     {
       type: "Control",
       scope: "#/properties/EmptyBox",
+      layout: {
+        xs: 11,
+        sm: 11,
+        md: 8.5,
+        lg: 9.5,
+      },
       options: {
         widget: "EmptyBox",
       },
     },
-
     {
       type: "Control",
-      scope: "#/properties/LoginPage",
+      scope: "#/properties/btn",
       options: {
         widget: "Button",
       },
       layout: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 12,
+        xs: 11,
+        sm: 11,
+        md: 2.5,
+        lg: 1.5,
       },
       value: {
         content: {
-          name: " \u2713 Submit",
+          name: "Submit",
+          startIcon:"ApproveIcon",
           variant: "contained",
           color: "info",
           type: "text",
           funcName: "Submit_PM_Cycle",
-          size: "large"
+          size: "small",
         },
         style: {
-          background:"#091f3c",
-          color:"white",
-          width:"200px",
-          marginRight:"50px",
-          float:"right"
+          marginBottom:"8px"
         },
       },
     },

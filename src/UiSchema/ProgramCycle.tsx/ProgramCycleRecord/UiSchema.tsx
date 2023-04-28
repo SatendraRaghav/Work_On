@@ -1,59 +1,56 @@
 export const ProgramMasterCycleRecordUiSchema = {
   type: "HorizontalLayout",
-  stylePage:{
-    background:"#eef2f6",
-    // background:"#051327",
-    minHeight:"100vh",
-    margin:"10px 20px",
-    height:"auto",
-    borderRadius:"20px"
-   },
-  page:"ProgramMasterCycleRecord",
   elements: [
     {
       type: "Control",
-      scope: "#/properties/EmptyBox",
-      layout: {
-        xs: 5.5,
-        sm: 7.5,
-        md: 8,
-        lg: 8,
-      },
+      scope: "#/properties/reportListWrapper",
       options: {
-        widget: "EmptyBox",
-      },
-    },
-    {
-      type: "Control",
-      scope: "#/properties/New_Records_Button",
-      // layout: {
-      //   xs: 4,
-      //   sm: 4,
-      //   md: 1,
-      //   lg: 1,
-      // },
-      layout:11,
-      options: {
-        widget: "Button",
-      },
-      value: {
-        content: {
-          name: "\u002B",
-          variant: "contained",
-          color: "primary",
-          type: "button",
-          size: "large",
-          funcName:"addNewRecords"
+        widget: "Wrapper",
+        detail: {
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+              layout: 5.5,
+              options: {
+                widget: "Box",
+              },
+              value: {
+                content: {
+                  heading: "Cycle Master",
+                }
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/New_Record",
+              layout: {
+                xs: 6,
+                sm: 4,
+                md: 5.5,
+                lg: 5.5,
+              },
+              options: {
+                widget: "Button",
+              },
+              value: {
+                content: {
+                  name: "New Records",
+                  icon: "AddIcon",
+                  size:"small",
+                  styleDefault: true,
+
+                  funcName: "addNewRecords",
+                },
+                style: {
+                  float: "right",
+                 
+                },
+              },
+            },
+          ],
         },
-        style:{
-          width:"50px",
-          float:"right",
-          marginTop:"20px",
-          background:"#091f3c",
-          color:"white",
-         fontSize:"40px",
-         height:"40px",
-        }
       },
     },
     {
@@ -77,14 +74,14 @@ export const ProgramMasterCycleRecordUiSchema = {
                     field: "id",
                     // width: "100",
                     headerName: "Id",
-                    width:"flex",
+                    flex:1,
                     hide: true,
                     widget: "api",
                   },
                   {
                     field: "program",
                     // width: "80",
-                    width:"flex",
+                    flex:1,
                     headerName: "Program Name",
                     cellOverflow:"wrap",
                     widget: "api",
@@ -92,21 +89,21 @@ export const ProgramMasterCycleRecordUiSchema = {
                   {
                     field: "startDate",
                     headerName: "Start Date",
-                    width:"flex",
+                    flex:1,
                     widget: "api",
                   },
                   {
                     field: "endDate",
                     headerName: "End Date",
-                    width:"flex",
+                   
                     flex: 1,
                     widget: "api",
                   },
 
                   {
                     field: "Edit_Approve_Records",
-                    headerName: "Edit Records",
-                    width: "flex",
+                    headerName: "Edit",
+                    width:"100",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Edit_Records",
@@ -115,12 +112,13 @@ export const ProgramMasterCycleRecordUiSchema = {
                       },
                       value: {
                         content: {
-                          name: "Edit",
-                          variant: "outlined",
-                          color: "success",
-                          type: "button",
-                          size: "large",
-                          // page:"ProgramMasterCycle"
+                          color:"info",
+                          size:"small",
+                          icon: "EditIcon",
+                        
+                        },
+                        style: {
+                          color:"#3949ab"
                         },
                       },
                     },
@@ -138,15 +136,14 @@ export const ProgramMasterCycleRecordUiSchema = {
                 columns: [
                   {
                     field: "id",
-                    // width: "100",
-                    width:"flex",
+                    flex:1,
+                    align:"right",
                     hide: true,
                     widget: "api",
                   },
                   {
                     field: "program",
-                    // width: "80",
-                    width:"flex",
+                    flex:1,
                     headerName: "Program Name",
                     widget: "api",
                   },
@@ -154,20 +151,20 @@ export const ProgramMasterCycleRecordUiSchema = {
                     field: "startDate",
                     headerName: "Start Date",
                    
-                   width:"flex",
+                   flex:1,
                     widget: "api",
                   },
                   {
                     field: "endDate",
                     headerName: "End Date",
-                    width: "flex",
+                    flex:1,
                     widget: "api",
-                    flex: 1,
+                   
                   },
                   {
                     field: "Approve_Records",
                     headerName: "Approve",
-                    width: "flex",
+                    width:"100",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Approve Records",
@@ -176,12 +173,10 @@ export const ProgramMasterCycleRecordUiSchema = {
                       },
                       value: {
                         content: {
-                          name: "Approve",
-                          variant: "outlined",
-                          color: "success",
-                          type: "button",
-                          size: "large",
+                          icon: "ApproveIcon",
+                          color:"success"
                         },
+
                       },
                     },
                   },
@@ -189,7 +184,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                   {
                     field: "Reject_Records",
                     headerName: "Reject",
-                    width: "flex",
+                    width:"100",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Reject_Records",
@@ -198,13 +193,10 @@ export const ProgramMasterCycleRecordUiSchema = {
                       },
                       value: {
                         content: {
-                          name: "Reject",
-                          variant: "outlined",
-                          color: "error",
-                          type: "button",
-                          size: "large",
+                          icon: "RejectIcon",
+                          color:"error"
                          
-                        },
+                        }
                       },
                     },
                   },

@@ -10,14 +10,14 @@ const ControlWrapper =  ({
   rootSchema,
   uischemas,      
   id,
-  label,
+  // label,
   errors
 }: ArrayControlProps & any) => {
   
   return(
   <Wrapper
   data={data}
-  label={label}
+  // label={label}
   path={path}
   schema={schema}
   errors={errors}

@@ -24,7 +24,6 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
   const [apiOption, setApiOption] = React.useState<Array<any>>([]);
   const { state, objFunc, dispatch, setFormdata, setUiSchema, setSchema, id } =
     useContext(DataContext);
-  // const [demoValue,setDemoValue] = useState<any>()
   const navigate = useNavigate();
   useEffect(() => {
     setApiOption(data.content.options);
@@ -49,29 +48,10 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
       .getServices(id, ctx, setFormdata, setSchema, setUiSchema, navigate, [])
       [data.content.conditionalLoadFunc](value);
   };
-  //@ts-ignore
-  const classes = useStyles();
-  const customStyles = {
-    label: {
-      ...InputFieldStyle
-    },
-    input: {
-      ...InputFieldStyle
-    }
-  };
+  // const classes = useStyles();
   return (
-    // <Paper
-    //   elevation={2}
-    //   sx={{ width: "80%", margin: "auto auto", ...data.style }}
-    // >
     <>
       {data.content.multiple ? (
-        // <FormControl fullWidth={true} 
-        // // sx={{background:"white",borderRadius:"20px"}}
-        // // className={classes.autoCompleteStyle}
-        // // className={classes.autoCompleteStyle.inputRoot}
-        // // variant="filled"
-        // >
           <Autocomplete
            
             onChange={(event, newValue) => {
@@ -83,15 +63,9 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
               });
               updateValue(value);
             }}
-            // sx={{border:"none"}}
             multiple
-            // sx={{border:"none"}}
-            // classes={{
-            //   inputRoot: classes.autoCompleteStyle.inputRoot,
-            //   option: classes.autoCompleteStyle.option,
-            // }}
-            size="medium"
-            sx={{height:"50px"}}
+            // size="medium"
+            sx={{height:"50px",...InputFieldStyle}}
             disableCloseOnSelect
             id="tags-standard"
             options={apiOption}
@@ -111,22 +85,17 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
               </li>
             )}
             renderInput={(params) => {
-              const {InputProps, InputLabelProps} = params;
               return (
               <TextField
                 {...params}
-                className={classes.input}
+                // className={classes.input}
+                size="medium"
+                sx={{...InputFieldStyle,'& .MuiInputBase-input': {
+                  fontSize: '12.5px',
+                  fontFamily:"inherit",
+                  // padding: '2px'
+                },}}
                 variant="outlined"
-                // sx={{borderRadius:"20px",border:"2ps solid black"}}
-                // variant="standard"
-                // sx={{border:"none"}}
-                // InputLabelProps={{style: customStyles.label }}
-                // InputProps={{
-                //   ...InputProps,
-                //   // style: { ...customStyles.input },
-                //   // endAdornment: <div {...InputAdornmentProps}>Custom Adornment</div>,
-                //   // classes: { root: 'custom-input-root', focused: 'custom-input-focused', notchedOutline: 'custom-input-notched-outline' }
-                // }}
                 label={data.content.label}
                 placeholder={data.content.placeholder}
               />)
@@ -135,14 +104,14 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
       ) : (
         <>
           <FormControl fullWidth={true} 
-          className={classes.input}
-          //  sx={{...data.content.style}}
+          // className={classes.input}
+          sx={{...InputFieldStyle}}
           >
            
             <InputLabel
               id="demo-simple-select-label"
               variant={data.content.variant}
-              // className={classes.input}
+            
             >
               {data.content.label}
             </InputLabel>
@@ -150,9 +119,7 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={value}
-              // sx={{...data.content.style}}
               label={data.content.label}
-              // className={classes.input}
               onChange={(e) => {
                 updateValue(e.target.value);
                 data.content.conditionalLoadFunc &&

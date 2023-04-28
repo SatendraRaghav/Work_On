@@ -1,7 +1,7 @@
 import { JsonFormsStateContext } from "@jsonforms/react";
 import { PayoutReviewUiSchema } from "../UiSchema/PayoutReview/UiSchema";
 import { PayoutProcessingSchema } from "../UiSchema/PayoutProcessing/Schema";
-import { userValue } from "../App";
+import { userValue } from "../Apple";
 import { myService } from "../service/service";
 
 export const PayoutReview = (
@@ -33,6 +33,7 @@ export const PayoutReview = (
     },
     getUiSchema: async function () {
       const uiSchema = PayoutReviewUiSchema;
+      console.log(uiSchema)
       let data: any = null;
       await service
         .get("/program/getAll")
@@ -41,8 +42,7 @@ export const PayoutReview = (
             return { label: elem.name, value: elem.id };
           });
           //@ts-ignore
-          uiSchema.elements[0].options.detail.elements[2].value.content.options =
-            data;
+          uiSchema.elements[0].options.detail.elements[0].value.content.options =  data;
         })
         .catch((error) => {
           console.log(error);
@@ -66,7 +66,7 @@ export const PayoutReview = (
             return cycle;
           });
           //@ts-ignore
-          uiSchema.elements[1].options.detail.elements[0].value.content.options =
+          uiSchema.elements[2].options.detail.elements[0].value.content.options =
             result1;
             setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         
@@ -97,9 +97,9 @@ export const PayoutReview = (
           reportName: "payout_level_report",
           reportFormat: "grid",
           params: {
-            candidateGroup: userValue.payload.positionTypeName,
-            candidateUser: userValue.payload.positionName,
-            userName: userValue.payload.username,
+            candidateGroup: userValue?.payload?.positionTypeName,
+            candidateUser: userValue?.payload?.positionName,
+            userName: userValue?.payload?.username,
             programCycleId:
               ctx.core.data.PayoutProcessingWrapper[0].programCycle,
           },
@@ -111,9 +111,9 @@ export const PayoutReview = (
           reportName: "workflow_report",
           reportFormat: "grid",
           params: {
-            candidateGroup: userValue.payload.positionTypeName,
-            candidateUser: userValue.payload.positionName,
-            userName: userValue.payload.username,
+            candidateGroup: userValue?.payload?.positionTypeName,
+            candidateUser: userValue?.payload?.positionName,
+            userName: userValue?.payload?.username,
 
             programCycleId:
               ctx.core.data.PayoutProcessingWrapper[0].programCycle,

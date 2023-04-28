@@ -29,7 +29,7 @@ import Profile from "./Services/Profile";
 export let navigator :any ;
 
 export const objFunc = {
-  getServices:  (
+  getServices: async (
     pageName?: string,
     ctx?: any,
     setFormdata?: any,
@@ -241,7 +241,7 @@ export const objFunc = {
     // return error(ctx, setFormdata, setUiSchema, setSchema, navigate, otherData);
   };
 export const HomeObjFunc = {
-  getServices: (
+  getServices: async (
     pageName?: string,
     ctx?: any,
     setFormdata?: any,

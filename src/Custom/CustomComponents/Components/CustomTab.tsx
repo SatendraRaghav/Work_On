@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { ArrayControlProps, composePaths, findUISchema, UISchemaElement } from "@jsonforms/core";
 import Box from '@mui/material/Box';
 import { JsonFormsDispatch } from '@jsonforms/react';
+import { TabStyle } from '../../../Styles/InputField';
 
 interface TabPanelProps {
   children: any;
@@ -70,15 +71,15 @@ export default function CustomTab({
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
   return (
-    <Box sx={{ width: '100%',fontFamily:"roboto" }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    <Box sx={{fontFamily:"roboto",borderRadius:"20px",width:"98%",marginRight:"auto",marginLeft:"auto", background:"white", }}>
+      {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}> */}
         <Tabs 
           TabIndicatorProps={{ sx: { display: 'none' } }}
           sx={{
             fontFamily:"roboto" ,
-            color:"red",
+            borderRadius:"20px 20px 0 0",
+            // color:"red",
             '& .MuiTabs-flexContainer': {
               flexWrap: 'wrap',
             },
@@ -87,12 +88,12 @@ export default function CustomTab({
           {
             uischema.labels.map((elem:string,i:number)=>{
               return(
-              <Tab  label={elem} {...a11yProps(i)} />
+              <Tab sx={{...TabStyle}}  label={elem} {...a11yProps(i)} />
               )
             })
           }
         </Tabs>
-      </Box>
+      {/* </Box> */}
 
       {
         childUiSchema.elements.map((elem:UISchemaElement|any,i:number)=>{

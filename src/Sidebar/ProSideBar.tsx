@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import CircleIcon from '@mui/icons-material/Circle';
 import { actions, DataContext } from '../Reducer';
 import { useContext } from 'react';
 import { navigator } from "../Logic";
@@ -13,6 +12,8 @@ import {
   SubMenu,
   // useProSidebar,
 } from "react-pro-sidebar";
+import "../App.css"
+import { Box, Divider, Stack, Typography } from "@mui/material";
 
 export default function ProSidebar() {
   const [activeValue, setActiveValue] = useState<string>("");
@@ -43,16 +44,21 @@ export default function ProSidebar() {
   };
   return (
     <>
-      <div
+      {/* <div
         style={{
           display: "flex",
-          color: "black",
-          background:"white"
+          // color: "black",
+          // background:"white"
+          backgroundColor:"#030c1d",
+          color:"white",
         }}
-      >
+      > */}
         <Sidebar collapsedWidth="0px" defaultCollapsed={true} rtl={rtlBoolean} rootStyles={{
-          background:"white",border:"none",overflowY:"auto",height:"100vh",position:"fixed",left:0,
-          paddingBottom:"100px"
+          // background:"white",
+          // backgroundColor:"#030c1d",
+          // color:"white",
+          border:"none",overflowY:"auto",height:"100vh",position:"fixed",left:0,
+          paddingBottom:"100px",
           }}>
           <Menu
             closeOnClick={true}
@@ -60,10 +66,20 @@ export default function ProSidebar() {
               button: ({ level, active, disabled }) => {
                 console.log(level)
                 return {
-                  color: active ? "#673ab7" : "black",
-                  backgroundColor: active ? "#ede7f6" : undefined,
-                  borderRadius:"10px",
-                  margin:"2px 15px"
+                  // color: active ? "#673ab7" : "white",
+                  // backgroundColor: active ? "#ede7f6" : "#030c1d",
+                  color: active ? "#3f51b5" : "black",
+                  backgroundColor: active ? "#e8eaf6" : undefined,
+                  fontSize:"0.875rem",
+                  fontWeight:active?"500":undefined,
+                  fontFamily:"Roboto",
+                  borderRadius:"20px",
+                  overflowX:"auto",
+                  margin:"2px 15px",
+                  "&:hover": {
+                    color: "#3f51b5",
+                    background: "#e8eaf6",
+                  },
                 };
               },
             }}
@@ -76,7 +92,7 @@ export default function ProSidebar() {
                 <>
                   {childPresent ? (
                     <>
-                      <SubMenu label={` ${elem.name}`} >
+                      <Typography  sx={{  fontFamily:"Roboto",paddingLeft:"20px",fontWeight:"500",color:"rgb(18, 25, 38)",marginBottom:"5px",fontSize:"0.875rem"}} >{elem.name}</Typography>
                         {elem.children.map((childElem: any) => {
                            if (childPresent) {
                             grandChild = childElem.children.length > 0;
@@ -99,6 +115,7 @@ export default function ProSidebar() {
                                               : false
                                           }
                                         >
+                                          <CircleIcon />
                                             {grandChildElem.name}
                                         </MenuItem>)
                                 }
@@ -115,7 +132,10 @@ export default function ProSidebar() {
                                         : false
                                     }
                                   >
-                                       {childElem.name}
+                                    <Stack spacing={2} direction={"row"}>
+                                     <CircleIcon color={"disabled"} sx={{fontSize:"0.875rem",paddingTop:"6px"}} />
+                                     <div> {childElem.name}</div>  
+                                      </Stack>
                                     	
                                   </MenuItem>
                                 </>
@@ -123,7 +143,8 @@ export default function ProSidebar() {
                             </>
                           );
                         })}
-                      </SubMenu>
+                        <Divider sx={{width:"80%",color:"black",margin:"10px auto 16px auto"}} />
+                      {/* </SubMenu> */}
                     </>
                   ) : (
                     <>
@@ -131,7 +152,9 @@ export default function ProSidebar() {
                         onClick={() => clickHandler(elem.url,elem.name)}
                         active={activeValue === elem.url ? true : false}
                       >
-                        {` ${elem.name}`}
+                        
+                         <CircleIcon sx={{fontSize:"15px"}} />
+                      <div>{elem.name}</div>  
                       </MenuItem>
                     </>
                   )}
@@ -141,7 +164,7 @@ export default function ProSidebar() {
            
           </Menu>
         </Sidebar>
-      </div>
+      {/* </div> */}
     </>
   );
 }

@@ -64,6 +64,7 @@ export const MasterForm = (
     },
     pageLoad: async () => {
       const Ui = ProgramMasterUiSchema;
+      console.log(Ui)
       let selectOption: any[] = [];
       await serviceApi
         .get('/master/getDetails?masterName=com.act21.hyperform3.entity.group.GroupStaging&status=A'
@@ -72,9 +73,9 @@ export const MasterForm = (
             selectOption = res.data.payload.map((e: any) => {
                 return { label: e.name, value: e.id }
             });
-            Ui.elements[4].value.content.options = selectOption?selectOption:[];
+            // Ui.elements[4].value.content.options = selectOption?selectOption:[];
         }).catch((err)=>{
-          Ui.elements[4].value.content.options = [];
+          // Ui.elements[4].value.content.options = [];
         });
         console.log(Ui)
       return Ui;

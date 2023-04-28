@@ -34,36 +34,31 @@ const Wrapper = ({
       elevation={0}
       sx={{
         height: "auto",
-        // boxShadow:"2px 2px 5px gray",
-        // padding: "10px 10px",
-        width: { xs: "98%", sm: "98%" },
-        margin: "auto",
-        // maxWidth: "1400px",
-        // color: "white",
+        width:"98%",
+        margin: "15px auto ",
         background:"white",
-        // margin: "auto 5% auto 0",
-        // background:`url(${Grad})`,
-        // backgroundSize: "100% 100%",
-        marginBottom: "20px",
-        borderRadius:"20px"
-        // ...uischema.value.style.wrapperStyle,
-        // background:"linear-gradient(to left, #16113a,#122142)",
-        // boxShadow:"2px 2px 5px gray",
+      //  background:"#091f3c",
+        borderRadius:"20px",
+        ...uischema.value?.style?.wrapperStyle,
+     
       }}
     >
+      {uischema.label &&
       <Typography
         component={"div"}
         sx={{
           marginBottom: "20px",
-          paddingLeft:"15px",
-          fontSize: { xs: "16px", sm: "24px" },
-          fontFamily:"inter",
+          paddingLeft:"20px",
+          fontSize: { xs: "16px", sm: "22px" },
+          fontFamily:"roboto",
+          fontWeight:500,
           // fontWeight: "bold",
-          // ...uischema.value.style.labelStyle,
+          ...uischema.value?.style?.labelStyle,
         }}
       >
-        {label}
+        {uischema.label}
       </Typography>
+}
       <JsonFormsDispatch
         schema={schema}
         uischema={childUiSchema || uischema}

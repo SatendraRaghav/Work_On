@@ -3,6 +3,7 @@ import {
   ArrayControlProps,
   UISchemaElement,
   composePaths,
+  getI18nKey,
 } from "@jsonforms/core";
 import {
   JsonFormsDispatch,
@@ -10,9 +11,8 @@ import {
 } from "@jsonforms/react";
 import { DataContext, actions } from "../../../Context";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Box, Paper } from "@mui/material";
 import { useNavigate,useSearchParams } from "react-router-dom";
-import { useStyles } from "../../../Styles/InputField";
+import { DataGridStyle } from "../../../Styles/InputField";
 
 const DataTable = ({
   path,
@@ -79,44 +79,28 @@ const DataTable = ({
     const data:any = [param.row,param,searchParams,setSearchParams];
   
     if (event.target.type) {
-      objFunc.getServices(id,ctx,setFormdata,setUiSchema,setSchema,navigate,data)[param.field]()
+      objFunc.getServices(id,ctx,setFormdata,setUiSchema,setSchema,navigate,data).then((res:any)=>{
+        res[param.field]()
+      })
     }
     
   };
-    //@ts-ignore
-    const classes = useStyles();
+  const gridHeight = ctx.core.data[path]&&ctx.core.data[path].length>0? DataGridStyle.height:250;
   return (
-    // <Paper
-    //   elevation={0}
-    //   sx={{
-    //     height: 500,
-    //     backgroundColor: "white",
-    //     borderRadius:"20px",
-    //     padding: "10px 10px",
-    //     width: "95%",
-    //     margin: "auto auto",
-    //     fontFamily:"roboto",
-    //     // ...  uischema.options.tableStyle
-    //   }}
-    // >
         <DataGrid
           rows={ctx.core.data[path]?ctx.core.data[path]:[]}
           columns={ uischema.options.buttonInStarting?[...columnComponents,...columnApi]:[...columnApi,...columnComponents]}
           pageSize={10}
           onCellClick={handleCellClick}
-          sx={{fontFamily:"roboto",border:"1px solid #828f9f",borderRadius:"10px",  height: 500,}}
-          classes={{
-            root: classes.root,
-            header: classes.header,
-            row: classes.row,
-          }}
+          sx={{...DataGridStyle,height:gridHeight}}
           loading={loading}
           rowsPerPageOptions={[5]}
+          hideFooter={ctx.core.data[path]&&ctx.core.data[path].length>0?false:true}
           experimentalFeatures={{ newEditingApi: true }}
           components={{
             Toolbar: GridToolbar,
           }}
-          checkboxSelection
+          checkboxSelection={uischema.options.addCheckBoxRow||false}
           getRowClassName={(params) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
           }
@@ -125,8 +109,6 @@ const DataTable = ({
           onRowSelectionModelChange={handleSelectionChange}
           
         />
-    
-    // </Paper>
   );
 };
 

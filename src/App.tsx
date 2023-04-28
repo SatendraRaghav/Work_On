@@ -6,10 +6,10 @@ import { DataContext, actions, DataProvider } from "./Context";
 import { Box, LinearProgress, Skeleton, Typography, TypographyProps } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 import { useNavigate,useSearchParams } from "react-router-dom";
-type formDataType = {
-  data: {};
-};
-
+import './App.css'
+import { pageStyle } from "./Styles/InputField";
+import { PageBox } from "./Styles/InputField";
+import { useTheme } from "@emotion/react";
 const variants = [
   "h1",
   "h3",
@@ -20,6 +20,7 @@ const variants = [
 ] as readonly TypographyProps["variant"][];
 export const userValue= 5;
 const App = ({  objFunc}: any) => {
+  // const myTheme = useTheme()
   return (
         <Router>
          <Routes>
@@ -54,7 +55,9 @@ function First({ objFunc }: any) {
         setFormdata2(data);
       };
       const callService = ()=>{
-        objFunc.getServices("Home",ctx,setFormdata2,setUiSchema,setSchema,navigate,[searchParams,setSearchParams]).setPage()
+        objFunc.getServices("Home",ctx,setFormdata2,setUiSchema,setSchema,navigate,[searchParams,setSearchParams]).then((res:any)=>{
+          res.setPage()
+        })
        
      
        }
@@ -67,7 +70,10 @@ function First({ objFunc }: any) {
         {
           render?
           <DataProvider objFunc={objFunc} setFormdata={setFormdata2} setUiSchema={setUiSchema} setSchema={setSchema}>
-         <Box sx={{marginTop:"22px",...UiSchema?.stylePage}}>
+         <Box 
+     
+         sx={{...pageStyle,...UiSchema?.stylePage}}>
+         {/* <PageBox> */}
         <JsonForms
           data={formdata2}
           schema={schema}
@@ -76,6 +82,7 @@ function First({ objFunc }: any) {
           cells={materialCells}
           onChange={({ data, errors }) => changeHandler(data, errors)}
         />
+        {/* </PageBox> */}
         </Box>
        </DataProvider>
         :
@@ -108,7 +115,9 @@ function Child({ objFunc }: any) {
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
   useEffect(() => {
-    objFunc.getServices(id,ctx,setFormdata2,setUiSchema,setSchema,navigate,[searchParams,setSearchParams]).setPage()
+    objFunc.getServices(id,ctx,setFormdata2,setUiSchema,setSchema,navigate,[searchParams,setSearchParams]).then((res:any)=>{
+      res.setPage()
+    })
   }, [id]);
 
   return (
@@ -117,7 +126,9 @@ function Child({ objFunc }: any) {
         >
            {UiSchema? 
            <DataProvider id={id} objFunc={objFunc} setFormdata={setFormdata2} setUiSchema={setUiSchema} setSchema={setSchema}>
-       <Box sx={{marginTop:"22px",...UiSchema?.stylePage}}>
+       <Box 
+        sx={{...pageStyle,...UiSchema?.stylePage}}>
+        {/* <PageBox> */}
            <JsonForms
               data={formdata2}
               schema={schema}
@@ -128,6 +139,7 @@ function Child({ objFunc }: any) {
               validationMode={"NoValidation"}
             />
             </Box>
+           {/* </PageBox> */}
             </DataProvider>
             :
             <>

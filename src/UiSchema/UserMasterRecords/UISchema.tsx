@@ -1,62 +1,58 @@
 export const  UserMasterRecordsUISchema = {
   "type": "HorizontalLayout",
-  stylePage:{
-    background:"#eef2f6",
-    // background:"#051327",
-    minHeight:"100vh",
-    margin:"10px 20px",
-    height:"auto",
-    borderRadius:"20px"
-   },
   "elements": [
     {
-      "type": "Control",
-      "scope": "#/properties/Appbar",
-      "options": {
-        "widget": "EmptyBox"
-      },
-      "layout": 12,
-      "value": {
-        "content": {
-          "eventName": "LogoutUser",  
-          "ButtonName": "Log Out"
-        }
-      }
-    },
-    {
       type: "Control",
-      scope: "#/properties/New_Records_Button",
-      // layout: {
-      //   xs: 4,
-      //   sm: 4,
-      //   md: 1,
-      //   lg: 1,
-      // },
-      layout:11,
+      scope: "#/properties/reportListWrapper",
       options: {
-        widget: "Button",
-      },
-      value: {
-        content: {
-          name: "\u002B",
-          variant: "contained",
-          color: "primary",
-          type: "button",
-          size: "large",
-          "funcName":"newRecord",
+        widget: "Wrapper",
+        detail: {
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+              layout: 5.5,
+              options: {
+                widget: "Box",
+              },
+              value: {
+                content: {
+                  heading: "User Master",
+                }
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/New_Record",
+              layout: {
+                xs: 6,
+                sm: 4,
+                md: 5.5,
+                lg: 5.5,
+              },
+              options: {
+                widget: "Button",
+              },
+              value: {
+                content: {
+                  name: "New Records",
+                  icon: "AddIcon",
+                  size:"small",
+                  styleDefault: true,
+                  "funcName":"newRecord",
+                },
+                style: {
+                  float: "right",
+                 
+                },
+              },
+            },
+          ],
         },
-        style:{
-          width:"50px",
-          float:"right",
-          marginTop:"10px",
-          background:"#091f3c",
-          color:"white",
-         fontSize:"40px",
-         height:"40px",
-        }
       },
     },
-    {
+    {   
       "type": "Control",
       "scope": "#/properties/EmptyBox",
       "layout": {
@@ -92,80 +88,53 @@ export const  UserMasterRecordsUISchema = {
                   {
                     "field": "id",
                     headerName:"id",
-                    "width": "100",
+                    "width": "60",
                     "hide": true,
                     "widget": "api"
                   },
                   {
+                  
                     "field": "name",
-                    "width": "80",
+                   flex:1,
                     "headerName": "Name",
                     "widget": "api"
                   },
 {
                     "field": "email",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Email",
                     "widget": "api"
                   },
 {
                     "field": "firstName",
-                    "width": "80",
+                    flex:1,
                     "headerName": "FirstName",
                     "widget": "api"
                   },
 {
-                    "field": "middleName",
-                    "width": "80",
-                    "headerName": "Middle Name",
-                    "widget": "api"
-                  },
-{
-                    "field": "refNo",
-                    "width": "80",
-                    "headerName": "ref No",
-                    "widget": "api"
-                  },
-{
-                    "field": "refNo",
-                    "width": "80",
+                    "field": "RefNo",
+                    flex:1,
+                    align:"right",
                     "headerName": "ref No",
                     "widget": "api"
                   },
 {
                     "field": "lastName",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Last Name",
                     "widget": "api"
                   },			
 {
                     "field": "crn",
-                    "width": "80",
+                    flex:1,
                     "headerName": "CRN",
                     "widget": "api"
                   },	
-{
-                    "field": "pan",
-                    "width": "80",
-                    "headerName": "PAN",
-                    "widget": "api"
-                  },	
-{
-                    "field": "userCategory",
-                    "width": "80",
-                    "headerName": "User Category",
-                    "widget": "api"
-                  },					  
-				  {
-                    "field": "title",
-                    "width": "80",
-                    "headerName": "Title",
-                    "widget": "api"
-                  },					  
+					  
 
                   {
                     field:"Edit_Approve_Records",
-                    "headerName": "Edit_Records",
+                    "headerName": "Edit",
                    "flex":1,
                     "widget": {
                       "type": "Control",
@@ -174,13 +143,15 @@ export const  UserMasterRecordsUISchema = {
                         "widget": "Button"
                       },
                       "value": {
-                        "content": {
-                          "name": "Edit",
-                          "variant": "outlined",
-                          "color": "success",
-                          "type": "button",
-                          "size": "large"
-                        }
+                        content: {
+                          color:"info",
+                          size:"small",
+                          icon: "EditIcon",
+                        
+                        },
+                        style: {
+                          color:"#3949ab"
+                        },
                       }
                     }
                   } 
@@ -202,79 +173,55 @@ export const  UserMasterRecordsUISchema = {
                   {
                     "field": "id",
                     headerName:"id",
-                    "width": "100",
+                     flex:1,
                     "hide": true,
                     "widget": "api"
                   },
                   {
                     "field": "name",
-                    "width": "100",
+                     flex:1,
                     "headerName": "Name",
                     "widget": "api"
                   },
 {
                     "field": "email",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Email",
                     "widget": "api"
                   },
 {
                     "field": "firstName",
-                    "width": "80",
+                    flex:1,
                     "headerName": "FirstName",
                     "widget": "api"
                   },
 {
                     "field": "middleName",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Middle Name",
                     "widget": "api"
                   },
 {
                     "field": "refNo",
-                    "width": "80",
-                    "headerName": "ref No",
-                    "widget": "api"
-                  },
-{
-                    "field": "refNo",
-                    "width": "80",
+                    flex:1,
                     "headerName": "ref No",
                     "widget": "api"
                   },
 {
                     "field": "lastName",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Last Name",
                     "widget": "api"
                   },			
 {
                     "field": "crn",
-                    "width": "80",
+                    flex:1,
                     "headerName": "CRN",
                     "widget": "api"
-                  },	
-{
-                    "field": "pan",
-                    "width": "80",
-                    "headerName": "PAN",
-                    "widget": "api"
-                  },	
-{
-                    "field": "userCategory",
-                    "width": "80",
-                    "headerName": "User Category",
-                    "widget": "api"
-                  },					  
-				  {
-                    "field": "title",
-                    "width": "80",
-                    "headerName": "Title",
-                    "widget": "api"
-                  },					  
+                  },						  
                   {
                     field:"UserApprover",
-                    "headerName": "Approve_Records",
+                    "headerName": "Approve",
                    "flex":1,
                     "widget": {
                       "type": "Control",
@@ -285,17 +232,15 @@ export const  UserMasterRecordsUISchema = {
                       },
                       "value": {
                         "content": {
-                          "name": "Approve",
-                          "variant": "outlined",
-                          "color": "success",
-                          "type":"button"
+                          icon: "ApproveIcon",
+                          color:"success"
                         }
                       }
                     }
                   },
                   {
                     field:"Reject_Records",
-                    "headerName": "Reject_Records",
+                    "headerName": "Reject",
                    "flex":1,
                     "widget": {
                       "type": "Control",
@@ -306,10 +251,8 @@ export const  UserMasterRecordsUISchema = {
                       },
                       "value": {
                         "content": {
-                          "name": "Reject",
-                          "variant": "outlined",
-                          "color": "error",
-                          "eventName": "BackToAgencyApproveRecords"
+                          icon: "RejectIcon",
+                          color:"error"
                         }
                       }
                     }
@@ -328,76 +271,52 @@ export const  UserMasterRecordsUISchema = {
                   {
                     "field": "id",
                     headerName:"id",
-                    "width": "100",
+                     flex:1,
                     "hide": true,
                     "widget": "api"
                   },
                   {
                     "field": "name",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Name",
                     "widget": "api"
                   },
 {
                     "field": "email",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Email",
                     "widget": "api"
                   },
 {
                     "field": "firstName",
-                    "width": "80",
+                    flex:1,
                     "headerName": "FirstName",
                     "widget": "api"
                   },
 {
                     "field": "middleName",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Middle Name",
                     "widget": "api"
                   },
 {
                     "field": "refNo",
-                    "width": "80",
-                    "headerName": "ref No",
-                    "widget": "api"
-                  },
-{
-                    "field": "refNo",
-                    "width": "80",
+                    flex:1,
                     "headerName": "ref No",
                     "widget": "api"
                   },
 {
                     "field": "lastName",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Last Name",
                     "widget": "api"
                   },			
 {
                     "field": "crn",
-                    "width": "80",
+                    flex:1,
                     "headerName": "CRN",
                     "widget": "api"
-                  },	
-{
-                    "field": "pan",
-                    "width": "80",
-                    "headerName": "PAN",
-                    "widget": "api"
-                  },	
-{
-                    "field": "userCategory",
-                    "width": "80",
-                    "headerName": "User Category",
-                    "widget": "api"
-                  },					  
-				  {
-                    "field": "title",
-                    "width": "80",
-                    "headerName": "Title",
-                    "widget": "api"
-                  },					  
+                  },				  
                 ]
               }
             }

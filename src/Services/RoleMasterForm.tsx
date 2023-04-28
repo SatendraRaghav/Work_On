@@ -29,7 +29,7 @@ export const RoleMasterForm = (
        let formdata = {}
         if (action) {
             const Api =
-              "/master/getDetailById?masterName=com.act21.hyperform3.entity.master.role.RoleStaging&id="+action;
+              `/master/getDetailById?masterName=com.act21.hyperform3.entity.master.role.RoleStaging&id=${action}`;
             await serviceApi
               .get(Api)
               .then((res) => {
@@ -96,7 +96,7 @@ export const RoleMasterForm = (
             selectOption = res.data?.payload?.map((e: any) => {
                 return { label: e.name, value: e.id }
             });
-            Ui.elements[4].value.content.options = selectOption?selectOption:[{id:1}];
+            Ui.elements[1].options.detail.elements[1].value.content.options = selectOption?selectOption:[{id:1}];
         });
         console.log(Ui)
       return Ui;

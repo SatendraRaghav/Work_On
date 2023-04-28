@@ -9,7 +9,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { DataContext } from "../../../Context";
-import { useStyles } from "../../../Styles/InputField";
+import { InputFieldStyle, RadioStyle } from "../../../Styles/InputField";
+import { InputLabelStyle } from "../../../Styles/InputField";
 import { Stack } from "@mui/system";
 
 export default function CustomRadio({ data, value, updateValue, path }: any) {
@@ -27,50 +28,27 @@ export default function CustomRadio({ data, value, updateValue, path }: any) {
     };
     data.content.optionApi ? apiCall() : setApiOption(data.content.options);
   }, []);
-  // setApiOption(data.content.options)
-  //@ts-ignore
-  const classes = useStyles();
+
   return (
           <FormControl fullWidth={true} 
           variant="outlined"
-          className={classes.radioStyle}
           sx={{
-          //  border:"2px solid #828f9f",
-          border:"0.8px solid #BFC1C7",
-             '&:hover': {
-              border:"0.8px solid black", // set the color on hover
-            },  
-            '&:active': {
-              border:"1.5px solid black",// set the color on focus
-            }
+          ...RadioStyle
           }}
           >
             <Stack direction={"row"}>
             <FormLabel
               id="demo-row-radio-buttons-group-label"
-            //  className={classes.inputLabelStyle}
-             sx={{ flexGrow:0,fontFamily:"roboto",padding:"auto 20px",paddingTop:"8px"
-            //  color:"#828f9f",
-            //  '&:hover': {
-            //   color: '#828f9f', // set the color on hover
-            // },
-            // '&:focus': {
-            //   color: 'black', // set the color on focus
-            // },
-            // '&:active': {
-            //   color: 'black', // set the color on focus
-            // },
+             sx={{ flexGrow:0,fontFamily:"roboto",paddingTop:"7px",paddingLeft:"10px",
             }}
             >
               {data.content.label}
             </FormLabel>
             <RadioGroup
-              sx={{ paddingLeft: "20px",flexGrow:1 }}
+              sx={{ paddingLeft: "20px",flexGrow:1,...InputFieldStyle }}
               row
               value={value}
-              // aria-label="ghhn"
               defaultValue={value}
-              className={classes.input}
               defaultChecked={value}
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
@@ -82,7 +60,7 @@ export default function CustomRadio({ data, value, updateValue, path }: any) {
                 <FormControlLabel
                   value={elem}
           
-                  control={<Radio size="small"  value={elem} />}
+                  control={<Radio size="small" sx={{margin:"1px auto"}}  value={elem} />}
                   label={elem}
                 />
               ))}

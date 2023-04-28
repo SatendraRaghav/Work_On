@@ -1,73 +1,59 @@
 export const  PositionMasterRecordsUISchema = {
   "type": "HorizontalLayout",
-  stylePage:{
-    background:"#eef2f6",
-    // background:"#051327",
-    minHeight:"100vh",
-    margin:"10px 20px",
-    height:"auto",
-    borderRadius:"20px"
-   },
   "elements": [
     {
-      "type": "Control",
-      "scope": "#/properties/Appbar",
-      "options": {
-        "widget": "EmptyBox"
-      },
-      "layout": 12,
-      "value": {
-        "content": {
-          "eventName": "LogoutUser",  
-          "ButtonName": "Log Out"
-        }
-      }
-    },
-    {
       type: "Control",
-      scope: "#/properties/New_Records_Button",
-      // layout: {
-      //   xs: 4,
-      //   sm: 4,
-      //   md: 1,
-      //   lg: 1,
-      // },
-      layout:11,
+      scope: "#/properties/reportListWrapper",
       options: {
-        widget: "Button",
-      },
-      value: {
-        content: {
-          name: "\u002B",
-          variant: "contained",
-          color: "primary",
-          type: "button",
-          size: "large",
-          "funcName":"newRecord",
+        widget: "Wrapper",
+        detail: {
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+              layout: 5.5,
+              options: {
+                widget: "Box",
+              },
+              value: {
+                content: {
+                  heading: "Position Master",
+                }
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/New_Record",
+              layout: {
+                xs: 6,
+                sm: 4,
+                md: 5.5,
+                lg: 5.5,
+              },
+              options: {
+                widget: "Button",
+              },
+              value: {
+                content: {
+                  name: "New Records",
+                  icon: "AddIcon",
+                  size:"small",
+                  // styleDefault: true,
+
+                  funcName: "newRecord",
+                },
+                style: {
+                  fontSize: '2rem',
+                  width: '4rem',
+                  height: '4rem',
+                 
+                },
+              },
+            },
+          ],
         },
-        style:{
-          width:"50px",
-          float:"right",
-          marginTop:"10px",
-          background:"#091f3c",
-          color:"white",
-         fontSize:"40px",
-         height:"40px",
-        }
       },
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/EmptyBox",
-      "layout": {
-        "xs": 5.5,
-        "sm": 7.5,
-        "md": 8,
-        "lg": 8
-      },
-      "options": {
-        "widget": "EmptyBox"
-      }
     },
     {
       "type": "Control",
@@ -98,14 +84,14 @@ export const  PositionMasterRecordsUISchema = {
                   },
                   {
                     "field": "name",
-                    "width": "80",
+                   flex:1,
                     "headerName": "Name",
                     "widget": "api"
                   },
                   {
                     "field":"Edit_Approve_Records",
-                    "headerName": "Edit_Records",
-                   "flex":1,
+                    "headerName": "Edit",
+                   "flex":100,
                     "widget": {
                       "type": "Control",
                       "scope": "#/properties/Edit_Records",
@@ -113,16 +99,16 @@ export const  PositionMasterRecordsUISchema = {
                         "widget": "Button"
                       },
                       "value": {
-                        "content": {
-                          "name": "Edit",
-                          "variant": "outlined",
-                          "color": "success",
-                          "type": "button",
-                          // "page": "UserMaster",
-                          "size": "large",
-                          "eventName": "Edit_Records"
-                        }
-                      }
+                        content: {
+                          color:"info",
+                          size:"small",
+                          icon: "EditIcon",
+                        
+                        },
+                        style: {
+                          color:"#3949ab"
+                        },
+                      },
                     }
                   }
                 ]
@@ -149,14 +135,14 @@ export const  PositionMasterRecordsUISchema = {
                   },
                   {
                     "field": "name",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Name",
                     "widget": "api"
                   },
                   {
-                    "headerName": "PositionApprover",
+                    "headerName": "Approve",
                     field:"PositionApprover",
-                   "flex":1,
+                   "flex":100,
                     "widget": {
                       "type": "Control",
                       "scope": "#/properties/Approve2Button",
@@ -165,16 +151,14 @@ export const  PositionMasterRecordsUISchema = {
                       },
                       "value": {
                         "content": {
-                          "name": "Approve",
-                          "variant": "outlined",
-                          "color": "success",
-                          type:"text"
+                          icon: "ApproveIcon",
+                          color:"success"
                         }
                       }
                     }
                   },
                   {
-                    "headerName": "Reject_Records",
+                    "headerName": "Reject",
                     field:"Reject_Records",
                    "flex":1,
                     "widget": {
@@ -185,10 +169,8 @@ export const  PositionMasterRecordsUISchema = {
                       },
                       "value": {
                         "content": {
-                          "name": "Reject",
-                          "variant": "outlined",
-                          "color": "error",
-                          "eventName": "BackToAgencyApproveRecords"
+                          icon: "RejectIcon",
+                          color:"error"
                         }
                       }
                     }
@@ -213,7 +195,7 @@ export const  PositionMasterRecordsUISchema = {
                   },
                   {
                     "field": "name",
-                    "width": "80",
+                    flex:1,
                     "headerName": "Name",
                     "widget": "api"
                   },
