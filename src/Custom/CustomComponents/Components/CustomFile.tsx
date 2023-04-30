@@ -20,7 +20,7 @@ const CustomFile = ({ data, value, updateValue, path }: any) => {
   const navigate = useNavigate();
   const saveData = (event: any) => {
     const callApi = async (event) => {
-      objFunc
+     await  objFunc
         .getServices(id, ctx, setFormdata, setUiSchema, setSchema, navigate, [
           data,
           event,
@@ -30,7 +30,7 @@ const CustomFile = ({ data, value, updateValue, path }: any) => {
         .then((res: any) => {
           res[data.content.funcName]();
         });
-      updateValue(event.target.value);
+        updateValue(event.target.value);
     };
     callApi(event);
   };
@@ -41,9 +41,11 @@ const CustomFile = ({ data, value, updateValue, path }: any) => {
         fullWidth
         onChange={(e) => {
           //@ts-ignore
-          updateValue(e.target.files[0].name);
+          //  updateValue(e.target.value);
           saveData(e);
+        
         }}
+        defaultValue={value}
         value={value}
         sx={{ color: "red", border: "none" }}
         InputProps={{

@@ -101,6 +101,7 @@ export const UserMasterForm = (
       const Ui = UserMasterUISchema;
       let selectOption: any[] = [];
       let selectPositionData:any[]=[];
+      console.log(Ui)
       await serviceApi
         .get('/master/getDetails?masterName=com.act21.hyperform3.entity.master.role.Role&status=A',
           
@@ -109,7 +110,7 @@ export const UserMasterForm = (
             selectOption = res.data?.payload?.map((e: any) => {
                 return { label: e.name, value: e.id }
             });
-            // Ui.elements[47].value.content.options = selectOption?selectOption:[{id:1}];
+            Ui.elements[1].options.detail.elements[44].value.content.options = selectOption?selectOption:[{id:1}];
         });
 
         await serviceApi
@@ -119,7 +120,7 @@ export const UserMasterForm = (
           selectPositionData = res.data?.payload?.map((e: any) => {
                 return { label: e.name, value: e.id }
             });
-            // Ui.elements[48].value.content.options = selectPositionData?selectPositionData:[{id:1}];
+             Ui.elements[1].options.detail.elements[45].value.content.options= selectPositionData?selectPositionData:[{id:1}];
         })
         ;
         console.log(Ui)

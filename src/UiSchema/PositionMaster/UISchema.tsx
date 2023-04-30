@@ -27,16 +27,11 @@ export const  PositionMasterUISchema = {
               },
               value: {
                 content: {
-                  heading: " Program Master",
+                  heading: "Program Master",
                 },
                 style: {
-                  // marginTop: "18px",
                   fontFamily: "Roboto",
                   fontWeight: "500",
-                  // paddingTop: "8px",
-                  fontSize: "20px",
-                  // paddingBottom: "8px",
-                  // borderRadius: "20px",
                   background: "white",
                 },
               },
@@ -56,10 +51,7 @@ export const  PositionMasterUISchema = {
                   funcName: "backHandler",
                 },
                 style: {
-                  // width:"20%",
                   float:"right",
-                  // marginTop:"20px",
-                  // marginRight:"15px"
                 },
               },
             }

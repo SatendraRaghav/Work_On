@@ -4,7 +4,7 @@ import { myService } from "../service/service";
 import { InvoiceGenerationUiSchema } from "../UiSchema/Invoice/UiSchema";
 import { InvoiceGenerationSchema } from "../UiSchema/Invoice/Schema";
 import { downloadFile } from "../utils/downloadFile";
-import { userValue } from "../App";
+import { userValue } from "../Apple";
 
 export const InvoiceGeneration = (
     ctx?: JsonFormsStateContext,
@@ -34,14 +34,14 @@ export const InvoiceGeneration = (
         },
         getUiSchema:async function (){
             let uiSchema = InvoiceGenerationUiSchema;
-
+             console.log(uiSchema)
             let data:any = null;
       await service.get('/program/getAll').then( (response) => {
           data = response.data.payload.map((elem:any) => {
             return { label: elem.name, value: elem.id };
           });
           //@ts-ignore
-          uiSchema.elements[0].options.detail.elements[2].value.content.options = data;
+          uiSchema.elements[1].options.detail.elements[0].value.content.options = data;
         })
         .catch((error) => {
           console.log(error);
@@ -68,7 +68,7 @@ export const InvoiceGeneration = (
                return cycle;
         });
             //@ts-ignore
-            uiSchema.elements[1].options.detail.elements[0].value.content.options = result1;
+            uiSchema.elements[1].options.detail.elements[1].value.content.options = result1;
             setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
           })
           .catch((error) => {
@@ -104,9 +104,9 @@ export const InvoiceGeneration = (
                     reportFormat: "grid",
                     params: {
                      
-                        // candidateGroup: userValue.payload.positionTypeName,
-                        // candidateUser: userValue.payload.positionName,
-                        // userName:userValue.payload.username,
+                        candidateGroup: userValue.payload.positionTypeName,
+                        candidateUser: userValue.payload.positionName,
+                        userName:userValue.payload.username,
                         programCycleId: ctx.core.data.InvoiceWrapper[0].programCycle
                     }
                 }
@@ -116,9 +116,9 @@ export const InvoiceGeneration = (
                     reportName: "invoice_level_report",
                     reportFormat: "grid",
                     params: {
-                        // candidateGroup: userValue.payload.positionTypeName,
-                        // candidateUser: userValue.payload.positionName,
-                        // userName:userValue.payload.username,
+                        candidateGroup: userValue.payload.positionTypeName,
+                        candidateUser: userValue.payload.positionName,
+                        userName:userValue.payload.username,
                         programCycleId: ctx.core.data.InvoiceWrapper[0].programCycle
                     }
                 }

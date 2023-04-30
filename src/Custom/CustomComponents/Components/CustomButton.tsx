@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
 // //@ts-ignore
 // import EditNoteIcon from "@mui/icons-material/EditNote";
+import DownloadIcon from "@mui/icons-material/Download";
 import PersonIcon from '@mui/icons-material/Person';
 import EditIcon from "@mui/icons-material/Edit";
 import AddNoteIcon from "@mui/icons-material/PlaylistAdd";
@@ -103,5 +104,7 @@ export function myIcon(iconName: string) {
       return <BackIcon2 />;
       case "PersonIcon":
         return <PersonIcon />;
+        case "DownloadIcon":
+        return <DownloadIcon />;
   }
 }

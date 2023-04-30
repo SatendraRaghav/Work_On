@@ -97,6 +97,7 @@ export const PositionMasterForm = (
       const Ui = PositionMasterUISchema;
       let selectOption: any[] = [];
       let selectParentData:any[]=[];
+      console.log(Ui)
       await serviceApi
         .get('/master/getDetails?masterName=com.act21.hyperform3.entity.master.position.PositionTypeNew&status=A'
         )
@@ -104,7 +105,7 @@ export const PositionMasterForm = (
             selectOption = res.data?.payload?.map((e: any) => {
                 return { label: e.name, value: e.id }
             });
-            // Ui.elements[4].value.content.options = selectOption?selectOption:[{id:1}];
+            Ui.elements[1].options.detail.elements[1].value.content.options = selectOption?selectOption:[{id:1}];
         })
         ;
         await serviceApi
@@ -114,7 +115,7 @@ export const PositionMasterForm = (
             selectParentData = res.data?.payload?.map((e: any) => {
                 return { label: e.name, value: e.id }
             });
-            // Ui.elements[5].value.content.options = selectParentData?selectParentData:[{id:1}];
+            Ui.elements[1].options.detail.elements[2].value.content.options = selectParentData?selectParentData:[{id:1}];
         })
         ;
 

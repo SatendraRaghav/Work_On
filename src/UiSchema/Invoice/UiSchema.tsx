@@ -286,11 +286,9 @@ export const InvoiceGenerationUiSchema = {
                       },
                       value: {
                         content: {
-                          name: "Download",
-                          variant: "contained",
-                          color: "info",
-                          type: "button",
-                          size: "small",
+                          color:"info",
+                          size:"small",
+                          icon: "DownloadIcon",
                         },
                       },
                     },
@@ -307,11 +305,9 @@ export const InvoiceGenerationUiSchema = {
                       },
                       value: {
                         content: {
-                          name: "Delete",
-                          variant: "contained",
-                          color: "info",
-                          type: "button",
-                          size: "small",
+                          color:"info",
+                          size:"small",
+                          icon: "DownloadIcon",
                         },
                       },
                     },

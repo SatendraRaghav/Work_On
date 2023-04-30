@@ -45,8 +45,10 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
   }, []);
   const conditionLoadFunc = (value: any) => {
     objFunc
-      .getServices(id, ctx, setFormdata, setSchema, setUiSchema, navigate, [])
-      [data.content.conditionalLoadFunc](value);
+      .getServices(id, ctx, setFormdata, setSchema, setUiSchema, navigate, []).then((res)=>{
+        res[data.content.conditionalLoadFunc](value);
+      })
+      
   };
   // const classes = useStyles();
   return (
@@ -122,8 +124,8 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
               label={data.content.label}
               onChange={(e) => {
                 updateValue(e.target.value);
-                data.content.conditionalLoadFunc &&
-                  conditionLoadFunc(e.target.value);
+                data.content.conditionalLoadFunc && 
+                   conditionLoadFunc(e.target.value);
               }}
             >
               {data.content?.options?.map((elem: any, i: number) => (

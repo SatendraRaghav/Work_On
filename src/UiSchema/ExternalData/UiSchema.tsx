@@ -125,8 +125,8 @@ export const ExternalDataUiSchema = {
                   size: "large",
                 },
                 style: {
-                  float:"right",
-                  width:"20%",
+                  float: "right",
+                  width: "20%",
                 },
               },
             },
@@ -142,10 +142,10 @@ export const ExternalDataUiSchema = {
       },
       layout: 6,
     },
-     {
+    {
       type: "Control",
       scope: "#/properties/reportListWrapper",
-      label:"External Data List",
+      label: "External Data List",
       options: {
         widget: "Wrapper",
         // label:"External Data List",
@@ -153,70 +153,71 @@ export const ExternalDataUiSchema = {
           // label:"External Data List",
           type: "HorizontalLayout",
           elements: [
-    {
-      type: "Control",
-      scope: "#/properties/LoadRecords",
-      layout: 11,
-      options: {
-        widget: "Table",
-        loadFunction: "tableLoadFunction",
-        tableStyle: {
-          backgroundColor: "#F5F5F5",
-        },
-        buttonInStarting: false,
-        ApiDetails: {
-          DataApi: "",
-          DataApiBody: {},
-        },
-        columns: [
-          {
-            field: "id",
-            headerName: "Id",
-            width: "40",
-            widget: "api",
-          },
-          {
-            field: "name",
-            flex: 1,
-            headerName: "Name",
-            widget: "api",
-          },
-          {
-            field: "type",
-            headerName: "Type",
-            flex: 1,
-            widget: "api",
-          },
-          {
-            field: "createdOn",
-            width: "240",
-            headerName: "Updated Time",
-            widget: "api",
-          },
-          {
-            headerName: "Download_File",
-            field: "Download_File",
-            width: "120",
-            widget: {
+            {
               type: "Control",
-              scope: "#/properties/Edit_Records",
+              scope: "#/properties/LoadRecords",
+              layout: 11,
               options: {
-                widget: "Button",
-              },
-              value: {
-                content: {
-                  name: "Download",
-                  variant: "contained",
-                  color: "info",
-                  type: "button",
-                  size: "small",
+                widget: "Table",
+                loadFunction: "tableLoadFunction",
+                tableStyle: {
+                  backgroundColor: "#F5F5F5",
                 },
+                buttonInStarting: false,
+                ApiDetails: {
+                  DataApi: "",
+                  DataApiBody: {},
+                },
+                columns: [
+                  {
+                    field: "id",
+                    headerName: "Id",
+                    width: "40",
+                    widget: "api",
+                  },
+                  {
+                    field: "name",
+                    flex: 1,
+                    headerName: "Name",
+                    widget: "api",
+                  },
+                  {
+                    field: "type",
+                    headerName: "Type",
+                    flex: 1,
+                    widget: "api",
+                  },
+                  {
+                    field: "createdOn",
+                    width: "240",
+                    headerName: "Updated Time",
+                    widget: "api",
+                  },
+                  {
+                    headerName: "Download_File",
+                    field: "Download_File",
+                    width: "120",
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Edit_Records",
+                      options: {
+                        widget: "Button",
+                      },
+                      value: {
+                        content: {
+                          color:"info",
+                          size:"small",
+                          icon: "DownloadIcon",
+                        },
+                      },
+                    },
+                  },
+                ],
               },
             },
-          },
-        ],
+          ],
+        },
       },
     },
-  ]}}},
   ],
 };

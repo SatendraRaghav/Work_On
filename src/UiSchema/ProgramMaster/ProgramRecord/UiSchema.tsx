@@ -54,10 +54,8 @@ export const ProgramMasterRecordUiSchema = {
                   funcName: "addNewRecords",
                 },
                 style: {
-                  // width:"20%",
+                  
                   float: "right",
-                  // marginTop:"20px",
-                  // marginRight:"15px"
                 },
               },
             },

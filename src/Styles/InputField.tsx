@@ -213,7 +213,9 @@ export const pageStyle = {
   borderRadius: "20px",
   fontFamily: "roboto",
 };
-export const useStyles = makeStyles({});
+export const useStyles = makeStyles({
+  dateStyle:InputFieldStyle
+});
 
 export const InputFieldStyledark = {
   "& .MuiInputBase-root": {

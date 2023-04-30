@@ -27,10 +27,10 @@ const service = myService()
     getFormData: async function() {
       const formdata : any= {};
       await this.loadTable().then((res:any)=>{
-      
-        formdata["DataLoadParentWrapper.0.DataListWrapper.0.LoadRecords"] = res;
+         
+        formdata["reportListWrapper.0.LoadRecords"] = res;
       }).catch((err:any)=>{
-        formdata["DataLoadParentWrapper.0.DataListWrapper.0.LoadRecords"] = []
+        formdata["reportListWrapper.0.LoadRecords"] = []
       });
    
       return formdata;
@@ -39,12 +39,13 @@ const service = myService()
     getUiSchema: async function() {
       const uiSchema = ExternalDataUiSchema;
       let data:any = null;
+      console.log(uiSchema)
       await service.get('/program/getAll').then( (response) => {
           data = response.data.payload.map((elem:any) => {
             return { label: elem.name, value: elem.id };
           });
           //@ts-ignore
-          uiSchema.elements[0].options.detail.elements[2].value.content.options = data;
+          uiSchema.elements[1].options.detail.elements[0].value.content.options = data;
         })
         .catch((error) => {
           console.log(error);
@@ -57,7 +58,7 @@ const service = myService()
     },
     typeLoadFunction : async (value:any) => {
      const uiSchema = ExternalDataUiSchema
-
+  console.log(uiSchema)
       await service.get(`/program/getById?id=${
         value
       } `)
@@ -68,7 +69,7 @@ const service = myService()
         return { label: elem, value: elem };
       });
       //@ts-ignore
-      uiSchema.elements[1].options.detail.elements[0].options.detail.elements[0].value.content.options = data1 
+      uiSchema.elements[1].options.detail.elements[1].value.content.options = data1 
       setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
     })
     .catch((error) => {

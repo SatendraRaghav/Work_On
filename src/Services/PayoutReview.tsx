@@ -42,7 +42,7 @@ export const PayoutReview = (
             return { label: elem.name, value: elem.id };
           });
           //@ts-ignore
-          uiSchema.elements[0].options.detail.elements[0].value.content.options =  data;
+          uiSchema.elements[1].options.detail.elements[0].value.content.options =  data;
         })
         .catch((error) => {
           console.log(error);
@@ -66,7 +66,7 @@ export const PayoutReview = (
             return cycle;
           });
           //@ts-ignore
-          uiSchema.elements[2].options.detail.elements[0].value.content.options =
+          uiSchema.elements[1].options.detail.elements[1].value.content.options =
             result1;
             setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         

@@ -36,17 +36,15 @@ export const  PositionMasterRecordsUISchema = {
               },
               value: {
                 content: {
-                  name: "New Records",
+                
                   icon: "AddIcon",
                   size:"small",
-                  // styleDefault: true,
+                  styleDefault: true,
 
                   funcName: "newRecord",
                 },
                 style: {
-                  fontSize: '2rem',
-                  width: '4rem',
-                  height: '4rem',
+                  float: "right",
                  
                 },
               },

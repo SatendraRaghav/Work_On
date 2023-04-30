@@ -130,14 +130,14 @@ export const CycleForm = (
             return { label: elem.name?elem.name:elem.id, value: JSON.stringify(elem) };
           });
 //@ts-ignore
-          Ui.elements[2].options.detail.elements[0].options.detail.elements[1].value.content.options = selectOption;
+          Ui.elements[1].options.detail.elements[0].options.detail.elements[1].value.content.options = selectOption;
         }).catch((err)=>{
           console.log(err)
         });
       return Ui;
     },
     workspaceFileSaveFunction: () => {
-      const programData=  JSON.parse((ctx.core.data.features[0].Core.program))
+      const programData=  JSON.parse((ctx.core.data?.features[0]?.Core?.program))
       const event = otherData[1];
       const tempArr = event.target.files[0].name.split(".");
       const formData = new FormData();
@@ -219,7 +219,7 @@ export const CycleForm = (
         });
     },
     invioceFileSaveFunction: () => {
-      const programData=  JSON.parse((ctx.core.data.features[0].Core.program))
+      const programData=  JSON.parse((ctx.core.data?.features[0]?.Core?.program))
       const event = otherData[1];
       const tempArr = event.target.files[0].name.split(".");
       const formData = new FormData();
