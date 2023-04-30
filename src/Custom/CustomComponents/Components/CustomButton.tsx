@@ -27,7 +27,7 @@ export const CustomButton = ({ data, path }: any) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const ctx = useJsonForms();
-  const myIconComponent = myIcon(data.content.icon);
+  const myIconComponent = myIcon(data.content.icon,data);
   const myStyle = data.content.styleDefault ? IconStyle : {};
   const MyButton = data.content.icon ? (
     <IconButton
@@ -84,7 +84,7 @@ export const CustomButton = ({ data, path }: any) => {
   );
 };
 
-export function myIcon(iconName: string) {
+export function myIcon(iconName: string,data:any) {
   switch (iconName) {
     case "DeleteIcon":
       return <DeleteIcon />;
@@ -103,7 +103,7 @@ export function myIcon(iconName: string) {
     case "BackIcon2":
       return <BackIcon2 />;
       case "PersonIcon":
-        return <PersonIcon />;
+        return <PersonIcon sx={{...data?.iconStyle}}/>;
         case "DownloadIcon":
         return <DownloadIcon />;
   }

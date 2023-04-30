@@ -10,10 +10,36 @@ export const HomeUiSchema = {
         value:{
           content:{},
           "style":{
-          marginTop:"20vh"
+          marginTop:"2vh"
         }  
         }
            
+      },
+      {
+        type: "Control",
+        scope: "#/properties/Back_Button",
+        layout:7,
+
+        options: {
+          widget: "Button",
+        },
+        value: {
+          content: { 
+            icon:"PersonIcon",
+            // styleDefault:true,
+            size:"small",
+            funcName: "backHandler",
+          },
+          style:{textAlign:"center"},
+          iconStyle: {
+         
+            width:"200px",
+            height:"auto",
+            fontSize:'100%',
+            marginLeft:"auto",
+            marginRight:"auto",
+          },
+        },
       },
       {
         type: "Control",

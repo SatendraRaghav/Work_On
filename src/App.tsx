@@ -57,13 +57,14 @@ function First({ objFunc }: any) {
       const callService = ()=>{
         objFunc.getServices("Home",ctx,setFormdata2,setUiSchema,setSchema,navigate,[searchParams,setSearchParams]).then((res:any)=>{
           res.setPage()
+          setRender(true) 
         })
        
      
        }
       useEffect(()=>{
         callService()
-          setRender(true) 
+          
       },[])
   return (
       <div>
