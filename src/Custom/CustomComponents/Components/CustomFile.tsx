@@ -10,10 +10,10 @@ import { useJsonForms } from "@jsonforms/react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { InputFieldStyle } from "../../../Styles/InputField";
+// import { InputFieldStyle } from "../../../Styles/InputField";
 
 const CustomFile = ({ data, value, updateValue, path }: any) => {
-  const { state, objFunc, dispatch, id, setUiSchema, setSchema, setFormdata } =
+  const { state, objFunc, dispatch, id, setUiSchema, setSchema, setFormdata,theme } =
     useContext(DataContext);
   const ctx = useJsonForms();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,7 +35,7 @@ const CustomFile = ({ data, value, updateValue, path }: any) => {
     callApi(event);
   };
   return (
-    <Stack direction={"row"} sx={{...InputFieldStyle}}>
+    <Stack direction={"row"} sx={{...theme.InputFieldStyle}}>
       <TextField
         required={data.content.required}
         fullWidth

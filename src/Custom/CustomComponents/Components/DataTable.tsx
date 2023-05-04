@@ -12,7 +12,7 @@ import {
 import { DataContext, actions } from "../../../Context";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useNavigate,useSearchParams } from "react-router-dom";
-import { DataGridStyle } from "../../../Styles/InputField";
+// import { DataGridStyle } from "../../../Styles/InputField";
 
 const DataTable = ({
   path,
@@ -24,7 +24,7 @@ const DataTable = ({
   data,
   updateValue
 }: ArrayControlProps|any) => {
-  const {id, dispatch, state, objFunc,setFormdata,setUiSchema,setSchema } = useContext(DataContext);
+  const {id, dispatch, state, objFunc,setFormdata,setUiSchema,setSchema,theme } = useContext(DataContext);
   const [loading, setLoading] = useState<boolean>(true);
   const ctx = useJsonForms();
   const navigate = useNavigate();
@@ -85,14 +85,14 @@ const DataTable = ({
     }
     
   };
-  const gridHeight = ctx.core.data[path]&&ctx.core.data[path].length>0? DataGridStyle.height:250;
+  const gridHeight = ctx.core.data[path]&&ctx.core.data[path].length>0? theme.DataGridStyle.height:250;
   return (
         <DataGrid
           rows={ctx.core.data[path]?ctx.core.data[path]:[]}
           columns={ uischema.options.buttonInStarting?[...columnComponents,...columnApi]:[...columnApi,...columnComponents]}
           pageSize={10}
           onCellClick={handleCellClick}
-          sx={{...DataGridStyle,height:gridHeight}}
+          sx={{...theme.DataGridStyle,height:gridHeight}}
           loading={loading}
           rowsPerPageOptions={[5]}
           hideFooter={ctx.core.data[path]&&ctx.core.data[path].length>0?false:true}

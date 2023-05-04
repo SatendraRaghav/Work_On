@@ -7,9 +7,9 @@ import { Box, LinearProgress, Skeleton, Typography, TypographyProps } from "@mui
 import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 import { useNavigate,useSearchParams } from "react-router-dom";
 import './App.css'
-import { pageStyle } from "./Styles/InputField";
-import { PageBox } from "./Styles/InputField";
+// import { pageStyle } from "./Styles/InputField";
 import { useTheme } from "@emotion/react";
+import { myTheme } from "./Styles/InputField";
 const variants = [
   "h1",
   "h3",
@@ -19,7 +19,8 @@ const variants = [
   "caption",
 ] as readonly TypographyProps["variant"][];
 export const userValue= 5;
-const App = ({  objFunc}: any) => {
+const App = ({  objFunc,objStyle}: {objFunc:any,objStyle?:any}) => {
+ const theme =  myTheme(objStyle)
   // const myTheme = useTheme()
   return (
         <Router>
@@ -28,13 +29,14 @@ const App = ({  objFunc}: any) => {
              element={
             <First 
             objFunc={objFunc}
-       
+            theme={theme}
             />} />
             <Route
               path="/:id/*"
               element={
                 <Child
                   objFunc={objFunc}
+                  theme={theme}
                 />
               }
             />
@@ -43,7 +45,7 @@ const App = ({  objFunc}: any) => {
   );
 };
 
-function First({ objFunc }: any) {
+function First({ objFunc,theme }: any) {
       const ctx = useJsonForms();
     const [formdata2,setFormdata2] = useState({})
     const [UiSchema,setUiSchema] = useState<any>()
@@ -70,10 +72,10 @@ function First({ objFunc }: any) {
       <div>
         {
           render?
-          <DataProvider objFunc={objFunc} setFormdata={setFormdata2} setUiSchema={setUiSchema} setSchema={setSchema}>
+          <DataProvider objFunc={objFunc} setFormdata={setFormdata2} setUiSchema={setUiSchema} setSchema={setSchema} theme={theme}>
          <Box 
      
-         sx={{...pageStyle,...UiSchema?.stylePage}}>
+         sx={{...theme.pageStyle,...UiSchema?.stylePage}}>
          {/* <PageBox> */}
         <JsonForms
           data={formdata2}
@@ -103,7 +105,7 @@ function First({ objFunc }: any) {
       </div>
   );
 }
-function Child({ objFunc }: any) {
+function Child({ objFunc,theme }: any) {
   const {state, dispatch} = useContext(DataContext);
   const {id} = useParams();
   const ctx = useJsonForms();
@@ -126,9 +128,9 @@ function Child({ objFunc }: any) {
         <div
         >
            {UiSchema? 
-           <DataProvider id={id} objFunc={objFunc} setFormdata={setFormdata2} setUiSchema={setUiSchema} setSchema={setSchema}>
+           <DataProvider id={id} objFunc={objFunc} setFormdata={setFormdata2} setUiSchema={setUiSchema} setSchema={setSchema} theme={theme}>
        <Box 
-        sx={{...pageStyle,...UiSchema?.stylePage}}>
+        sx={{...theme.pageStyle,...UiSchema?.stylePage}}>
         {/* <PageBox> */}
            <JsonForms
               data={formdata2}

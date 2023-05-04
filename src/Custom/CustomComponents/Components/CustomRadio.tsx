@@ -9,13 +9,13 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { DataContext } from "../../../Context";
-import { InputFieldStyle, RadioStyle } from "../../../Styles/InputField";
-import { InputLabelStyle } from "../../../Styles/InputField";
+// import { InputFieldStyle, RadioStyle } from "../../../Styles/InputField";
+// import { InputLabelStyle } from "../../../Styles/InputField";
 import { Stack } from "@mui/system";
 
 export default function CustomRadio({ data, value, updateValue, path }: any) {
   const [apiOption, setApiOption] = React.useState<Array<any>>([]);
-  const { dispatch, state } = useContext(DataContext);
+  const { dispatch, state,theme } = useContext(DataContext);
   const pagePath = window.location.pathname.replaceAll("/", "_");
   useEffect(() => {
     setApiOption(data.content.options)
@@ -33,7 +33,7 @@ export default function CustomRadio({ data, value, updateValue, path }: any) {
           <FormControl fullWidth={true} 
           variant="outlined"
           sx={{
-          ...RadioStyle
+          ...theme.RadioStyle
           }}
           >
             <Stack direction={"row"}>
@@ -45,7 +45,7 @@ export default function CustomRadio({ data, value, updateValue, path }: any) {
               {data.content.label}
             </FormLabel>
             <RadioGroup
-              sx={{ paddingLeft: "20px",flexGrow:1,...InputFieldStyle }}
+              sx={{ paddingLeft: "20px",flexGrow:1,...theme.InputFieldStyle }}
               row
               value={value}
               defaultValue={value}

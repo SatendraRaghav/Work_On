@@ -1,10 +1,13 @@
 import { Typography } from "@mui/material";
-import { BoxStyle } from "../../../Styles/InputField";
+import React from "react";
+import { DataContext } from "../../../Context";
+// import { BoxStyle } from "../../../Styles/InputField";
 const CustomBox = ({ data, path }: any) => {
+  const { setFormdata, objFunc, setUiSchema, setSchema, id ,theme} =React.useContext(DataContext);
   return (
     <Typography
       sx={{
-        ...BoxStyle,
+        ...theme.BoxStyle,
         ...data.style,
       }}
       variant={data.content.variant}

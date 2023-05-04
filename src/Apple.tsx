@@ -36,7 +36,7 @@ function Apple() {
           
             </div>
             <div style={{ width: "100%" }}>
-              <App objFunc={objFunc} />
+              <App objFunc={objFunc}  />
             </div>
           </div>
         </>

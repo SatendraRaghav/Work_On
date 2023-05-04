@@ -66,13 +66,13 @@ const reducer = (state:any, action:any) => {
           return state;
   }
 };
-export const DataProvider = ({ children,objFunc,setFormdata,setUiSchema,setSchema,id="Home"}:any) => {
+export const DataProvider = ({ children,objFunc,setFormdata,setUiSchema,setSchema,id="Home",theme}:any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const contextValue = useMemo(() => {
     return { state, dispatch};
   }, [state, dispatch]);
 return (
-    <DataContext.Provider value={{...contextValue, objFunc:objFunc,setFormdata:setFormdata,setUiSchema:setUiSchema,setSchema:setSchema,id:id}}>
+    <DataContext.Provider value={{...contextValue, objFunc:objFunc,setFormdata:setFormdata,setUiSchema:setUiSchema,setSchema:setSchema,id:id,theme:theme}}>
       {children}
     </DataContext.Provider>
   );

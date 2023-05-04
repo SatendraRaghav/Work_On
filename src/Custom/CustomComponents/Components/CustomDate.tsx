@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 import { InputFieldStyle, useStyles } from "../../../Styles/InputField";
+import { DataContext } from "../../../Context";
 
 const styles = {
   root: {
@@ -24,7 +25,9 @@ const styles = {
   },
 };
 const CustomDate = ({ data, value, updateValue, path }: any) => {
-  const style = useStyles()
+  const { setFormdata, objFunc, setUiSchema, setSchema, id ,theme} =
+  useContext(DataContext);
+  const style = theme.useStyles()
   return (
     <Stack>
       <LocalizationProvider

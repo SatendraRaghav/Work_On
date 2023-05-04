@@ -15,14 +15,14 @@ import { useJsonForms } from "@jsonforms/react";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { useStyles } from "../../../Styles/InputField";
-import { InputFieldStyle } from "../../../Styles/InputField";
+// import { InputFieldStyle } from "../../../Styles/InputField";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function CustomSelect({ data, value, updateValue, path }: any) {
   const ctx = useJsonForms();
   const [apiOption, setApiOption] = React.useState<Array<any>>([]);
-  const { state, objFunc, dispatch, setFormdata, setUiSchema, setSchema, id } =
+  const { state, objFunc, dispatch, setFormdata, setUiSchema, setSchema, id,theme } =
     useContext(DataContext);
   const navigate = useNavigate();
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
             }}
             multiple
             // size="medium"
-            sx={{height:"50px",...InputFieldStyle}}
+            sx={{height:"50px",...theme.InputFieldStyle}}
             disableCloseOnSelect
             id="tags-standard"
             options={apiOption}
@@ -92,7 +92,7 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
                 {...params}
                 // className={classes.input}
                 size="medium"
-                sx={{...InputFieldStyle,'& .MuiInputBase-input': {
+                sx={{...theme.InputFieldStyle,'& .MuiInputBase-input': {
                   fontSize: '12.5px',
                   fontFamily:"inherit",
                   // padding: '2px'
@@ -107,7 +107,7 @@ export default function CustomSelect({ data, value, updateValue, path }: any) {
         <>
           <FormControl fullWidth={true} 
           // className={classes.input}
-          sx={{...InputFieldStyle}}
+          sx={{...theme.InputFieldStyle}}
           >
            
             <InputLabel

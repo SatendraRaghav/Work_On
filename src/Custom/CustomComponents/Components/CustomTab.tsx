@@ -5,7 +5,8 @@ import Typography from '@mui/material/Typography';
 import { ArrayControlProps, composePaths, findUISchema, UISchemaElement } from "@jsonforms/core";
 import Box from '@mui/material/Box';
 import { JsonFormsDispatch } from '@jsonforms/react';
-import { TabStyle } from '../../../Styles/InputField';
+import { DataContext } from '../../../Context';
+// import { TabStyle } from '../../../Styles/InputField';
 
 interface TabPanelProps {
   children: any;
@@ -15,7 +16,8 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-
+  const { setFormdata, objFunc, setUiSchema, setSchema, id ,theme} =
+    React.useContext(DataContext);
   return (
     <div
       role="tabpanel"
@@ -68,6 +70,8 @@ export default function CustomTab({
     [uischemas, schema, uischema.scope, path, uischema, rootSchema]
   );
   const [value, setValue] = React.useState(0);
+  const { setFormdata, objFunc, setUiSchema, setSchema, id ,theme} =
+    React.useContext(DataContext);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -88,7 +92,7 @@ export default function CustomTab({
           {
             uischema.labels.map((elem:string,i:number)=>{
               return(
-              <Tab sx={{...TabStyle}}  label={elem} {...a11yProps(i)} />
+              <Tab sx={{...theme.TabStyle}}  label={elem} {...a11yProps(i)} />
               )
             })
           }

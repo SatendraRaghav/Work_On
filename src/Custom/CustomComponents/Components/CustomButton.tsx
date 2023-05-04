@@ -17,18 +17,18 @@ import BackIcon from "@mui/icons-material/ReplyTwoTone";
 import BackIcon2 from "@mui/icons-material/ArrowBackIosNewTwoTone";
 import { useJsonForms } from "@jsonforms/react";
 import { IconButton } from "@mui/material";
-import { IconStyle } from "../../../Styles/InputField";
-import { useStyles } from "../../../Styles/InputField";
-import { Buttonstyle } from "../../../Styles/InputField";
+// import { IconStyle } from "../../../Styles/InputField";
+// import { useStyles } from "../../../Styles/InputField";
+// import { Buttonstyle } from "../../../Styles/InputField";
 
 export const CustomButton = ({ data, path }: any) => {
-  const { setFormdata, objFunc, setUiSchema, setSchema, id } =
+  const { setFormdata, objFunc, setUiSchema, setSchema, id ,theme} =
     useContext(DataContext);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const ctx = useJsonForms();
   const myIconComponent = myIcon(data.content.icon,data);
-  const myStyle = data.content.styleDefault ? IconStyle : {};
+  const myStyle = data.content.styleDefault ? theme.IconStyle : {};
   const MyButton = data.content.icon ? (
     <IconButton
       sx={{ ...myStyle, ...data.style }}
@@ -50,13 +50,25 @@ export const CustomButton = ({ data, path }: any) => {
   ) : (
     <Button
       fullWidth={true}
-      endIcon={data.content.endIcon ? myIcon(data.content.endIcon) : false}
+      endIcon={data.content.endIcon ? myIcon(data.content.endIcon,data) : false}
       startIcon={
-        data.content.startIcon ? myIcon(data.content.startIcon) : false
+        data.content.startIcon ? myIcon(data.content.startIcon,data) : false
       }
-      sx={{ ...Buttonstyle, ...data.style }}
+      sx={{ ...theme.Buttonstyle, ...data.style }}
       variant={data.content.variant || "contained"}
       size={data.content.size || "medium"}
+      onKeyPress={(e)=>{
+        if(e.key === "Enter" && data.content.activeEnter){
+          data.content.funcName && objFunc
+          .getServices(id, ctx, setFormdata, setUiSchema, setSchema, navigate, [
+            searchParams,
+            setSearchParams,
+          ])
+          .then((res: any) => {
+            res[data.content.funcName]();
+          });
+        }
+      }}
       onClick={(e) => {
         objFunc
           .getServices(id, ctx, setFormdata, setUiSchema, setSchema, navigate, [

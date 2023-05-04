@@ -86,6 +86,24 @@ export const ExternalDataUiSchema = {
             },
             {
               type: "Control",
+              scope: "#/properties/programType",
+              layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+              options: {
+                widget: "Box",
+              },
+              value: {
+                content: {
+                  heading: "Choose Your Workflow File :",
+                },
+                style:{
+                  color:"#828f9f",
+                  paddingTop:"8px"
+                  // textAlign:"center"
+                }
+              },
+            },
+            {
+              type: "Control",
               scope: "#/properties/docAggrementCopy",
               options: {
                 widget: "FileInputField",
@@ -114,7 +132,7 @@ export const ExternalDataUiSchema = {
               options: {
                 widget: "Button",
               },
-              layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+              layout: 11.5,
               value: {
                 content: {
                   name: "Load",
@@ -126,7 +144,12 @@ export const ExternalDataUiSchema = {
                 },
                 style: {
                   float: "right",
-                  width: "20%",
+                  width: {
+                    xs: "90%",
+                    sm:  "90%",
+                    md:"20%",
+                    lg: "10%",
+                  },
                 },
               },
             },

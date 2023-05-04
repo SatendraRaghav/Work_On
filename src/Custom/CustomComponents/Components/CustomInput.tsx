@@ -1,23 +1,42 @@
 import { useContext, useEffect, useState } from 'react';
 import { Card, TextField } from '@mui/material';
-import Paper from '@mui/material/Paper';
 import { DataContext,actions } from '../../../Context';
-import { InputFieldStyle } from '../../../Styles/InputField';
+
+import { useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
+import { useJsonForms } from '@jsonforms/react';
 const CustomInput = ({ data, value, updateValue,path }: any) => {
      const [demoValue,setDemoValue] = useState<any>()
-     //@ts-ignore
-     // const classes = useStyles();
-
-     return (<TextField
+     const {id,permissions,theme,setFormdata,setUiSchema,setSchema,objFunc} =  useContext(DataContext);
+     // const fieldName = getFieldName(path);
+     const navigate = useNavigate();
+     const ctx = useJsonForms();
+     const [searchParams, setSearchParams] = useSearchParams();
+     
+ 
+     return(<TextField
                     required={data.content.required}
                     fullWidth
                     // className={classes.input}
-                    sx={{...InputFieldStyle,data}}
+                    sx={{...theme.InputFieldStyle,data}}
                     value = {demoValue?demoValue:value}
                     onChange={(e)=>{
                          setDemoValue(e.target.value)
                          updateValue(e.target.value)
-                    }}
+                    }} 
+                    onKeyPress={(e)=>{
+                         if(e.key === "Enter" && data.content.activeEnter){
+                           data.content.funcName && objFunc
+                           .getServices(id, ctx, setFormdata, setUiSchema, setSchema, navigate, [
+                             searchParams,
+                             setSearchParams,
+                           ])
+                           .then((res: any) => {
+                             res[data.content.funcName]();
+                           });
+                         }
+                       }}
+
                     onBlur= {(e)=>{
                          demoValue && updateValue(demoValue)}}
                     onPointerLeave={(e)=>{

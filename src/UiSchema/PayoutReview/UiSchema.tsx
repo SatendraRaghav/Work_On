@@ -102,7 +102,7 @@ export const PayoutReviewUiSchema = {
                   label: "Case Name",
                 },
                 style: {
-                  marginTop: "25px",
+                  // marginBottom: "25px",
                 },
               },
             },
@@ -130,6 +130,8 @@ export const PayoutReviewUiSchema = {
                 style: {
                   width: "20%",
                   float: "right",
+                  marginTop:"15px"
+                 
                 },
               },
             },
