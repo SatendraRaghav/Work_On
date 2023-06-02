@@ -9,6 +9,7 @@ export const PayoutProcessingUiSchema = {
         detail: {
           type: "HorizontalLayout",
           elements: [
+            
             {
               type: "Control",
               scope: "#/properties/programType",
@@ -18,7 +19,7 @@ export const PayoutProcessingUiSchema = {
               },
               value: {
                 content: {
-                  heading: "Payout processing",
+                  heading: "Payout Processing",
                 },
               },
             },
@@ -47,12 +48,36 @@ export const PayoutProcessingUiSchema = {
     {
       type: "Control",
       scope: "#/properties/PayoutProcessingWrapper",
-      label: "Payout Processing",
       options: {
         widget: "Wrapper",
         detail: {
           type: "HorizontalLayout",
           elements: [
+            {
+              type: "Control",
+              scope: "#/properties/heading",
+              layout: 11.5,
+              options: {
+                widget: "Box",
+              },
+              value: {
+                content: {
+                  heading: "Search Program",
+                  // dividerAvailable:true
+                },
+              },
+              style:{
+                marginTop:"2px"
+              }
+            },
+            {
+              type: "Control",
+              scope: "#/properties/EmptyBox",
+              options: {
+                widget: "EmptyBox",
+              },
+             
+            },
             {
               type: "Control",
               scope: "#/properties/programType",
@@ -66,7 +91,7 @@ export const PayoutProcessingUiSchema = {
                   options: [{}],
                   color: "secondary",
                   required: true,
-                  conditionalLoadFunc: "loadCycle",
+                  loadFunction: "loadCycle",
                 },
               },
             },
@@ -276,7 +301,7 @@ export const PayoutProcessingUiSchema = {
       layout: {
         xs: 12,
         sm: 4,
-        md: 3,
+        md: 2,
         lg: 2,
       },
       value: {
@@ -287,24 +312,10 @@ export const PayoutProcessingUiSchema = {
           type: "text",
           funcName: "LoadFileData",
           size: "large",
-        },
-        style: {
-          textAlign: "right",
-        },
+        }
       },
     },
-    {
-      type: "Control",
-      scope: "#/properties/startWorkflow",
-      layout: {
-        xs: 0,
-        sm: 0,
-        md: 0,
-        lg: 1,
-      },
-      options: {
-        widget: "EmptyBox",
-      }},
+    
     {
       type: "Control",
       scope: "#/properties/compute",
@@ -314,7 +325,7 @@ export const PayoutProcessingUiSchema = {
       layout: {
         xs: 12,
         sm: 4,
-        md: 3,
+        md: 2,
         lg: 2,
       },
       value: {
@@ -325,24 +336,9 @@ export const PayoutProcessingUiSchema = {
           type: "text",
           funcName: "ComputeData",
           size: "large",
-        },
-        style: {
-          textAlign: "right",
-        },
+        }
       },
     },
-    {
-      type: "Control",
-      scope: "#/properties/startWorkflow",
-      layout: {
-        xs: 0,
-        sm: 0,
-        md: 0,
-        lg: 1,
-      },
-      options: {
-        widget: "EmptyBox",
-      }},
     {
       type: "Control",
       scope: "#/properties/startWorkflow",
@@ -352,7 +348,7 @@ export const PayoutProcessingUiSchema = {
       layout: {
         xs: 12,
         sm: 4,
-        md: 3,
+        md: 2,
         lg: 2,
       },
       value: {
@@ -368,6 +364,29 @@ export const PayoutProcessingUiSchema = {
           textAlign: "right",
         },
       },
-    }]}}}
+     
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "EmptyBox",
+      },
+      layout: {
+        xs: 0,
+        sm: 0,
+        md: 4,
+        lg: 4,
+      },
+    },
+  ]}}},
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "DailogBox",
+      }
+      
+    },
   ],
 };

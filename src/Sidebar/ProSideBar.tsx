@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
+
+import { navigator } from "../Logic";
+import { userValue,setUserValue } from '../Apple'; 
+import { myService } from "../service/service";
+// import { Permission } from "json2ui";
+import { Permission } from "../impaktapps-jsonforms/lib";
+
 import CircleIcon from "@mui/icons-material/Circle";
 import { actions, DataContext } from "../Reducer";
 import { useContext } from "react";
-import { navigator } from "../Logic";
-import { userValue } from "../App";
-import { myService } from "../service/service";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
+
 import {
   Sidebar,
   Menu,
@@ -15,71 +20,120 @@ import {
   SubMenu,
   // useProSidebar,
 } from "react-pro-sidebar";
+import { hasPermissions } from "./hasPermissions";
+
 import "../App.css";
 import { Box, Divider, Stack, Typography } from "@mui/material";
-
-export default function ProSidebar() {
+export default function ProSidebar(props: any) {
   const [activeValue, setActiveValue] = useState<string>("");
   const { dispatch, state } = useContext(DataContext);
   const [menu, setMenu] = useState<any>([]);
   const [search, setSearch] = useState<string>("");
   const [searchOn, setSearchOn] = useState<boolean>(false);
   const [rtlBoolean, setRtlBoolean] = useState(false);
-  // const { collapseSidebar } = useProSidebar();
+  const[filterMenu,setFilterMenu] = useState([])
+
   const callApi = async () => {
     const service = myService();
-    service
-      .get("/menu/getCompleteTree")
-      .then((res: any) => {
-        setSearchOn(false);
-        setSearch("");
-        setMenu(res.data.payload.children);
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
+    if (props.permissions.length !== 0) {
+      await service
+        .get("/menu/getCompleteTree")
+        .then((res: any) => {
+           const filterResponse = []
+            const data = res.data.payload.children.map((e: any) => {
+              const elem = [];
+              if (e.children.length > 0) {
+                const childData = e.children.map((elemChild: any) => {
+                    elem[elemChild.priority] = elemChild;
+                    return;
+                });  
+              }
+            
+             filterResponse[e.priority] = {...e,children:elem};
+              
+              return
+            }
+        
+             
+          );
+           setFilterMenu(filterResponse)
+           setMenu(filterResponse);
+          setSearchOn(false);
+          setSearch("");
+          
+       
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
   };
+
   useEffect(() => {
     callApi();
   }, [userValue]);
 
-  const clickHandler = (url: string, name) => {
-    setActiveValue(url);
+  const clickHandler = (url: string, name: any) => {
+    window.localStorage.setItem("pageName",name)
+    setActiveValue(name);
     navigator(url);
-    dispatch({ type: actions.currentMenuChange, payload: name });
+
+    // dispatch({ type: actions.currentMenuChange, payload: name });
   };
-  const searchBtn = (event: any) => {
-    const strRegExPattern = `${search}`;
-    const regex = new RegExp(strRegExPattern, "gi");
-    let searchResult = [];
-    const data = menu.filter((e) => {
+  const searchBtn = (value:string) => {
+    // const strRegExPattern = `${value}`;
+
+    const regex = new RegExp(value, "gi");
+
+    let searchResult: any[] = [];
+
+    const data = filterMenu.map((e: any) => {
+      let finalObj:any = {name:"",
+      url:null,
+      id:e.id,
+    children:[]}
+    if(regex.test(e.name)){
+      finalObj.children = e.children;
+      finalObj.name = e.name;
+      return finalObj;
+    }
       if (e.children.length > 0) {
-        const childData = e.children.filter((elemChild) => {
-          return regex.test(elemChild.name);
+        const childData = e.children.filter((elemChild: any) => {
+         const  boolean =  regex.test(elemChild.name);
+          return boolean;
+          
         });
 
         if (childData.length > 0) {
-          // setSearchOn(true);
-          //  setMenu(childData);
-          searchResult = [...searchResult, ...childData];
-          return true;
+            finalObj.children = childData;
+            finalObj.name = e.name;
+            return finalObj;
         }
       }
-      return regex.test(e.name);
-    });
-    data.length > 0 && setMenu(searchResult);
+      // else{
+        // finalObj.children = []
+        return finalObj
+      // }
+      
+    }
+
+     
+  );
+   
+    data.length > 0 && setMenu(data)
+
     data.length > 0 && setSearchOn(true);
   };
-  const enterCall = (e) => {
+  const enterCall = (e: any) => {
     if (e.key === "Enter") {
-      searchBtn("bhb");
+      searchBtn(search);
     }
   };
   return (
     <>
       <Sidebar
         collapsedWidth="0px"
-        defaultCollapsed={true}
+        defaultCollapsed={false}
         rtl={rtlBoolean}
         rootStyles={{
           border: "none",
@@ -95,6 +149,8 @@ export default function ProSidebar() {
             fullWidth
             onChange={(e) => {
               setSearch(e.target.value);
+              searchBtn(e.target.value)
+              // e.target.value ? "" : setMenu(filterMenu);
             }}
             placeholder="Search.."
             value={search}
@@ -126,11 +182,11 @@ export default function ProSidebar() {
               endAdornment: (
                 <InputAdornment position="end">
                   {searchOn ? (
-                    <IconButton onClick={(e) => callApi()}>
+                    <IconButton onClick={(e) => setMenu(filterMenu)}>
                       <SearchOffIcon />
                     </IconButton>
                   ) : (
-                    <IconButton onClick={(e) => searchBtn(e)}>
+                    <IconButton onClick={(e) => searchBtn(search)}>
                       <SearchIcon />
                     </IconButton>
                   )}
@@ -144,7 +200,6 @@ export default function ProSidebar() {
           closeOnClick={true}
           menuItemStyles={{
             button: ({ level, active, disabled }) => {
-              console.log(level);
               return {
                 color: active ? "#3f51b5" : "black",
                 backgroundColor: active ? "#e8eaf6" : undefined,
@@ -163,12 +218,16 @@ export default function ProSidebar() {
           }}
         >
           {menu.map((elem: any, i: number) => {
-            let grandChild: boolean = false;
+            const permissions = props.permissions.map((elem: string) => {
+              return new Permission(elem);
+            });
             const childPresent: boolean = elem.children.length > 0;
-
+            let permission: boolean = false;
+            let childrenPermission = hasPermissions(elem, permissions);
+            let grandChild: boolean = false;
             return (
               <>
-                {childPresent ? (
+                {childPresent && childrenPermission ? (
                   <>
                     <Typography
                       sx={{
@@ -186,6 +245,9 @@ export default function ProSidebar() {
                       if (childPresent) {
                         grandChild = childElem.children.length > 0;
                       }
+                      if (!grandChild) {
+                        permission = hasPermissions(childElem, permissions);
+                      }
                       return (
                         <>
                           {grandChild ? (
@@ -193,7 +255,12 @@ export default function ProSidebar() {
                               <SubMenu label={childElem.name}>
                                 {childElem.children.map(
                                   (grandChildElem: any) => {
-                                    return (
+                                    const page = grandChildElem.url.slice(1);
+                                    const permission = hasPermissions(
+                                      grandChildElem,
+                                      permissions
+                                    );
+                                    return permission ? (
                                       <MenuItem
                                         onClick={() =>
                                           clickHandler(
@@ -202,7 +269,7 @@ export default function ProSidebar() {
                                           )
                                         }
                                         active={
-                                          activeValue === grandChildElem.url
+                                          activeValue === grandChildElem.name
                                             ? true
                                             : false
                                         }
@@ -210,34 +277,32 @@ export default function ProSidebar() {
                                         <CircleIcon />
                                         {grandChildElem.name}
                                       </MenuItem>
-                                    );
+                                    ) : null;
                                   }
                                 )}
                               </SubMenu>
                             </>
-                          ) : (
-                            <>
-                              <MenuItem
-                                onClick={() =>
-                                  clickHandler(childElem.url, childElem.name)
-                                }
-                                active={
-                                  activeValue === childElem.url ? true : false
-                                }
-                              >
-                                <Stack spacing={2} direction={"row"}>
-                                  <CircleIcon
-                                    color={"disabled"}
-                                    sx={{
-                                      fontSize: "0.875rem",
-                                      paddingTop: "6px",
-                                    }}
-                                  />
-                                  <div> {childElem.name}</div>
-                                </Stack>
-                              </MenuItem>
-                            </>
-                          )}
+                          ) : permission ? (
+                            <MenuItem
+                              onClick={() =>
+                                clickHandler(childElem.url, childElem.name)
+                              }
+                              active={
+                                activeValue === childElem.name ? true : false
+                              }
+                            >
+                              <Stack spacing={2} direction={"row"}>
+                                <CircleIcon
+                                  color={"disabled"}
+                                  sx={{
+                                    fontSize: "0.875rem",
+                                    paddingTop: "6px",
+                                  }}
+                                />
+                                <div> {childElem.name}</div>
+                              </Stack>
+                            </MenuItem>
+                          ) : null}
                         </>
                       );
                     })}
@@ -250,25 +315,20 @@ export default function ProSidebar() {
                     />
                     {/* </SubMenu> */}
                   </>
-                ) : (
-                  <>
-                    <MenuItem
-                      onClick={() => clickHandler(elem.url, elem.name)}
-                      active={activeValue === elem.url ? true : false}
-                    >
-                      <Stack spacing={2} direction={"row"}>
-                        <CircleIcon
-                          color={"disabled"}
-                          sx={{
-                            fontSize: "0.875rem",
-                            paddingTop: "6px",
-                          }}
-                        />
-                        <div> {elem.name}</div>
-                      </Stack>
-                    </MenuItem>
-                  </>
-                )}
+                ) : childrenPermission ? (
+                  <MenuItem
+                    onClick={() => clickHandler(elem.url, elem.name)}
+                    active={activeValue === elem.name ? true : false}
+                  >
+                    <Stack spacing={2} direction={"row"}>
+                      <CircleIcon
+                        color="disabled"
+                        sx={{ fontSize: "0.875rem", paddingTop: "6px" }}
+                      />
+                      <div>{elem.name}</div>
+                    </Stack>
+                  </MenuItem>
+                ) : null}
               </>
             );
           })}

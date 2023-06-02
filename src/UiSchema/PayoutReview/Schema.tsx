@@ -1,1 +1,7 @@
-export const PayoutReviewSchema = {}
+export const PayoutReviewSchema = {
+    type: "object",
+    properties: {
+        
+    },
+    required:["programCycle", "programType"],
+}

@@ -1,8 +1,10 @@
 import { JsonFormsStateContext } from "@jsonforms/react";
 import { PayoutReviewUiSchema } from "../UiSchema/PayoutReview/UiSchema";
 import { PayoutProcessingSchema } from "../UiSchema/PayoutProcessing/Schema";
-import { userValue } from "../Apple";
+import { userValue,setUserValue } from '../Apple'; 
 import { myService } from "../service/service";
+import { validateForm } from "../utils/validateForm";
+import { PayoutReviewSchema } from "../UiSchema/PayoutReview/Schema";
 
 export const PayoutReview = (
   ctx?: JsonFormsStateContext,
@@ -10,9 +12,13 @@ export const PayoutReview = (
   setUiSchema?: any,
   setSchema?: any,
   navigate?: any,
-  otherData?: any
+  otherData?: any,
+  schema?: any,
+  setConfig?: any,
+  setAdditionalErrors?: any,
+  setNotify?: any
 ) => {
-  const service = myService();
+  const service = myService(otherData.setLoading, otherData.setDialogBox, navigate);
   return {
     setPage: async function () {
       const formdata = await this.getFormdata();
@@ -26,9 +32,9 @@ export const PayoutReview = (
     getFormdata: async () => {
       return {
         ...ctx.core.data,
-        "reportListWrapper.0.agencyRecords.0.caseReportList": [],
-        "reportListWrapper.0.agencyRecords.1.summaryReportList": [],
-        "pendingListWrapper.0.pendingActionList": [],
+        "caseReportList": [],
+        "summaryReportList": [],
+        "pendingActionList": [],
       };
     },
     getUiSchema: async function () {
@@ -42,7 +48,7 @@ export const PayoutReview = (
             return { label: elem.name, value: elem.id };
           });
           //@ts-ignore
-          uiSchema.elements[1].options.detail.elements[0].value.content.options =  data;
+          uiSchema.elements[1].elements[2].value.content.options = data;
         })
         .catch((error) => {
           console.log(error);
@@ -51,25 +57,24 @@ export const PayoutReview = (
       return uiSchema;
     },
     getSchema: () => {
-      return PayoutProcessingSchema;
+      return PayoutReviewSchema;
     },
-    loadCycle: async function(value: any){
+    loadCycle: async function (value: any) {
       const uiSchema = PayoutReviewUiSchema;
       await service.get(
-          `/programCycle/getByProgramId?id=${
-          value
-          } `
-        )
+        `/programCycle/getByProgramId?id=${value
+        } `
+      )
         .then((response: any) => {
           const result1 = response.data.payload.map((elem: any) => {
             const cycle = { label: elem.name, value: elem.id };
             return cycle;
           });
           //@ts-ignore
-          uiSchema.elements[1].options.detail.elements[1].value.content.options =
+          uiSchema.elements[1].elements[3].value.content.options =
             result1;
-            setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
-        
+          setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
+
         })
         .catch((error) => {
           // return [{}];
@@ -77,17 +82,26 @@ export const PayoutReview = (
 
     },
     loadTable: async () => {
-   
+
+      const UiSchema = PayoutReviewUiSchema;
+      if (
+        ! validateForm(schema, ctx.core.errors)
+      ) {
+        setConfig("ValidateAndShow")
+        setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
+        return;
+      } 
       const data = JSON.stringify({
         payload: {
           reportName: "case_level_report",
           reportFormat: "grid",
           params: {
-            // candidateGroup: userValue.payload.positionTypeName,
-            // candidateUser: userValue.payload.positionName,
-            // userName: userValue.payload.username,
-            programCycleId:
-              ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+            candidateGroup: userValue.payload.positionTypeName,
+            candidateUser: userValue.payload.positionName,
+            userName: userValue.payload.username,
+            programCycleId: ctx.core.data.programCycle,
+            programId: ctx.core.data.program,
+            pageName: PayoutReviewUiSchema.pageName
           },
         },
       });
@@ -100,8 +114,9 @@ export const PayoutReview = (
             candidateGroup: userValue?.payload?.positionTypeName,
             candidateUser: userValue?.payload?.positionName,
             userName: userValue?.payload?.username,
-            programCycleId:
-              ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+            programCycleId: ctx.core.data.programCycle,
+            programId: ctx.core.data.program,
+            pageName: PayoutReviewUiSchema.pageName
           },
         },
       });
@@ -114,12 +129,30 @@ export const PayoutReview = (
             candidateGroup: userValue?.payload?.positionTypeName,
             candidateUser: userValue?.payload?.positionName,
             userName: userValue?.payload?.username,
-
-            programCycleId:
-              ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+            programCycleId: ctx.core.data.programCycle,
+            programId: ctx.core.data.program,
+            pageName: PayoutReviewUiSchema.pageName,
           },
         },
       });
+      const myObj = {
+        payload:{
+          candidateGroup: userValue.payload.positionTypeName,
+          candidateUser: userValue.payload.positionName,
+          userName: userValue.payload.username,
+          programCycleId: ctx.core.data.programCycle,
+        
+          pageName: PayoutReviewUiSchema.pageName
+        }
+      }
+     const setAction = await service
+      .post("/workflow/getActionListOnCandidateUserAndGroup",myObj).then((res)=>{
+      
+        console.log(res)
+        const options = res.data.payload.map((e:string|number)=>{ return {label:e,value:e}})
+        //@ts-ignore
+        UiSchema.elements[3].elements[5].value.content.options = options
+    })
       const tablesData: Array<any> = [];
       await service
         .post("/workflow/generateReport", data, {
@@ -150,19 +183,18 @@ export const PayoutReview = (
           tablesData.push(response.data.payload.reportData.values);
           setFormdata({
             ...ctx.core.data,
-            "reportListWrapper.0.agencyRecords.0.caseReportList": tablesData[0],
-            "reportListWrapper.0.agencyRecords.1.summaryReportList":
-              tablesData[1],
-            "pendingListWrapper.0.pendingActionList": tablesData[2],
+            "caseReportList": tablesData[0],
+            "summaryReportList": tablesData[1],
+            "pendingActionList": tablesData[2],
           });
         })
         .catch((error) => {
           console.log(error);
           setFormdata({
             ...ctx.core.data,
-            "reportListWrapper.0.agencyRecords.0.caseReportList": [],
-            "reportListWrapper.0.agencyRecords.1.summaryReportList": [],
-            "pendingListWrapper.0.pendingActionList": [],
+            "caseReportList": [],
+            "summaryReportList": [],
+            "pendingActionList": [],
           });
         });
 
@@ -170,14 +202,23 @@ export const PayoutReview = (
       return tablesData;
     },
     actionFunction: async function () {
-      const taskMapList = ctx.core.data[
-        "pendingListWrapper.0.pendingActionListSelectedRowData"
-      ].map((elem: any) => {
+      if (ctx.core.data.remarks === undefined || ctx.core.data.remarks === "") {
+        setNotify({ FailMessage: "Please Enter Remarks To Proceed Further", Fail: true, })
+        return;
+      } 
+      if (ctx.core.data.actions === undefined || ctx.core.data.actions === null) {
+        setNotify({ FailMessage: "Please Select Action To Proceed Further", Fail: true, })
+        return;
+      } 
+      if (ctx.core.data["pendingActionListSelectedRowData"] === undefined || ctx.core.data["pendingActionListSelectedRowData"].length === 0) {
+        setNotify({ FailMessage: "Please Select Pending Tasks To Take Action", Fail: true, })
+        return;
+      } 
+      console.log(ctx.core.data)
+      const taskMapList = ctx.core.data["pendingActionListSelectedRowData"].map((elem: any) => {
         return {
-          taskId: elem.id,
-
+          taskId: `${elem.id}`,
           businessKey: elem.businessKey,
-
           businessKeyType: elem.businessKeyType,
         };
       });
@@ -186,7 +227,7 @@ export const PayoutReview = (
           taskMapList: taskMapList,
           completionMap: {
             action: ctx.core.data.actions,
-            remarks:ctx.core.data.remarks
+            remarks: ctx.core.data.remarks
           },
         },
       };
@@ -202,18 +243,17 @@ export const PayoutReview = (
         })
         .then((response) => {
           const message =
-            ctx.core.data.actions === "reject" ? "Rejected" : "Approved";
+            ctx.core.data.actions === "Reject" ? "Rejected" : "Approved";
           setFormdata({
             ...ctx.core.data,
-            "reportListWrapper.0.agencyRecords.0.caseReportList": response[0],
-            "reportListWrapper.0.agencyRecords.1.summaryReportList":
-              response[1],
-            "pendingListWrapper.0.pendingActionList": response[2],
-            notifySuccess: message,
+            "caseReportList": response[0],
+            "summaryReportList": response[1],
+            "pendingActionList": response[2],
           });
+          setNotify({ SuccessMessage: message, Success: true, })
         })
         .catch((error) => {
-          console.log(error);
+          setNotify({ FailMessage: "Error", Fail: true, })
         });
     },
   };

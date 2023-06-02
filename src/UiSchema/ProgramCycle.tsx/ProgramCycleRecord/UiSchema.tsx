@@ -40,6 +40,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                   icon: "AddIcon",
                   size:"small",
                   styleDefault: true,
+                  tooltipMessage:"Add New Record",
 
                   funcName: "addNewRecords",
                 },
@@ -79,6 +80,14 @@ export const ProgramMasterCycleRecordUiSchema = {
                     widget: "api",
                   },
                   {
+                    field: "name",
+                    // width: "80",
+                    flex:1,
+                    headerName: "Cycle Name",
+                    cellOverflow:"wrap",
+                    widget: "api",
+                  },
+                  {
                     field: "program",
                     // width: "80",
                     flex:1,
@@ -115,7 +124,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                           color:"info",
                           size:"small",
                           icon: "EditIcon",
-                        
+                          tooltipMessage:"Edit This Record",
                         },
                         style: {
                           color:"#3949ab"
@@ -139,6 +148,12 @@ export const ProgramMasterCycleRecordUiSchema = {
                     flex:1,
                     align:"right",
                     hide: true,
+                    widget: "api",
+                  },
+                  {
+                    field: "name",
+                    flex:1,
+                    headerName: "Cycle Name",
                     widget: "api",
                   },
                   {
@@ -174,7 +189,8 @@ export const ProgramMasterCycleRecordUiSchema = {
                       value: {
                         content: {
                           icon: "ApproveIcon",
-                          color:"success"
+                          color:"success",
+                          tooltipMessage:"Approve This Record",
                         },
 
                       },
@@ -194,8 +210,8 @@ export const ProgramMasterCycleRecordUiSchema = {
                       value: {
                         content: {
                           icon: "RejectIcon",
-                          color:"error"
-                         
+                          color:"error",
+                          tooltipMessage:"Reject This Record",
                         }
                       },
                     },
@@ -216,6 +232,12 @@ export const ProgramMasterCycleRecordUiSchema = {
                   // width: "100",
                   flex: 1,
                   hide: true,
+                  widget: "api",
+                },
+                {
+                  field: "name",
+                  flex:1,
+                  headerName: "Cycle Name",
                   widget: "api",
                 },
                 {
@@ -253,6 +275,13 @@ export const ProgramMasterCycleRecordUiSchema = {
         widget: "Notify",
       },
       layout: 6,
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "DailogBox",
+      }
     },
   ],
 };

@@ -1,25 +1,33 @@
 export const ProgramMasterCycleSchema = {
   type: "object",
   properties: {
-    Core: {
-      type: "object",
-      properties: {},
+    name: {
+      type: "string",
+      minLength: 3,
     },
-    workflow: {
-      type: "object",
-      properties: {},
+    program: {
+      type: "string",
     },
-   invoice : {
-      type: "object",
-      properties: {},
+    
+    workflowFile: {
+      type: "string",
+      minLength: 3,
     },
-    Reports: {
-      type: "object",
-      properties: {},
+    processDefKey1: {
+      type: "string",
+      minLength: 3,
     },
-    Clawback: {
-      type: "object",
-      properties: {},
+    invoiceFile: {
+      type: "string",
+      minLength: 3,
+    },
+    invoiceEnabled: {
+      type: "string",
+    },
+    clawbackEnabled:{
+      type: "string",
     }
   },
+  required: ["name", "program", "startDate", "endDate", "workflowFile", "processDefKey1", "invoiceFile",
+    "invoiceEnabled", "reportNames", "clawbackEnabled"],
 };

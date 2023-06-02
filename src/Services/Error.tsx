@@ -7,7 +7,11 @@ import { ErrorPageUischema } from "../UiSchema/Errorpage/Uischema";
   setUiSchema?: any,
   setSchema?: any,
   navigate?: any,
-  otherData?: any
+  otherData?: any,
+  schema?: any,
+  setConfig?: any,
+  setAdditionalErrors?: any,
+  setNotify?:any
 ) => {
   // const [user, setUser] = useLocalStorage("user", null);
   return {

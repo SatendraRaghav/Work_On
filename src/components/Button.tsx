@@ -5,10 +5,10 @@ export const Button =  {
       widget: "Button",
     },
     layout: {
-      xs: 12,
-      sm: 12,
-      md: 6,
-      lg: 6,
+      xs: 11,
+      sm: 11,
+      md: 5.5,
+      lg: 5.5,
     },
     value: {
       content: {
@@ -20,7 +20,8 @@ export const Button =  {
         size: "large"
       },
       style: {
-        textAlign: "right",
+        width:"30%",
+       float: "right",
       },
     },
   }

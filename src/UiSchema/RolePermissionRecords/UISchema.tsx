@@ -18,7 +18,7 @@ export const  RolePermissionRecordsUISchema = {
               },
               value: {
                 content: {
-                  heading: " Program Master",
+                  heading: "Role Permission Master",
                 },
                 style: {
                   // marginTop: "18px",
@@ -50,7 +50,7 @@ export const  RolePermissionRecordsUISchema = {
                   icon: "AddIcon",
                   size:"small",
                   styleDefault: true,
-
+                  tooltipMessage:"Add New Record",
                   "funcName":"newRecord",
                 },
                 style: {
@@ -80,7 +80,7 @@ export const  RolePermissionRecordsUISchema = {
     },
     {
       "type": "Control",
-      "scope": "#/properties/agencyRecords",
+      "scope": "#/properties/RolePermissionRecords",
       "labels": ["Approve", "Pending", "Reject"],
       "options": {
         "widget": "Tab",
@@ -106,7 +106,7 @@ export const  RolePermissionRecordsUISchema = {
                     "widget": "api"
                   },
                   {
-                    "field": "name",
+                    "field": "permName",
                     flex: 200,
                     "headerName": "Name",
                     "widget": "api"
@@ -125,9 +125,8 @@ export const  RolePermissionRecordsUISchema = {
                         content: {
                           color:"info",
                           size:"small",
-                          funcName:"Edit_Approve_Records",
                           icon: "EditIcon",
-                          page:"ProgramMasterCycle"
+                          tooltipMessage:"Edit This Record",
                         },
                         style: {
                           color:"#3949ab"
@@ -158,7 +157,7 @@ export const  RolePermissionRecordsUISchema = {
                     "widget": "api"
                   },
                   {
-                    "field": "name",
+                    "field": "permName",
                     flex:1,
                     "headerName": "Name",
                     "widget": "api"
@@ -177,7 +176,8 @@ export const  RolePermissionRecordsUISchema = {
                       "value": {
                         "content": {
                           icon: "ApproveIcon",
-                          color:"success"
+                          color:"success",
+                          tooltipMessage:"Approve this Record",
                         }
                       }
                     }
@@ -196,7 +196,8 @@ export const  RolePermissionRecordsUISchema = {
                       "value": {
                         "content": {
                           icon: "RejectIcon",
-                          color:"error"
+                          color:"error",
+                          tooltipMessage:"Reject This Record",
                         }
                       }
                     }
@@ -220,7 +221,7 @@ export const  RolePermissionRecordsUISchema = {
                     "widget": "api"
                   },
                   {
-                    "field": "name",
+                    "field": "permName",
                     "width": "80",
                     "headerName": "Name",
                     "widget": "api"
@@ -231,6 +232,21 @@ export const  RolePermissionRecordsUISchema = {
           ]
         }
       }
-    }
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "Notify",
+      },
+      layout: 6,
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "DailogBox",
+      }
+    },
   ]
 }

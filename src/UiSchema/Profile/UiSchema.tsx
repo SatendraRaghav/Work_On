@@ -10,7 +10,7 @@ export const ProfileUiSchema = {
         },
         "value": {
           "content": {
-            "heading": "Welcome to Hyperform",
+            "heading": "Profile",
           },
           style:{
              marginTop:"20%",

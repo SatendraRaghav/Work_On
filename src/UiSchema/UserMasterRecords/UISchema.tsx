@@ -41,6 +41,7 @@ export const  UserMasterRecordsUISchema = {
                   size:"small",
                   styleDefault: true,
                   "funcName":"newRecord",
+                  tooltipMessage:"Add New Record",
                 },
                 style: {
                   float: "right",
@@ -67,7 +68,7 @@ export const  UserMasterRecordsUISchema = {
     },
     {
       "type": "Control",
-      "scope": "#/properties/agencyRecords",
+      "scope": "#/properties/UserMasterRecords",
       "labels": ["Approve", "Pending", "Reject"],
       "options": {
         "widget": "Tab",
@@ -96,7 +97,7 @@ export const  UserMasterRecordsUISchema = {
                   
                     "field": "name",
                    flex:1,
-                    "headerName": "Name",
+                    "headerName": "Login ID",
                     "widget": "api"
                   },
 {
@@ -108,14 +109,7 @@ export const  UserMasterRecordsUISchema = {
 {
                     "field": "firstName",
                     flex:1,
-                    "headerName": "FirstName",
-                    "widget": "api"
-                  },
-{
-                    "field": "RefNo",
-                    flex:1,
-                    align:"right",
-                    "headerName": "ref No",
+                    "headerName": "First Name",
                     "widget": "api"
                   },
 {
@@ -123,7 +117,8 @@ export const  UserMasterRecordsUISchema = {
                     flex:1,
                     "headerName": "Last Name",
                     "widget": "api"
-                  },			
+                  },	
+                 	
 {
                     "field": "crn",
                     flex:1,
@@ -147,6 +142,7 @@ export const  UserMasterRecordsUISchema = {
                           color:"info",
                           size:"small",
                           icon: "EditIcon",
+                          tooltipMessage:"Edit This Record",
                         
                         },
                         style: {
@@ -180,7 +176,7 @@ export const  UserMasterRecordsUISchema = {
                   {
                     "field": "name",
                      flex:1,
-                    "headerName": "Name",
+                    "headerName": "Login ID",
                     "widget": "api"
                   },
 {
@@ -192,27 +188,18 @@ export const  UserMasterRecordsUISchema = {
 {
                     "field": "firstName",
                     flex:1,
-                    "headerName": "FirstName",
+                    "headerName": "First Name",
                     "widget": "api"
                   },
-{
-                    "field": "middleName",
-                    flex:1,
-                    "headerName": "Middle Name",
-                    "widget": "api"
-                  },
-{
-                    "field": "refNo",
-                    flex:1,
-                    "headerName": "ref No",
-                    "widget": "api"
-                  },
-{
+
+                  {
                     "field": "lastName",
                     flex:1,
                     "headerName": "Last Name",
                     "widget": "api"
-                  },			
+                  },		
+
+	
 {
                     "field": "crn",
                     flex:1,
@@ -233,7 +220,8 @@ export const  UserMasterRecordsUISchema = {
                       "value": {
                         "content": {
                           icon: "ApproveIcon",
-                          color:"success"
+                          color:"success",
+                          tooltipMessage:"Approve This Record",
                         }
                       }
                     }
@@ -252,7 +240,8 @@ export const  UserMasterRecordsUISchema = {
                       "value": {
                         "content": {
                           icon: "RejectIcon",
-                          color:"error"
+                          color:"error",
+                          tooltipMessage:"Reject This Record",
                         }
                       }
                     }
@@ -278,7 +267,7 @@ export const  UserMasterRecordsUISchema = {
                   {
                     "field": "name",
                     flex:1,
-                    "headerName": "Name",
+                    "headerName": "Login ID",
                     "widget": "api"
                   },
 {
@@ -290,28 +279,20 @@ export const  UserMasterRecordsUISchema = {
 {
                     "field": "firstName",
                     flex:1,
-                    "headerName": "FirstName",
+                    "headerName": "First Name",
                     "widget": "api"
                   },
-{
-                    "field": "middleName",
-                    flex:1,
-                    "headerName": "Middle Name",
-                    "widget": "api"
-                  },
-{
-                    "field": "refNo",
-                    flex:1,
-                    "headerName": "ref No",
-                    "widget": "api"
-                  },
+
+
 {
                     "field": "lastName",
                     flex:1,
                     "headerName": "Last Name",
                     "widget": "api"
                   },			
+                 
 {
+
                     "field": "crn",
                     flex:1,
                     "headerName": "CRN",
@@ -319,10 +300,25 @@ export const  UserMasterRecordsUISchema = {
                   },				  
                 ]
               }
-            }
+            },
           ]
         }
       }
-    }
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "DailogBox",
+      }
+    },
+            {
+              type: "Control",
+              scope: "#/properties/notify",
+              options: {
+                widget: "Notify",
+              },
+              layout: 6,
+            }
   ]
 }

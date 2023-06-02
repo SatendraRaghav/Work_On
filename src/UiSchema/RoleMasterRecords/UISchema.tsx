@@ -48,7 +48,7 @@ export const  RoleMasterRecordsUISchema = {
                   icon: "AddIcon",
                   size:"small",
                   styleDefault: true,
-
+                  tooltipMessage:"Add New Record",
                   funcName: "newRecord",
                 },
                 style: {
@@ -76,7 +76,7 @@ export const  RoleMasterRecordsUISchema = {
     },
     {
       "type": "Control",
-      "scope": "#/properties/agencyRecords",
+      "scope": "#/properties/RoleMasterRecords",
       "labels": ["Approve", "Pending", "Reject"],
       "options": {
         "widget": "Tab",
@@ -120,12 +120,15 @@ export const  RoleMasterRecordsUISchema = {
                       },
                       "value": {
                         "content": {
-                          "name": "Edit",
-                          "variant": "outlined",
-                          "color": "success",
-                          "type": "button",
-                          "size": "large"
-                        }
+                          color:"info",
+                          size:"small",
+                          tooltipMessage:"Edit This Record",
+                          
+                          icon: "EditIcon",
+                        },
+                        style: {
+                          color:"#3949ab"
+                        },
                       }
                     }
                   }
@@ -170,9 +173,9 @@ export const  RoleMasterRecordsUISchema = {
                       },
                       "value": {
                         "content": {
-                          "name": "Approve",
-                          "variant": "outlined",
-                          "color": "success"
+                          icon: "ApproveIcon",
+                          color:"success",
+                          tooltipMessage:"Approve This Record",
                         }
                       }
                     }
@@ -190,10 +193,9 @@ export const  RoleMasterRecordsUISchema = {
                       },
                       "value": {
                         "content": {
-                          "name": "Reject",
-                          "variant": "outlined",
-                          "color": "error",
-                          "eventName": "BackToAgencyApproveRecords"
+                          icon: "RejectIcon",
+                          color:"error",
+                          tooltipMessage:"Reject This Record",
                         }
                       }
                     }
@@ -228,6 +230,21 @@ export const  RoleMasterRecordsUISchema = {
           ]
         }
       }
-    }
+    },
+    {
+      type: "Control",
+      scope: "#/properties/notify",
+      options: {
+        widget: "Notify",
+      },
+      layout: 6,
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "DailogBox",
+      }
+    },
   ]
 }

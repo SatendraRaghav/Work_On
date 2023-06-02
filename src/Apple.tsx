@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import App from './App'
+// import Hyperform from './impaktapps-jsonforms/core/Hyperform/Hyperform';
 import { HomeObjFunc, objFunc } from './Logic'
 import Header from './Header/Header';
 import ProSidebar from './Sidebar/ProSideBar';
 import LoginHeader from './Header/LoginHeader';
-
+import App from "./impaktapps-jsonforms/core/App/App"
 import { actions, DataContext, DataProvider } from "./Reducer";
 import { useContext } from "react";
 import { useLocalStorage } from "./Authentication/useLocalStorage";
@@ -14,7 +14,6 @@ export let setUserValue: any;
 import './App.css'
 function Apple() {
   const { collapsed } = useProSidebar();
-  const { dispatch, state } = useContext(DataContext);
   const [user, setUser] = useLocalStorage("user", null);
   useEffect(() => {
     userValue = user;
@@ -27,16 +26,16 @@ function Apple() {
   }, []);
   return (
     <>
-      {user?.payload?.token ? (
+     {user?.payload?.token ? (
         <>
           <Header />
-          <ProSidebar />
-          <div style={{ display: "flex", flexDirection: "row", width: "auto" }}>
-            <div style={{ width: collapsed ? 0 : 330 }} >
+          <ProSidebar permissions={user.payload.permissions} />
+          <div style={{ width: "100%" ,display:"flex"}}>
+            <div style={{ width: collapsed ? 0 : "240px" }} >
           
             </div>
-            <div style={{ width: "100%" }}>
-              <App objFunc={objFunc}  />
+            <div style={{ width:collapsed?"97.8%": "calc(98% - 250px)"}}>
+              <App objFunc={objFunc} permissions={user.payload.permissions} />
             </div>
           </div>
         </>
@@ -44,7 +43,8 @@ function Apple() {
       : (<>
         <LoginHeader />
         <App objFunc={HomeObjFunc} />
-   </> )}  </>
+   </> )} 
+ </>
   );
 }
 

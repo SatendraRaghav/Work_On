@@ -11,13 +11,13 @@ export const ExternalDataUiSchema = {
           elements: [
             {
               type: "Control",
-              scope: "#/properties/programType",
-              layout: 5.5,
+              scope: "#/properties/pageHeading",
               options: {
                 widget: "Box",
               },
-              value: {
-                content: {
+              config: {
+                layout: 5.5,
+                main: {
                   heading: "External Data",
                 },
               },
@@ -28,134 +28,156 @@ export const ExternalDataUiSchema = {
               options: {
                 widget: "EmptyBox",
               },
-              layout: 5.5,
+              config: {
+                layout: 5.5,
+              },
             },
           ],
         },
       },
     },
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/programType",
-              layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
-              options: {
-                widget: "SelectInputField",
-              },
-              value: {
-                content: {
-                  label: "Program",
-                  // variant:"standard",
-                  options: [{}],
-                  color: "secondary",
-                  conditionalLoadFunc: "typeLoadFunction",
-                },
-                style: {
-                  background: "white",
-                },
-              },
-            },
-            {
-              type: "Control",
-              scope: "#/properties/agencyType",
-              layout: {
-                xs: 11,
-                sm: 11,
-                md: 5.5,
-                lg: 5.5,
-              },
-              options: {
-                widget: "SelectInputField",
-              },
-              value: {
-                content: {
-                  label: "Type",
-                  options: [{}],
-                },
-                style: {
-                  marginTop: "35px",
-                },
-              },
-            },
-            {
-              type: "Control",
-              scope: "#/properties/programType",
-              layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
-              options: {
-                widget: "Box",
-              },
-              value: {
-                content: {
-                  heading: "Choose Your Workflow File :",
-                },
-                style:{
-                  color:"#828f9f",
-                  paddingTop:"8px"
-                  // textAlign:"center"
-                }
-              },
-            },
-            {
-              type: "Control",
-              scope: "#/properties/docAggrementCopy",
-              options: {
-                widget: "FileInputField",
-              },
-              layout: {
-                xs: 11,
-                sm: 11,
-                md: 5.5,
-                lg: 5.5,
-              },
-              value: {
-                content: {
-                  label: "Upload File",
-                  required: false,
-                  funcName: "uploadFile",
-                },
-                style: {
-                  backgroundColor: "none",
-                },
-              },
-            },
+      type: "HorizontalLayout",
+      defaultStyle: true,
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/heading",
 
-            {
-              type: "Control",
-              scope: "#/properties/LoginPage",
-              options: {
-                widget: "Button",
-              },
-              layout: 11.5,
-              value: {
-                content: {
-                  name: "Load",
-                  variant: "contained",
-                  color: "info",
-                  type: "text",
-                  funcName: "loadData",
-                  size: "large",
-                },
-                style: {
-                  float: "right",
-                  width: {
-                    xs: "90%",
-                    sm:  "90%",
-                    md:"20%",
-                    lg: "10%",
-                  },
-                },
+          options: {
+            widget: "Box",
+          },
+          config: {
+            layout: 11.5,
+            main: {
+              heading: "Load External Data",
+              dividerAvailable: true,
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/EmptyBox",
+          options: {
+            widget: "EmptyBox",
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/programType",
+
+          options: {
+            widget: "SelectInputField",
+          },
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
+              label: "Program",
+              options: [{}],
+              color: "secondary",
+              click: "typeLoadFunction",
+            },
+            style: {
+              background: "white",
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/fileType",
+          options: {
+            widget: "SelectInputField",
+          },
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
+              label: "Type",
+              click: "clearFileName",
+              options: [{}],
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/uploadAggrementCopy",
+          options: {
+            widget: "UploadFile",
+          },
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
+              required: false,
+              click: "uploadFile",
+              // iconStyleDefault:true,
+            },
+            style: {
+              backgroundColor: "none",
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/downloadAggrementCopy",
+          options: {
+            widget: "DownloadFile",
+          },
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
+              required: false,
+              click: "Download_File",
+              // iconStyleDefault:true,
+            },
+            style: {
+              backgroundColor: "none",
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/loadDataBtn",
+          options: {
+            widget: "Button",
+          },
+          layout: 11.5,
+          config: {
+            main: {
+              name: "Load",
+              variant: "contained",
+              color: "info",
+              type: "text",
+              tooltipMessage: "Load Data",
+
+              funcName: "loadData",
+              size: "large",
+            },
+            style: {
+              float: "right",
+              width: {
+                xs: "90%",
+                sm: "90%",
+                md: "20%",
+                lg: "10%",
               },
             },
-          ],
+          },
         },
-      },
+      ],
     },
     {
       type: "Control",
@@ -167,69 +189,83 @@ export const ExternalDataUiSchema = {
     },
     {
       type: "Control",
-      scope: "#/properties/reportListWrapper",
-      label: "External Data List",
+      scope: "#/properties/EmptyBox",
       options: {
-        widget: "Wrapper",
-        // label:"External Data List",
-        detail: {
-          // label:"External Data List",
-          type: "HorizontalLayout",
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/LoadRecords",
-              layout: 11,
-              options: {
-                widget: "Table",
-                loadFunction: "tableLoadFunction",
-                tableStyle: {
-                  backgroundColor: "#F5F5F5",
-                },
-                buttonInStarting: false,
-                ApiDetails: {
-                  DataApi: "",
-                  DataApiBody: {},
-                },
-                columns: [
+        widget: "DailogBox",
+      },
+    },
+    {
+      type: "HorizontalLayout",
+      defaultStyle: true,
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/pageHeading",
+          layout: 11.5,
+          options: {
+            widget: "Box",
+          },
+          config: {
+            main: {
+              heading: "External Data List",
+              dividerAvailable: true,
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/EmptyBox",
+          options: {
+            widget: "EmptyBox",
+          },
+          layout: 5.5,
+        },
+
+        //Table xcvbnhjklcvbn ghjkl; gukhilj;olk;lghbjnkml,; yguhijok'pl[ yuij;ok'p;l' ghjl;' vghbjnk]
+        {
+          type: "Control",
+          scope: "#/properties/LoadRecords",
+          layout: 11.5,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              // allRowsData:,
+              columns: {
+                dataColumns: [
                   {
-                    field: "id",
-                    headerName: "Id",
-                    width: "40",
-                    widget: "api",
+                    accessorKey: "id",
+                    header: "Id",
                   },
                   {
-                    field: "name",
-                    flex: 1,
-                    headerName: "Name",
-                    widget: "api",
+                    accessorKey: "name",
+                    header: "Name",
                   },
                   {
-                    field: "type",
-                    headerName: "Type",
-                    flex: 1,
-                    widget: "api",
+                    accessorKey: "type",
+                    header: "Type",
                   },
                   {
-                    field: "createdOn",
-                    width: "240",
-                    headerName: "Updated Time",
-                    widget: "api",
+                    accessorKey: "createdOn",
+                    header: "Updated Time",
                   },
+                ],
+                actionColumns: [
                   {
-                    headerName: "Download_File",
-                    field: "Download_File",
+                    header: "Download File",
+                    accessorKey: "Download_File_Table",
                     width: "120",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Edit_Records",
                       options: {
-                        widget: "Button",
+                        widget: "IconButton",
                       },
-                      value: {
-                        content: {
-                          color:"info",
-                          size:"small",
+                      config: {
+                        main: {
+                          size: "small",
+                          click: "Download_File_Table",
                           icon: "DownloadIcon",
                         },
                       },
@@ -238,9 +274,9 @@ export const ExternalDataUiSchema = {
                 ],
               },
             },
-          ],
+          },
         },
-      },
+      ],
     },
   ],
 };

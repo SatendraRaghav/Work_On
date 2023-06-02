@@ -11,9 +11,13 @@ export const PayoutProcessing = (
   setUiSchema?: any,
   setSchema?: any,
   navigate?: any,
-  otherData?: any
+  otherData?: any,
+  schema?: any,
+  setConfig?: any,
+  setAdditionalErrors?: any,
+  setNotify?:any
 ) => {
-  const service = myService();
+  const service =  myService(otherData.setLoading, otherData.setDialogBox, navigate);
   return {
     setPage: async function () {
       var formdata = await this.getFormdata();
@@ -40,7 +44,7 @@ export const PayoutProcessing = (
             return { label: elem.name, value: elem.id };
           });
           //@ts-ignore
-          uiSchema.elements[2].options.detail.elements[0].value.content.options =
+          uiSchema.elements[2].options.detail.elements[2].value.content.options =
             data;
         })
         .catch((error) => {
@@ -68,7 +72,7 @@ export const PayoutProcessing = (
             return cycle;
           });
           //@ts-ignore
-          uiSchema.elements[2].options.detail.elements[1].value.content.options =
+          uiSchema.elements[2].options.detail.elements[3].value.content.options =
             result1;
           setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         })
@@ -103,12 +107,13 @@ export const PayoutProcessing = (
           exceptionData = response;
           setFormdata({
             ...ctx.core.data,
-            notifySuccess: "Data Loaded Successfully",
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
           setUiSchema(PayoutProcessingUiSchema);
           setSchema({});
+          setNotify({SuccessMessage:"Data Loaded Successfully",Success:true,})
+
         })
         .catch((error) => {
           console.log(error);
@@ -117,6 +122,8 @@ export const PayoutProcessing = (
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
+          setNotify({FailMessage:"Data Loading Failed",Fail:true,})
+
         });
     },
     ComputeData: async function () {
@@ -145,12 +152,13 @@ export const PayoutProcessing = (
           exceptionData = response;
           setFormdata({
             ...ctx.core.data,
-            notifySuccess: "Data Compute Has Been Completed",
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
 
           setUiSchema(PayoutProcessingUiSchema);
+          setNotify({SuccessMessage:"Data Compute process completed",Success:true,})
+
         })
         .catch((err) => {
           setFormdata({
@@ -158,6 +166,8 @@ export const PayoutProcessing = (
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
+          setNotify({FailMessage:"Data Compute process failed",Fail:true,})
+
         });
     },
     SartWorkflow: function () {
@@ -186,12 +196,14 @@ export const PayoutProcessing = (
           exceptionData = response;
           setFormdata({
             ...ctx.core.data,
-            notifyInfo: "Workflow Has Been Started",
+            notifySuccess: "",
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
 
           setUiSchema(PayoutProcessingUiSchema);
+          setNotify({SuccessMessage:"Workflow Has Been Started",Success:true,})
+
         })
         .catch((error) => {
           console.log(error);
@@ -218,6 +230,9 @@ export const PayoutProcessing = (
         })
         .then((response: any) => {
           const result = response.data.payload;
+          result?.sort(function compare(a: any, b: any) {
+            return b.modifiedOn - a.modifiedOn;
+          });
           const tempAuditData = result?.map((elem: any) => {
             const timestamp1 = elem.createdOn;
             const timestamp2 = elem.modifiedOn;
@@ -288,6 +303,9 @@ export const PayoutProcessing = (
         .get("/exception/getAll?withData=false")
         .then((response: any) => {
           const result = response.data.payload;
+          result?.sort(function compare(a: any, b: any) {
+            return b.modifiedOn - a.modifiedOn;
+          });
           const tempExpenseData = result?.map((elem: any) => {
             const timestamp1 = elem.createdOn;
             const timestamp2 = elem.modifiedOn;

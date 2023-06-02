@@ -1,7 +1,7 @@
 import { JsonFormsStateContext } from "@jsonforms/react";
-import { myLoginService } from "../service/service";
+import { loginService } from "../service/service";
 import axios from "axios";
-import { setUserValue,userValue } from "../App";
+import { setUserValue,userValue } from "../impaktapps-jsonforms/core/Hyperform/Hyperform";
 import { ProfileUiSchema } from "../UiSchema/Profile/UiSchema";
 
  const Profile = (
@@ -10,7 +10,11 @@ import { ProfileUiSchema } from "../UiSchema/Profile/UiSchema";
   setUiSchema?: any,
   setSchema?: any,
   navigate?: any,
-  otherData?: any
+  otherData?: any,
+  schema?: any,
+  setConfig?: any,
+  setAdditionalErrors?: any,
+  setNotify?:any
 ) => {
   return {
     setPage: function () {

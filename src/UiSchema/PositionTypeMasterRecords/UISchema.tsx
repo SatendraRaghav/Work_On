@@ -18,7 +18,7 @@ export const  PositionTypeMasterRecordsUISchema = {
               },
               value: {
                 content: {
-                  heading: "Program Type Master",
+                  heading: "Position Type Master",
                 }
               },
             },
@@ -40,7 +40,7 @@ export const  PositionTypeMasterRecordsUISchema = {
                   icon: "AddIcon",
                   size:"small",
                   styleDefault: true,
-
+                  tooltipMessage:"Add New Record", 
                   "funcName":"newRecord",
                 },
                 style: {
@@ -68,7 +68,7 @@ export const  PositionTypeMasterRecordsUISchema = {
     },
     {
       "type": "Control",
-      "scope": "#/properties/agencyRecords",
+      "scope": "#/properties/PositionTypeRecords",
       "labels": ["Approve", "Pending", "Reject"],
       "options": {
         "widget": "Tab",
@@ -111,7 +111,7 @@ export const  PositionTypeMasterRecordsUISchema = {
                           color:"info",
                           size:"small",
                           icon: "EditIcon",
-                        
+                          tooltipMessage:"Edit This Record",
                         },
                         style: {
                           color:"#3949ab"
@@ -154,9 +154,9 @@ export const  PositionTypeMasterRecordsUISchema = {
                       },
                       "value": {
                         "content": {
-                          "name": "Approve",
-                          "variant": "outlined",
-                          "color": "success"
+                          icon: "ApproveIcon",
+                          color:"success",
+                          tooltipMessage:"Approve This Record",
                         }
                       }
                     }
@@ -174,10 +174,9 @@ export const  PositionTypeMasterRecordsUISchema = {
                       },
                       "value": {
                         "content": {
-                          "name": "Reject",
-                          "variant": "outlined",
-                          "color": "error",
-                          "eventName": "BackToAgencyApproveRecords"
+                          icon: "RejectIcon",
+                          color:"error",
+                          tooltipMessage:"Reject This Record",
                         }
                       }
                     }
@@ -211,6 +210,21 @@ export const  PositionTypeMasterRecordsUISchema = {
           ]
         }
       }
-    }
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "Notify",
+      },
+      layout: 6,
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "DailogBox",
+      }
+    },
   ]
 }

@@ -7,95 +7,109 @@ export const MasterRecords = (
   setFormdata?: any,
   setUiSchema?: any,
   setSchema?: any,
-  navigate?:any,
-  otherData?: any
+  navigate?: any,
+  otherData?: any,
+  schema?: any,
+  setConfig?: any,
+  setAdditionalErrors?: any,
+  setNotify?: any
 ) => {
-  const serviceApi = myService()
+  const serviceApi = myService(
+    otherData.setLoading,
+    otherData.setDialogBox,
+    navigate
+  );
   return {
     setPage: async function () {
-      // setFormdata({})
+      setFormdata({});
       const schema = this.getSchema();
       setSchema(schema);
-      const UiSchema = this.getUiSchema();
+      const UiSchema = await this.getUiSchema();
       setUiSchema(UiSchema);
       const formData = await this.getFormData();
       setFormdata(formData);
     },
     getFormData: async () => {
-      const formData: any = {};
-      const ApiApprove =
+      return {};
+    },
+    getUiSchema: async () => {
+      const UiSchema = JSON.parse(JSON.stringify(ProgramMasterRecordUiSchema));
+      console.log(UiSchema);
+      const Api =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramStaging&status=A";
-        const ApiPending =
+      const ApiPending =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramStaging&status=N";
-        const ApiReject =
+      const ApiReject =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramStaging&status=R";
-      const data =  await serviceApi
-        .get(ApiApprove)
+      const data = await serviceApi
+        .get(Api)
         .then((res) => {
-          formData["ProgramCycleRecords.0.ApproveRecords"] =  res.data.payload;
+          UiSchema.elements[1].elements[0].config.main.allRowsData =
+            res.data.payload;
+
           return serviceApi.get(ApiPending);
         })
         .then((res) => {
-          formData["ProgramCycleRecords.1.PendingRecords"] =  res.data.payload;
+          UiSchema.elements[1].elements[1].config.main.allRowsData =
+            res.data.payload;
           return serviceApi.get(ApiReject);
         })
         .then((res) => {
-          formData["ProgramCycleRecords.2.RejectRecords"] =  res.data.payload;
-          return formData
+          UiSchema.elements[1].elements[2].config.main.allRowsData =
+            res.data.payload;
+          // return UiSchema;
         })
         .catch((err) => {
-          formData["ProgramCycleRecords.0.ApproveRecords"] =  [];
-          formData["ProgramCycleRecords.1.PendingRecords"] =  [];
-          formData["ProgramCycleRecords.2.RejectRecords"] = [];
-          return formData;
+          UiSchema.elements[1].elements[0].config.main.allRowsData = [];
+          UiSchema.elements[1].elements[1].config.main.allRowsData = [];
+          UiSchema.elements[1].elements[2].config.main.allRowsData = [];
         });
-        return data;
-    },
-    getUiSchema: () => {
-     return ProgramMasterRecordUiSchema;
+      return UiSchema;
     },
     getSchema: () => {
-    return {}
+      return {};
     },
-    Approve_Records: function () { 
+    Approve_Records: function () {
       serviceApi
-      .post(
-        "/master/action",
-        {id:1,payload:
-          {entityName:"com.act21.hyperform3.entity.program.ProgramStaging",
-          entityValue:otherData[0],
-          action:"A"}},
-      )
-        .then( async(res) => {
-          const data =   await this.getFormData();
+        .post("/master/action", {
+          id: 1,
+          payload: {
+            entityName: "com.act21.hyperform3.entity.program.ProgramStaging",
+            entityValue: otherData.rowData,
+            action: "A",
+          },
+        })
+        .then(async (res) => {
+          const data = await this.getFormData();
           setFormdata({
             ...data,
-            notifyInfo: "Filed Approved By You",
           });
+          setNotify({ SuccessMessage: "Approved successfully", Success: true });
         });
     },
     Reject_Records: function () {
       serviceApi
-        .post(
-          "/master/action",
-          {id:1,payload:
-            {entityName:"com.act21.hyperform3.entity.program.ProgramStaging",
-            entityValue:otherData[0],
-            action:"R"}},
-        )
-        .then(async(res) => {
-          const data =   await this.getFormData();
+        .post("/master/action", {
+          id: 1,
+          payload: {
+            entityName: "com.act21.hyperform3.entity.program.ProgramStaging",
+            entityValue: otherData.rowData,
+            action: "R",
+          },
+        })
+        .then(async (res) => {
+          const data = await this.getFormData();
           setFormdata({
             ...data,
-            notifyInfo: "Filed Rejected By You",
           });
+          setNotify({ SuccessMessage: "Rejected successfully", Success: true });
         });
     },
     Edit_Approve_Records: function () {
-        navigate(`/MasterForm?id=${otherData[0].id}`)
-      },
-      addNewRecords: function () {
-        navigate("/MasterForm")
-      },
+      navigate(`/MasterForm?id=${otherData.rowData.id}`);
+    },
+    addNewRecords: function () {
+      navigate("/MasterForm");
+    },
   };
 };

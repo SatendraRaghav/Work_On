@@ -9,14 +9,18 @@ import { PositionMasterUISchema } from "../UiSchema/PositionMaster/UISchema";
 // let selectParentData:any[]=[];
 // let idData:any;
 export const PositionMasterRecords = (
-    ctx?: JsonFormsStateContext,
-    setFormdata?: any,
-    setUiSchema?: any,
-    setSchema?: any,
-    navigate?:any,
-    otherData?: any
+  ctx?: JsonFormsStateContext,
+  setFormdata?: any,
+  setUiSchema?: any,
+  setSchema?: any,
+  navigate?: any,
+  otherData?: any,
+  schema?: any,
+  setConfig?: any,
+  setAdditionalErrors?: any,
+  setNotify?:any
 ) => {
-    const serviceApi = myService()
+    const serviceApi = myService(otherData.setLoading, otherData.setDialogBox, navigate);
     return {
         
         setPage: async function () {
@@ -43,21 +47,21 @@ export const PositionMasterRecords = (
                 .get(Api)
                 .then((res) => {
                     approveData=res.data.payload;
-                  formData["agencyRecords.0.approveRecords"] = approveData;
+                  formData["PositionRecords.0.approveRecords"] = approveData;
                   return serviceApi.get(Api2);
                 }).then((res1) => {
                   pendingData=res1.data.payload;
-                  formData["agencyRecords.1.pendingRecords"] = pendingData;
+                  formData["PositionRecords.1.pendingRecords"] = pendingData;
                   return serviceApi.get(Api3);
                 }).then((res2) => {
                   rejectData=res2.data.payload;
-                  formData["agencyRecords.2.rejectRecords"] = rejectData;
+                  formData["PositionRecords.2.rejectRecords"] = rejectData;
                   return formData;
                 }).catch((err) => {
                   console.log(`Error from Api : ${err}`)
-                  formData["agencyRecords.0.ApproveRecords"] = [];
-                  formData["agencyRecords.1.PendingRecords"] =  [];
-                  formData["agencyRecords.2.RejectRecords"] = [];
+                  formData["PositionRecords.0.ApproveRecords"] = [];
+                  formData["PositionRecords.1.PendingRecords"] =  [];
+                  formData["PositionRecords.2.RejectRecords"] = [];
                 
                   return formData;}
                 );
@@ -72,22 +76,23 @@ export const PositionMasterRecords = (
                         return{};
                     },
                     PositionApprover: function () {
-                        serviceApi.post("/master/action", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.position.PositionNewStaging",entityValue:otherData[0],action:"A"}}).then(async(res) => {
+                        serviceApi.post("/master/action", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.position.PositionNewStaging",entityValue:otherData.rowData,action:"A"}}).then(async(res) => {
                             console.log("approved")
                             const data =   await this.getFormData();
                             setFormdata({
-                              ...data,
-                              notifyInfo: "Field Approved By You",
+                              ...data
                             });
+                            setNotify({SuccessMessage:"Approved Successfully",Success:true,})
                         })
                     },
                     Reject_Records: function () {
-                      serviceApi.post("/master/action", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.position.PositionNewStaging",entityValue:otherData[0],action:"R"}}).then(async(res) => {
+                      serviceApi.post("/master/action", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.position.PositionNewStaging",entityValue:otherData.rowData,action:"R"}}).then(async(res) => {
                         const data =   await this.getFormData();
                             setFormdata({
-                              ...data,
-                              notifyInfo: "Field Rejected By You",
+                              ...data
                             });
+                            setNotify({SuccessMessage:"Rejected Successfully",Success:true,})
+
                           });
                     },
                           
@@ -95,7 +100,7 @@ export const PositionMasterRecords = (
                         navigate("/PositionMaster")
                     },
                     Edit_Approve_Records: function () {
-                        navigate(`/PositionMaster?id=${otherData[0].id}`)
+                        navigate(`/PositionMaster?id=${otherData.rowData.id}`)
                       }
                     
   };

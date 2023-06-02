@@ -4,15 +4,10 @@ import Box from '@mui/material/Box';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import { actions, DataContext } from '../Reducer';
 import { useContext } from 'react';
 import logo from "../Image/Act21-logo-300x75_adobe_express.svg"
-import {userValue, setUserValue } from '../Apple';
-import { navigator } from '../Logic';
+import { userValue,setUserValue } from '../Apple'; 
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -24,19 +19,6 @@ export default function LoginHeader() {
   const { dispatch, state } = useContext(DataContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { collapseSidebar} = useProSidebar();
-
-  const LogChange = () => {
-    setUserValue(null)
-    navigator("/")
-  };
-
-  const handleMenu = (event:any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -59,10 +41,6 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-  const handleDrawerOpen = () => {
-     collapseSidebar()
-  };
-
 
   return (
     <Box sx={{ display: 'flex',height:"70px" }}>

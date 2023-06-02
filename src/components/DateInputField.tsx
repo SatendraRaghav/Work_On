@@ -4,7 +4,12 @@ export const DateInputField =  {
     options: {
       widget: "DateInputField",
     },
-    layout: { xs: 12, sm: 12, md: 6, lg: 6 },
+    layout: {
+      xs: 11,
+      sm: 11,
+      md: 5.5,
+      lg: 5.5,
+    },
     value: {
       content: {
         label: "",

@@ -1,1 +1,12 @@
-export const HomeSchema = {};
+export const LoginSchema = {
+    "type":"object",
+    "properties": {
+        username:{
+            "type": "string",
+        },
+        password:{
+            "type": "string",
+        }
+    },
+    required:["username","password"]
+};

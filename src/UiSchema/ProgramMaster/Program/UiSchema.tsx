@@ -12,12 +12,13 @@ export const ProgramMasterUiSchema = {
             {
               type: "Control",
               scope: "#/properties/programType",
-              layout: 5.5,
+             
               options: {
                 widget: "Box",
               },
-              value: {
-                content: {
+              config: {
+                layout: 5.5,
+                main: {
                   heading: "Program Master",
                 }
               },
@@ -25,16 +26,18 @@ export const ProgramMasterUiSchema = {
             {
               type: "Control",
               scope: "#/properties/Back_Button",
-              layout: 5.5,
+             
               options: {
-                widget: "Button",
+                widget: "IconButton",
               },
-              value: {
-                content: { 
+              config: {
+                layout: 5.5,
+                main: { 
                   icon:"BackIcon",
                   styleDefault:true,
                   size:"small",
-                  funcName: "backHandler",
+                  click: "backHandler",
+                  tooltipMessage:"Back",
                 },
                 style: {
                   float:"right",
@@ -46,90 +49,97 @@ export const ProgramMasterUiSchema = {
       },
     },
     {
-      type: "Control",
-      scope: "#/properties/PayoutProcessingWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
+          
           type: "HorizontalLayout",
+          defaultStyle:true,
           elements: [
             {
               type: "Control",
               scope: "#/properties/name",
-              layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+             
               options: {
                 widget: "InputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+                main: {
                   label: "Name",
+                  errorMessage:"Name is empty or invalid"
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/description",
-              layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6},
+             
               options: {
                 widget: "InputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6},
+                main: {
                   label: "Description",
+                  errorMessage:"Description is empty or invalid"
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/groupList",
-              layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+             
               options: {
-                widget: "SelectInputField",
+                widget: "MultipleSelect",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+                main: {
                   label: "Groups",
                   type: "text",
-                  multiple: true,
+                  // multiple: true,
                   variant: "standard",
                   options: [
-                    { label: "DSL", value: "DSL" },
-                    { label: "HL", value: "HL" },
-                    { label: "PL", value: "PL" },
+                    { label: "DSL", config: "DSL" },
+                    { label: "HL", config: "HL" },
+                    { label: "PL", config: "PL" },
                   ],
+                  errorMessage:"Groups are not selected"
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/cycleFrequency",
-              layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+             
               options: {
                 widget: "SelectInputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+                main: {
                   label: "Cycle Frequency",
                   type: "text",
                   options: [
-                    { label: "Year", value: "Year" },
-                    { label: "Month", value: "Month" },
-                    { label: "Week", value: "Week" },
-                    { label: "Day", value: "Day" },
+                    { label: "Year", config: "Year" },
+                    { label: "Month", config: "Month" },
+                    { label: "Week", config: "Week" },
+                    { label: "Day", config: "Day" },
                   ],
+                  errorMessage:"Cycle Frequency is not selected"
                 },
               },
             },
             {
               type: "Control",
-              scope: "#/properties/cycleValue",
-              layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+              scope: "#/properties/cycleconfig",
+             
               options: {
                 widget: "InputField",
               },
-              value: {
-                content: {
-                  label: "Cycle Value",
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+                main: {
+                  label: "Cycle config",
+                  errorMessage:"Cycle config is empty or invalid"
                 },
               },
             },
@@ -137,22 +147,25 @@ export const ProgramMasterUiSchema = {
             {
               type: "Control",
               scope: "#/properties/enabled",
-              layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+             
               options: {
                 widget: "RadioInputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+                main: {
                   label: "Finalize",
                   options: ["YES", "NO"],
+                  errorMessage:"Finalize is not marked YES or NO"
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/externalData",
-              layout: 11.5,
-              lable: " ",
+              config:{
+                   layout: 11.5,
+              },
               options: {
                 detail: {
                   type: "HorizontalLayout",
@@ -160,17 +173,18 @@ export const ProgramMasterUiSchema = {
                     {
                       type: "Control",
                       scope: "#/properties/supportedTypes",
-                      layout: {
-                        xs: 11,
-                        sm: 11,
-                        md: 5.5,
-                        lg: 5.5,
-                      },
+                      
                       options: {
                         widget: "InputField",
                       },
-                      value: {
-                        content: {
+                      config: {
+                        layout: {
+                          xs: 11,
+                          sm: 11,
+                          md: 5.5,
+                          lg: 5.5,
+                        },
+                        main: {
                           label: "Type",
                         },
                       },
@@ -178,12 +192,14 @@ export const ProgramMasterUiSchema = {
                     {
                       type: "Control",
                       scope: "#/properties/EmptyBox",
+                     config:{
                       layout: {
                         xs: 11,
                         sm: 11,
                         md: 5.5,
                         lg: 5.5,
                       },
+                     },
                       options: {
                         widget: "EmptyBox",
                       },
@@ -195,12 +211,12 @@ export const ProgramMasterUiSchema = {
             {
               type: "Control",
               scope: "#/properties/EmptyBox",
-              layout: {
+               config:{ layout: {
                 xs: 11,
                 sm: 11,
                 md: 8.5,
                 lg: 9.5,
-              },
+              }},
               options: {
                 widget: "EmptyBox",
               },
@@ -211,20 +227,21 @@ export const ProgramMasterUiSchema = {
               options: {
                 widget: "Button",
               },
-              layout: {
-                xs: 11,
-                sm: 11,
-                md: 2.5,
-                lg: 1.5,
-              },
-              value: {
-                content: {
+             
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 2.5,
+                  lg: 1.5,
+                },
+                main: {
                   name: "Submit",
                   startIcon:"ApproveIcon",
                   variant: "contained",
                   color: "info",
                   type: "text",
-                  funcName: "Submit_PM_Program",
+                  click: "Submit_PM_Program",
                   size: "small",
                 },
                 style: {
@@ -234,8 +251,13 @@ export const ProgramMasterUiSchema = {
             },
             
           ],
-        },
-      },
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "DailogBox",
+      }
     },
     {
       type: "Control",
@@ -245,6 +267,5 @@ export const ProgramMasterUiSchema = {
       },
       layout: 6,
     },
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ],
 };

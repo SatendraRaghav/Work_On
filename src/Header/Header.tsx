@@ -11,7 +11,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import { DataContext, actions } from "../Reducer";
 import { useContext } from "react";
 import logo from "../Image/Act21-logo-300x75_adobe_express.svg";
-import { userValue, setUserValue } from "../Apple";
+import { userValue,setUserValue } from '../Apple'; 
 import { navigator } from "../Logic";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuItem from "@mui/material/MenuItem";
@@ -23,7 +23,7 @@ import { Badge, Tooltip, TooltipProps, tooltipClasses } from "@mui/material";
 export default function Header() {
   const { dispatch, state } = useContext(DataContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { collapseSidebar } = useProSidebar();
+  const { collapseSidebar,collapsed } = useProSidebar();
 
   const LogChange = () => {
     setUserValue(null);
@@ -74,7 +74,7 @@ export default function Header() {
           <Box sx={{ marginRight: "40px" }}>
             <img src={logo} alt="impakt_logo" width={120} height={40} />
           </Box>
-
+         <Tooltip title={collapsed?"Open Menu":"Close Menu"}>
           <IconButton
             // color="primary"
             aria-label="open drawer"
@@ -94,6 +94,7 @@ export default function Header() {
           >
             <MenuIcon />
           </IconButton>
+          </Tooltip>
           <Box component={"div"} sx={{ flexGrow: 1 }} />
           <Box
             id="userPrifile"
@@ -129,6 +130,7 @@ export default function Header() {
                   </IconButton>
                 </MenuItem>
               </Menu>
+              <Tooltip title="Click to Logout">
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -147,6 +149,7 @@ export default function Header() {
               >
                 <AccountCircle />
               </IconButton>
+              </Tooltip>
             </div>
           </Box>
         </Toolbar>

@@ -40,7 +40,7 @@ export const  PositionMasterRecordsUISchema = {
                   icon: "AddIcon",
                   size:"small",
                   styleDefault: true,
-
+                  tooltipMessage:"Add New Record",
                   funcName: "newRecord",
                 },
                 style: {
@@ -55,7 +55,7 @@ export const  PositionMasterRecordsUISchema = {
     },
     {
       "type": "Control",
-      "scope": "#/properties/agencyRecords",
+      "scope": "#/properties/PositionRecords",
       "labels": ["Approve", "Pending", "Reject"],
       "options": {
         "widget": "Tab",
@@ -101,7 +101,8 @@ export const  PositionMasterRecordsUISchema = {
                           color:"info",
                           size:"small",
                           icon: "EditIcon",
-                        
+                          tooltipMessage:"Edit This Record",
+                          
                         },
                         style: {
                           color:"#3949ab"
@@ -150,7 +151,9 @@ export const  PositionMasterRecordsUISchema = {
                       "value": {
                         "content": {
                           icon: "ApproveIcon",
-                          color:"success"
+                          color:"success",
+                          tooltipMessage:"Approve This Record",
+                         
                         }
                       }
                     }
@@ -168,7 +171,8 @@ export const  PositionMasterRecordsUISchema = {
                       "value": {
                         "content": {
                           icon: "RejectIcon",
-                          color:"error"
+                          color:"error",
+                          tooltipMessage:"Reject This Record",
                         }
                       }
                     }
@@ -203,6 +207,21 @@ export const  PositionMasterRecordsUISchema = {
           ]
         }
       }
-    }
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "Notify",
+      },
+      layout: 6,
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "DailogBox",
+      }
+    },
   ]
 }

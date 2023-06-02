@@ -1,19 +1,23 @@
 import { JsonFormsStateContext } from "@jsonforms/react";
-import { myLoginService } from "../service/service";
-import { HomeUiSchema } from "../UiSchema/Login/UiSchema";
-import { HomeSchema } from "../UiSchema/Login/Schema";
+import { loginService } from "../service/service";
+import { LoginSchema } from "../UiSchema/Login/Schema";
+import { LoginUiSchema } from "../UiSchema/Login/UiSchema";
 import axios from "axios";
-import { setUserValue,userValue } from "../Apple";
+import { userValue,setUserValue } from '../Apple'; 
 
- const Home = (
+ const Login = (
   ctx?: JsonFormsStateContext,
   setFormdata?: any,
   setUiSchema?: any,
   setSchema?: any,
   navigate?: any,
-  otherData?: any
+  otherData?: any,
+  schema?:any,
+  setConfig?:any,
+  setAdditionalErrors?:any,
+  setNotify?:any
 ) => {
-  // const [user, setUser] = useLocalStorage("user", null);
+  const myLoginService = loginService(otherData?.setLoading,)
   return {
     setPage: function () {
       const formdata = this.getFormData();
@@ -28,34 +32,29 @@ import { setUserValue,userValue } from "../Apple";
       return {};
     },
     getUiSchema: function () {
-      return HomeUiSchema;
+      return LoginUiSchema;
     },
     getSchema: () => {
-      return HomeSchema;
+      return LoginSchema;
     },
     userLogIn: function () {
       console.log(ctx);
+    setConfig("ValidateAndShow")
       const data = JSON.stringify({
         payload: {
-          username: ctx.core.data.reportListWrapper[0].username,
-          password: ctx.core.data.reportListWrapper[0].password,
+          username: ctx.core.data.username,
+          password: ctx.core.data.password,
         },
       });
       myLoginService.post("/auth/authenticate",data).then((res)=>{
         setUserValue(res.data)
-          navigate("/Profile");
-          setFormdata({
-            ...ctx.core.data,
-            notifySuccess: "You Login Successfully",
-          });
+          navigate("/Home");
+          setNotify({SuccessMessage:"You Login Successfully",Success:true,})
+          setConfig("ValidateAndHide")
       })
       .catch((er)=>{
-          setFormdata({
-            ...ctx.core.data,
-            notifyFail:ctx.core.data.notifyFail==="Invalid username or password"
-            ?"Invalid Details":
-            "Invalid username or password",
-          });
+        setNotify({FailMessage:"Invalid Login ID or Password",Fail:true,})
+
       })
      
         
@@ -63,4 +62,4 @@ import { setUserValue,userValue } from "../Apple";
   };
 };
 
-export default Home;
+export default Login;
