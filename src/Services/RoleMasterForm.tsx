@@ -107,7 +107,7 @@ export const RoleMasterForm = (
             return { label: e.permName, value: e.id }
           });
           //@ts-ignore
-          Ui.elements[1].elements[1].value.content.options = selectOption ? selectOption : [{ id: 1 }];
+          Ui.elements[1].elements[1].config.main.options = selectOption ? selectOption : [{ id: 1 }];
         });
       console.log(Ui)
       return Ui;

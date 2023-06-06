@@ -3,7 +3,7 @@ import { loginService } from "../service/service";
 import { LoginSchema } from "../UiSchema/Login/Schema";
 import { LoginUiSchema } from "../UiSchema/Login/UiSchema";
 import axios from "axios";
-import { userValue,setUserValue } from '../Apple'; 
+import { userValue, setUserValue} from "../Apple";;
 
  const Login = (
   ctx?: JsonFormsStateContext,
@@ -37,7 +37,12 @@ import { userValue,setUserValue } from '../Apple';
     getSchema: () => {
       return LoginSchema;
     },
-    userLogIn: function () {
+    userLogInByEnter : async function(){
+        if(otherData.event.code==="Enter"){
+          await this.userLogIn()
+        }
+    },
+    userLogIn: async function () {
       console.log(ctx);
     setConfig("ValidateAndShow")
       const data = JSON.stringify({

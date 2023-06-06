@@ -12,12 +12,12 @@ export const GroupMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/programType",
-          layout: 5.5,
+         
           options: {
             widget: "Box",
           },
-          value: {
-            content: {
+          config: { layout: 5.5,
+            main: {
               heading: "Group Master",
             },
             style: {
@@ -30,12 +30,12 @@ export const GroupMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/Back_Button",
-          layout: 5.5,
+          
           options: {
-            widget: "Button",
+            widget: "IconButton",
           },
-          value: {
-            content: {
+          config: {layout: 5.5,
+            main: {
               icon: "BackIcon",
               styleDefault: true,
               size: "small",
@@ -51,17 +51,17 @@ export const GroupMasterUISchema = {
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config:{defaultStyle: true},
       elements: [
         {
           "type": "Control",
           "scope": "#/properties/name",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+          
           "options": {
             "widget": "InputField"
           },
-          "value": {
-            "content": {
+          "config": {layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            "main": {
               "label": "Name",
               "type": "text",
               errorMessage:"Name is empty or invalid"
@@ -71,12 +71,12 @@ export const GroupMasterUISchema = {
         {
           "type": "Control",
           "scope": "#/properties/positionList",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+         
           "options": {
             "widget": "SelectInputField"
           },
-          "value": {
-            "content": {
+          "config": { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            "main": {
               "label": "Position List",
               options: [{}],
               "multiple": true,
@@ -87,12 +87,12 @@ export const GroupMasterUISchema = {
         {
           "type": "Control",
           "scope": "#/properties/active",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+         
           "options": {
             "widget": "RadioInputField"
           },
-          "value": {
-            "content": {
+          "config": { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            "main": {
               "label": "Active",
               "options": ["YES", "NO"],
               "required": true,
@@ -104,17 +104,17 @@ export const GroupMasterUISchema = {
         {
           "type": "Control",
           "scope": "#/properties/AgencyButton",
-          layout: {
+          
+          "options": {
+            "widget": "Button"
+          },
+          "config": {layout: {
             xs: 11,
             sm: 11,
             md: 5.5,
             lg: 5.5,
           },
-          "options": {
-            "widget": "Button"
-          },
-          "value": {
-            "content": {
+            "main": {
               name: "Submit",
               startIcon: "ApproveIcon",
               variant: "contained",

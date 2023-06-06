@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 
-export const useSelection = (path:string,handleChange:any,uischemaData:any):[{}, React.Dispatch<React.SetStateAction<{}>>]=>{
-    const [data,setData] = useState({})
-    useEffect(()=>{
-      const selectedRows =uischemaData?.columns?.dataColumns?.filter((e, i) => {
-        if (data[i]) {
-          return data[i];
-        }
-        return false;
-      });  
-      handleChange(path,{id:data,data:selectedRows})
-    },[data])
+// export const useSelection = (path:string,handleChange:any,uischemaData:any):[{}, React.Dispatch<React.SetStateAction<{}>>]=>{
+//     const [data,setData] = useState({})
+//     useEffect(()=>{
+//       const selectedRows =uischemaData?.columns?.dataColumns?.filter((e, i) => {
+//         if (data[i]) {
+//           return data[i];
+//         }
+//         return false;
+//       });  
+//       handleChange(path,{id:data,data:selectedRows})
+//     },[data])
    
-  return[data,setData]
-  }
+  // return[data,setData]
+  // }
  export const getCsvoptions = (uischemaData:any,id:string)=>{
   const csvOptions = {
     fieldSeparator:uischemaData?.csvOptions?.fieldSeparator?? ",",

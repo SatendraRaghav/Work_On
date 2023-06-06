@@ -9,51 +9,54 @@ export const PayoutReviewUiSchema = {
         widget: "Wrapper",
         detail: {
           type: "HorizontalLayout",
-      elements: [
-        {
-          type: "Control",
-          scope: "#/properties/pageHeading",
-          layout: 5.5,
-          options: {
-            widget: "Box",
-          },
-          value: {
-            content: {
-              heading: "Payout Review",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/pageHeading",
+
+              options: {
+                widget: "Box",
+              },
+              config: {
+                layout: 5.5,
+                main: {
+                  heading: "Payout Review",
+                },
+              },
             },
-          },
+            {
+              type: "Control",
+              scope: "#/properties/EmptyBox",
+              options: {
+                widget: "EmptyBox",
+              },
+              config: { layout: 5.5 },
+            },
+          ],
         },
-        {
-          type: "Control",
-          scope: "#/properties/EmptyBox",
-          options: {
-            widget: "EmptyBox",
-          },
-          layout: 5.5,
-        },
-      ]}},
+      },
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config: { defaultStyle: true },
       elements: [
-        
         {
           type: "Control",
           scope: "#/properties/heading",
-          layout: 11.5,
+
           options: {
             widget: "Box",
           },
-          value: {
-            content: {
+          config: {
+            layout: 11.5,
+            main: {
               heading: "Search Program",
               // dividerAvailable:true
             },
           },
-          style:{
-            marginTop:"2px"
-          }
+          style: {
+            marginTop: "2px",
+          },
         },
         {
           type: "Control",
@@ -61,42 +64,44 @@ export const PayoutReviewUiSchema = {
           options: {
             widget: "Notify",
           },
-          layout: 8,
+          config: { layout: 8 },
         },
         {
           type: "Control",
           scope: "#/properties/programType",
-          layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
               label: "Program",
               options: [{}],
-              loadFunction: "loadCycle",
-              errorMessage:"Program is not selected"
+              click: "loadCycle",
+              errorMessage: "Program is not selected",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/programCycle",
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 5.5,
-            lg: 5.5,
-          },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
               label: "Program Cycle",
               options: [{}],
               programType: true,
-              errorMessage:"Program Cycle is not selected"
+              errorMessage: "Program Cycle is not selected",
             },
           },
         },
@@ -104,17 +109,18 @@ export const PayoutReviewUiSchema = {
         {
           type: "Control",
           scope: "#/properties/case",
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 5.5,
-            lg: 5.5,
-          },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
               label: "Case Name",
             },
             style: {
@@ -128,26 +134,27 @@ export const PayoutReviewUiSchema = {
           options: {
             widget: "Button",
           },
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 5.5,
-            lg: 5.5,
-          },
-          value: {
-            content: {
+
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
               name: "Search",
+              startIcon:"SearchIcon",
               variant: "contained",
               color: "info",
               type: "text",
-              funcName: "loadTable",
+              click: "loadTable",
               size: "medium",
             },
             style: {
-              width: "20%",
+              width: {xs:"100%",sm:"90%",md:"30%"},
               float: "right",
-              marginTop: "15px"
-
+              marginTop: "15px",
             },
           },
         },
@@ -155,34 +162,32 @@ export const PayoutReviewUiSchema = {
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config: { defaultStyle: true },
       elements: [
         {
           type: "Control",
           scope: "#/properties/heading",
-          layout: 11.5,
+
           options: {
             widget: "Box",
           },
-          value: {
-            content: {
+          config: {
+            layout: 11.5,
+            main: {
               heading: "Report List",
-              dividerAvailable:true
+              dividerAvailable: true,
             },
           },
         },
         {
-          type: "Control",
-          scope: "#/properties/EmptyBox",
-          options: {
-            widget: "EmptyBox",
-          },
-          layout: 5.5,
-        },
-        {
           type: "TabLayout",
-          labels: ["Case", "Summary"],
-          layout: 11.8,
+          config: {
+            main: {
+              labels: ["Case", "Summary"],
+              layout: 12,
+            },
+          },
+
           elements: [
             {
               type: "Control",
@@ -190,47 +195,38 @@ export const PayoutReviewUiSchema = {
               layout: 12,
               options: {
                 widget: "Table",
+              },
+              config: {
+                main: {
+                  allRowsData: [],
+                  columns: {
+                    dataColumns: [
+                      {
+                        accessorKey: "id",
+                        header: "Id",
+                      },
+                      {
+                        accessorKey: "name",
 
-                loadFunction: "caseTableDataFunction",
-                tableStyle: {
-                  backgroundColor: "#F5F5F5",
+                        header: "Name",
+                      },
+                      {
+                        accessorKey: "disbursalAmount",
+                        header: "Disbursal Amount",
+                      },
+                      {
+                        accessorKey: "releasedAmount",
+                        width: "240",
+                        header: "Released Amount",
+                      },
+                      {
+                        accessorKey: "payout",
+                        width: "240",
+                        header: "Payout",
+                      },
+                    ],
+                  },
                 },
-                buttonInStarting: false,
-                ApiDetails: {
-                  DataApi: "",
-                },
-                columns: [
-                  {
-                    field: "id",
-                    headerName: "Id",
-                    width: "40",
-                    widget: "api",
-                  },
-                  {
-                    field: "name",
-                    width: "150",
-                    headerName: "Name",
-                    widget: "api",
-                  },
-                  {
-                    field: "disbursalAmount",
-                    headerName: "Disbursal Amount",
-                    width: "150",
-                    widget: "api",
-                  },
-                  {
-                    field: "releasedAmount",
-                    width: "240",
-                    headerName: "Released Amount",
-                    widget: "api",
-                  },
-                  {
-                    field: "payout",
-                    width: "240",
-                    headerName: "Payout",
-                    widget: "api",
-                  },
-                ],
               },
             },
             {
@@ -239,54 +235,49 @@ export const PayoutReviewUiSchema = {
               layout: 12,
               options: {
                 widget: "Table",
-                tableStyle: {
-                  backgroundColor: "#F5F5F5",
+              },
+              config: {
+                main: {
+                  columns: {
+                    dataColumns: [
+                      {
+                        accessorKey: "id",
+                        header: "Id",
+                      },
+                      {
+                        accessorKey: "payeeName",
+
+                        header: "Payee Name",
+                      },
+                      {
+                        accessorKey: "payout",
+                        header: "Payout",
+                      },
+                    ],
+                  },
                 },
-                buttonInStarting: false,
-                ApiDetails: {
-                  DataApi: "",
-                },
-                columns: [
-                  {
-                    field: "id",
-                    headerName: "Id",
-                    width: "40",
-                    widget: "api",
-                  },
-                  {
-                    field: "payeeName",
-                    width: "150",
-                    headerName: "Payee Name",
-                    widget: "api",
-                  },
-                  {
-                    field: "payout",
-                    headerName: "Payout",
-                    width: "150",
-                    widget: "api",
-                  },
-                ],
               },
             },
-          ]
+          ],
         },
       ],
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config: { defaultStyle: true },
       elements: [
         {
           type: "Control",
           scope: "#/properties/heading",
-          layout: 11.5,
+
           options: {
             widget: "Box",
           },
-          value: {
-            content: {
+          config: {
+            layout: 11.5,
+            main: {
               heading: "Pending Actions",
-              dividerAvailable:true
+              dividerAvailable: true,
             },
           },
         },
@@ -296,60 +287,54 @@ export const PayoutReviewUiSchema = {
           options: {
             widget: "EmptyBox",
           },
-          layout: 5.5,
+          config: { layout: 5.5 },
         },
         {
           type: "Control",
           scope: "#/properties/pendingActionList",
-          layout: 11.5,
+
           options: {
             widget: "Table",
-            addCheckBoxRow: true,
-            loadFunction: "workflowTableDataFunction",
-            tableStyle: {
-              backgroundColor: "#F5F5F5",
+          },
+          config: {
+            layout: 11.5,
+            main: {
+              allRowsData: [],
+              columns: {
+                dataColumns: [
+                  {
+                    accessorKey: "id",
+                    header: "Id",
+                  },
+                  {
+                    accessorKey: "name",
+
+                    header: "Name",
+                  },
+                  {
+                    accessorKey: "payeeName",
+
+                    header: "Payee Name",
+                  },
+                  {
+                    accessorKey: "payout",
+                    header: "Payout",
+                  },
+                ],
+              },
             },
-            buttonInStarting: false,
-            ApiDetails: {
-              DataApi: "",
-            },
-            columns: [
-              {
-                field: "id",
-                headerName: "Id",
-                width: "40",
-                widget: "api",
-              },
-              {
-                field: "name",
-                width: "150",
-                headerName: "Name",
-                widget: "api",
-              },
-              {
-                field: "payeeName",
-                width: "150",
-                headerName: "Payee Name",
-                widget: "api",
-              },
-              {
-                field: "payout",
-                headerName: "Payout",
-                width: "150",
-                widget: "api",
-              },
-            ],
           },
         },
         {
           type: "Control",
           scope: "#/properties/heading",
-          layout: 11.5,
+
           options: {
             widget: "Box",
           },
-          value: {
-            content: {
+          config: {
+            layout: 11.5,
+            main: {
               heading: " ",
               // dividerAvailable:true
             },
@@ -358,17 +343,18 @@ export const PayoutReviewUiSchema = {
         {
           type: "Control",
           scope: "#/properties/remarks",
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 5.5,
-            lg: 5.5,
-          },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
               label: "Remarks",
             },
           },
@@ -376,22 +362,20 @@ export const PayoutReviewUiSchema = {
         {
           type: "Control",
           scope: "#/properties/actions",
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 5.5,
-            lg: 5.5,
-          },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
               label: "Action",
-              options: [
-                { },
-              
-              ],
+              options: [{}],
             },
           },
         },
@@ -401,11 +385,13 @@ export const PayoutReviewUiSchema = {
           options: {
             widget: "EmptyBox",
           },
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 5.5,
-            lg: 5.5,
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
           },
         },
         {
@@ -414,20 +400,21 @@ export const PayoutReviewUiSchema = {
           options: {
             widget: "Button",
           },
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 5.5,
-            lg: 5.5,
-          },
-          value: {
-            content: {
+
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
               name: "Submit",
               startIcon: "ApproveIcon",
               variant: "contained",
               color: "info",
               page: "PayoutReview",
-              funcName: "actionFunction",
+              click: "actionFunction",
               size: "small",
             },
             style: {
@@ -451,7 +438,7 @@ export const PayoutReviewUiSchema = {
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
+      },
     },
   ],
 };

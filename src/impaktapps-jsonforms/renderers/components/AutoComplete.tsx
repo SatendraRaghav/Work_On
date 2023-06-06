@@ -31,17 +31,21 @@ export const AutoComplete = memo(function CustomAutoComplete(
   const fieldName = getFieldName(path);
   return (
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
-        <FormControl sx={{ marginBottom: "8x" }} fullWidth>
+      
           <Autocomplete
             onChange={(event, newValue) => {
               handleChange(path, newValue);
               callServiceProvider(event,newValue)
             }}
+          
             onPointerEnter={(event)=>  callServiceProvider(event)}
             onPointerLeave={(event)=>  callServiceProvider(event)}
             onFocus={(event)=>  callServiceProvider(event)}
             onBlur={(event)=>  callServiceProvider(event)}
             onMouseEnter={(event)=>  callServiceProvider(event)}
+            onKeyPress={(event)=>{
+              callServiceProvider(event);
+            }}
             multiple
             limitTags={2}
             sx={{ ...theme.InputFieldStyle, ...uischema?.config?.style }}
@@ -68,6 +72,12 @@ export const AutoComplete = memo(function CustomAutoComplete(
                   <TextField
                     {...params}
                     size={uischemaData?.size??"medium"}
+                    // helperText={errors !== ""
+                    // ? uischemaData?.errorMessage
+                    //   ? uischemaData?.errorMessage
+                    //   : errors
+                    // : ""}
+                    // error={errors !== ""?true:false}
                     sx={{
                       ...theme.InputFieldStyle,
                       fontSize:
@@ -82,8 +92,6 @@ export const AutoComplete = memo(function CustomAutoComplete(
               );
             }}
           />
-          <Helpertext uischemaData={uischemaData} errors={errors} />
-        </FormControl>
     </PermissionWrapper>
   );
 });

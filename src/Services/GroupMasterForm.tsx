@@ -106,7 +106,7 @@ export const GroupMasterForm = (
             return { label: e.name, value: e.id }
           });
           //@ts-ignore
-          Ui.elements[1].elements[1].value.content.options = selectOption;
+          Ui.elements[1].elements[1].config.main.options = selectOption;
         });
       console.log(Ui)
       return Ui;

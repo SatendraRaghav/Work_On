@@ -18,98 +18,105 @@ export const UserMasterUISchema = {
         detail: {
           type: "HorizontalLayout",
           elements: [
-        {
-          type: "Control",
-          scope: "#/properties/programType",
-          layout: 5.5,
-          options: {
-            widget: "Box",
-          },
-          value: {
-            content: {
-              heading: "User Master",
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+
+              options: {
+                widget: "Box",
+              },
+              config: {
+                layout: 5.5,
+                main: {
+                  heading: "User Master",
+                },
+                style: {
+                  // marginTop: "18px",
+                  fontFamily: "Roboto",
+                  fontWeight: "500",
+                  // paddingTop: "8px",
+                  fontSize: "20px",
+                  // paddingBottom: "8px",
+                  // borderRadius: "20px",
+                  background: "white",
+                },
+              },
             },
-            style: {
-              // marginTop: "18px",
-              fontFamily: "Roboto",
-              fontWeight: "500",
-              // paddingTop: "8px",
-              fontSize: "20px",
-              // paddingBottom: "8px",
-              // borderRadius: "20px",
-              background: "white",
+            {
+              type: "Control",
+              scope: "#/properties/Back_Button",
+
+              options: {
+                widget: "IconButton",
+              },
+              config: {
+                layout: 5.5,
+                main: {
+                  icon: "BackIcon",
+                  styleDefault: true,
+                  size: "small",
+                  click: "backHandler",
+                  tooltipMessage: "Back",
+                },
+                style: {
+                  // width:"20%",
+                  float: "right",
+                  // marginTop:"20px",
+                  // marginRight:"15px"
+                },
+              },
             },
-          },
+          ],
         },
-        {
-          type: "Control",
-          scope: "#/properties/Back_Button",
-          layout: 5.5,
-          options: {
-            widget: "Button",
-          },
-          value: {
-            content: {
-              icon: "BackIcon",
-              styleDefault: true,
-              size: "small",
-              funcName: "backHandler",
-              tooltipMessage: "Back",
-            },
-            style: {
-              // width:"20%",
-              float: "right",
-              // marginTop:"20px",
-              // marginRight:"15px"
-            },
-          },
-        },
-      ]}},
+      },
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config:{defaultStyle: true},
+
       elements: [
         {
           type: "Control",
           scope: "#/properties/name",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Login ID",
               type: "text",
-              errorMessage: "Login ID is empty or invalid"
+              errorMessage: "Login ID is empty or invalid",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/title",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "Title",
               type: "text",
               options: [
                 {
                   label: "Mr.",
-                  value: "Mr.",
+                  config: "Mr.",
                 },
                 {
                   label: "Ms.",
-                  value: "Ms.",
+                  config: "Ms.",
                 },
                 {
                   label: "Mrs.",
-                  value: "Mrs.",
-                }
-              ]
+                  config: "Mrs.",
+                },
+              ],
             },
           },
         },
@@ -117,27 +124,29 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/firstName",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "First Name",
               type: "text",
-              errorMessage: "First Name is empty or invalid"
+              errorMessage: "First Name is empty or invalid",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/middleName",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Middle Name",
               type: "text",
             },
@@ -147,15 +156,16 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/lastName",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "Last Name",
               type: "text",
-              errorMessage: "Last Name is empty or invalid"
+              errorMessage: "Last Name is empty or invalid",
             },
           },
         },
@@ -163,61 +173,65 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/crn",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "CRN No.",
               type: "text",
-              errorMessage: "CRN No. is empty or invalid"
+              errorMessage: "CRN No. is empty or invalid",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/pan",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "PAN No.",
               type: "text",
-              errorMessage: "PAN No. is empty or invalid"
+              errorMessage: "PAN No. is empty or invalid",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/email",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "Email",
               type: "text",
-              errorMessage: "Email is empty or invalid"
+              errorMessage: "Email is empty or invalid",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/gender",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Gender",
               options: [
-                { label: "Male", value: "Male" },
-                { label: "Female", value: "Female" },
+                { label: "Male", config: "Male" },
+                { label: "Female", config: "Female" },
               ],
             },
           },
@@ -225,12 +239,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/functions",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Functions",
               type: "text",
             },
@@ -239,12 +254,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/roles",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "Roles",
               type: "text",
             },
@@ -253,12 +269,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/grade",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Grade",
               type: "text",
             },
@@ -267,12 +284,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/dateOfJoining",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "DateInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Date Of Joining",
               type: "date",
               // "required":true
@@ -282,12 +300,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/locationCode",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "Location Code",
               type: "text",
             },
@@ -296,12 +315,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/locationName",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Location Name",
               type: "text",
             },
@@ -310,12 +330,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/supervisorEmpCode",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Supervisor Employee Code",
               type: "text",
             },
@@ -324,12 +345,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/supervisorName",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "Supervisor Name",
               type: "text",
             },
@@ -338,55 +360,45 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/supervisorNo",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Supervisor No",
               type: "text",
             },
           },
         },
-        // {
-        //   type: "Control",
-        //   scope: "#/properties/mobilePhoneNo",
-        //   layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
-        //   options: {
-        //     widget: "InputField",
-        //   },
-        //   value: {
-        //     content: {
-        //       label: "Mobile Phone No",
-        //       type: "text",
-        //     },
-        //   },
-        // },
+
         {
           type: "Control",
           scope: "#/properties/mobilePhoneNo",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Mobile Phone No",
               type: "text",
-              errorMessage: "Mobile Phone No is empty or invalid"
+              errorMessage: "Mobile Phone No is empty or invalid",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/workPhoneNo",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "Work Phone No",
               type: "text",
             },
@@ -395,12 +407,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/addrLine1",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Address Line 1",
               type: "text",
             },
@@ -409,12 +422,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/addrLine2",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Address Line 2",
               type: "text",
             },
@@ -423,12 +437,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/addrLine3",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "Address Line 3",
               type: "text",
             },
@@ -437,12 +452,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/city",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "City",
               type: "text",
             },
@@ -451,12 +467,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/pinCode",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Pin Code",
               type: "text",
             },
@@ -465,12 +482,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/ccCode",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "CC Code",
               type: "text",
             },
@@ -479,12 +497,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/ccName",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "CC Name",
               type: "text",
             },
@@ -493,12 +512,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/lobCode",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "LOB Code",
               type: "text",
             },
@@ -507,12 +527,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/lob",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "LOB",
               type: "text",
             },
@@ -521,12 +542,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/terminationDate",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "DateInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Termination Date",
               type: "date",
             },
@@ -535,12 +557,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/locCity",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "LOC City",
               type: "text",
             },
@@ -549,12 +572,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/locState",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "LOC State",
               type: "text",
             },
@@ -563,12 +587,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/rmName",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "RM Name",
               type: "text",
             },
@@ -577,12 +602,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/segment",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Segment",
               type: "text",
             },
@@ -592,85 +618,90 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/empCode",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "EMP Code",
               type: "text",
-              errorMessage: "EMP Code is empty or invalid"
+              errorMessage: "EMP Code is empty or invalid",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/role",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Role",
               // "required": true,
               options: [{}],
-              errorMessage: "Role is not selected"
+              errorMessage: "Role is not selected",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/position",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Position",
               // "required": true,
               options: [{}],
-              errorMessage: "Position is not selected"
+              errorMessage: "Position is not selected",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/active",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+
           options: {
             widget: "RadioInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+            main: {
               label: "Active",
               options: ["YES", "NO"],
               // "required": true
-              errorMessage: "Active is not marked YES or NO"
+              errorMessage: "Active is not marked YES or NO",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/reasonForInactiveMarking",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
               label: "Reason For Inactive Marking",
               type: "text",
-              errorMessage: "Reason For Inactive Marking is empty or invalid"
+              errorMessage: "Reason For Inactive Marking is empty or invalid",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/EmptyBox",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+          config: { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 } },
           options: {
             widget: "EmptyBox",
           },
@@ -678,7 +709,7 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/EmptyBox",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+          config: { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 } },
           options: {
             widget: "EmptyBox",
           },
@@ -686,11 +717,13 @@ export const UserMasterUISchema = {
         {
           type: "Control",
           scope: "#/properties/EmptyBox",
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 8.5,
-            lg: 9.5,
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 8.5,
+              lg: 9.5,
+            },
           },
           options: {
             widget: "EmptyBox",
@@ -702,27 +735,28 @@ export const UserMasterUISchema = {
           options: {
             widget: "Button",
           },
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 2.5,
-            lg: 1.5,
-          },
-          value: {
-            content: {
+
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 2.5,
+              lg: 1.5,
+            },
+            main: {
               name: "Submit",
               startIcon: "ApproveIcon",
               variant: "contained",
               color: "info",
               type: "text",
-              funcName: "Submit_User",
+              click: "Submit_User",
               size: "small",
             },
             style: {
               marginBottom: "8px",
             },
           },
-        }
+        },
       ],
     },
     {
@@ -730,7 +764,7 @@ export const UserMasterUISchema = {
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
+      },
     },
   ],
 };

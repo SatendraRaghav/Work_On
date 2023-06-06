@@ -1,6 +1,6 @@
-export const  PositionTypeMasterRecordsUISchema = {
-  "type": "HorizontalLayout",
-  "elements": [
+export const PositionTypeMasterRecordsUISchema = {
+  type: "HorizontalLayout",
+  elements: [
     {
       type: "Control",
       scope: "#/properties/reportListWrapper",
@@ -12,40 +12,41 @@ export const  PositionTypeMasterRecordsUISchema = {
             {
               type: "Control",
               scope: "#/properties/programType",
-              layout: 5.5,
+
               options: {
                 widget: "Box",
               },
-              value: {
-                content: {
+              config: {
+                layout: 5.5,
+                main: {
                   heading: "Position Type Master",
-                }
+                },
               },
             },
             {
               type: "Control",
               scope: "#/properties/New_Record",
-              layout: {
-                xs: 6,
-                sm: 4,
-                md: 5.5,
-                lg: 5.5,
-              },
+
               options: {
-                widget: "Button",
+                widget: "IconButton",
               },
-              value: {
-                content: {
+              config: {
+                layout: {
+                  xs: 6,
+                  sm: 4,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
                   name: "New Records",
                   icon: "AddIcon",
-                  size:"small",
+                  size: "small",
                   styleDefault: true,
-                  tooltipMessage:"Add New Record", 
-                  "funcName":"newRecord",
+                  tooltipMessage: "Add New Record",
+                  click: "newRecord",
                 },
                 style: {
                   float: "right",
-                 
                 },
               },
             },
@@ -53,163 +54,159 @@ export const  PositionTypeMasterRecordsUISchema = {
         },
       },
     },
-    {   
-      "type": "Control",
-      "scope": "#/properties/EmptyBox",
-      "layout": {
-        "xs": 5.5,
-        "sm": 7.5,
-        "md": 8,
-        "lg": 8
-      },
-      "options": {
-        "widget": "EmptyBox"
-      }
-    },
     {
-      "type": "Control",
-      "scope": "#/properties/PositionTypeRecords",
-      "labels": ["Approve", "Pending", "Reject"],
-      "options": {
-        "widget": "Tab",
-        "detail": {
-          "type": "HorizontalLayout",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/approveRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "columns": [
+      type: "TabLayout",
+      config: {
+        main: {
+          labels: ["Approve", "Pending", "Reject"],
+          layout: 12,
+        },
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/ApproveRecords",
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
                   {
-                    "field": "id",
-                    headerName:"id",
-                   flex:1,
-                    "hide": true,
-                    "widget": "api"
+                    accessorKey: "id",
+                    header: "id",
                   },
                   {
-                    "field": "name",
-                    flex:1,
-                    "headerName": "Name",
-                    "widget": "api"
+                    accessorKey: "name",
+
+                    header: "Name",
                   },
+                ],
+                actionColumns: [
                   {
-                    field:"Edit_Approve_Records",
-                    "headerName": "Edit",
-                    width:"100",
-                   "flex":1,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/Edit_Records",
-                      "options": {
-                        "widget": "Button"
+                    accessorKey: "Edit_Approve_Records",
+                    header: "Edit",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Edit_Records",
+                      options: {
+                        widget: "IconButton",
                       },
-                      "value": {
-                        content: {
-                          color:"info",
-                          size:"small",
+                      config: {
+                        main: {
+                          color: "info",
+                          size: "small",
+                          click: "Edit_Approve_Records",
                           icon: "EditIcon",
-                          tooltipMessage:"Edit This Record",
+                          tooltipMessage: "Edit This Record",
                         },
                         style: {
-                          color:"#3949ab"
+                          color: "#3949ab",
                         },
-                      }
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/pendingRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "columns": [
-                  {
-                    "field": "id",
-                    headerName:"id",
-                    "width": "100",
-                    "hide": true,
-                    "widget": "api"
-                  },
-                  {
-                    "field": "name",
-                    flex:1,
-                    "headerName": "Name",
-                    "widget": "api"
-                  },
-                  {
-                    field:"PositionTypeApprover",
-                    "headerName": "Approve",
-                   width:"100",
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/Approve2Button",
-                      "options": {
-                        "widget": "Button"
                       },
-                      "value": {
-                        "content": {
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/PendingRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
+                  {
+                    accessorKey: "id",
+                    header: "id",
+                  },
+                  {
+                    accessorKey: "name",
+
+                    header: "Name",
+                  },
+                ],
+                actionColumns: [
+                  {
+                    accessorKey: "PositionTypeApprover",
+                    header: "Approve",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Approve2Button",
+                      options: {
+                        widget: "IconButton",
+                      },
+                      config: {
+                        main: {
                           icon: "ApproveIcon",
-                          color:"success",
-                          tooltipMessage:"Approve This Record",
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "field":"Reject_Records",
-                    "headerName": "Reject",
-                    width:"100",
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/RejectButton",
-                      "fieldName": "Reject_Records",
-                      "options": {
-                        "widget": "Button"
+                          color: "success",
+                          click: "PositionTypeApprover",
+                          tooltipMessage: "Approve This Record",
+                        },
                       },
-                      "value": {
-                        "content": {
+                    },
+                  },
+                  {
+                    accessorKey: "Reject_Records",
+                    header: "Reject",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/RejectButton",
+                      accessorKeyName: "Reject_Records",
+                      options: {
+                        widget: "IconButton",
+                      },
+                      config: {
+                        main: {
                           icon: "RejectIcon",
-                          color:"error",
-                          tooltipMessage:"Reject This Record",
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
+                          color: "error",
+                          click: "Reject_Records",
+                          tooltipMessage: "Reject This Record",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
             },
-            {
-              "type": "Control",
-              "scope": "#/properties/rejectRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "columns": [
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/RejectRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
                   {
-                    "field": "id",
-                    headerName:"id",
-                    "width": "100",
-                    "hide": true,
-                    "widget": "api"
+                    accessorKey: "id",
+                    header: "id",
                   },
                   {
-                    "field": "name",
-                   flex:1,
-                    "headerName": "Name",
-                    "widget": "api"
+                    accessorKey: "name",
+
+                    header: "Name",
                   },
-                ]
-              }
-            }
-          ]
-        }
-      }
+                ],
+              },
+            },
+          },
+        },
+      ],
     },
     {
       type: "Control",
@@ -217,14 +214,14 @@ export const  PositionTypeMasterRecordsUISchema = {
       options: {
         widget: "Notify",
       },
-      layout: 6,
+      config: { layout: 6 },
     },
     {
       type: "Control",
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
+      },
     },
-  ]
-}
+  ],
+};

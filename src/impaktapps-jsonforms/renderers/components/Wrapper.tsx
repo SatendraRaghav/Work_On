@@ -31,9 +31,9 @@ const Wrapper =  memo(function Wrapper ({
     <Box
       sx={{
         width:"98%",
-        margin: "15px auto ",
+        margin: "15px auto",
         background:"white",
-         padding:"1px",
+         padding:"1x",
         borderRadius:"20px",
         ...uischema?.config?.style?.wrapperStyle,
      

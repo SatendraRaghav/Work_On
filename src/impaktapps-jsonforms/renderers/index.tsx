@@ -10,7 +10,7 @@ import ControlSelect from "./controls/ControlSelect";
 import ControlDate from "./controls/ControlDate";
 import ControlDataTablePro from "./controls/ControlDataTablePro";
 import ControlDataTable from "./controls/ControlDataTable";
-import ControlBox from "./controls/ControlLabel";
+import ControlLabel from "./controls/ControlLabel";
 import ControlTab from "./controls/ControlTab";
 import ControlNotify from "./controls/ControlNotify";
 import ControlPassword from "./controls/ControlPassword";
@@ -22,6 +22,7 @@ import ControlIconButton from "./controls/ControlIconButton";
 import ControlAutoComplete from "./controls/ControlAutoComplete";
 import ControlDownloadFile from "./controls/ControlDownloadFile";
 import ControlUploadFile from "./controls/ControlUploadFile";
+import { WrapperLayoutControl, WrapperLayoutTester } from "./layouts/WrapperControl";
 export const renderers = [
   ...materialRenderers,
   {
@@ -29,11 +30,12 @@ export const renderers = [
     renderer: MaterailLayoutHorizontal,
   },
   { tester: TabLayoutTester, renderer: TabLayoutControl },
+  { tester: WrapperLayoutTester, renderer: WrapperLayoutControl},
   { tester: TesterMaster("Wrapper"), renderer: ControlWrapper },
   { tester: TesterMaster("Tab"), renderer: ControlTab },
   { tester: TesterMaster("TableMui"), renderer: ControlDataTable },
   { tester: TesterMaster("Table"), renderer: ControlDataTablePro },
-  { tester: TesterMaster("Box"), renderer: ControlBox },
+  { tester: TesterMaster("Box"), renderer: ControlLabel },
   { tester: TesterMaster("InputField"), renderer: ControlInput },
   { tester: TesterMaster("PasswordInputField"), renderer: ControlPassword },
   { tester: TesterMaster("DownloadFile"), renderer: ControlDownloadFile },

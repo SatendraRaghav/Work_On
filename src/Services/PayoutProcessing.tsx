@@ -4,6 +4,7 @@ import { PayoutProcessingUiSchema } from "../UiSchema/PayoutProcessing/UiSchema"
 import { PayoutProcessingSchema } from "../UiSchema/PayoutProcessing/Schema";
 
 import { myService } from "../service/service";
+import _ from "lodash";
 
 export const PayoutProcessing = (
   ctx?: JsonFormsStateContext,
@@ -28,11 +29,7 @@ export const PayoutProcessing = (
       setSchema(schema);
     },
     getFormdata: async function () {
-      return {
-        ...ctx.core.data,
-        "DataListWrapper.0.AuditList": [],
-        "DataListWrapper.0.ExceptionList": [],
-      }
+      return {}
     },
     getUiSchema: async function () {
       let uiSchema = PayoutProcessingUiSchema;
@@ -43,8 +40,8 @@ export const PayoutProcessing = (
           data = response.data.payload.map((elem: any) => {
             return { label: elem.name, value: elem.id };
           });
-          //@ts-ignore
-          uiSchema.elements[2].options.detail.elements[2].value.content.options =
+           //@ts-ignore
+          uiSchema.elements[2].options.detail.elements[2].config.main.options =
             data;
         })
         .catch((error) => {
@@ -72,7 +69,7 @@ export const PayoutProcessing = (
             return cycle;
           });
           //@ts-ignore
-          uiSchema.elements[2].options.detail.elements[3].value.content.options =
+          uiSchema.elements[2].options.detail.elements[3].config.main.options =
             result1;
           setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         })
@@ -246,11 +243,14 @@ export const PayoutProcessing = (
               modifiedOn: modifiedDateString,
             };
           });
-          setFormdata({
-            ...ctx.core.data,
-            "DataListWrapper.0.AuditList": tempAuditData,
-          });
-          setUiSchema(PayoutProcessingUiSchema);
+          const UiSchema = _.cloneDeep(PayoutProcessingUiSchema)
+          console.log(UiSchema)
+          // UiSchema.elements[3].config.main.allRowsData = tempAuditData;
+          //@ts-ignore
+          UiSchema.elements[3].elements[0].config.main.allRowsData = tempAuditData
+          console.log(UiSchema)
+          ;
+          setUiSchema(UiSchema);
         })
         .catch((error) => {
           console.log(error);

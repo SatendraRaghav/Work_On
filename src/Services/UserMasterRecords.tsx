@@ -18,95 +18,106 @@ export const UserMasterRecords = (
   schema?: any,
   setConfig?: any,
   setAdditionalErrors?: any,
-  setNotify?:any
+  setNotify?: any
 ) => {
-    const serviceApi =   myService(otherData.setLoading, otherData.setDialogBox, navigate);
-    return {
-        
-        setPage: async function () {
-            setFormdata({})
-            const schema = this.getSchema();
-            setSchema(schema);
-            const UiSchema = this.getUiSchema();
-            setUiSchema(UiSchema);
-            const formData = await this.getFormData();
-            setFormdata(formData);
+  const serviceApi = myService(
+    otherData.setLoading,
+    otherData.setDialogBox,
+    navigate
+  );
+  return {
+    setPage: async function () {
+      setFormdata({});
+      const schema = this.getSchema();
+      setSchema(schema);
+      const UiSchema =await this.getUiSchema();
+      setUiSchema(UiSchema);
+      const formData =  this.getFormData();
+      setFormdata(formData);
+    },
+    getFormData:  () => {
+    return {}
+    },
+    getUiSchema: async () => {
+      const UiSchema = JSON.parse(JSON.stringify(UserMasterRecordsUISchema));
+      console.log(UiSchema);
+      const Api =
+        "/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging&status=A";
+      const ApiPending =
+        "/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging&status=N";
+      const ApiReject =
+        "/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging&status=R";
+      const data = await serviceApi
+        .get(Api)
+        .then((res) => {
+          UiSchema.elements[2].elements[0].config.main.allRowsData =
+            res.data.payload;
+
+          return serviceApi.get(ApiPending);
+        })
+        .then((res) => {
+          UiSchema.elements[2].elements[1].config.main.allRowsData =
+            res.data.payload;
+          return serviceApi.get(ApiReject);
+        })
+        .then((res) => {
+          UiSchema.elements[2].elements[2].config.main.allRowsData =
+            res.data.payload;
+          // return UiSchema;
+        })
+        .catch((err) => {
+          UiSchema.elements[2].elements[0].config.main.allRowsData = [];
+          UiSchema.elements[2].elements[1].config.main.allRowsData = [];
+          UiSchema.elements[2].elements[2].config.main.allRowsData = [];
+        });
+      return UiSchema;
+    },
+    getSchema: () => {
+      return {};
+    },
+    UserApprover: function () {
+      serviceApi
+        .post("/master/action", {
+          id: 1,
+          payload: {
+            entityName: "com.act21.hyperform3.entity.master.user.UserStaging",
+            entityValue: otherData.rowData,
+            action: "A",
           },
-        getFormData: async () => {
-            let approveData: any[] = [];
-            let pendingData: any[] = [];
-            let rejectData: any[] = [];
-            const formData: any = {};
-            const Api =
-                "/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging&status=A";
-            const Api2 =
-                "/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging&status=N";
-            const Api3 =
-                "/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging&status=R";       
-                const data = await serviceApi
-                .get(Api)
-                .then((res) => {
-                    approveData=res.data.payload;
-                  formData["UserMasterRecords.0.approveRecords"] = approveData;
-                  return serviceApi.get(Api2);
-                }).then((res1) => {
-                  pendingData=res1.data.payload;
-                  formData["UserMasterRecords.1.pendingRecords"] = pendingData;
-                  return serviceApi.get(Api3);
-                }).then((res2) => {
-                  rejectData=res2.data.payload;
-                  formData["UserMasterRecords.2.rejectRecords"] = rejectData;
-                  return formData;
-                }).catch((err) => {
-                  console.log(`Error from Api : ${err}`)
-                  formData["UserMasterRecords.0.ApproveRecords"] = [];
-                  formData["UserMasterRecords.1.PendingRecords"] =  [];
-                  formData["UserMasterRecords.2.RejectRecords"] = [];
-                
-                  return formData;}
-                );
-            //    const data1 = await serviceApi.get("/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging&status=N")
-                
-            //    const data2 = await serviceApi.get("/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging&status=R")
-                
-                
-              return data;
-            },
-                    getUiSchema: () => {
+        })
+        .then(async (res) => {
+          console.log("approved");
+          const data = await this.getFormData();
+          setFormdata({
+            ...data,
+          });
+          setNotify({ SuccessMessage: "Approved successfully", Success: true });
+        });
+    },
+    Reject_Records: function () {
+      serviceApi
+        .post("/master/action", {
+          id: 1,
+          payload: {
+            entityName: "com.act21.hyperform3.entity.master.user.UserStaging",
+            entityValue: otherData.rowData,
+            action: "R",
+          },
+        })
+        .then(async (res) => {
+          const data = await this.getFormData();
+          setFormdata({
+            ...data,
+          });
+          setNotify({ SuccessMessage: "Rejected successfully", Success: true });
+        });
+    },
 
-                      return  UserMasterRecordsUISchema;
-                    },
-                    getSchema: () => {
-                        return{};
-                    },
-                    UserApprover: function () {
-                        serviceApi.post("/master/action", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.user.UserStaging",entityValue:otherData.rowData,action:"A"}}).then(async(res) => {
-                            console.log("approved")
-                            const data =   await this.getFormData();
-                            setFormdata({
-                              ...data
-                            });
-                            setNotify({SuccessMessage:"Approved successfully",Success:true,})
-                        })
-                    },
-                    Reject_Records: function () {
-                        serviceApi.post("/master/action",{id:1,payload:{entityName:"com.act21.hyperform3.entity.master.user.UserStaging",entityValue:otherData.rowData,action:"R"}}).then(async(res) => {
-                            const data =   await this.getFormData();
-                            setFormdata({
-                              ...data
-                            });
-                            setNotify({SuccessMessage:"Rejected successfully",Success:true,})
-
-                          });
-                    },
-                          
-                    newRecord: () => {
-                        navigate("/UserMaster")
-                    },
-                    Edit_Approve_Records: function () {
-                        navigate(`/UserMaster?id=${otherData.rowData.id}`)
-                      },
-                   
+    newRecord: () => {
+      navigate("/UserMaster");
+    },
+    Edit_Approve_Records: function () {
+      navigate(`/UserMaster?id=${otherData.rowData.id}`);
+    },
   };
-    };
- 
+};

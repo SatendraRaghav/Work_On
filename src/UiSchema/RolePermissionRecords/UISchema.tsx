@@ -1,6 +1,6 @@
-export const  RolePermissionRecordsUISchema = {
-  "type": "HorizontalLayout",
-  "elements": [
+export const RolePermissionRecordsUISchema = {
+  type: "HorizontalLayout",
+  elements: [
     {
       type: "Control",
       scope: "#/properties/reportListWrapper",
@@ -12,22 +12,18 @@ export const  RolePermissionRecordsUISchema = {
             {
               type: "Control",
               scope: "#/properties/programType",
-              layout: 5.5,
+
               options: {
                 widget: "Box",
               },
-              value: {
-                content: {
-                  heading: "Role Permission Master",
-                },
+              config: { layout: 5.5,
+                main: { heading: "Role Permission Master" },
                 style: {
-                  // marginTop: "18px",
                   fontFamily: "Roboto",
                   fontWeight: "500",
-                  // paddingTop: "8px",
+
                   fontSize: "20px",
-                  // paddingBottom: "8px",
-                  // borderRadius: "20px",
+
                   background: "white",
                 },
               },
@@ -35,29 +31,27 @@ export const  RolePermissionRecordsUISchema = {
             {
               type: "Control",
               scope: "#/properties/New_Record",
-              layout: {
-                xs: 6,
-                sm: 4,
-                md: 5.5,
-                lg: 5.5,
-              },
+
               options: {
-                widget: "Button",
+                widget: "IconButton",
               },
-              value: {
-                content: {
+              config: {
+                layout: {
+                  xs: 6,
+                  sm: 4,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
                   name: "New Records",
                   icon: "AddIcon",
-                  size:"small",
+                  size: "small",
                   styleDefault: true,
-                  tooltipMessage:"Add New Record",
-                  "funcName":"newRecord",
+                  tooltipMessage: "Add New Record",
+                  click: "newRecord",
                 },
                 style: {
-                  // width:"20%",
                   float: "right",
-                  // marginTop:"20px",
-                  // marginRight:"15px"
                 },
               },
             },
@@ -65,173 +59,163 @@ export const  RolePermissionRecordsUISchema = {
         },
       },
     },
-    { 
-      "type": "Control",
-      "scope": "#/properties/EmptyBox",
-      "layout": {
-        "xs": 5.5,
-        "sm": 7.5,
-        "md": 8,
-        "lg": 8
-      },
-      "options": {
-        "widget": "EmptyBox"
-      }
-    },
+
     {
-      "type": "Control",
-      "scope": "#/properties/RolePermissionRecords",
-      "labels": ["Approve", "Pending", "Reject"],
-      "options": {
-        "widget": "Tab",
-        "detail": {
-          "type": "HorizontalLayout",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/approveRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "loadFunction":"getRolePermissionAprroveRecords",
-                "ApiDetails":{
-                "DataApi": "http://localhost:8081/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging",
-                "DataApiBody": { "status": "A" }},
-                "columns": [
+      type: "TabLayout",
+      config: {
+        main: {
+          labels: ["Approve", "Pending", "Reject"],
+          layout: 12,
+        },
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/ApproveRecords",
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
                   {
-                    "field": "id",
-                    headerName:"id",
-                    flex: 1,
-                    "hide": true,
-                    "widget": "api"
+                    accessorKey: "id",
+                    header: "id",
                   },
                   {
-                    "field": "permName",
-                    flex: 200,
-                    "headerName": "Name",
-                    "widget": "api"
+                    accessorKey: "permName",
+
+                    header: "Name",
                   },
+                ],
+                actionColumns: [
                   {
-                    field:"Edit_Approve_Records",
-                    "headerName": "Edit_Records",
-                    flex: 100,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/Edit_Records",
-                      "options": {
-                        "widget": "Button"
+                    accessorKey: "Edit_Approve_Records",
+                    header: "Edit_Records",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Edit_Records",
+                      options: {
+                        widget: "IconButton",
                       },
-                      "value": {
-                        content: {
-                          color:"info",
-                          size:"small",
+                      config: {
+                        main: {
+                          color: "info",
+                          click: "Edit_Approve_Records",
+                          size: "small",
                           icon: "EditIcon",
-                          tooltipMessage:"Edit This Record",
+                          tooltipMessage: "Edit This Record",
                         },
                         style: {
-                          color:"#3949ab"
+                          color: "#3949ab",
                         },
                       },
-                    }
-                  }
-                ]
-              }
+                    },
+                  },
+                ],
+              },
             },
-            {
-              "type": "Control",
-              "scope": "#/properties/pendingRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "loadFunction":"getRolePermissionPendingRecords",
-                "ApiDetails":{
-                "DataApiBody": { "status": "N" },
-                "DataApi": "http://localhost:8081/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging"
-                },
-                "columns": [
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/PendingRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
                   {
-                    "field": "id",
-                    headerName:"id",
-                   flex:1,
-                    "hide": true,
-                    "widget": "api"
+                    accessorKey: "id",
+                    header: "id",
+
+                    hide: true,
                   },
                   {
-                    "field": "permName",
-                    flex:1,
-                    "headerName": "Name",
-                    "widget": "api"
+                    accessorKey: "permName",
+
+                    header: "Name",
                   },
+                ],
+                actionColumns: [
                   {
-                    field:"RolePermissionApprover",
-                    "headerName": "Approve",
-                   "flex":1,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/Approve2Button",
-                      "fieldName": "RolePermissionApprover",
-                      "options": {
-                        "widget": "Button"
+                    accessorKey: "RolePermissionApprover",
+                    header: "Approve",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Approve2Button",
+                      fieldName: "RolePermissionApprover",
+                      options: {
+                        widget: "IconButton",
                       },
-                      "value": {
-                        "content": {
+                      config: {
+                        main: {
                           icon: "ApproveIcon",
-                          color:"success",
-                          tooltipMessage:"Approve this Record",
-                        }
-                      }
-                    }
-                  },
-                  {
-                    field:"Reject_Records",
-                    "headerName": "Reject",
-                   "flex":1,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/RejectButton",
-                      "fieldName": "Reject_Records",
-                      "options": {
-                        "widget": "Button"
+                          click: "RolePermissionApprover",
+                          color: "success",
+                          tooltipMessage: "Approve this Record",
+                        },
                       },
-                      "value": {
-                        "content": {
+                    },
+                  },
+                  {
+                    accessorKey: "Reject_Records",
+                    header: "Reject",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/RejectButton",
+                      fieldName: "Reject_Records",
+                      options: {
+                        widget: "IconButton",
+                      },
+                      config: {
+                        main: {
                           icon: "RejectIcon",
-                          color:"error",
-                          tooltipMessage:"Reject This Record",
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
+                          color: "error",
+                          click: "Reject_Records",
+                          tooltipMessage: "Reject This Record",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
             },
-            {
-              "type": "Control",
-              "scope": "#/properties/rejectRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "loadFunction":"getRolePermissionRejectedRecords",
-                "columns": [
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/RejectRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
                   {
-                    "field": "id",
-                    headerName:"id",
-                   flex:1,
-                    "hide": true,
-                    "widget": "api"
+                    accessorKey: "id",
+                    header: "id",
                   },
                   {
-                    "field": "permName",
-                    "width": "80",
-                    "headerName": "Name",
-                    "widget": "api"
+                    accessorKey: "permName",
+
+                    header: "Name",
                   },
-                ]
-              }
-            }
-          ]
-        }
-      }
+                ],
+              },
+            },
+          },
+        },
+      ],
     },
     {
       type: "Control",
@@ -239,14 +223,14 @@ export const  RolePermissionRecordsUISchema = {
       options: {
         widget: "Notify",
       },
-      layout: 6,
+      config: { layout: 6 },
     },
     {
       type: "Control",
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
+      },
     },
-  ]
-}
+  ],
+};

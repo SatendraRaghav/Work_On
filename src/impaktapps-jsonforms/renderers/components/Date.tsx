@@ -31,11 +31,12 @@ const Date = memo(function(props:inputProps ){
           path={`${id}:${fieldName}`}
           permissions={permissions}
         >
-          <FormControl size={uischemaData?.size||"medium"}>
+
+          {/* <FormControl size={uischemaData?.size||"medium"}>
             <PermissionWrapper
               path={`${id}:${fieldName}`}
               permissions={permissions}
-            >
+            > */}
               <DatePicker
                 label={uischemaData?.label}
                 className={style.dateStyle}
@@ -63,9 +64,9 @@ const Date = memo(function(props:inputProps ){
                 )}
               />
             </PermissionWrapper>
-            <Helpertext uischemaData={uischemaData} errors={errors} />
+            {/* <Helpertext uischemaData={uischemaData} errors={errors} />
           </FormControl>
-        </PermissionWrapper>
+        </PermissionWrapper> */}
       </LocalizationProvider>
     </Stack>
   );

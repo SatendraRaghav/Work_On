@@ -9,45 +9,54 @@ export const ProgramMasterCycleUiSchema = {
         detail: {
           type: "HorizontalLayout",
           elements: [
-        {
-          type: "Control",
-          scope: "#/properties/programType",
-          layout: 5.5,
-          options: {
-            widget: "Box",
-          },
-          value: {
-            content: {
-              heading: "Cycle Master",
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+
+              options: {
+                widget: "Box",
+              },
+              config: {
+                layout: 5.5,
+                main: {
+                  heading: "Cycle Master",
+                },
+              },
             },
-          },
+            {
+              type: "Control",
+              scope: "#/properties/Back_Button",
+
+              options: {
+                widget: "IconButton",
+              },
+              config: {
+                layout: 5.5,
+                main: {
+                  icon: "BackIcon",
+                  styleDefault: true,
+                  size: "small",
+                  click: "backHandler",
+                  tooltipMessage: "Back",
+                },
+                style: {
+                  float: "right",
+                },
+              },
+            },
+          ],
         },
-        {
-          type: "Control",
-          scope: "#/properties/Back_Button",
-          layout: 5.5,
-          options: {
-            widget: "Button",
-          },
-          value: {
-            content: {
-              icon: "BackIcon",
-              styleDefault: true,
-              size: "small",
-              funcName: "backHandler",
-              tooltipMessage: "Back",
-            },
-            style: {
-              float: "right",
-            },
-          },
-        },
-      ]}},
+      },
     },
     {
       type: "TabLayout",
-      labels: ["Core", "Workflow", "Invoice", "Reports", "Clawback"],
-      defaultStyle: true,
+      config: {
+        main: {
+          labels: ["Core", "Workflow", "Invoice", "Reports", "Clawback"],
+          defaultStyle: true,
+        },
+      },
+    
       elements: [
         {
           type: "HorizontalLayout",
@@ -55,35 +64,37 @@ export const ProgramMasterCycleUiSchema = {
             {
               type: "Control",
               scope: "#/properties/name",
-              layout: {
-                xs: 12,
-                sm: 12,
-                md: 6,
-                lg: 6,
-              },
+
               options: {
                 widget: "InputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: {
+                  xs: 12,
+                  sm: 12,
+                  md: 6,
+                  lg: 6,
+                },
+                main: {
                   label: "Cycle Name",
-                  errorMessage: "Cycle Name is empty or invalid"
+                  errorMessage: "Cycle Name is empty or invalid",
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/program",
-              layout: { xs: 12, sm: 12, md: 6, lg: 6 },
+
               options: {
                 widget: "SelectInputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 12, sm: 12, md: 6, lg: 6 },
+                main: {
                   label: "Program Name",
                   type: "text",
                   options: [{}],
-                  errorMessage: "Program Name is not selected"
+                  errorMessage: "Program Name is not selected",
                 },
               },
             },
@@ -93,11 +104,12 @@ export const ProgramMasterCycleUiSchema = {
               options: {
                 widget: "DateInputField",
               },
-              layout: { xs: 12, sm: 12, md: 6, lg: 6 },
-              value: {
-                content: {
+
+              config: {
+                layout: { xs: 12, sm: 12, md: 6, lg: 6 },
+                main: {
                   label: "Start Date",
-                  conditionLoadFunc:"verifyStartDate",
+                  click: "verifyStartDate",
                   type: "date",
                   errorMessage: "Start Date is empty or invalid",
                 },
@@ -109,12 +121,13 @@ export const ProgramMasterCycleUiSchema = {
               options: {
                 widget: "DateInputField",
               },
-              layout: { xs: 12, sm: 12, md: 6, lg: 6 },
-              value: {
-                content: {
+
+              config: {
+                layout: { xs: 12, sm: 12, md: 6, lg: 6 },
+                main: {
                   label: "End Date",
                   type: "date",
-                  conditionLoadFunc:"verifyEndDate",
+                  click: "verifyEndDate",
                   errorMessage: "End Date is empty or invalid",
                 },
               },
@@ -122,22 +135,49 @@ export const ProgramMasterCycleUiSchema = {
           ],
         },
         {
-
           type: "HorizontalLayout",
           elements: [
             {
               type: "Control",
-              scope: "#/properties/workflowFile",
+              scope: "#/properties/uploadWorkflowFile",
               options: {
-                widget: "FileInputField",
+                widget: "UploadFile",
               },
-              value: {
-                content: {
-                  label: "Upload Workflow File",
-
-                  funcName: "workspaceFileSaveFunction",
-                  downloadFuncName: "Download_Workspace_File",
-                  errorMessage: "Workflow File is not uploaded"
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
+                  required: false,
+                  click: "workspaceFileSaveFunction",
+                  errorMessage: "Workflow File is not uploaded",
+                  // iconStyleDefault:true,
+                },
+                style: {
+                  backgroundColor: "none",
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/downloadWorkflowFile",
+              options: {
+                widget: "DownloadFile",
+              },
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
+                  required: false,
+                  click: "Download_Workspace_File",
+                  // iconStyleDefault:true,
                 },
                 style: {
                   backgroundColor: "none",
@@ -147,26 +187,28 @@ export const ProgramMasterCycleUiSchema = {
             {
               type: "Control",
               scope: "#/properties/processDefKey1",
-              layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
               options: {
                 widget: "InputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+                main: {
                   label: "Process Def Key",
-                  errorMessage: "Process Def Key is empty or invalid"
+                  errorMessage: "Process Def Key is empty or invalid",
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/proc",
-              layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+              config: {
+                layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+              },
               options: {
                 widget: "EmptyBox",
               },
-
-            }
+            },
           ],
         },
         {
@@ -174,33 +216,63 @@ export const ProgramMasterCycleUiSchema = {
           elements: [
             {
               type: "Control",
-              scope: "#/properties/invoiceFile",
-              layout: 12,
+              scope: "#/properties/uploadInvoiceFile",
               options: {
-                widget: "FileInputField",
+                widget: "UploadFile",
               },
-              value: {
-                content: {
-                  label: "Upload Invoice File",
-                  downloadFuncName: "Download_Invioce_File",
-                  funcName: "invioceFileSaveFunction",
-                  errorMessage: "Invoice File is not uploaded"
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
+                  required: false,
+                  click: "invioceFileSaveFunction",
+                  errorMessage: "Invoice File is not uploaded",
+                },
+                style: {
+                  backgroundColor: "none",
                 },
               },
             },
-
+            {
+              type: "Control",
+              scope: "#/properties/downloadInvoiceFile",
+              options: {
+                widget: "DownloadFile",
+              },
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
+                  required: false,
+                  click: "Download_Invioce_File",
+                 
+                },
+                style: {
+                  backgroundColor: "none",
+                },
+              },
+            },
             {
               type: "Control",
               scope: "#/properties/invoiceEnabled",
-              layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
               options: {
                 widget: "RadioInputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+                main: {
                   label: "Enabled",
                   options: ["YES", "NO"],
-                  errorMessage: "Enabled is not marked as YES or NO"
+                  errorMessage: "Enabled is not marked as YES or NO",
                 },
               },
             },
@@ -208,11 +280,14 @@ export const ProgramMasterCycleUiSchema = {
             {
               type: "Control",
               scope: "#/properties/EmptyBox",
-              layout: {
-                xs: 11,
-                sm: 11,
-                md: 5.5,
-                lg: 5.5,
+
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 5.5,
+                  lg: 5.5,
+                },
               },
               options: {
                 widget: "EmptyBox",
@@ -221,18 +296,18 @@ export const ProgramMasterCycleUiSchema = {
           ],
         },
         {
-
           type: "HorizontalLayout",
           elements: [
             {
               type: "Control",
               scope: "#/properties/reportNames",
-              layout: { xs: 12, sm: 10, md: 6, lg: 6 },
+
               options: {
                 widget: "SelectInputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 12, sm: 10, md: 6, lg: 6 },
+                main: {
                   label: "  Name",
                   loadFunction: "",
                   color: "secondary",
@@ -240,23 +315,26 @@ export const ProgramMasterCycleUiSchema = {
 
                   multiple: true,
                   options: [
-                    { label: "DSL", value: "DSL" },
-                    { label: "PSL", value: "PSL" },
-                    { label: "Home LOAN", value: "Home LOAN" },
+                    { label: "DSL", config: "DSL" },
+                    { label: "PSL", config: "PSL" },
+                    { label: "Home LOAN", config: "Home LOAN" },
                   ],
-                  errorMessage: "Reports are not selected"
+                  errorMessage: "Reports are not selected",
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/EmptyBox",
-              layout: {
-                xs: 0,
-                sm: 0,
-                md: 6,
-                lg: 6,
+              config: {
+                layout: {
+                  xs: 0,
+                  sm: 0,
+                  md: 6,
+                  lg: 6,
+                },
               },
+
               options: {
                 widget: "EmptyBox",
               },
@@ -264,28 +342,31 @@ export const ProgramMasterCycleUiSchema = {
           ],
         },
         {
-
           type: "HorizontalLayout",
           elements: [
             {
               type: "Control",
               scope: "#/properties/clawbackEnabled",
-              layout: { xs: 12, sm: 8, md: 6, lg: 6 },
+
               options: {
                 widget: "RadioInputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 12, sm: 8, md: 6, lg: 6 },
+                main: {
                   label: "Enabled",
                   options: ["YES", "NO"],
-                  errorMessage: "Enabled is not marked as YES or NO"
+                  errorMessage: "Enabled is not marked as YES or NO",
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/EmptyBox",
-              layout: 6,
+              config: {
+                layout: 6,
+              },
+
               options: {
                 widget: "EmptyBox",
               },
@@ -293,11 +374,14 @@ export const ProgramMasterCycleUiSchema = {
             {
               type: "Control",
               scope: "#/properties/EmptyBox",
-              layout: {
-                xs: 11,
-                sm: 11,
-                md: 8.5,
-                lg: 9.5,
+
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 8.5,
+                  lg: 9.5,
+                },
               },
               options: {
                 widget: "EmptyBox",
@@ -309,20 +393,21 @@ export const ProgramMasterCycleUiSchema = {
               options: {
                 widget: "Button",
               },
-              layout: {
-                xs: 11,
-                sm: 11,
-                md: 2.5,
-                lg: 1.5,
-              },
-              value: {
-                content: {
+
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 2.5,
+                  lg: 1.5,
+                },
+                main: {
                   name: "Submit",
                   startIcon: "ApproveIcon",
                   variant: "contained",
                   color: "info",
                   type: "text",
-                  funcName: "Submit_PM_Cycle",
+                  click: "Submit_PM_Cycle",
                   size: "small",
                 },
                 style: {
@@ -375,15 +460,12 @@ export const ProgramMasterCycleUiSchema = {
       options: {
         widget: "Box",
       },
-      value: {
-        content: {},
+      config: {
+        main: {},
         style: {
-          marginBottom: "280px"
+          marginBottom: "280px",
         },
-
       },
-
     },
   ],
 };
-

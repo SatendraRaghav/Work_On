@@ -12,41 +12,41 @@ export const ProgramMasterCycleRecordUiSchema = {
             {
               type: "Control",
               scope: "#/properties/programType",
-              layout: 5.5,
+
               options: {
                 widget: "Box",
               },
-              value: {
-                content: {
+              config: {
+                layout: 5.5,
+                main: {
                   heading: "Cycle Master",
-                }
+                },
               },
             },
             {
               type: "Control",
               scope: "#/properties/New_Record",
-              layout: {
-                xs: 6,
-                sm: 4,
-                md: 5.5,
-                lg: 5.5,
-              },
+
               options: {
-                widget: "Button",
+                widget: "IconButton",
               },
-              value: {
-                content: {
+              config: {
+                layout: {
+                  xs: 6,
+                  sm: 4,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
                   name: "New Records",
                   icon: "AddIcon",
-                  size:"small",
+                  size: "small",
+                  click:"addNewRecords",
                   styleDefault: true,
-                  tooltipMessage:"Add New Record",
-
-                  funcName: "addNewRecords",
+                  tooltipMessage: "Add New Record"
                 },
                 style: {
                   float: "right",
-                 
                 },
               },
             },
@@ -55,79 +55,75 @@ export const ProgramMasterCycleRecordUiSchema = {
       },
     },
     {
-      type: "Control",
-      scope: "#/properties/ProgramCycleRecords",
-      labels: ["Approve", "Pending", "Reject"],
-      options: {
-        widget: "Tab",
-        detail: {
-          type: "HorizontalLayout",
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/ApproveRecords",
-              layout: 12,
-              options: {
-                widget: "Table",
-                loadFunction: "tempTableLoad",
-                columns: [
+      type: "TabLayout",
+      config: {
+        main: {
+          labels: ["Approve", "Pending", "Reject"],
+        },
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/ApproveRecords",
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                layout: 12,
+                dataColumns: [
                   {
-                    field: "id",
+                    accessorKey: "id",
                     // width: "100",
-                    headerName: "Id",
-                    flex:1,
-                    hide: true,
-                    widget: "api",
-                  },
-                  {
-                    field: "name",
-                    // width: "80",
-                    flex:1,
-                    headerName: "Cycle Name",
-                    cellOverflow:"wrap",
-                    widget: "api",
-                  },
-                  {
-                    field: "program",
-                    // width: "80",
-                    flex:1,
-                    headerName: "Program Name",
-                    cellOverflow:"wrap",
-                    widget: "api",
-                  },
-                  {
-                    field: "startDate",
-                    headerName: "Start Date",
-                    flex:1,
-                    widget: "api",
-                  },
-                  {
-                    field: "endDate",
-                    headerName: "End Date",
-                   
-                    flex: 1,
-                    widget: "api",
-                  },
+                    header: "Id",
 
+                    hide: true,
+                  },
                   {
-                    field: "Edit_Approve_Records",
-                    headerName: "Edit",
-                    width:"100",
+                    accessorKey: "name",
+                    // width: "80",
+
+                    header: "Cycle Name",
+                    cellOverflow: "wrap",
+                  },
+                  {
+                    accessorKey: "program",
+                    // width: "80",
+
+                    header: "Program Name",
+                    cellOverflow: "wrap",
+                  },
+                  {
+                    accessorKey: "startDate",
+                    header: "Start Date",
+                  },
+                  {
+                    accessorKey: "endDate",
+                    header: "End Date",
+                  },
+                ],
+                actionColumns: [
+                  {
+                    accessorKey: "Edit_Approve_Records",
+                    header: "Edit",
+                    width: "100",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Edit_Records",
                       options: {
-                        widget: "Button",
+                        widget: "IconButton",
                       },
-                      value: {
-                        content: {
-                          color:"info",
-                          size:"small",
+                      config: {
+                        main: {
+                          color: "info",
+                          size: "small",
                           icon: "EditIcon",
-                          tooltipMessage:"Edit This Record",
+                          click:"Edit_Approve_Records",
+                          tooltipMessage: "Edit This Record",
                         },
                         style: {
-                          color:"#3949ab"
+                          color: "#3949ab",
                         },
                       },
                     },
@@ -135,138 +131,136 @@ export const ProgramMasterCycleRecordUiSchema = {
                 ],
               },
             },
-            {
-              type: "Control",
-              scope: "#/properties/PendingRecords",
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/PendingRecords",
+
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
               layout: 12,
-              options: {
-                widget: "Table",
-                loadFunction: "tempTableLoad",
-                columns: [
+              columns: {
+                dataColumns: [
                   {
-                    field: "id",
-                    flex:1,
-                    align:"right",
+                    accessorKey: "id",
+
+                    align: "right",
                     hide: true,
-                    widget: "api",
                   },
                   {
-                    field: "name",
-                    flex:1,
-                    headerName: "Cycle Name",
-                    widget: "api",
+                    accessorKey: "name",
+
+                    header: "Cycle Name",
                   },
                   {
-                    field: "program",
-                    flex:1,
-                    headerName: "Program Name",
-                    widget: "api",
+                    accessorKey: "program",
+
+                    header: "Program Name",
                   },
                   {
-                    field: "startDate",
-                    headerName: "Start Date",
-                   
-                   flex:1,
-                    widget: "api",
+                    accessorKey: "startDate",
+                    header: "Start Date",
                   },
                   {
-                    field: "endDate",
-                    headerName: "End Date",
-                    flex:1,
-                    widget: "api",
-                   
+                    accessorKey: "endDate",
+                    header: "End Date",
                   },
+                ],
+                actionColumns: [
                   {
-                    field: "Approve_Records",
-                    headerName: "Approve",
-                    width:"100",
+                    accessorKey: "Approve_Records",
+                    header: "Approve",
+                    width: "100",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Approve Records",
                       options: {
-                        widget: "Button",
+                        widget: "IconButton",
                       },
-                      value: {
-                        content: {
+                      config: {
+                        main: {
                           icon: "ApproveIcon",
-                          color:"success",
-                          tooltipMessage:"Approve This Record",
+                          click: "Approve_Records",
+                          color: "success",
+                          tooltipMessage: "Approve This Record",
                         },
-
                       },
                     },
                   },
 
                   {
-                    field: "Reject_Records",
-                    headerName: "Reject",
-                    width:"100",
+                    accessorKey: "Reject_Records",
+                    header: "Reject",
+                    width: "100",
                     widget: {
                       type: "Control",
                       scope: "#/properties/Reject_Records",
                       options: {
-                        widget: "Button",
+                        widget: "IconButton",
                       },
-                      value: {
-                        content: {
+                      config: {
+                        main: {
                           icon: "RejectIcon",
-                          color:"error",
-                          tooltipMessage:"Reject This Record",
-                        }
+                          color: "error",
+                          click:"Reject_Records",
+                          tooltipMessage: "Reject This Record",
+                        },
                       },
                     },
                   },
                 ],
               },
-          },
-          {
-            type: "Control",
-            scope: "#/properties/RejectRecords",
-            layout: 12,
-            options: {
-              widget: "Table",
-              loadFunction: "tempTableLoad",
-              columns: [
-                {
-                  field: "id",
-                  // width: "100",
-                  flex: 1,
-                  hide: true,
-                  widget: "api",
-                },
-                {
-                  field: "name",
-                  flex:1,
-                  headerName: "Cycle Name",
-                  widget: "api",
-                },
-                {
-                  field: "program",
-                  // width: "80",
-                  flex: 1,
-                  headerName: "Program Name",
-                  widget: "api",
-                },
-                {
-                  field: "startDate",
-                  headerName: "Start Date",
-                  width: "120",
-                  flex: 1,
-                  widget: "api",
-                },
-                {
-                  field: "endDate",
-                  headerName: "End Date",
-                  width: "120",
-                  widget: "api",
-                  flex: 1,
-                },
-              ],
             },
           },
-          ],
         },
-      },
+        {
+          type: "Control",
+          scope: "#/properties/RejectRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
+                  {
+                    accessorKey: "id",
+                    // width: "100",
+
+                    hide: true,
+                  },
+                  {
+                    accessorKey: "name",
+
+                    header: "Cycle Name",
+                  },
+                  {
+                    accessorKey: "program",
+                    // width: "80",
+
+                    header: "Program Name",
+                  },
+                  {
+                    accessorKey: "startDate",
+                    header: "Start Date",
+                    width: "120",
+                  },
+                  {
+                    accessorKey: "endDate",
+                    header: "End Date",
+                    width: "120",
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
     },
     {
       type: "Control",
@@ -281,7 +275,7 @@ export const ProgramMasterCycleRecordUiSchema = {
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
+      },
     },
   ],
 };

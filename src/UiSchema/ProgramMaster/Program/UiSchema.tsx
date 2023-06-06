@@ -51,7 +51,8 @@ export const ProgramMasterUiSchema = {
     {
           
           type: "HorizontalLayout",
-          defaultStyle:true,
+          config:{defaultStyle: true},
+
           elements: [
             {
               type: "Control",

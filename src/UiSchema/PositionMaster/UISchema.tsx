@@ -1,6 +1,6 @@
 export const PositionMasterUISchema = {
-  "type": "HorizontalLayout",
-  "elements": [
+  type: "HorizontalLayout",
+  elements: [
     {
       type: "Control",
       scope: "#/properties/reportListWrapper",
@@ -8,132 +8,138 @@ export const PositionMasterUISchema = {
         widget: "Wrapper",
         detail: {
           type: "HorizontalLayout",
-      elements: [
-        {
-          type: "Control",
-          scope: "#/properties/programType",
-          layout: 5.5,
-          options: {
-            widget: "Box",
-          },
-          value: {
-            content: {
-              heading: "Position Master",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+
+              options: {
+                widget: "Box",
+              },
+              config: {
+                layout: 5.5,
+                main: {
+                  heading: "Position Master",
+                },
+                style: {
+                  fontFamily: "Roboto",
+                  fontWeight: "500",
+                  background: "white",
+                },
+              },
             },
-            style: {
-              fontFamily: "Roboto",
-              fontWeight: "500",
-              background: "white",
+            {
+              type: "Control",
+              scope: "#/properties/Back_Button",
+
+              options: {
+                widget: "IconButton",
+              },
+              config: {
+                layout: 5.5,
+                main: {
+                  icon: "BackIcon",
+                  styleDefault: true,
+                  size: "small",
+                  funcName: "backHandler",
+                  tooltipMessage: "Back",
+                },
+                style: {
+                  float: "right",
+                },
+              },
             },
-          },
+          ],
         },
-        {
-          type: "Control",
-          scope: "#/properties/Back_Button",
-          layout: 5.5,
-          options: {
-            widget: "Button",
-          },
-          value: {
-            content: {
-              icon: "BackIcon",
-              styleDefault: true,
-              size: "small",
-              funcName: "backHandler",
-              tooltipMessage: "Back",
-            },
-            style: {
-              float: "right",
-            },
-          },
-        }
-      ]}},
+      },
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config:{defaultStyle: true},
       elements: [
         {
-          "type": "Control",
-          "scope": "#/properties/name",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
-          "options": {
-            "widget": "InputField"
+          type: "Control",
+          scope: "#/properties/name",
+
+          options: {
+            widget: "InputField",
           },
-          "value": {
-            "content": {
-              "label": "Name",
-              "type": "text",
-              errorMessage:"Name is empty or invalid",
-            }
-          }
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            main: {
+              label: "Name",
+              type: "text",
+              errorMessage: "Name is empty or invalid",
+            },
+          },
         },
         {
-          "type": "Control",
-          "scope": "#/properties/type",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
-          "options": {
-            "widget": "SelectInputField"
+          type: "Control",
+          scope: "#/properties/type",
+
+          options: {
+            widget: "SelectInputField",
           },
-          "value": {
-            "content": {
-              "label": "Position Type",
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            main: {
+              label: "Position Type",
               options: [{}],
-              errorMessage:"Position Type is not selected",
-            }
-          }
+              errorMessage: "Position Type is not selected",
+            },
+          },
         },
         {
-          "type": "Control",
-          "scope": "#/properties/parent",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
-          "options": {
-            "widget": "SelectInputField"
+          type: "Control",
+          scope: "#/properties/parent",
+
+          options: {
+            widget: "SelectInputField",
           },
-          "value": {
-            "content": {
-              "label": "Reporting To",
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            main: {
+              label: "Reporting To",
               options: [{}],
-              errorMessage:"Reporting To is not selected",
-            }
-          }
+              errorMessage: "Reporting To is not selected",
+            },
+          },
         },
         {
-          "type": "Control",
-          "scope": "#/properties/active",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
-          "options": {
-            "widget": "RadioInputField"
+          type: "Control",
+          scope: "#/properties/active",
+
+          options: {
+            widget: "RadioInputField",
           },
-          "value": {
-            "content": {
-              "label": "Active",
-              "options": ["YES", "NO"],
-              errorMessage:"Active is not marked YES or NO"
-            }
-          }
-        }
-        ,
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            main: {
+              label: "Active",
+              options: ["YES", "NO"],
+              errorMessage: "Active is not marked YES or NO",
+            },
+          },
+        },
         {
-          "type": "Control",
-          "scope": "#/properties/Appbar",
-          "layout": 12,
-          "options": {
-            "widget": "EmptyBox"
+          type: "Control",
+          scope: "#/properties/Appbar",
+
+          options: {
+            widget: "EmptyBox",
           },
-          "value": {
-            "content": {
-            }
-          }
+          config: { layout: 12, main: {} },
         },
         {
           type: "Control",
           scope: "#/properties/EmptyBox",
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 8.5,
-            lg: 9.5,
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 8.5,
+              lg: 9.5,
+            },
           },
           options: {
             widget: "EmptyBox",
@@ -145,34 +151,36 @@ export const PositionMasterUISchema = {
           options: {
             widget: "Button",
           },
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 2.5,
-            lg: 1.5,
-          },
-          value: {
-            content: {
+
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 2.5,
+              lg: 1.5,
+            },
+            main: {
               name: "Submit",
               startIcon: "ApproveIcon",
               variant: "contained",
               color: "info",
               type: "text",
-              "funcName": "Submit_Position",
+              funcName: "Submit_Position",
               size: "small",
             },
             style: {
-              marginBottom: "8px"
+              marginBottom: "8px",
             },
           },
-        },]
+        },
+      ],
     },
     {
       type: "Control",
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
+      },
     },
     {
       type: "Control",
@@ -182,6 +190,5 @@ export const PositionMasterUISchema = {
       },
       layout: 6,
     },
-  ]
-}
-
+  ],
+};

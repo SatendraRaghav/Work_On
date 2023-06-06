@@ -16,14 +16,18 @@ export const LoginUiSchema = {
     },
     {
       type: "HorizontalLayout",
-      layout:{xs:10,sm:8,md:7,lg:6},
-      defaultStyle:true,
+       
+      config: {
+        defaultStyle: true,
+        layout: { xs: 10, sm: 8, md: 7, lg: 6 },
+      },
+     
       elements: [
         {
           type: "Control",
           scope: "#/properties/PersonButton",
-          layout:3,
-    
+          layout: 3,
+
           options: {
             widget: "IconButton",
           },
@@ -31,14 +35,14 @@ export const LoginUiSchema = {
             main: {
               icon: "PersonIcon",
               size: "small",
-              funcName: "backHandler",
+             color:"none"
             },
             style: { textAlign: "center" },
             iconStyle: {
               width: "120px",
               height: "auto",
               fontSize: "100%",
-              float:"left"
+              float: "left",
             },
           },
         },
@@ -48,21 +52,22 @@ export const LoginUiSchema = {
           options: {
             widget: "EmptyBox",
           },
-          layout:8,
+          layout: 8,
         },
         {
           type: "Control",
           scope: "#/properties/username",
-          layout:11,
+
           options: {
             widget: "InputField",
           },
           config: {
+            layout: 11,
             main: {
               label: "Login ID",
               variant: "outlined",
               size: "normal",
-              funcName: "userLogIn",
+              keypress:"userLogInByEnter",
               activeEnter: true,
               helperText: "",
             },
@@ -78,17 +83,18 @@ export const LoginUiSchema = {
         {
           type: "Control",
           scope: "#/properties/password",
-          layout:11,
+
           options: {
             widget: "PasswordInputField",
           },
 
           config: {
+            layout: 11,
             main: {
               label: "Password",
               type: "password",
               variant: "outlined",
-              funcName: "userLogIn",
+              keypress: "userLogInByEnter",
               activeEnter: true,
               size: "normal",
               helperText: "",
@@ -108,17 +114,19 @@ export const LoginUiSchema = {
         {
           type: "Control",
           scope: "#/properties/LoginButton",
-          layout:11,
+
           options: {
             widget: "Button",
           },
           config: {
+            layout: 11,
             main: {
               name: "Login",
               variant: "contained",
               color: "info",
               click: "userLogIn",
-              tooltipMessage:"Click to Login",
+              keypress: "userLogIn",
+              tooltipMessage: "Click to Login",
               activeEnter: true,
               type: "text",
               size: "large",

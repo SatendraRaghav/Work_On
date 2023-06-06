@@ -35,9 +35,9 @@ export const DataProvider = ({
     Info: false,
     InfoMessage: "",
   });
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = id !== "RouterUnavailable" && useSearchParams();
   const [loading, setLoading] = React.useState(false);
-  const navigate = useNavigate();
+  const navigate = id !== "RouterUnavailable" && useNavigate();
   const serviceProvider = (
     ctx: any,
     uischemaData: unknown,

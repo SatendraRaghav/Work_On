@@ -7,7 +7,7 @@ import {
   FormControlLabel,
   FormHelperText,
 } from "@mui/material";
-import { DataContext } from "../context/Context"; 
+import { DataContext } from "../context/Context";
 import { Stack } from "@mui/system";
 import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
@@ -15,67 +15,69 @@ import { radioInputProps } from "../interface/inputfieldProps";
 import Helpertext from "../common/Helpertext";
 import { useJsonForms } from "@jsonforms/react";
 
- const ImpaktAppsRadio =  memo(function CustomRadio(props:radioInputProps ) {
+const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
   const { required, errors, data, uischema, handleChange, path } = props;
   const uischemaData = uischema?.config?.main;
-  const { id, permissions, theme,serviceProvider} = useContext(DataContext);
+  const { id, permissions, theme, serviceProvider } = useContext(DataContext);
   const fieldName = getFieldName(path);
   const onChange = (_ev: any, value: any) => handleChange(path, value);
   const ctx = useJsonForms();
-  const callServiceProvider=(event:any,value?:unknown)=>{
-    serviceProvider(ctx, uischemaData, 
-      {event, path});
-  }
+  const callServiceProvider = (event: any, value?: unknown) => {
+    serviceProvider(ctx, uischemaData, { event, path,paramValue:value });
+  };
   return (
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
-      <FormControl fullWidth={true} variant="outlined" >
+      <FormControl fullWidth={true} variant="outlined">
         <Stack
           direction={"row"}
           sx={{
-            ...theme.RadioStyle,...uischema?.config?.RadioStyle
+            ...theme.RadioStyle,
+            ...uischema?.config?.RadioStyle,
           }}
         >
-          <PermissionWrapper
-            path={`${id}:${fieldName}`}
-            permissions={permissions}
+          <FormLabel
+            id="demo-row-radio-buttons-group-label"
+            required={required}
+            sx={{
+              flexGrow: 0,
+              fontFamily: "inherit",
+              paddingTop: "7px",
+              paddingLeft: "10px",
+            }}
           >
-            <FormLabel
-              id="demo-row-radio-buttons-group-label"
-              required={required}
-              sx={{
-                flexGrow: 0,
-                fontFamily: "inherit",
-                paddingTop: "7px",
-                paddingLeft: "10px",
-              }}
-            >
-              {uischemaData?.label}
-            </FormLabel>
-          </PermissionWrapper>
+            {uischemaData?.label}
+          </FormLabel>
           <RadioGroup
-            sx={{ paddingLeft: "20px", flexGrow: 1, ...theme.InputFieldStyle,...uischema?.config?.RadioGroupStyle}}
+            sx={{
+              paddingLeft: "20px",
+              flexGrow: 1,
+              ...theme.InputFieldStyle,
+              ...uischema?.config?.RadioGroupStyle,
+            }}
             row
-            
             value={data ?? ""}
             defaultValue={data}
             defaultChecked={data}
             aria-labelledby="demo-row-radio-buttons-group-label"
-            onChange={(event,value) => {
-              onChange(event,value)
-              callServiceProvider(event)
+            onChange={(event, value) => {
+              onChange(event, value);
+              callServiceProvider(event,value);
             }}
-            onPointerEnter={(event)=>callServiceProvider(event)}
-            onPointerLeave={(event)=>  callServiceProvider(event)}
-            onFocus={(event)=>  callServiceProvider(event)}
-            onBlur={(event)=>  callServiceProvider(event)}
-            onMouseEnter={(event)=>  callServiceProvider(event)}
+            onKeyPress={(event)=>{
+              callServiceProvider(event);
+            }}
+            onPointerEnter={(event) => callServiceProvider(event)}
+            onPointerLeave={(event) => callServiceProvider(event)}
+            onFocus={(event) => callServiceProvider(event)}
+            onBlur={(event) => callServiceProvider(event)}
+            onMouseEnter={(event) => callServiceProvider(event)}
           >
             {uischemaData?.options?.map((elem: any, i: number) => (
               <FormControlLabel
                 value={elem}
                 control={
                   <Radio
-                  size={uischemaData?.size||"small"}
+                    size={uischemaData?.size || "small"}
                     sx={{
                       margin: "1px auto",
                       "&.Mui-checked": {
@@ -94,5 +96,5 @@ import { useJsonForms } from "@jsonforms/react";
       </FormControl>
     </PermissionWrapper>
   );
-})
+});
 export default ImpaktAppsRadio;

@@ -41,12 +41,12 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
   return (
     <>
       <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
-        <Tooltip title={uischemaData?.tooltipMessage}>
           <Button
             fullWidth={true}
             endIcon={
               uischemaData?.endIcon ? myIcon(uischemaData?.endIcon, uischemaData) : false
             }
+            title={uischemaData?.tooltipMessage}
             startIcon={
               uischemaData?.startIcon
                 ? myIcon(uischemaData?.startIcon, uischemaData)
@@ -67,7 +67,6 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
             {uischemaData?.name}
             {loading && ProgressBar}
           </Button>
-        </Tooltip>
       </PermissionWrapper>
       <LoaderInfo id={path} loading={loading}/>
     </>

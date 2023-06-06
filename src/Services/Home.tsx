@@ -3,8 +3,7 @@ import {  myService } from "../service/service";
 import { HomeSchema } from "../UiSchema/Home/Schema";
 import { HomeUiSchema } from "../UiSchema/Home/UiSchema";
 import axios from "axios";
-import { userValue,setUserValue } from '../Apple'; 
-
+import { setUserValue } from "../Apple";
  const Home = (
   ctx?: JsonFormsStateContext,
   setFormdata?: any,

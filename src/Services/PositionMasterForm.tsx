@@ -115,7 +115,7 @@ export const PositionMasterForm = (
             return { label: e.name, value: e.id }
           });
           //@ts-ignore
-          Ui.elements[1].elements[1].value.content.options = selectOption ? selectOption : [{ id: 1 }];
+          Ui.elements[1].elements[1].config.main.options = selectOption ? selectOption : [{ id: 1 }];
         })
         ;
       await serviceApi
@@ -126,7 +126,7 @@ export const PositionMasterForm = (
             return { label: e.name, value: e.id }
           });
           //@ts-ignore
-          Ui.elements[1].elements[2].value.content.options = selectParentData ? selectParentData : [{ id: 1 }];
+          Ui.elements[1].elements[2].config.main.options = selectParentData ? selectParentData : [{ id: 1 }];
         })
         ;
 

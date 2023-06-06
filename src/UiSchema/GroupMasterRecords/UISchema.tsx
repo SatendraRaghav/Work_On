@@ -1,6 +1,6 @@
-export const  GroupMasterRecordsUISchema = {
-  "type": "HorizontalLayout",
-  "elements": [
+export const GroupMasterRecordsUISchema = {
+  type: "HorizontalLayout",
+  elements: [
     {
       type: "Control",
       scope: "#/properties/reportListWrapper",
@@ -12,40 +12,41 @@ export const  GroupMasterRecordsUISchema = {
             {
               type: "Control",
               scope: "#/properties/programType",
-              layout: 5.5,
+
               options: {
                 widget: "Box",
               },
-              value: {
-                content: {
+              config: {
+                layout: 5.5,
+                main: {
                   heading: "Group Master",
-                }
+                },
               },
             },
             {
               type: "Control",
               scope: "#/properties/New_Record",
-              layout: {
-                xs: 6,
-                sm: 4,
-                md: 5.5,
-                lg: 5.5,
-              },
+
               options: {
-                widget: "Button",
+                widget: "IconButton",
               },
-              value: {
-                content: {
+              config: {
+                layout: {
+                  xs: 6,
+                  sm: 4,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
                   name: "New Records",
                   icon: "AddIcon",
                   size: "small",
                   styleDefault: true,
                   tooltipMessage: "Add New Record",
-                  "funcName": "newRecord",
+                  click: "newRecord",
                 },
                 style: {
                   float: "right",
-
                 },
               },
             },
@@ -54,168 +55,166 @@ export const  GroupMasterRecordsUISchema = {
       },
     },
     {
-      "type": "Control",
-      "scope": "#/properties/GroupRecords",
-      "labels": ["Approve", "Pending", "Reject"],
-      "options": {
-        "widget": "Tab",
-        "detail": {
-          "type": "HorizontalLayout",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/approveRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "loadFunction":"getRoleAprroveRecords",
-                "ApiDetails":{
-                "DataApi": "http://localhost:8081/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging",
-                "DataApiBody": { "status": "A" }},
-                "columns": [
+      type: "TabLayout",
+      config: {
+        main: {
+          labels: ["Approve", "Pending", "Reject"],
+          layout: 12,
+        },
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/ApproveRecords",
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
                   {
-                    "field": "id",
-                    headerName:"id",
-                    "width": "100",
-                    "hide": true,
-                    "widget": "api"
+                    accessorKey: "id",
+                    header: "id",
                   },
                   {
-                    "field": "name",
-                    "width": "80",
-                    "headerName": "Name",
-                    "widget": "api"
+                    accessorKey: "name",
+
+                    header: "Name",
                   },
+                ],
+                actionColumns: [
                   {
-                    field:"Edit_Approve_Records",
-                    "headerName": "Edit_Records",
-                   "flex":1,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/Edit_Records",
-                      "options": {
-                        "widget": "Button"
+                    accessorKey: "Edit_Approve_Records",
+                    header: "Edit_Records",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Edit_Records",
+                      options: {
+                        widget: "IconButton",
                       },
-                      "value": {
-                        content: {
-                          color:"info",
-                          size:"small",
+                      config: {
+                        main: {
+                          color: "info",
+                          size: "small",
                           icon: "EditIcon",
-                          tooltipMessage:"Edit This Record",
-                          
+                          tooltipMessage: "Edit This Record",
+                          click: "Edit_Approve_Records",
                         },
                         style: {
-                          color:"#3949ab"
+                          color: "#3949ab",
                         },
-                      }
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/pendingRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "loadFunction":"getRolePendingRecords",
-                "ApiDetails":{
-                "DataApiBody": { "status": "N" },
-                "DataApi": "http://localhost:8081/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging"
-                },
-                "columns": [
-                  {
-                    "field": "id",
-                    headerName:"id",
-                    "width": "100",
-                    "hide": true,
-                    "widget": "api"
-                  },
-                  {
-                    "field": "name",
-                    "width": "80",
-                    "headerName": "Name",
-                    "widget": "api"
-                  },
-                  {
-                    field:"Approver",
-                    "headerName": "RoleApprover",
-                   "flex":1,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/Approve2Button",
-                      "fieldName": "RoleApprover",
-                      "options": {
-                        "widget": "Button"
                       },
-                      "value": {
-                        "content": {
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/PendingRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
+                  {
+                    accessorKey: "id",
+                    header: "id",
+                  },
+                  {
+                    accessorKey: "name",
+
+                    header: "Name",
+                  },
+                ],
+                actionColumns: [
+                  {
+                    accessorKey: "Approver",
+                    header: "RoleApprover",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Approve2Button",
+                      accessorKeyName: "RoleApprover",
+                      options: {
+                        widget: "IconButton",
+                      },
+                      config: {
+                        main: {
                           icon: "ApproveIcon",
-                          color:"success",
-                          tooltipMessage:"Approve This Record",
-                         
-                        }
-                      }
-                    }
-                  },
-                  {
-                    field:"Reject_Records",
-                    "headerName": "Reject_Records",
-                   "flex":1,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/RejectButton",
-                      "fieldName": "Reject_Records",
-                      "options": {
-                        "widget": "Button"
+                          color: "success",
+                          tooltipMessage: "Approve This Record",
+                          click: "Approver",
+                        },
                       },
-                      "value": {
-                        "content": {
+                    },
+                  },
+                  {
+                    accessorKey: "Reject_Records",
+                    header: "Reject_Records",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/RejectButton",
+                      accessorKeyName: "Reject_Records",
+                      options: {
+                        widget: "IconButton",
+                      },
+                      config: {
+                        main: {
                           icon: "RejectIcon",
-                          color:"error",
-                          tooltipMessage:"Reject This Record",
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
+                          color: "error",
+                          tooltipMessage: "Reject This Record",
+                          click: "Reject_Records",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
             },
-            {
-              "type": "Control",
-              "scope": "#/properties/rejectRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "loadFunction":"getRoleRejectedRecords",
-                "columns": [
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/RejectRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
                   {
-                    "field": "id",
-                    headerName:"id",
-                    "width": "100",
-                    "hide": true,
-                    "widget": "api"
+                    accessorKey: "id",
+                    header: "id",
                   },
                   {
-                    "field": "name",
-                    "width": "80",
-                    "headerName": "Name",
-                    "widget": "api"
+                    accessorKey: "name",
+
+                    header: "Name",
                   },
-                ]
-              }
-            }
-          ]
-        }
-      }
+                ],
+              },
+            },
+          },
+        },
+      ],
     },
     {
       type: "Control",
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
+      },
     },
     {
       type: "Control",
@@ -225,5 +224,5 @@ export const  GroupMasterRecordsUISchema = {
       },
       layout: 6,
     },
-  ]
-}
+  ],
+};

@@ -17,7 +17,7 @@ import { JsonFormsDispatch, useJsonForms } from "@jsonforms/react";
 import { DataContext } from "../context/Context";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { ExportToCsv } from "export-to-csv";
-import { useSelection, getCsvoptions } from "../common/tableComponents";
+import { getCsvoptions } from "../common/tableComponents";
 import { inputProps } from "../interface/inputfieldProps";
 
 export const DataTablePro = memo(function DataTablePro({
@@ -32,11 +32,7 @@ export const DataTablePro = memo(function DataTablePro({
   const uischemaData = uischema.config.main;
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const ctx: any = useJsonForms();
-  const [selection, setSelection] = useSelection(
-    path,
- handleChange,
-    uischemaData
-  );
+  const [selection, setSelection] = useState({})
   useEffect(() => {
     if (uischemaData.allRowsData) {
       setTableLoading(false);
@@ -46,6 +42,15 @@ export const DataTablePro = memo(function DataTablePro({
   const allowedField = uischemaData?.columns?.dataColumns?.map(
     (elem) => elem.accessorKey
   );
+  useEffect(()=>{
+    const selectedRows =uischemaData?.columns?.dataColumns?.filter((e, i) => {
+      if (selection[i]) {
+        return selection[i];
+      }
+      return false;
+    });  
+    handleChange(path,{id:selection,data:selectedRows})
+  },[selection])
   const csvExporter = new ExportToCsv(csvOptions);
   const handleExportRows = (rows: any[]) => {
     csvExporter.generateCsv(
@@ -86,7 +91,7 @@ export const DataTablePro = memo(function DataTablePro({
               (elem: UISchemaElement | any, i: number) => {
                 const childPath = composePaths(path, `${i}`);
                 const widget = JSON.parse(JSON.stringify(elem.widget));
-                widget.config.main.rowData = row.original;
+                widget.config.main.runTimeData  ={...widget.config.main?.runTimeData,rowData: row.original};
                 return (
                   <JsonFormsDispatch
                     schema={schema}

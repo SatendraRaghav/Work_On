@@ -9,99 +9,107 @@ export const RoleMasterUISchema = {
         detail: {
           type: "HorizontalLayout",
           elements: [
-        {
-          type: "Control",
-          scope: "#/properties/programType",
-          layout: 5.5,
-          options: {
-            widget: "Box",
-          },
-          value: {
-            content: {
-              heading: "Role Master",
+            {
+              type: "Control",
+              scope: "#/properties/programType",
+
+              options: {
+                widget: "Box",
+              },
+              config: {
+                layout: 5.5,
+                main: {
+                  heading: "Role Master",
+                },
+                style: {
+                  fontWeight: "500",
+                  fontSize: "20px",
+                  background: "white",
+                },
+              },
             },
-            style: {
-              fontWeight: "500",
-              fontSize: "20px",
-              background: "white",
+            {
+              type: "Control",
+              scope: "#/properties/Back_Button",
+
+              options: {
+                widget: "IconButton",
+              },
+              config: {
+                layout: {
+                  xs: 6,
+                  sm: 4,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
+                  icon: "BackIcon",
+                  styleDefault: true,
+                  size: "small",
+                  funcName: "backHandler",
+                  tooltipMessage: "Back",
+                },
+                style: {
+                  float: "right",
+                },
+              },
             },
-          },
+          ],
         },
-        {
-          type: "Control",
-          scope: "#/properties/Back_Button",
-          layout: {
-            xs: 6,
-            sm: 4,
-            md: 5.5,
-            lg: 5.5,
-          },
-          options: {
-            widget: "Button",
-          },
-          value: {
-            content: {
-              icon: "BackIcon",
-              styleDefault: true,
-              size: "small",
-              funcName: "backHandler",
-              tooltipMessage: "Back",
-            },
-            style: {
-              float: "right",
-            },
-          },
-        },
-      ]}},
+      },
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config:{defaultStyle: true},
+
       elements: [
         {
           type: "Control",
           scope: "#/properties/name",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            main: {
               label: "Name",
               type: "text",
-              errorMessage:"Name is empty or invalid",
+              errorMessage: "Name is empty or invalid",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/permissionList",
-          layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            main: {
               label: "Permission List",
               options: [{}],
               multiple: true,
               required: true,
-              errorMessage:"Permissions are not selected",
+              errorMessage: "Permissions are not selected",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/active",
-          layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
           options: {
             widget: "RadioInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
               label: "Active",
               options: ["YES", "NO"],
-              errorMessage:"Active is not marked YES or NO"
+              errorMessage: "Active is not marked YES or NO",
             },
           },
         },
@@ -111,9 +119,10 @@ export const RoleMasterUISchema = {
           options: {
             widget: "Button",
           },
-          layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
-          value: {
-            content: {
+
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
               name: "Submit",
               startIcon: "ApproveIcon",
               variant: "contained",
@@ -124,7 +133,7 @@ export const RoleMasterUISchema = {
             },
             style: {
               float: { md: "right" },
-              width: { xs: "100%", sm: "90%", md: "30%" }
+              width: { xs: "100%", sm: "90%", md: "30%" },
             },
           },
         },
@@ -143,7 +152,7 @@ export const RoleMasterUISchema = {
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
+      },
     },
   ],
 };

@@ -37,7 +37,7 @@ export const MaterialLayoutHorizontal = ({ uischema, renderers, cells, schema, p
 
   return(
      //@ts-ignore 
-    <div style={uischema?.defaultStyle||uischema?.style?{...theme?.WrapperStyle,...uischema?.style}:{}}>
+    <div style={uischema?.config?.defaultStyle||uischema?.config?.style?{...theme.WrapperStyle,...uischema?.config?.style}:{}}>
   <MaterialLayoutRenderer {...childProps} renderers={renderers} cells={cells} />
   </div>)
 };

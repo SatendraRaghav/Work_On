@@ -163,6 +163,7 @@ export const CycleForm = (
     programLoadName: async () => {
       const Ui = ProgramMasterCycleUiSchema;
       let selectOption: any[] = [];
+      console.log(Ui)
       await serviceApi
         .get(
           "/master/getDetails?masterName=com.act21.hyperform3.entity.program.Program&status=A"
@@ -175,7 +176,7 @@ export const CycleForm = (
             };
           });
           //@ts-ignore
-          Ui.elements[1].elements[0].elements[1].value.content.options =
+          Ui.elements[1].elements[0].elements[1].config.main.options =
             selectOption;
         })
         .catch((err) => {
@@ -190,7 +191,7 @@ export const CycleForm = (
         return;
       }
       const programData = JSON.parse(ctx.core.data?.program);
-      const event = otherData[1];
+      const event = otherData.changeEvent;
       const tempArr = event.target.files[0].name.split(".");
       const formData = new FormData();
       formData.append(
@@ -218,10 +219,10 @@ export const CycleForm = (
         .post("/externalData/save", formData)
         .then((response: any) => {
           const data = { ...ctx.core.data };
-          data[`${otherData[5]}Name`] = event.target.files[0].name;
-          data[`${otherData[5]}Id`] = response.data.payload;
+          data[`${otherData.path}Id`] = response.data.payload;
           setFormdata({
             ...data,
+            downloadWorkflowFile: event.target.files[0].name
           });
           setNotify({
             SuccessMessage: "File Uploaded Successfully",
@@ -235,7 +236,7 @@ export const CycleForm = (
     Download_Workspace_File: () => {
       serviceApi
         .get(
-          `/externalData/getById?withData=true&id=${ctx.core.data.workflowFileId}`
+          `/externalData/getById?withData=true&id=${ctx.core.data.uploadWorkflowFileId}`
         )
         .then((response) => {
           downloadFile(response.data.payload);
@@ -251,7 +252,7 @@ export const CycleForm = (
     Download_Invioce_File: () => {
       serviceApi
         .get(
-          `/externalData/getById?withData=true&id=${ctx.core.data.invoiceFileId}`
+          `/externalData/getById?withData=true&id=${ctx.core.data.uploadInvoiceFileId}`
         )
         .then((response) => {
           downloadFile(response.data.payload);
@@ -271,7 +272,7 @@ export const CycleForm = (
         return;
       }
       const programData = JSON.parse(ctx.core.data?.program);
-      const event = otherData[1];
+      const event = otherData.changeEvent;
       const tempArr = event.target.files[0].name.split(".");
       const formData = new FormData();
       formData.append(
@@ -300,10 +301,10 @@ export const CycleForm = (
         .post("/externalData/save", formData)
         .then((response: any) => {
           const data = { ...ctx.core.data };
-          data[`${otherData[5]}Name`] = event.target.files[0].name;
           data[`${otherData[5]}Id`] = response.data.payload;
           setFormdata({
             ...data,
+            downloadInvoiceFile: event.target.files[0].name
           });
 
           setNotify({

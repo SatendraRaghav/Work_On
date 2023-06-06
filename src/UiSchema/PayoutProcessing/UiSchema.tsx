@@ -9,16 +9,16 @@ export const PayoutProcessingUiSchema = {
         detail: {
           type: "HorizontalLayout",
           elements: [
-            
             {
               type: "Control",
               scope: "#/properties/programType",
-              layout: 5.5,
+
               options: {
                 widget: "Box",
               },
-              value: {
-                content: {
+              config: {
+                layout: 5.5,
+                main: {
                   heading: "Payout Processing",
                 },
               },
@@ -29,7 +29,7 @@ export const PayoutProcessingUiSchema = {
               options: {
                 widget: "EmptyBox",
               },
-              layout: 5.5,
+              config: { layout: 5.5 },
             },
           ],
         },
@@ -56,19 +56,20 @@ export const PayoutProcessingUiSchema = {
             {
               type: "Control",
               scope: "#/properties/heading",
-              layout: 11.5,
+
               options: {
                 widget: "Box",
               },
-              value: {
-                content: {
+              config: {
+                layout: 11.5,
+                main: {
                   heading: "Search Program",
                   // dividerAvailable:true
                 },
               },
-              style:{
-                marginTop:"2px"
-              }
+              style: {
+                marginTop: "2px",
+              },
             },
             {
               type: "Control",
@@ -76,34 +77,35 @@ export const PayoutProcessingUiSchema = {
               options: {
                 widget: "EmptyBox",
               },
-             
             },
             {
               type: "Control",
               scope: "#/properties/programType",
-              layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
               options: {
                 widget: "SelectInputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+                main: {
                   label: "Program",
                   options: [{}],
                   color: "secondary",
                   required: true,
-                  loadFunction: "loadCycle",
+                  click: "loadCycle",
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/programCycle",
-              layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
               options: {
                 widget: "SelectInputField",
               },
-              value: {
-                content: {
+              config: {
+                layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+                main: {
                   label: "Program Cycle",
                   programType: true,
                   options: [{}],
@@ -117,12 +119,14 @@ export const PayoutProcessingUiSchema = {
               scope: "#/properties/load",
               options: {
                 widget: "EmptyBox",
-              }, 
-              layout: {
-                xs: 11,
-                sm: 11,
-                md: 8.5,
-                lg: 9.5,
+              },
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 8.5,
+                  lg: 9.5,
+                },
               },
             },
             {
@@ -131,19 +135,21 @@ export const PayoutProcessingUiSchema = {
               options: {
                 widget: "Button",
               },
-              layout: {
-                xs: 11,
-                sm: 11,
-                md: 2.5,
-                lg: 1.5,
-              },
-              value: {
-                content: {
+
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 2.5,
+                  lg: 1.5,
+                },
+                main: {
                   name: "Search",
+                  startIcon: "SearchIcon",
                   variant: "contained",
                   color: "info",
                   type: "text",
-                  funcName: "searchData",
+                  click: "searchData",
                   size: "large",
                 },
                 style: {
@@ -157,72 +163,62 @@ export const PayoutProcessingUiSchema = {
       },
     },
     {
-      type: "Control",
-      scope: "#/properties/DataListWrapper",
-      label: "Audit Data List",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
-          elements: [
+      type: "WrapperLayout",
+      config: {
+        main: {
+          label: "Audit Data List",
+          divider:true
+        },
+      },
+      elements:[
             {
               type: "Control",
               scope: "#/properties/AuditList",
-              layout: 11,
               options: {
                 widget: "Table",
-                loadFunction: "auditTableDataFunction",
-                tableStyle: {
-                  backgroundColor: "#F5F5F5",
+              },
+              config: {
+                layout: 12,
+                main: {
+                  allRowsData: [],
+                  columns: {
+                    dataColumns: [
+                      {
+                        accessorKey: "id",
+                        header: "Id",
+                        width: "40",
+                      },
+                      {
+                        accessorKey: "type",
+
+                        header: "Type",
+                      },
+                      {
+                        accessorKey: "info",
+                        header: "Info",
+                      },
+                      {
+                        accessorKey: "createdOn",
+
+                        header: "Created On",
+                      },
+                      {
+                        accessorKey: "modifiedOn",
+
+                        header: "Updated On",
+                      },
+                      {
+                        accessorKey: "entityName",
+
+                        header: "Entity Name",
+                      },
+                    ]
+                  },
                 },
-                buttonInStarting: false,
-                ApiDetails: {
-                  DataApi: "",
-                },
-                columns: [
-                  {
-                    field: "id",
-                    headerName: "Id",
-                    width: "40",
-                    widget: "api",
-                  },
-                  {
-                    field: "type",
-                    width: "150",
-                    headerName: "Type",
-                    widget: "api",
-                  },
-                  {
-                    field: "info",
-                    headerName: "Info",
-                    width: "150",
-                    widget: "api",
-                  },
-                  {
-                    field: "createdOn",
-                    width: "240",
-                    headerName: "Created On",
-                    widget: "api",
-                  },
-                  {
-                    field: "modifiedOn",
-                    width: "240",
-                    headerName: "Updated On",
-                    widget: "api",
-                  },
-                  {
-                    field: "entityName",
-                    width: "240",
-                    headerName: "Entity Name",
-                    widget: "api",
-                  },
-                ],
               },
             },
           ],
         },
-      },
-    },
     {
       type: "Control",
       scope: "#/properties/DataListWrapper",
@@ -235,49 +231,44 @@ export const PayoutProcessingUiSchema = {
             {
               type: "Control",
               scope: "#/properties/ExceptionList",
-              layout: 11,
+
               options: {
                 widget: "Table",
-                loadFunction: "exceptionTableDataFunction",
-                tableStyle: {
-                  backgroundColor: "#F5F5F5",
+              },
+              config: {
+                layout: 12,
+
+                main: {
+                  allRowsData: [],
+                  columns: {
+                    dataColumns: [
+                      {
+                        accessorKey: "id",
+                        header: "Id",
+                        width: "40",
+                      },
+                      {
+                        accessorKey: "code",
+
+                        header: "Code",
+                      },
+                      {
+                        accessorKey: "description",
+                        header: "Description",
+                      },
+                      {
+                        accessorKey: "createdOn",
+
+                        header: "Created On",
+                      },
+                      {
+                        accessorKey: "modifiedOn",
+
+                        header: "Updated On",
+                      },
+                    ],
+                  },
                 },
-                buttonInStarting: false,
-                ApiDetails: {
-                  DataApi: "",
-                },
-                columns: [
-                  {
-                    field: "id",
-                    headerName: "Id",
-                    width: "40",
-                    widget: "api",
-                  },
-                  {
-                    field: "code",
-                    width: "150",
-                    headerName: "Code",
-                    widget: "api",
-                  },
-                  {
-                    field: "description",
-                    headerName: "Description",
-                    width: "150",
-                    widget: "api",
-                  },
-                  {
-                    field: "createdOn",
-                    width: "240",
-                    headerName: "Created On",
-                    widget: "api",
-                  },
-                  {
-                    field: "modifiedOn",
-                    width: "240",
-                    headerName: "Updated On",
-                    widget: "api",
-                  },
-                ],
               },
             },
           ],
@@ -292,101 +283,107 @@ export const PayoutProcessingUiSchema = {
         detail: {
           type: "HorizontalLayout",
           elements: [
-    {
-      type: "Control",
-      scope: "#/properties/load",
-      options: {
-        widget: "Button",
-      },
-      layout: {
-        xs: 12,
-        sm: 4,
-        md: 2,
-        lg: 2,
-      },
-      value: {
-        content: {
-          name: "Load",
-          variant: "contained",
-          color: "info",
-          type: "text",
-          funcName: "LoadFileData",
-          size: "large",
-        }
-      },
-    },
-    
-    {
-      type: "Control",
-      scope: "#/properties/compute",
-      options: {
-        widget: "Button",
-      },
-      layout: {
-        xs: 12,
-        sm: 4,
-        md: 2,
-        lg: 2,
-      },
-      value: {
-        content: {
-          name: "Compute",
-          variant: "contained",
-          color: "info",
-          type: "text",
-          funcName: "ComputeData",
-          size: "large",
-        }
-      },
-    },
-    {
-      type: "Control",
-      scope: "#/properties/startWorkflow",
-      options: {
-        widget: "Button",
-      },
-      layout: {
-        xs: 12,
-        sm: 4,
-        md: 2,
-        lg: 2,
-      },
-      value: {
-        content: {
-          name: "Start Workflow",
-          variant: "contained",
-          color: "info",
-          type: "text",
-          funcName: "SartWorkflow",
-          size: "large",
+            {
+              type: "Control",
+              scope: "#/properties/load",
+              options: {
+                widget: "Button",
+              },
+
+              config: {
+                layout: {
+                  xs: 12,
+                  sm: 4,
+                  md: 2,
+                  lg: 2,
+                },
+                main: {
+                  name: "Load",
+                  variant: "contained",
+                  color: "info",
+                  type: "text",
+                  click: "LoadFileData",
+                  size: "large",
+                },
+              },
+            },
+
+            {
+              type: "Control",
+              scope: "#/properties/compute",
+              options: {
+                widget: "Button",
+              },
+
+              config: {
+                layout: {
+                  xs: 12,
+                  sm: 4,
+                  md: 2,
+                  lg: 2,
+                },
+                main: {
+                  name: "Compute",
+                  variant: "contained",
+                  color: "info",
+                  type: "text",
+                  click: "ComputeData",
+                  size: "large",
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/startWorkflow",
+              options: {
+                widget: "Button",
+              },
+
+              config: {
+                layout: {
+                  xs: 12,
+                  sm: 4,
+                  md: 2,
+                  lg: 2,
+                },
+                main: {
+                  name: "Start Workflow",
+                  variant: "contained",
+                  color: "info",
+                  type: "text",
+                  click: "SartWorkflow",
+                  size: "large",
+                },
+                style: {
+                  textAlign: "right",
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/EmptyBox",
+              options: {
+                widget: "EmptyBox",
+              },
+              config: {
+                layout: {
+                  xs: 0,
+                  sm: 0,
+                  md: 4,
+                  lg: 4,
+                },
+              },
+            },
+          ],
         },
-        style: {
-          textAlign: "right",
-        },
-      },
-     
-    },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "EmptyBox",
-      },
-      layout: {
-        xs: 0,
-        sm: 0,
-        md: 4,
-        lg: 4,
       },
     },
-  ]}}},
     {
       type: "Control",
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
-      
+      },
     },
   ],
 };

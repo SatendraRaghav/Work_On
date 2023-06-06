@@ -35,7 +35,7 @@ export const InvoiceGenerationUiSchema = {
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config:{defaultStyle: true},
       elements: [
         {
           type: "Control",
@@ -152,7 +152,7 @@ export const InvoiceGenerationUiSchema = {
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config:{defaultStyle: true},
       elements: [
         {
           type: "Control",

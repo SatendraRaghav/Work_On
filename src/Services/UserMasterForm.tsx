@@ -122,7 +122,7 @@ export const UserMasterForm = (
             return { label: e.name, value: e.id }
           });
           //@ts-ignore
-          Ui.elements[2].elements[35].value.content.options = selectOption ? selectOption : [{ id: 1 }];
+          Ui.elements[2].elements[35].config.main.options = selectOption ? selectOption : [{ id: 1 }];
         });
 
       await serviceApi
@@ -133,7 +133,7 @@ export const UserMasterForm = (
             return { label: e.name, value: e.id }
           });
           //@ts-ignore
-          Ui.elements[2].elements[36].value.content.options = selectPositionData ? selectPositionData : [{ id: 1 }];
+          Ui.elements[2].elements[36].config.main.options = selectPositionData ? selectPositionData : [{ id: 1 }];
         })
         ;
       console.log(Ui)

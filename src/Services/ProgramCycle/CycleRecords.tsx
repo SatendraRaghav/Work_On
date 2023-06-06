@@ -21,26 +21,27 @@ export const CycleRecords = (
       setFormdata({})
       const schema = this.getSchema();
       setSchema(schema);
-      const UiSchema = this.getUiSchema();
+      const UiSchema = await  this.getUiSchema();
       setUiSchema(UiSchema);
-      const formData = await this.getFormData();
+      const formData = this.getFormData();
       setFormdata(formData);
     },
-    getFormData: async () => {
-      let approveData: any[] = [];
-      let pendingData: any[] = [];
-      let rejectData: any[] = [];
-      const formData: any = {};
+    getFormData:  () => {
+     return {}
+    },
+    getUiSchema: async () => {
+      const UiSchema = JSON.parse(JSON.stringify(ProgramMasterCycleRecordUiSchema));      
+      console.log(UiSchema)
       const Api =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=A";
         const ApiPending =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=N";
         const ApiReject =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=R";
-      const data = await serviceApi
+      await serviceApi
         .get(Api)
         .then((res) => {
-          approveData =  res.data?.payload?.map((e:any) => {
+          const approveData =  res.data?.payload?.map((e:any) => {
             const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
             const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
             return {
@@ -51,11 +52,11 @@ export const CycleRecords = (
               endDate: demoEndDate,
             };
           });
-          formData["ProgramCycleRecords.0.ApproveRecords"] = approveData;
+          UiSchema.elements[1].elements[0].config.main.allRowsData = approveData;
           return serviceApi.get(ApiPending);
         })
         .then((res) => {
-          pendingData =  res.data?.payload?.map((e: any) => {
+          const pendingData =  res.data?.payload?.map((e: any) => {
             const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
             const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
             return {
@@ -66,11 +67,11 @@ export const CycleRecords = (
               endDate: demoEndDate,
             };
           });
-          formData["ProgramCycleRecords.1.PendingRecords"] = pendingData;
+          UiSchema.elements[1].elements[1].config.main.allRowsData = pendingData;
           return serviceApi.get(ApiReject);
         })
         .then((res) => {
-          rejectData =  res?.data?.payload?.map((e:any) => {
+          const rejectData =  res?.data?.payload?.map((e:any) => {
             const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
             const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
             return {
@@ -81,19 +82,14 @@ export const CycleRecords = (
               endDate: demoEndDate,
             };
           });
-          formData["ProgramCycleRecords.2.RejectRecords"] = rejectData;
-          return formData;
+          UiSchema.elements[1].elements[2].config.main.allRowsData = rejectData;
         })
         .catch((err) =>{
-          formData["ProgramCycleRecords.0.ApproveRecords"] =  [{id:"eroor"}];
-          formData["ProgramCycleRecords.1.PendingRecords"] =  [];
-          formData["ProgramCycleRecords.2.RejectRecords"] = [];
-          return formData;
+          UiSchema.elements[1].elements[0].config.main.allRowsData =  [];
+          UiSchema.elements[1].elements[1].config.main.allRowsData =  [];
+          UiSchema.elements[1].elements[0].config.main.allRowsData = [];
         });
-      return data;
-    },
-    getUiSchema: () => {
-      return ProgramMasterCycleRecordUiSchema;
+        return UiSchema;
     },
     getSchema: () => {
       return {};

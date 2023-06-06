@@ -1,6 +1,6 @@
-export const  UserMasterRecordsUISchema = {
-  "type": "HorizontalLayout",
-  "elements": [
+export const UserMasterRecordsUISchema = {
+  type: "HorizontalLayout",
+  elements: [
     {
       type: "Control",
       scope: "#/properties/reportListWrapper",
@@ -12,40 +12,41 @@ export const  UserMasterRecordsUISchema = {
             {
               type: "Control",
               scope: "#/properties/programType",
-              layout: 5.5,
+
               options: {
                 widget: "Box",
               },
-              value: {
-                content: {
+              config: {
+                layout: 5.5,
+                main: {
                   heading: "User Master",
-                }
+                },
               },
             },
             {
               type: "Control",
               scope: "#/properties/New_Record",
-              layout: {
-                xs: 6,
-                sm: 4,
-                md: 5.5,
-                lg: 5.5,
-              },
+
               options: {
-                widget: "Button",
+                widget: "IconButton",
               },
-              value: {
-                content: {
+              config: {
+                layout: {
+                  xs: 6,
+                  sm: 4,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
                   name: "New Records",
                   icon: "AddIcon",
-                  size:"small",
+                  size: "small",
                   styleDefault: true,
-                  "funcName":"newRecord",
-                  tooltipMessage:"Add New Record",
+                  click: "newRecord",
+                  tooltipMessage: "Add New Record",
                 },
                 style: {
                   float: "right",
-                 
                 },
               },
             },
@@ -53,272 +54,258 @@ export const  UserMasterRecordsUISchema = {
         },
       },
     },
-    {   
-      "type": "Control",
-      "scope": "#/properties/EmptyBox",
-      "layout": {
-        "xs": 5.5,
-        "sm": 7.5,
-        "md": 8,
-        "lg": 8
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      config: {
+        layout: {
+          xs: 5.5,
+          sm: 7.5,
+          md: 8,
+          lg: 8,
+        },
       },
-      "options": {
-        "widget": "EmptyBox"
-      }
+      options: {
+        widget: "EmptyBox",
+      },
     },
     {
-      "type": "Control",
-      "scope": "#/properties/UserMasterRecords",
-      "labels": ["Approve", "Pending", "Reject"],
-      "options": {
-        "widget": "Tab",
-        "detail": {
-          "type": "HorizontalLayout",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/approveRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "loadFunction":"getUserAprroveRecords",
-                "ApiDetails":{
-                "DataApi": "http://localhost:8081/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging",
-                "DataApiBody": { "status": "A" }},
-                "columns": [
-                  {
-                    "field": "id",
-                    headerName:"id",
-                    "width": "60",
-                    "hide": true,
-                    "widget": "api"
-                  },
-                  {
-                  
-                    "field": "name",
-                   flex:1,
-                    "headerName": "Login ID",
-                    "widget": "api"
-                  },
-{
-                    "field": "email",
-                    flex:1,
-                    "headerName": "Email",
-                    "widget": "api"
-                  },
-{
-                    "field": "firstName",
-                    flex:1,
-                    "headerName": "First Name",
-                    "widget": "api"
-                  },
-{
-                    "field": "lastName",
-                    flex:1,
-                    "headerName": "Last Name",
-                    "widget": "api"
-                  },	
-                 	
-{
-                    "field": "crn",
-                    flex:1,
-                    "headerName": "CRN",
-                    "widget": "api"
-                  },	
-					  
+      type: "TabLayout",
+      config: {
+        layout: 12,
+        main: {
+          labels: ["Approve", "Pending", "Reject"],
+        },
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/ApproveRecords",
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+           
+                columns: {
+                  dataColumns: [
+                    {
+                      accessorKey: "id",
+                      header: "id",
+                    },
+                    {
+                      accessorKey: "name",
 
-                  {
-                    field:"Edit_Approve_Records",
-                    "headerName": "Edit",
-                   "flex":1,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/Edit_Records",
-                      "options": {
-                        "widget": "Button"
+                      header: "Login ID",
+                    },
+                    {
+                      accessorKey: "email",
+
+                      header: "Email",
+                    },
+                    {
+                      accessorKey: "firstName",
+
+                      header: "First Name",
+                    },
+                    {
+                      accessorKey: "lastName",
+
+                      header: "Last Name",
+                    },
+
+                    {
+                      accessorKey: "crn",
+
+                      header: "CRN",
+                    },
+                  ],
+                  actionColumns: [
+                    {
+                      accessorKey: "Edit_Approve_Records",
+                      header: "Edit",
+
+                      widget: {
+                        type: "Control",
+                        scope: "#/properties/Edit_Records",
+                        options: {
+                          widget: "IconButton",
+                        },
+                        config: {
+                          main: {
+                            color: "info",
+                            size: "small",
+                            icon: "EditIcon",
+                            click:"Edit_Approve_Records",
+                            tooltipMessage: "Edit This Record",
+                          },
+                          style: {
+                            color: "#3949ab",
+                          },
+                        },
                       },
-                      "value": {
-                        content: {
-                          color:"info",
-                          size:"small",
-                          icon: "EditIcon",
-                          tooltipMessage:"Edit This Record",
-                        
-                        },
-                        style: {
-                          color:"#3949ab"
-                        },
-                      }
-                    }
-                  } 
-                ]
-              }
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/pendingRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "loadFunction":"getUserPendingRecords",
-                "ApiDetails":{
-                "DataApiBody": { "status": "N" },
-                "DataApi": "http://localhost:8081/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.UserStaging"
+                    },
+                  ],
                 },
-                "columns": [
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/PendingRecords",
+
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
                   {
-                    "field": "id",
-                    headerName:"id",
-                     flex:1,
-                    "hide": true,
-                    "widget": "api"
+                    accessorKey: "id",
+                    header: "id",
                   },
                   {
-                    "field": "name",
-                     flex:1,
-                    "headerName": "Login ID",
-                    "widget": "api"
+                    accessorKey: "name",
+
+                    header: "Login ID",
                   },
-{
-                    "field": "email",
-                    flex:1,
-                    "headerName": "Email",
-                    "widget": "api"
+                  {
+                    accessorKey: "email",
+
+                    header: "Email",
                   },
-{
-                    "field": "firstName",
-                    flex:1,
-                    "headerName": "First Name",
-                    "widget": "api"
+                  {
+                    accessorKey: "firstName",
+
+                    header: "First Name",
                   },
 
                   {
-                    "field": "lastName",
-                    flex:1,
-                    "headerName": "Last Name",
-                    "widget": "api"
-                  },		
+                    accessorKey: "lastName",
 
-	
-{
-                    "field": "crn",
-                    flex:1,
-                    "headerName": "CRN",
-                    "widget": "api"
-                  },						  
+                    header: "Last Name",
+                  },
+
                   {
-                    field:"UserApprover",
-                    "headerName": "Approve",
-                   "flex":1,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/Approve2Button",
-                      "fieldName": "Approve_Records",
-                      "options": {
-                        "widget": "Button"
+                    accessorKey: "crn",
+
+                    header: "CRN",
+                  },
+                ],
+                actionColumns: [
+                  {
+                    accessorKey: "UserApprover",
+                    header: "Approve",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Approve2Button",
+                      fieldName: "Approve_Records",
+                      options: {
+                        widget: "IconButton",
                       },
-                      "value": {
-                        "content": {
+                      config: {
+                       main: {
                           icon: "ApproveIcon",
-                          color:"success",
-                          tooltipMessage:"Approve This Record",
-                        }
-                      }
-                    }
-                  },
-                  {
-                    field:"Reject_Records",
-                    "headerName": "Reject",
-                   "flex":1,
-                    "widget": {
-                      "type": "Control",
-                      "scope": "#/properties/RejectButton",
-                      "fieldName": "Reject_Records",
-                      "options": {
-                        "widget": "Button"
+                          color: "success",
+                          click:"Approve_Records",
+                          tooltipMessage: "Approve This Record",
+                        },
                       },
-                      "value": {
-                        "content": {
+                    },
+                  },
+                  {
+                    accessorKey: "Reject_Records",
+                    header: "Reject",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/RejectButton",
+                      fieldName: "Reject_Records",
+                      options: {
+                        widget: "IconButton",
+                      },
+                      config: {
+                       main: {
                           icon: "RejectIcon",
-                          color:"error",
-                          tooltipMessage:"Reject This Record",
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
+                          color: "error",
+                          click:"Reject_Records",
+                          tooltipMessage: "Reject This Record",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
             },
-            {
-              "type": "Control",
-              "scope": "#/properties/rejectRecords",
-              "layout": 12,
-              "options": {
-                "widget": "Table",
-                "loadFunction":"getUserRejectedRecords",
-                "columns": [
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/RejectRecords",
+
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {
+                dataColumns: [
                   {
-                    "field": "id",
-                    headerName:"id",
-                     flex:1,
-                    "hide": true,
-                    "widget": "api"
+                    accessorKey: "id",
+                    header: "id",
                   },
                   {
-                    "field": "name",
-                    flex:1,
-                    "headerName": "Login ID",
-                    "widget": "api"
+                    accessorKey: "name",
+
+                    header: "Login ID",
                   },
-{
-                    "field": "email",
-                    flex:1,
-                    "headerName": "Email",
-                    "widget": "api"
+                  {
+                    accessorKey: "email",
+
+                    header: "Email",
                   },
-{
-                    "field": "firstName",
-                    flex:1,
-                    "headerName": "First Name",
-                    "widget": "api"
+                  {
+                    accessorKey: "firstName",
+
+                    header: "First Name",
                   },
 
+                  {
+                    accessorKey: "lastName",
 
-{
-                    "field": "lastName",
-                    flex:1,
-                    "headerName": "Last Name",
-                    "widget": "api"
-                  },			
-                 
-{
+                    header: "Last Name",
+                  },
 
-                    "field": "crn",
-                    flex:1,
-                    "headerName": "CRN",
-                    "widget": "api"
-                  },				  
-                ]
-              }
+                  {
+                    accessorKey: "crn",
+
+                    header: "CRN",
+                  },
+                ],
+              },
             },
-          ]
-        }
-      }
+          },
+        },
+      ],
     },
     {
       type: "Control",
       scope: "#/properties/EmptyBox",
       options: {
         widget: "DailogBox",
-      }
+      },
     },
-            {
-              type: "Control",
-              scope: "#/properties/notify",
-              options: {
-                widget: "Notify",
-              },
-              layout: 6,
-            }
-  ]
-}
+    {
+      type: "Control",
+      scope: "#/properties/notify",
+      options: {
+        widget: "Notify",
+      },
+      config: {
+        layout: 6,
+      },
+    },
+  ],
+};
