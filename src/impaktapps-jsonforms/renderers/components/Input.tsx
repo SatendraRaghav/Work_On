@@ -13,10 +13,9 @@ import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { useJsonForms } from "@jsonforms/react";
 import { inputProps } from "../interface/inputfieldProps";
-import { useDebouncedChange } from "@jsonforms/material-renderers";
+import { useDebouncedChange } from "../common/handleChange";
+// import { useDebouncedChange } from "@jsonforms/material-renderers";
 import { Close } from "@mui/icons-material";
-import CustomPassword from "./Password";
-import Helpertext from "../common/Helpertext";
 const Input = memo(function (props: inputProps) {
   const { data, required, errors, enabled, uischema, path, handleChange } =
     props;
@@ -24,7 +23,6 @@ const Input = memo(function (props: inputProps) {
   const [showAdornment, setShowAdornment] = useState(false);
   const { id, permissions, theme, serviceProvider } = useContext(DataContext);
   const fieldName = getFieldName(path);
-  const ctx = useJsonForms();
   const eventToValue = (ev: any) =>
     ev.target.value === "" ? undefined : ev.target.value;
   const [inputText, onChange, onClear] = useDebouncedChange(
@@ -34,15 +32,15 @@ const Input = memo(function (props: inputProps) {
     path,
     eventToValue
   );
-  const callServiceProvider = (event: any, value?: unknown) => {
-    serviceProvider(ctx, uischemaData, { event, path,paramValue:value });
-  };
+  const ctx = useJsonForms();
+  // const callServiceProvider = (event: any, value?: unknown) => {
+  //   serviceProvider(ctx, uischemaData, { event, path,paramValue:value });
+  // };
   const onPointerEnter = () => setShowAdornment(true);
   const onPointerLeave = () => setShowAdornment(false);
   return (
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
       <TextField
-        // disabled={"inherit"}
         required={required}
         autoFocus={uischemaData?.autoFocus}
         fullWidth
@@ -50,22 +48,23 @@ const Input = memo(function (props: inputProps) {
         value={inputText}
         onChange={(event) => {
           onChange(event);
-          callServiceProvider(event,event.target.value);
+         
+          // callServiceProvider(event,event.target.value);
         }}
-        onPointerEnter={(event) => {
-          onPointerEnter();
-          callServiceProvider(event);
-        }}
-        onKeyPress={(event)=>{
-          callServiceProvider(event);
-        }}
-        onPointerLeave={(event) => {
-          onPointerLeave();
-          callServiceProvider(event);
-        }}
-        onFocus={(event) => callServiceProvider(event)}
-        onBlur={(event) => callServiceProvider(event)}
-        onMouseEnter={(event) => callServiceProvider(event)}
+        // onPointerEnter={(event) => {
+        //   onPointerEnter();
+        //   callServiceProvider(event);
+        // }}
+        // onKeyDown={(event)=>{
+        //   callServiceProvider(event);
+        // }}
+        // onPointerLeave={(event) => {
+        //   onPointerLeave();
+        //   callServiceProvider(event);
+        // }}
+        // onFocus={(event) => callServiceProvider(event)}
+        // onBlur={(event) => callServiceProvider(event)}
+        // onMouseEnter={(event) => callServiceProvider(event)}
         InputProps={{
           endAdornment: (
             <InputAdornment

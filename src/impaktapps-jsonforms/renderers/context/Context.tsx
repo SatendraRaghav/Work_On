@@ -1,97 +1,30 @@
-import { useJsonForms } from "@jsonforms/react";
-import React, { useReducer, createContext, useMemo } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { JsonFormsStateContext, useJsonForms } from "@jsonforms/react";
+import React, { useReducer, createContext, useMemo, useState } from "react";
+import { additionalDataProps } from "../interface/inputfieldProps";
+
 export const DataContext = createContext<any>({});
-interface additionalDataProps {
-  path: string;
-  event: any;
-  paramValue?: unknown;
-  uischemaData?:unknown;
-  setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
-}
-export const DataProvider = ({
-  children,
-  objFunc,
-  setFormdata,
-  setUiSchema,
-  setSchema,
-  id = "Home",
-  schema,
-  setAdditionalErrors,
-  setConfig,
-  permissions,
-  theme,
-  formData,
-}: any) => {
-  const [openDialogBox, setDialogBox] = React.useState({
-    open: false,
-    page: "",
-  });
-  const [openNotify, setNotify] = React.useState({
-    Fail: false,
-    FailMessage: "Error",
-    Success: false,
-    SuccessMessage: "Success",
-    Info: false,
-    InfoMessage: "",
-  });
-  const [searchParams, setSearchParams] = id !== "RouterUnavailable" && useSearchParams();
-  const [loading, setLoading] = React.useState(false);
-  const navigate = id !== "RouterUnavailable" && useNavigate();
+export const DataProvider = ({ children, impaktappsJsonformsStore }: any) => {
   const serviceProvider = (
-    ctx: any,
-    uischemaData: unknown,
+    ctx: JsonFormsStateContext,
+    componentUiSchema: unknown,
     additionalData: additionalDataProps
   ) => {
-    if (uischemaData[additionalData.event.type]) {
-      objFunc
-        .getService(
-          id,
-          ctx,
-          setFormdata,
-          setUiSchema,
-          setSchema,
-          navigate,
-          {
-            setDialogBox,
-            searchParams,
-            setSearchParams,
-            ...additionalData,
-          },
-          schema,
-          setConfig,
-          setAdditionalErrors,
-          setNotify
-        )
+    if (componentUiSchema[additionalData.event._reactName]) {
+      impaktappsJsonformsStore.serviceHolder
+        .getService({ ...impaktappsJsonformsStore, ctx }, additionalData)
         .then((res: any) => {
-          return res[uischemaData[additionalData.event.type]](
+          return res[componentUiSchema[additionalData.event._reactName]](
             additionalData?.paramValue
           );
         });
     }
   };
+  // const customChangeHandler = (data: any, errors?: any,) => {
+  //   impaktappsJsonformsStore.setFormdata(data);
+  // };
   return (
     <DataContext.Provider
-      value={{
-        objFunc,
-        openDialogBox,
-        setDialogBox,
-        setFormdata,
-        setUiSchema,
-        setSchema,
-        id,
-        serviceProvider,
-        schema,
-        setAdditionalErrors,
-        setConfig,
-        permissions,
-        theme,
-        openNotify,
-        setNotify,
-        formData,
-        loading,
-        setLoading,
-      }}
+      value={{ ...impaktappsJsonformsStore, serviceProvider: serviceProvider }}
     >
       {children}
     </DataContext.Provider>

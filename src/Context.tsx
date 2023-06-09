@@ -1,4 +1,4 @@
-import { useJsonForms } from "@jsonforms/react";
+import { JsonFormsStateContext, useJsonForms } from "@jsonforms/react";
 import React, { useReducer, createContext, useMemo, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 export const DataContext = createContext<any>({});
@@ -36,7 +36,7 @@ export const DataProvider = ({
   const [loading, setLoading] = React.useState(false);
   const navigate = id === "RouterUnavailable" ? "NotAvailable" : useNavigate();
   const serviceProvider = (
-    ctx: any,
+    ctx: JsonFormsStateContext,
     uischemaData: { content: any },
     otherValues?: {
       additionalData?: {event:ChangeEvent|KeyboardEvent|MouseEvent|FormEvent,path:string};

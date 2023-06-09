@@ -3,28 +3,24 @@ import { JsonFormsStateContext } from "@jsonforms/react";
 import { myService } from "../../service/service";
 import moment from "moment";
 import { ProgramMasterCycleRecordUiSchema } from "../../UiSchema/ProgramCycle.tsx/ProgramCycleRecord/UiSchema";
+import { dynamicDataType } from "../../utils/dynamicDataType";
 export const CycleRecords = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?:any
+  store:any, dynamicData:dynamicDataType
 ) => {
-  const serviceApi =  myService(otherData[3],otherData[4],navigate)
+  const serviceApi = myService(
+    dynamicData?.setLoading,
+    store.setDialogBox,
+    store.navigate
+  );
   return {
     setPage: async function () {
-      setFormdata({})
+      store.setFormdata({})
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const UiSchema = await  this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
       const formData = this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
     },
     getFormData:  () => {
      return {}
@@ -52,7 +48,7 @@ export const CycleRecords = (
               endDate: demoEndDate,
             };
           });
-          UiSchema.elements[1].elements[0].config.main.allRowsData = approveData;
+          UiSchema.elements[1].options.detail.elements[0].config.main.allRowsData = approveData;
           return serviceApi.get(ApiPending);
         })
         .then((res) => {
@@ -67,7 +63,7 @@ export const CycleRecords = (
               endDate: demoEndDate,
             };
           });
-          UiSchema.elements[1].elements[1].config.main.allRowsData = pendingData;
+          UiSchema.elements[1].options.detail.elements[1].config.main.allRowsData = pendingData;
           return serviceApi.get(ApiReject);
         })
         .then((res) => {
@@ -82,12 +78,12 @@ export const CycleRecords = (
               endDate: demoEndDate,
             };
           });
-          UiSchema.elements[1].elements[2].config.main.allRowsData = rejectData;
+          UiSchema.elements[1].options.detail.elements[2].config.main.allRowsData = rejectData;
         })
         .catch((err) =>{
-          UiSchema.elements[1].elements[0].config.main.allRowsData =  [];
-          UiSchema.elements[1].elements[1].config.main.allRowsData =  [];
-          UiSchema.elements[1].elements[0].config.main.allRowsData = [];
+          UiSchema.elements[1].options.detail.elements[0].config.main.allRowsData =  [];
+          UiSchema.elements[1].options.detail.elements[1].config.main.allRowsData =  [];
+          UiSchema.elements[1].options.detail.elements[2].config.main.allRowsData = [];
         });
         return UiSchema;
     },
@@ -96,7 +92,7 @@ export const CycleRecords = (
     },
     Approve_Records: function () {
       const Api =
-        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${otherData.rowData.id }`;
+        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${dynamicData.rowData.id }`;
       serviceApi
         .get(Api)
         .then((res) => {
@@ -110,16 +106,16 @@ export const CycleRecords = (
           )})
         .then(async (res) => {
          const data =   await this.getFormData();
-          setFormdata({
+         store.setFormdata({
             ...data,
           });
-          setNotify({SuccessMessage:"Approved Successfully",Success:true,})
+          store.setNotify({SuccessMessage:"Approved Successfully",Success:true,})
         })
         .catch((e) => console.log(e));
     },
     Reject_Records: async function () {
       const Api =
-        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${otherData.rowData.id}`;
+        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${dynamicData.rowData.id}`;
       await serviceApi
         .get(Api)
         .then((res) => {
@@ -133,17 +129,17 @@ export const CycleRecords = (
         })
         .then( async (res) => {
           const data =   await this.getFormData();
-          setFormdata({
+          store.setFormdata({
             ...data
           });
-          setNotify({SuccessMessage:"Rejected Successfully",Success:true,})
+          store.setNotify({SuccessMessage:"Rejected Successfully",Success:true,})
         });
     },
     Edit_Approve_Records: function () {
-      navigate(`/CycleForm?id=${otherData.rowData.id}`)
+      store.navigate(`/CycleForm?id=${dynamicData.rowData.id}`)
     },
     addNewRecords: function () {
-      navigate("/CycleForm")
+      store.navigate("/CycleForm")
     },
   };
 };

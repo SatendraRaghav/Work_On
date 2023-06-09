@@ -6,7 +6,7 @@ import {
   uiTypeIs,
 } from "@jsonforms/core";
 import { withJsonFormsLayoutProps } from "@jsonforms/react";
-import { MaterialLayoutRendererProps } from "./Layout";
+import { MaterialLayoutRendererProps } from "./Horizontal";
 import Wrapper from "./Wrapper";
 import { useContext } from "react";
 import { DataContext } from "../context/Context";

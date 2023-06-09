@@ -12,7 +12,7 @@ import BackIcon2 from "@mui/icons-material/ArrowBackIosNewTwoTone";
 import SearchIcon from '@mui/icons-material/Search';
 
 
-export function myIcon(iconName: string, data: any) {
+export function ButtonIcon(iconName: string, data: any) {
     switch (iconName) {
       case "DeleteIcon":
         return <DeleteIcon  sx={{ ...data?.iconStyle }} />;

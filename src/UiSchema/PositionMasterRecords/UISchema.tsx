@@ -213,12 +213,5 @@ export const PositionMasterRecordsUISchema = {
       },
       layout: 6,
     },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "DailogBox",
-      },
-    },
   ],
 };

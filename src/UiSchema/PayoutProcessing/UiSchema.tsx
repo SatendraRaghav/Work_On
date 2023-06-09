@@ -378,12 +378,5 @@ export const PayoutProcessingUiSchema = {
         },
       },
     },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "DailogBox",
-      },
-    },
   ],
 };

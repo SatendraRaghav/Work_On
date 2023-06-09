@@ -8,8 +8,8 @@ export const HomeUiSchema = {
         "options": {
           "widget": "Box"
         },
-        "value": {
-          "content": {
+        "config": {
+          "main": {
             "heading": "Welcome to Hyperform",
           },
           style:{
@@ -18,7 +18,8 @@ export const HomeUiSchema = {
             borderRadius:"20px",
             display:"flex",
             fontWeight:"bolder",
-            width:"100%",
+            width:"80%",
+            color:"black",
             alignItems:"center",
             justifyContent:"center"
           }

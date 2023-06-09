@@ -1,9 +1,7 @@
 import MaterialReactTable from "material-react-table";
 import { Box, Button } from "@mui/material";
-import React, {
-  useCallback,
+import {
   useEffect,
-  useMemo,
   useState,
   useContext,
   memo,
@@ -17,7 +15,6 @@ import { JsonFormsDispatch, useJsonForms } from "@jsonforms/react";
 import { DataContext } from "../context/Context";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { ExportToCsv } from "export-to-csv";
-import { getCsvoptions } from "../common/tableComponents";
 import { inputProps } from "../interface/inputfieldProps";
 
 export const DataTablePro = memo(function DataTablePro({
@@ -31,14 +28,22 @@ export const DataTablePro = memo(function DataTablePro({
   const { id, openNotify, setFormdata, theme } = useContext(DataContext);
   const uischemaData = uischema.config.main;
   const [tableLoading, setTableLoading] = useState<boolean>(true);
-  const ctx: any = useJsonForms();
   const [selection, setSelection] = useState({})
   useEffect(() => {
     if (uischemaData.allRowsData) {
       setTableLoading(false);
     }
   }, [uischemaData.allRowsData]);
-  const csvOptions = getCsvoptions(uischemaData, id);
+   const csvOptions = {
+    fieldSeparator:uischemaData?.csvOptions?.fieldSeparator?? ",",
+    quoteStrings:uischemaData?.csvOptions?.quoteStrings??'"',
+    decimalSeparator: uischemaData?.csvOptions?.decimalSeparator??".",
+    showLabels: uischemaData?.csvOptions?.showLabels??true,
+    useBom: uischemaData?.csvOptions?.useBom??true,
+    useKeysAsHeaders: uischemaData?.csvOptions?.useKeysAsHeaders??false,
+    headers:uischemaData?.csvOptions?.headers??uischemaData?.columns?.dataColumns?.map((c) => c.header),
+    filename: uischemaData?.csvOptions?.filename??id,
+  };
   const allowedField = uischemaData?.columns?.dataColumns?.map(
     (elem) => elem.accessorKey
   );
@@ -91,7 +96,7 @@ export const DataTablePro = memo(function DataTablePro({
               (elem: UISchemaElement | any, i: number) => {
                 const childPath = composePaths(path, `${i}`);
                 const widget = JSON.parse(JSON.stringify(elem.widget));
-                widget.config.main.runTimeData  ={...widget.config.main?.runTimeData,rowData: row.original};
+                widget.config.main.rowData  = row.original;
                 return (
                   <JsonFormsDispatch
                     schema={schema}

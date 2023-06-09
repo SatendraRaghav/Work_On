@@ -2,26 +2,17 @@ import { JsonFormsStateContext } from "@jsonforms/react";
 import { ErrorPageUischema } from "../UiSchema/Errorpage/Uischema";
 
  export const error = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?:any
+  store:any,
+  dynamicData:any
 ) => {
-  // const [user, setUser] = useLocalStorage("user", null);
   return {
-    setPage: function () {
+    setPage: async function () {
       const formdata = this.getFormData();
       const schema = this.getSchema();
       const uiSchema = this.getUiSchema();
-      setFormdata(formdata);
-      setSchema(schema);
-      setUiSchema(uiSchema);
+      store.setFormdata(formdata);
+      store.setSchema(schema);
+      store.setUiSchema(uiSchema);
     },
     getFormData: function () {
       return {};

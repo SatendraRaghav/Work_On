@@ -12,16 +12,15 @@ import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { useJsonForms } from "@jsonforms/react";
 import { inputProps } from "../interface/inputfieldProps";
-import { useDebouncedChange } from "@jsonforms/material-renderers";
+// import { useDebouncedChange } from "@jsonforms/material-renderers";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import Helpertext from "../common/Helpertext";
+import { useDebouncedChange } from "../common/handleChange";
 const Password = memo(function (props: inputProps) {
   const { data, required, errors, enabled, uischema, path, handleChange } =
     props;
   const uischemaData = uischema?.config?.main;
   const { id, permissions, theme, serviceProvider } = useContext(DataContext);
   const fieldName = getFieldName(path);
-  const ctx = useJsonForms();
   const [showPassword, setShowPassword] = useState(false);
   const eventToValue = (ev: any) =>
     ev.target.value === "" ? undefined : ev.target.value;
@@ -32,9 +31,11 @@ const Password = memo(function (props: inputProps) {
     path,
     eventToValue
   );
+   const ctx = useJsonForms();
   const callServiceProvider = (event: any, value?: unknown) => {
     serviceProvider(ctx, uischemaData, { event, path,paramValue:value });
   };
+ 
   return (
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
       <TextField
@@ -45,10 +46,11 @@ const Password = memo(function (props: inputProps) {
         value={inputText}
         onChange={(event) => {
           onChange(event);
+          handleChange(path,event.target.value)
           callServiceProvider(event,event.target.value);
         }}
-        onKeyPress={(event)=>{
-          callServiceProvider(event);
+        onKeyDown={(event)=>{
+         callServiceProvider(event)
         }}
         onPointerEnter={(event) => callServiceProvider(event)}
         onPointerLeave={(event) => callServiceProvider(event)}

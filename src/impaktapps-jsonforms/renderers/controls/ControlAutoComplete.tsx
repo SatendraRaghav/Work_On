@@ -1,6 +1,7 @@
 import React from 'react'
 import AutoComplete from '../components/AutoComplete'
 import { inputProps } from '../interface/inputfieldProps'
+import { withJsonFormsControlProps } from '@jsonforms/react'
 
 const ControlAutoComplete = (props:inputProps) => {
   return (
@@ -8,4 +9,4 @@ const ControlAutoComplete = (props:inputProps) => {
   )
 }
 
-export default ControlAutoComplete
+export default withJsonFormsControlProps(ControlAutoComplete)

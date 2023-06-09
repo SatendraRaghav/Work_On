@@ -8,8 +8,8 @@ import {
   import { withJsonFormsLayoutProps } from '@jsonforms/react';
   import {
     MaterialLayoutRendererProps
-  } from './Layout';
-  import { CustomTabLayout } from './TabLayout';
+  } from './Horizontal';
+  import { CustomTabLayout } from './Tab';
   import { useContext } from 'react';
   import { DataContext } from '../context/Context';
 import { inputProps } from '../interface/inputfieldProps';

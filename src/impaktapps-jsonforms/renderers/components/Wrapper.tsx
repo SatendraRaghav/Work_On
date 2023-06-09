@@ -35,7 +35,7 @@ const Wrapper =  memo(function Wrapper ({
         background:"white",
          padding:"1x",
         borderRadius:"20px",
-        ...uischema?.config?.style?.wrapperStyle,
+        // ...uischema?.config?.style?.wrapperStyle,
      
       }}
     >

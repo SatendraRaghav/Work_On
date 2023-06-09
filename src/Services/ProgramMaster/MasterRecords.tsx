@@ -1,33 +1,22 @@
 import { JsonFormsStateContext } from "@jsonforms/react";
 import { myService } from "../../service/service";
 import { ProgramMasterRecordUiSchema } from "../../UiSchema/ProgramMaster/ProgramRecord/UiSchema";
+import { dynamicDataType } from "../../utils/dynamicDataType";
 
-export const MasterRecords = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
-) => {
+export const MasterRecords = (store: any,dynamicData?:dynamicDataType) => {
   const serviceApi = myService(
-    otherData.setLoading,
-    otherData.setDialogBox,
-    navigate
+    dynamicData?.setLoading,
+    store?.setDialogBox,
+    store.navigate
   );
   return {
     setPage: async function () {
-      setFormdata({});
-      const schema = this.getSchema();
-      setSchema(schema);
       const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
       const formData = await this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
+      const schema = await this.getSchema();
+      store.setSchema(schema);
     },
     getFormData: async () => {
       return {};
@@ -66,7 +55,7 @@ export const MasterRecords = (
         });
       return UiSchema;
     },
-    getSchema: () => {
+    getSchema: async () => {
       return {};
     },
     Approve_Records: function () {
@@ -75,16 +64,19 @@ export const MasterRecords = (
           id: 1,
           payload: {
             entityName: "com.act21.hyperform3.entity.program.ProgramStaging",
-            entityValue: otherData.rowData,
+            entityValue: dynamicData.rowData,
             action: "A",
           },
         })
         .then(async (res) => {
           const data = await this.getFormData();
-          setFormdata({
+          store.setFormdata({
             ...data,
           });
-          setNotify({ SuccessMessage: "Approved successfully", Success: true });
+          store.setNotify({
+            SuccessMessage: "Approved successfully",
+            Success: true,
+          });
         });
     },
     Reject_Records: function () {
@@ -93,23 +85,26 @@ export const MasterRecords = (
           id: 1,
           payload: {
             entityName: "com.act21.hyperform3.entity.program.ProgramStaging",
-            entityValue: otherData.rowData,
+            entityValue: dynamicData.rowData,
             action: "R",
           },
         })
         .then(async (res) => {
           const data = await this.getFormData();
-          setFormdata({
+          store.setFormdata({
             ...data,
           });
-          setNotify({ SuccessMessage: "Rejected successfully", Success: true });
+          store.setNotify({
+            SuccessMessage: "Rejected successfully",
+            Success: true,
+          });
         });
     },
     Edit_Approve_Records: function () {
-      navigate(`/MasterForm?id=${otherData.rowData.id}`);
+      store.navigate(`/MasterForm?id=${dynamicData.rowData.id}`);
     },
     addNewRecords: function () {
-      navigate("/MasterForm");
+      store.navigate("/MasterForm");
     },
   };
 };

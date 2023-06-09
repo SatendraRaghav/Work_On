@@ -21,11 +21,11 @@ const DownloadFile = memo(function (props:inputProps ) {
     const uischemaData = uischema.config.main;
     const { serviceProvider, permissions, id, theme, setNotify } =
       useContext(DataContext);
-    const ctx = useJsonForms();
+      const ctx = useJsonForms();
     const myStyle = uischemaData?.iconStyleDefault ? theme.IconStyle : {};
     const fieldName = getFieldName(path);
     const callServiceProvider=(event:any,value?:unknown)=>{
-        serviceProvider(ctx, uischemaData, 
+        serviceProvider(ctx,uischemaData, 
           {event, path,setLoading});
       }
   return (

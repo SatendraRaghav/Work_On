@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import Button from "@mui/material/Button";
 import { useContext } from "react";
 import { DataContext } from "../context/Context";
-import { myIcon } from "../common/MyIcon";
+import { ButtonIcon } from "../common/ButtonIcon";
 import { useJsonForms } from "@jsonforms/react";
 import { CircularProgress, Tooltip } from "@mui/material";
 import PermissionWrapper from "../permissions/PermissionWrapper";
@@ -35,7 +35,7 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
   const ctx = useJsonForms();
   const fieldName = getFieldName(path);
   const callServiceProvider=(event:any)=>{
-  serviceProvider(ctx, uischemaData, 
+  serviceProvider(ctx,uischemaData, 
     {event, path,rowData:uischemaData.rowData,setLoading});
   }
   return (
@@ -44,12 +44,12 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
           <Button
             fullWidth={true}
             endIcon={
-              uischemaData?.endIcon ? myIcon(uischemaData?.endIcon, uischemaData) : false
+              uischemaData?.endIcon ? ButtonIcon(uischemaData?.endIcon, uischemaData) : false
             }
             title={uischemaData?.tooltipMessage}
             startIcon={
               uischemaData?.startIcon
-                ? myIcon(uischemaData?.startIcon, uischemaData)
+                ? ButtonIcon(uischemaData?.startIcon, uischemaData)
                 : false
             }
             sx={{ ...theme.Buttonstyle, ...uischema?.config?.style }}

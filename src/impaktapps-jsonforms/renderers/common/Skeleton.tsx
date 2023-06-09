@@ -5,7 +5,6 @@ import {
     Typography,
     TypographyProps,
   } from "@mui/material";
-import React from 'react'
  const variants = [
     "h1",
     "h3",

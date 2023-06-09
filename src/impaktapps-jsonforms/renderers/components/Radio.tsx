@@ -23,7 +23,7 @@ const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
   const onChange = (_ev: any, value: any) => handleChange(path, value);
   const ctx = useJsonForms();
   const callServiceProvider = (event: any, value?: unknown) => {
-    serviceProvider(ctx, uischemaData, { event, path,paramValue:value });
+    serviceProvider(ctx,uischemaData, { event, path,paramValue:value });
   };
   return (
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>

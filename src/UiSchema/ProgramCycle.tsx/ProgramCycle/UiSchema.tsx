@@ -36,7 +36,7 @@ export const ProgramMasterCycleUiSchema = {
                   icon: "BackIcon",
                   styleDefault: true,
                   size: "small",
-                  click: "backHandler",
+                  onClick: "backHandler",
                   tooltipMessage: "Back",
                 },
                 style: {
@@ -109,7 +109,7 @@ export const ProgramMasterCycleUiSchema = {
                 layout: { xs: 12, sm: 12, md: 6, lg: 6 },
                 main: {
                   label: "Start Date",
-                  click: "verifyStartDate",
+                  onClick: "verifyStartDate",
                   type: "date",
                   errorMessage: "Start Date is empty or invalid",
                 },
@@ -127,7 +127,7 @@ export const ProgramMasterCycleUiSchema = {
                 main: {
                   label: "End Date",
                   type: "date",
-                  click: "verifyEndDate",
+                  onClick: "verifyEndDate",
                   errorMessage: "End Date is empty or invalid",
                 },
               },
@@ -152,7 +152,7 @@ export const ProgramMasterCycleUiSchema = {
                 },
                 main: {
                   required: false,
-                  click: "workspaceFileSaveFunction",
+                  onClick: "workspaceFileSaveFunction",
                   errorMessage: "Workflow File is not uploaded",
                   // iconStyleDefault:true,
                 },
@@ -176,7 +176,7 @@ export const ProgramMasterCycleUiSchema = {
                 },
                 main: {
                   required: false,
-                  click: "Download_Workspace_File",
+                  onClick: "Download_Workspace_File",
                   // iconStyleDefault:true,
                 },
                 style: {
@@ -229,7 +229,7 @@ export const ProgramMasterCycleUiSchema = {
                 },
                 main: {
                   required: false,
-                  click: "invioceFileSaveFunction",
+                  onClick: "invioceFileSaveFunction",
                   errorMessage: "Invoice File is not uploaded",
                 },
                 style: {
@@ -252,7 +252,7 @@ export const ProgramMasterCycleUiSchema = {
                 },
                 main: {
                   required: false,
-                  click: "Download_Invioce_File",
+                  onClick: "Download_Invioce_File",
                  
                 },
                 style: {
@@ -407,7 +407,7 @@ export const ProgramMasterCycleUiSchema = {
                   variant: "contained",
                   color: "info",
                   type: "text",
-                  click: "Submit_PM_Cycle",
+                  onClick: "Submit_PM_Cycle",
                   size: "small",
                 },
                 style: {
@@ -426,13 +426,6 @@ export const ProgramMasterCycleUiSchema = {
         widget: "Notify",
       },
       layout: 6,
-    },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "DailogBox",
-      },
     },
     {
       type: "Control",

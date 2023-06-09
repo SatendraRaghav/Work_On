@@ -12,11 +12,12 @@ export const ErrorPageUischema = {
         "options":{
             "widget":"Box"
         },
-        "layout": 12,
-        "value": {
-          "content": {
+       
+        "config": {
+           "layout": 12,
+          "main": {
             "variant":"h4",
-            "heading":"This is unauthorized action, Either you have not permission to access this page or this page now available."
+            "heading":"This is unauthorized action, either you don't have  permission to access this page or this page is not available."
           },
           "style":{
             "width":"80%",

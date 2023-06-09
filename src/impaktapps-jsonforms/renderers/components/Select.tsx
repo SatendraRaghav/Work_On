@@ -1,20 +1,19 @@
 import React, { memo, useContext, useEffect } from "react";
 import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { DataContext } from "../context/Context";
-import { useNavigate } from "react-router";
 import { useJsonForms } from "@jsonforms/react";
 import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
-import CustomAutoComplete from "./AutoComplete";
-import Helpertext from "../common/Helpertext";
 import { inputProps } from "../interface/inputfieldProps";
+import Helpertext from "../common/Helpertext";
 
-const ImpaktAppsSelect = memo(function CustomSelect(props: inputProps) {
-  const { errors, uischema, data, required, handleChange, path } = props;
-  const ctx = useJsonForms();
+const ImpaktAppsSelect = memo(
+  function CustomSelect(props: inputProps) {
+  const {errors, uischema, data, required, handleChange, path } = props;
   const uischemaData = uischema?.config?.main;
-  const { setDialogBox, id, permissions, theme, serviceProvider } =
+  const { id, permissions, theme, serviceProvider } =
     useContext(DataContext);
+    const ctx = useJsonForms();
   const fieldName = getFieldName(path);
   const callServiceProvider = (event: any, value?: unknown) => {
     serviceProvider(ctx, uischemaData, { event, path,paramValue:value });
@@ -38,12 +37,14 @@ const ImpaktAppsSelect = memo(function CustomSelect(props: inputProps) {
           required={required}
           size={uischemaData?.size || "medium"}
           label={uischemaData?.label}
-          value={data !== undefined ? data : ""}
+          defaultValue={props.data !== undefined ? data : ""}
+          value={props.data !== undefined ? data : ""}
           autoFocus={uischemaData?.autoFocus}
-          onChange={(event) => {
-            handleChange(path, event.target.value || undefined);
-            callServiceProvider(event,event.target.value);
-          }}
+          onChange={(event) => { 
+            console.log(event.target.value)
+            handleChange(path, event.target.value || undefined)
+            callServiceProvider( event,event.target.value);}}
+     
           onPointerEnter={(event) => callServiceProvider(event)}
           onPointerLeave={(event) => callServiceProvider(event)}
           onFocus={(event) => callServiceProvider(event)}
@@ -59,6 +60,7 @@ const ImpaktAppsSelect = memo(function CustomSelect(props: inputProps) {
             </MenuItem>
           ))}
         </Select>
+        <Helpertext uischemaData={uischemaData} errors={errors} />
       </FormControl>
     </PermissionWrapper>
   );

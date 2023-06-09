@@ -25,9 +25,10 @@ const UploadFile = memo(function (props: inputProps) {
     HTMLTextAreaElement | HTMLInputElement
   > | null>(null);
   const fieldName = getFieldName(path);
+  
   const myStyle = uischemaData?.iconStyleDefault ? theme.IconStyle : {};
   const callServiceProvider = (event: any, uploadEvent?: any) => {
-    serviceProvider(ctx, uischemaData, {
+    serviceProvider(ctx,uischemaData, {
       event,
       changeEvent: uploadEvent,
       uischemaData,

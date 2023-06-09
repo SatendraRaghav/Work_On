@@ -36,7 +36,7 @@ export const ProgramMasterUiSchema = {
                   icon:"BackIcon",
                   styleDefault:true,
                   size:"small",
-                  click: "backHandler",
+                  onClick: "backHandler",
                   tooltipMessage:"Back",
                 },
                 style: {
@@ -99,9 +99,9 @@ export const ProgramMasterUiSchema = {
                   // multiple: true,
                   variant: "standard",
                   options: [
-                    { label: "DSL", config: "DSL" },
-                    { label: "HL", config: "HL" },
-                    { label: "PL", config: "PL" },
+                    { label: "DSL", value: "DSL" },
+                    { label: "HL", value: "HL" },
+                    { label: "PL", value: "PL" },
                   ],
                   errorMessage:"Groups are not selected"
                 },
@@ -120,10 +120,10 @@ export const ProgramMasterUiSchema = {
                   label: "Cycle Frequency",
                   type: "text",
                   options: [
-                    { label: "Year", config: "Year" },
-                    { label: "Month", config: "Month" },
-                    { label: "Week", config: "Week" },
-                    { label: "Day", config: "Day" },
+                    { label: "Year", value: "Year" },
+                    { label: "Month", value: "Month" },
+                    { label: "Week", value: "Week" },
+                    { label: "Day", value: "Day" },
                   ],
                   errorMessage:"Cycle Frequency is not selected"
                 },
@@ -131,7 +131,7 @@ export const ProgramMasterUiSchema = {
             },
             {
               type: "Control",
-              scope: "#/properties/cycleconfig",
+              scope: "#/properties/cycleValue",
              
               options: {
                 widget: "InputField",
@@ -139,7 +139,7 @@ export const ProgramMasterUiSchema = {
               config: {
                 layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
                 main: {
-                  label: "Cycle config",
+                  label: "Cycle Value",
                   errorMessage:"Cycle config is empty or invalid"
                 },
               },
@@ -242,7 +242,7 @@ export const ProgramMasterUiSchema = {
                   variant: "contained",
                   color: "info",
                   type: "text",
-                  click: "Submit_PM_Program",
+                  onClick: "Submit_PM_Program",
                   size: "small",
                 },
                 style: {
@@ -253,13 +253,7 @@ export const ProgramMasterUiSchema = {
             
           ],
     },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "DailogBox",
-      }
-    },
+
     {
       type: "Control",
       scope: "#/properties/notify",

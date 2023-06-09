@@ -54,7 +54,7 @@ export const ProgramMasterRecordUiSchema = {
                   tooltipMessage: "Add New Record",
                   styleDefault: true,
 
-                  click: "addNewRecords",
+                  onClick: "addNewRecords",
                 },
                 style: {
                   float: "right",
@@ -136,7 +136,7 @@ export const ProgramMasterRecordUiSchema = {
                             color: "info",
                             size: "small",
                             tooltipMessage: "Edit This Record",
-                            click: "Edit_Approve_Records",
+                            onClick: "Edit_Approve_Records",
                             icon: "EditIcon",
                           },
                           style: {
@@ -211,7 +211,7 @@ export const ProgramMasterRecordUiSchema = {
                           main: {
                             icon: "ApproveIcon",
                             color: "success",
-                            click: "Approve_Records",
+                            onClick: "Approve_Records",
                             tooltipMessage: "Approve This Record",
                           },
                         },
@@ -231,7 +231,7 @@ export const ProgramMasterRecordUiSchema = {
                         config: {
                           main: {
                             icon: "RejectIcon",
-                            click: "Reject_Records",
+                            onClick: "Reject_Records",
                             color: "error",
                             tooltipMessage: "Reject This Record",
                           },
@@ -302,13 +302,6 @@ export const ProgramMasterRecordUiSchema = {
         widget: "Notify",
       },
       layout: 6,
-    },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "DailogBox",
-      },
     },
   ],
 };

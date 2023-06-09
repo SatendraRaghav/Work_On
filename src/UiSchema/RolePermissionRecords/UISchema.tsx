@@ -225,12 +225,6 @@ export const RolePermissionRecordsUISchema = {
       },
       config: { layout: 6 },
     },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "DailogBox",
-      },
-    },
+    
   ],
 };

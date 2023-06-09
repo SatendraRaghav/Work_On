@@ -759,12 +759,6 @@ export const UserMasterUISchema = {
         },
       ],
     },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "DailogBox",
-      },
-    },
+
   ],
 };

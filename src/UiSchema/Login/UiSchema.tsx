@@ -1,19 +1,6 @@
 export const LoginUiSchema = {
   type: "HorizontalLayout",
-  elements: [
-    {
-      type: "Control",
-      scope: "#/properties/username",
-      options: {
-        widget: "Box",
-      },
-      config: {
-        main: {},
-        style: {
-          marginTop: "4vh",
-        },
-      },
-    },
+  elements: [ 
     {
       type: "HorizontalLayout",
        
@@ -67,9 +54,10 @@ export const LoginUiSchema = {
               label: "Login ID",
               variant: "outlined",
               size: "normal",
-              keypress:"userLogInByEnter",
+              onKeyDown:"onKeyPress",
               activeEnter: true,
               helperText: "",
+              errorMessage:"Login ID is required"
             },
           },
         },
@@ -94,10 +82,11 @@ export const LoginUiSchema = {
               label: "Password",
               type: "password",
               variant: "outlined",
-              keypress: "userLogInByEnter",
+              onKeyDown:"onKeyPress",
               activeEnter: true,
               size: "normal",
               helperText: "",
+              errorMessage:"Password is required"
             },
           },
           style: {
@@ -124,8 +113,8 @@ export const LoginUiSchema = {
               name: "Login",
               variant: "contained",
               color: "info",
-              click: "userLogIn",
-              keypress: "userLogIn",
+              onClick: "userLogIn",
+              onKeyDown: "onKeyPress",
               tooltipMessage: "Click to Login",
               activeEnter: true,
               type: "text",

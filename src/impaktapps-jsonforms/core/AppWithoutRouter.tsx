@@ -1,74 +1,70 @@
-import { JsonForms, useJsonForms } from '@jsonforms/react';
-import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react'
-import { DataProvider } from '../renderers/context/Context';
-import CommonSkeleton from '../renderers/common/commomSkeleton';
-import renderers from '../renderers';
-import { materialCells } from '@jsonforms/material-renderers';
-import { myTheme } from '../styles/StyleFactory';
+import React, { useState, useEffect } from "react";
+import { JsonForms } from "@jsonforms/react";
+import { materialCells } from "@jsonforms/material-renderers";
+import renderers from "../renderers";
+import { DataProvider } from "../../Reducer";
+import {
+  Box,
+} from "@mui/material";
+import CommonSkeleton from "../renderers/common/Skeleton";
+import { useImpaktappsJsonformsStore } from "../renderers/context/useImpaktappsJsonformsStore";
+import { HomePropsType, impaktappsJsonformsPropsType } from "../renderers/interface/inputfieldProps";
+import { myTheme } from "../styles/StyleFactory";
 
-const AppWithoutRouter = ({ objFunc,objStyle,permissions }: { objFunc: any; permissions?: string[],objStyle?:any}) => {
-  const theme =  myTheme(objStyle)
-  const ctx = useJsonForms();
-  const [formdata2, setFormdata2] = useState({});
-  const [UiSchema, setUiSchema] = useState<any>();
-  const [schema, setSchema] = useState({});
-  const [render, setRender] = useState(false);
-  const [additionalErrors, setAdditionalErrors] = useState<any[]>([]);
-  const [config, setConfig] = useState<any>("ValidateAndHide");
-  const changeHandler = (data: any, errors: any) => {
-    setFormdata2(data);
-  };
+function AppWithoutRouter({
+  serviceHolder,
+  permissions,
+  objStyle,
+  validation
+}: impaktappsJsonformsPropsType) {
+  const theme = myTheme(objStyle);
+  const impaktappsJsonformsStore = useImpaktappsJsonformsStore(
+    serviceHolder,
+    validation,
+    "RouterUnavailable",
+    theme,
+    permissions
+  );
   const callService = () => {
-    objFunc
-      .getService(
-        "Home",
-        ctx,
-        setFormdata2,
-        setUiSchema,
-        setSchema,
-      )
-      .then((res: any) => {
-        res.setPage();
-        setRender(true);
+    impaktappsJsonformsStore.uiSchema 
+    serviceHolder.getService(impaktappsJsonformsStore).then((res: any) => {
+      res.setPage().then(() => {
+        window.scrollTo(0, 0)
       });
+    });
+  };
+  const changeHandler = (data: any, errors: any) => {
+    impaktappsJsonformsStore.setFormdata(data);
   };
   useEffect(() => {
     callService();
-  }, []);
+  }, [impaktappsJsonformsStore.pageName]);
   return (
     <div>
-      {render ? (
-        <DataProvider
-        id={"RouterUnavailable"}
-          objFunc={objFunc}
-          setFormdata={setFormdata2}
-          setUiSchema={setUiSchema}
-          setSchema={setSchema}
-          schema={schema}
-          setAdditionalErrors={setAdditionalErrors}
-          setConfig={setConfig}
-          permissions={permissions}
-          theme={theme}
-        >
-          <Box sx={{ ...theme.pageStyle, ...UiSchema?.stylePage }}>
+      {impaktappsJsonformsStore.uiSchema ? (
+        <DataProvider impaktappsJsonformsStore={impaktappsJsonformsStore}>
+          <Box
+            sx={{
+              ...theme.pageStyle,
+              ...impaktappsJsonformsStore.uiSchema?.stylePage,
+            }}
+          >
             <JsonForms
-              data={formdata2}
-              schema={schema}
-              uischema={UiSchema}
+              data={impaktappsJsonformsStore.formData}
+              schema={impaktappsJsonformsStore.schema}
+              uischema={impaktappsJsonformsStore.uiSchema}
               renderers={renderers}
               cells={materialCells}
               onChange={({ data, errors }) => changeHandler(data, errors)}
-              validationMode={config}
-              additionalErrors={additionalErrors}
+              validationMode={impaktappsJsonformsStore.updatedValidation}
             />
           </Box>
-        // </DataProvider>
+        </DataProvider>
       ) : (
         <CommonSkeleton />
       )}
     </div>
-  )
+  );
 }
 
 export default AppWithoutRouter;

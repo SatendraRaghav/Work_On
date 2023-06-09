@@ -4,31 +4,27 @@ import { myService } from "../../service/service";
 import { ProgramMasterUiSchema } from "../../UiSchema/ProgramMaster/Program/UiSchema";
 import { ProgramMasterSchema } from "../../UiSchema/ProgramMaster/Program/Schema";
 import { validateForm } from "../../utils/validateForm";
+import { dynamicDataType } from "../../utils/dynamicDataType";
 export const MasterForm = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?:any
+  store:any,
+  dynamicData?:dynamicDataType
 ) => {
-  const serviceApi =  myService(otherData[3],otherData[4],navigate);
+  const serviceApi = myService(
+    dynamicData?.setLoading,
+    store?.setDialogBox,
+    store.navigate
+      );
   return {
     setPage: async function () {
-      setFormdata({});
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const formData = await this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData)
       const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema)
     },
     getFormData: async () => {
-      const action = otherData.searchParams?.get("id")
+      const action =  store.searchParams?.get("id")
       let formdata = {};
       if (action) {
         const Api = `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramStaging&id=${action}`;
@@ -43,7 +39,7 @@ export const MasterForm = (
               );
             if (res.data.payload.groupList) {
               const result = res.data.payload.groupList.map((a: any) => {
-                return { label: a.name, value: a };
+                return { label: a.name, value: JSON.stringify(a) };
               });
 
               formdata = {
@@ -84,7 +80,7 @@ export const MasterForm = (
         )
         .then((res) => {
           selectOption = res.data.payload.map((e: any) => {
-            return { label: e.name, value: JSON.stringify(e) };
+            return { label: e.name, value: JSON.stringify(e)  };
           });
           Ui.elements[1].elements[2].config.main.options = selectOption?selectOption:[];
         })
@@ -95,33 +91,33 @@ export const MasterForm = (
       return Ui;
     },
     Submit_PM_Program: async function () {
-      setConfig("ValidateAndHide")
+      store.setValidation("ValidateAndHide")
   
       if (
-        ! validateForm(schema, ctx.core.errors) ||
-        Object.keys(ctx.core.data.externalData[0]).length < 1
+        ! validateForm( store.schema,  store.ctx.core.errors) ||
+        Object.keys( store.ctx.core.data.externalData[0]).length < 1
       ) {
-        setConfig("ValidateAndShow")
-        setNotify({Fail:true,FailMessage:"Please fill all required fields"})
+         store.setValidation("ValidateAndShow")
+         store.setNotify({Fail:true,FailMessage:"Please fill all required fields"})
         // setConfig("ValidateAndHide")
       } else {
-        const groupRedesign = ctx.core.data?.groupList?.map((elem: any) => {
-          return elem.value;
+        const groupRedesign =  store.ctx.core.data?.groupList?.map((elem: any) => {
+          return JSON.parse(elem.value);
         });
-        const types = ctx.core.data.externalData.map((elem: any) => {
+        const types =  store.ctx.core.data.externalData.map((elem: any) => {
           return elem.supportedTypes;
         });
         let newData;
-        if (ctx.core.data.id) {
+        if ( store.ctx.core.data.id) {
           newData = {
-            ...ctx.core.data,
+            ... store.ctx.core.data,
             status: "E",
             groupList: groupRedesign ? groupRedesign : [],
             config: { features: { externalData: { supportedTypes: types } } },
           };
         } else {
           newData = {
-            ...ctx.core.data,
+            ... store.ctx.core.data,
             status: "N",
             groupList: groupRedesign ? groupRedesign : [],
             config: { features: { externalData: { supportedTypes: types } } },
@@ -139,18 +135,18 @@ export const MasterForm = (
             },
           })
           .then((res) => {
-            setNotify({SuccessMessage:"Submitted Successfully",Success:true,})
+            store.setNotify({SuccessMessage:"Submitted Successfully",Success:true,})
          
-            navigate("/MasterRecords");
+            store.navigate("/MasterRecords");
           })
           .catch((err) => {
             console.log(err)
-            setNotify({FailMessage:"Server Error",Fail:true,})
+            store.setNotify({FailMessage:"Server Error",Fail:true,})
           });
       }
     },
     backHandler: function () {
-      navigate("/MasterRecords");
+      store.navigate("/MasterRecords");
     },
   };
 };

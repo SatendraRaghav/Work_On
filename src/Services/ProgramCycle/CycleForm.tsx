@@ -7,32 +7,28 @@ import { myService } from "../../service/service";
 import { validateForm } from "../../utils/validateForm";
 import { validateFile } from "../../utils/validateFile";
 import { ErrorObject } from "ajv";
+import { dynamicDataType } from "../../utils/dynamicDataType";
 export const CycleForm = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
+  store:any, dynamicData:dynamicDataType
 ) => {
-  const serviceApi = myService(otherData[3], otherData[4], navigate);
+  const serviceApi = myService(
+    dynamicData?.setLoading,
+    store.setDialogBox,
+    store.navigate
+  );
   return {
     setPage: async function () {
-      setFormdata({});
+      store.setFormdata({});
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const formData = await this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
       const UiSchema = await this.getUiSchema();
 
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
     },
     getFormData: async function () {
-      const action =  otherData.searchParams?.get("id")
+      const action =   store.searchParams?.get("id")
       let formdata = {};
       if (action) {
         const Api =
@@ -56,12 +52,12 @@ export const CycleForm = (
       return ProgramMasterCycleSchema;
     },
     backHandler: function () {
-      navigate("/CycleRecords");
+      store.navigate("/CycleRecords");
     },
     Submit_PM_Cycle: async function () {
-      if (!validateForm(schema, ctx.core.errors)) {
-        setConfig("ValidateAndShow");
-        setNotify({
+      if (!validateForm( store.schema,  store.ctx.core.errors)) {
+        store.setValidation("ValidateAndShow");
+        store.setNotify({
           FailMessage: "Please fill all required fields",
           Fail: true,
         });
@@ -77,9 +73,9 @@ export const CycleForm = (
             },
           })
           .then((res) => {
-            setFormdata({ ...ctx.core.data });
-            navigate("/CycleRecords");
-            setNotify({
+            store.setFormdata({ ... store.ctx.core.data });
+            store.navigate("/CycleRecords");
+            store.setNotify({
               SuccessMessage: "Submitted Successfully",
               Success: true,
             });
@@ -88,35 +84,35 @@ export const CycleForm = (
       }
     },
     changeFormdataToServer: () => {
-      const reportsData = ctx.core.data.reportNames.map((e:any)=>{
+      const reportsData =  store.ctx.core.data.reportNames.map((e:any)=>{
              return e.value
       })
       const core = {
-        name: ctx.core.data.name,
-        startDate: ctx.core.data.startDate,
-        endDate: ctx.core.data.endDate,
-        id: ctx.core.data.id,
-        program: JSON.parse(ctx.core.data.program),
+        name:  store.ctx.core.data.name,
+        startDate:  store.ctx.core.data.startDate,
+        endDate:  store.ctx.core.data.endDate,
+        id:  store.ctx.core.data.id,
+        program: JSON.parse( store.ctx.core.data.program),
       };
       const data = {
         ...core,
         config: {
           features: {
             workflow: {
-              processDefKey: ctx.core.data.processDefKey1,
-              externalDataId: ctx.core.data.workflowFileId,
-              externalFileName: ctx.core.data.workflowFileName,
+              processDefKey:  store.ctx.core.data.processDefKey1,
+              externalDataId:  store.ctx.core.data.workflowFileId,
+              externalFileName:  store.ctx.core.data.workflowFileName,
             },
             invoice: {
-              enabled: ctx.core.data.invoiceEnabled,
-              externalDataId: ctx.core.data.invoiceFileId,
-              externalFileName: ctx.core.data.invoiceFileName,
+              enabled:  store.ctx.core.data.invoiceEnabled,
+              externalDataId:  store.ctx.core.data.invoiceFileId,
+              externalFileName:  store.ctx.core.data.invoiceFileName,
             },
             Reports: {
               names: reportsData,
             },
             Clawback: {
-              enabled: ctx.core.data.clawbackEnabled,
+              enabled:  store.ctx.core.data.clawbackEnabled,
             },
           },
         },
@@ -185,13 +181,13 @@ export const CycleForm = (
       return Ui;
     },
     workspaceFileSaveFunction: () => {
-      const programData1 = ctx.core.data.program;
+      const programData1 =  store.ctx.core.data.program;
       if (programData1 === undefined || programData1 === null) {
-        setNotify({ FailMessage: "Please select Program", Fail: true });
+        store.setNotify({ FailMessage: "Please select Program", Fail: true });
         return;
       }
-      const programData = JSON.parse(ctx.core.data?.program);
-      const event = otherData.changeEvent;
+      const programData = JSON.parse( store.ctx.core.data?.program);
+      const event = dynamicData.changeEvent;
       const tempArr = event.target.files[0].name.split(".");
       const formData = new FormData();
       formData.append(
@@ -210,7 +206,7 @@ export const CycleForm = (
         { max: 2, min: 0 }
       );
       if (fileValidationResult) {
-        setNotify({ FailMessage: fileValidationResult, Fail: true });
+        store.setNotify({ FailMessage: fileValidationResult, Fail: true });
         return;
       }
       formData.append("file", event?.target.files[0]);
@@ -218,61 +214,61 @@ export const CycleForm = (
       serviceApi
         .post("/externalData/save", formData)
         .then((response: any) => {
-          const data = { ...ctx.core.data };
-          data[`${otherData.path}Id`] = response.data.payload;
-          setFormdata({
+          const data = { ... store.ctx.core.data };
+          data[`${dynamicData.path}Id`] = response.data.payload;
+          store.setFormdata({
             ...data,
             downloadWorkflowFile: event.target.files[0].name
           });
-          setNotify({
+          store.setNotify({
             SuccessMessage: "File Uploaded Successfully",
             Success: true,
           });
         })
         .catch((error) => {
-          setNotify({ FailMessage: "File Uploading Failed", Fail: true });
+          store.setNotify({ FailMessage: "File Uploading Failed", Fail: true });
         });
     },
     Download_Workspace_File: () => {
       serviceApi
         .get(
-          `/externalData/getById?withData=true&id=${ctx.core.data.uploadWorkflowFileId}`
+          `/externalData/getById?withData=true&id=${ store.ctx.core.data.uploadWorkflowFileId}`
         )
         .then((response) => {
           downloadFile(response.data.payload);
-          setNotify({
+          store.setNotify({
             SuccessMessage: "File Downloaded Successfully",
             Success: true,
           });
         })
         .catch((error) => {
-          setNotify({ FailMessage: "File Downloading Failed", Fail: true });
+          store.setNotify({ FailMessage: "File Downloading Failed", Fail: true });
         });
     },
     Download_Invioce_File: () => {
       serviceApi
         .get(
-          `/externalData/getById?withData=true&id=${ctx.core.data.uploadInvoiceFileId}`
+          `/externalData/getById?withData=true&id=${ store.ctx.core.data.uploadInvoiceFileId}`
         )
         .then((response) => {
           downloadFile(response.data.payload);
-          setNotify({
+          store.setNotify({
             SuccessMessage: "File Downloaded Successfully",
             Success: true,
           });
         })
         .catch((error) => {
-          setNotify({ FailMessage: "File Downloading Failed", Fail: true });
+          store.setNotify({ FailMessage: "File Downloading Failed", Fail: true });
         });
     },
     invioceFileSaveFunction: () => {
-      const programData1 = ctx.core.data.program;
+      const programData1 =  store.ctx.core.data.program;
       if (programData1 === undefined || programData1 === null) {
-        setNotify({ FailMessage: "Please select Program", Fail: true });
+        store.setNotify({ FailMessage: "Please select Program", Fail: true });
         return;
       }
-      const programData = JSON.parse(ctx.core.data?.program);
-      const event = otherData.changeEvent;
+      const programData = JSON.parse( store.ctx.core.data?.program);
+      const event = dynamicData.changeEvent;
       const tempArr = event.target.files[0].name.split(".");
       const formData = new FormData();
       formData.append(
@@ -291,7 +287,7 @@ export const CycleForm = (
         { max: 2, min: 0 }
       );
       if (fileValidationResult) {
-        setNotify({ FailMessage: fileValidationResult, Fail: true });
+        store.setNotify({ FailMessage: fileValidationResult, Fail: true });
         return;
       }
 
@@ -300,43 +296,43 @@ export const CycleForm = (
       serviceApi
         .post("/externalData/save", formData)
         .then((response: any) => {
-          const data = { ...ctx.core.data };
-          data[`${otherData[5]}Id`] = response.data.payload;
-          setFormdata({
+          const data = { ... store.ctx.core.data };
+          data[`${dynamicData[5]}Id`] = response.data.payload;
+          store.setFormdata({
             ...data,
             downloadInvoiceFile: event.target.files[0].name
           });
 
-          setNotify({
+          store.setNotify({
             SuccessMessage: "File Uploaded Successfully",
             Success: true,
           });
         })
         .catch((error) => {
-          setNotify({ FailMessage: "File Uploading Failed", Fail: true });
+          store.setNotify({ FailMessage: "File Uploading Failed", Fail: true });
         });
     },
     verifyStartDate: (value: any) => {
-      const endDate = new Date(ctx.core.data.endDate);
+      const endDate = new Date( store.ctx.core.data.endDate);
       const startDate = new Date(value);
       if(endDate.getTime()){
       if (startDate.getTime() > endDate.getTime()) {
-        setNotify({
+        store.setNotify({
           FailMessage: "Start Date can't be greater than End Date.",
           Fail: true,
         });
       }}
     },
     verifyEndDate: (value: any) => {
-      const startDate = new Date(ctx.core.data.startDate);
+      const startDate = new Date( store.ctx.core.data.startDate);
       const endDate = new Date(value);
-      if (ctx.core.data.startDate === undefined) {
-        setNotify({ FailMessage: "Please fill start date first.", Fail: true });
-        ctx.core.data.endDate  = undefined;
+      if ( store.ctx.core.data.startDate === undefined) {
+        store.setNotify({ FailMessage: "Please fill start date first.", Fail: true });
+        store.ctx.core.data.endDate  = undefined;
       }
 
       if (startDate.getTime() > endDate.getTime()) {
-        setNotify({
+        store.setNotify({
           FailMessage: "Start Date can't be greater than End Date.",
           Fail: true,
         });

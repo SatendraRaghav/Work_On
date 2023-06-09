@@ -1,12 +1,11 @@
 import React, { memo, useState } from "react";
 import { useContext } from "react";
 import { DataContext } from "../context/Context";
-import { myIcon } from "../common/MyIcon";
+import { ButtonIcon } from "../common/ButtonIcon";
 import { useJsonForms } from "@jsonforms/react";
 import { IconButton, Tooltip } from "@mui/material";
 import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
-import { green } from "@mui/material/colors";
 import { inputProps } from "../interface/inputfieldProps";
 import LoaderInfo from "../common/LoaderInfo";
 import { ProgressBar } from "./Button";
@@ -22,7 +21,7 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
   } = useContext(DataContext);
   const uischemaData = uischema?.config?.main;
   const ctx = useJsonForms();
-  const myIconComponent = myIcon(uischemaData?.icon, uischema?.config);
+  const myIconComponent = ButtonIcon(uischemaData?.icon, uischema?.config);
   const myStyle = uischemaData?.styleDefault ? theme.IconStyle : {};
   const fieldName = getFieldName(path);
   const callServiceProvider=(event:any)=>{
@@ -32,12 +31,12 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
   return (
     <>
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
-    <Tooltip title={uischemaData?.tooltipMessage}>
       <IconButton
         sx={{ color: uischemaData?.color?"none":"#3949ab", ...myStyle, ...uischema?.config?.style }}
         size={uischemaData?.size || "medium"}
         color={uischemaData?.color}
         disabled={loading}
+        title={uischemaData?.tooltipMessage}
         onKeyPress={e =>callServiceProvider(e)}
         onClick={e =>callServiceProvider(e)}
         onPointerEnter={(event)=>  callServiceProvider(event)}
@@ -49,8 +48,6 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
         {myIconComponent}
         {loading && ProgressBar}
       </IconButton>
-     
-    </Tooltip>
     </ PermissionWrapper >
     <LoaderInfo id={path} loading={loading}/>
     </>

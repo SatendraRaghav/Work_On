@@ -213,13 +213,6 @@ export const GroupMasterRecordsUISchema = {
       type: "Control",
       scope: "#/properties/EmptyBox",
       options: {
-        widget: "DailogBox",
-      },
-    },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
         widget: "Notify",
       },
       layout: 6,

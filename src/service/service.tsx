@@ -2,6 +2,7 @@ import React,{useEffect} from 'react'
 import axios from "axios";
 import { rootUrl } from "../constant";
 import { userValue,setUserValue } from '../Apple'; 
+import { setOpenDialog } from '../Apple';
 // import { service } from '../Services/ExternalData';
   
 export const myService = (setLoading?:any,setDialogBox?:any,navigate?:any)=>{
@@ -29,7 +30,7 @@ demoService.interceptors.response.use(
   },
   error => {
    if( error.response.status === 403){
-    setDialogBox({open:true,page:"Logout",setUserValue:setUserValue})
+    setOpenDialog(true)
    } 
     
     setLoading?.(false)

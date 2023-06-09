@@ -31,17 +31,12 @@ export const ProgramMasterCycleRecordUiSchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: {
-                  xs: 6,
-                  sm: 4,
-                  md: 5.5,
-                  lg: 5.5,
-                },
+                layout: 5.5,
                 main: {
                   name: "New Records",
                   icon: "AddIcon",
                   size: "small",
-                  click:"addNewRecords",
+                  onClick:"addNewRecords",
                   styleDefault: true,
                   tooltipMessage: "Add New Record"
                 },
@@ -54,14 +49,16 @@ export const ProgramMasterCycleRecordUiSchema = {
         },
       },
     },
+
     {
-      type: "TabLayout",
-      config: {
-        main: {
-          labels: ["Approve", "Pending", "Reject"],
-        },
-      },
-      elements: [
+      type: "Control",
+      scope: "#/properties/features",
+       config:{main:{labels: ["Approve", "Pending", "Reject"]}},
+      options: {
+        widget: "Tab",
+        detail: {
+          type: "HorizontalLayout",
+          elements: [
         {
           type: "Control",
           scope: "#/properties/ApproveRecords",
@@ -119,7 +116,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                           color: "info",
                           size: "small",
                           icon: "EditIcon",
-                          click:"Edit_Approve_Records",
+                          onClick:"Edit_Approve_Records",
                           tooltipMessage: "Edit This Record",
                         },
                         style: {
@@ -184,7 +181,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                       config: {
                         main: {
                           icon: "ApproveIcon",
-                          click: "Approve_Records",
+                          onClick: "Approve_Records",
                           color: "success",
                           tooltipMessage: "Approve This Record",
                         },
@@ -206,7 +203,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                         main: {
                           icon: "RejectIcon",
                           color: "error",
-                          click:"Reject_Records",
+                          onClick:"Reject_Records",
                           tooltipMessage: "Reject This Record",
                         },
                       },
@@ -260,7 +257,7 @@ export const ProgramMasterCycleRecordUiSchema = {
             },
           },
         },
-      ],
+      ]}},
     },
     {
       type: "Control",
@@ -269,13 +266,6 @@ export const ProgramMasterCycleRecordUiSchema = {
         widget: "Notify",
       },
       layout: 6,
-    },
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "DailogBox",
-      },
     },
   ],
 };

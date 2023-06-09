@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { navigator } from "../Logic";
+import { navigator } from "../serviceHolder";
 import { userValue,setUserValue } from '../Apple'; 
 import { myService } from "../service/service";
 // import { Permission } from "json2ui";

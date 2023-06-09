@@ -1,23 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 // import Hyperform from './impaktapps-jsonforms/core/Hyperform/Hyperform';
-import { HomeObjFunc, objFunc } from './Logic'
+import { serviceHolder,loginServiceHolder } from './serviceHolder';
 import Header from './Header/Header';
+import './App.css'
 import ProSidebar from './Sidebar/ProSideBar';
 import LoginHeader from './Header/LoginHeader';
 import App from "./impaktapps-jsonforms/core/App/App"
-import { actions, DataContext, DataProvider } from "./Reducer";
-import { useContext } from "react";
 import { useLocalStorage } from "./Authentication/useLocalStorage";
 import { useProSidebar } from "react-pro-sidebar";
 export let userValue: any = false;
 export let setUserValue: any;
-import './App.css'
+export let setOpenDialog:React.Dispatch<React.SetStateAction<boolean>>;
+import DailogBox from './DialogBox';
 function Apple() {
   const { collapsed } = useProSidebar();
   const [user, setUser] = useLocalStorage("user", null);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     userValue = user;
     setUserValue = setUser;
+    setOpenDialog= setOpen;
   }, [user]);
   useEffect(() => {
     if (window.location.pathname === "/" || !window.location.pathname) {
@@ -35,14 +37,15 @@ function Apple() {
           
             </div>
             <div style={{ width:collapsed?"97.8%": "calc(98% - 250px)"}}>
-              <App objFunc={objFunc} permissions={user.payload.permissions} />
+              <App serviceHolder={serviceHolder} permissions={user.payload.permissions} />
+              <DailogBox open={open} setOpen={setOpen}></DailogBox>
             </div>
           </div>
         </>
       ) 
       : (<>
         <LoginHeader />
-        <App objFunc={HomeObjFunc} />
+        <App serviceHolder={loginServiceHolder} />
    </> )} 
  </>
   );

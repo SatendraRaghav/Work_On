@@ -9,7 +9,7 @@ import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import {
   MaterialLayoutRenderer,
   MaterialLayoutRendererProps
-} from './Layout';
+} from './Horizontal';
 import { useContext } from 'react';
 import { DataContext } from '../context/Context';
 

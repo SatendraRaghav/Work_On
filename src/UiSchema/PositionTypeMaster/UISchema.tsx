@@ -143,13 +143,6 @@ export const PositionTypeMasterUISchema = {
     },
     {
       type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "DailogBox",
-      },
-    },
-    {
-      type: "Control",
       scope: "#/properties/notify",
       options: {
         widget: "Notify",
