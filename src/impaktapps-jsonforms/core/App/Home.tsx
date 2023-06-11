@@ -23,7 +23,6 @@ function Home({
   pageName,
 }: HomePropsType) {
   const [loading, setLoading] = useState(false);
-  // const [preData,setPreData] = useState("")
   const impaktappsJsonformsStore = useImpaktappsJsonformsStore(
     serviceHolder,
     validation,
@@ -50,7 +49,7 @@ function Home({
       impaktappsJsonformsStore.serviceHolder
         .getService({ ...impaktappsJsonformsStore, ctx } )
         .then((res: any) => {
-          return res.onChange();
+          return res?res.onChange():"";
         });
     }
     const ctx = useJsonForms()

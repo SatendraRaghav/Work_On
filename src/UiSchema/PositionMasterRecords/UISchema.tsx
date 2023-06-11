@@ -42,7 +42,7 @@ export const PositionMasterRecordsUISchema = {
                   size: "small",
                   styleDefault: true,
                   tooltipMessage: "Add New Record",
-                  click: "newRecord",
+                  onClick: "newRecord",
                 },
                 style: {
                   float: "right",
@@ -147,7 +147,7 @@ export const PositionMasterRecordsUISchema = {
                         main: {
                           icon: "ApproveIcon",
                           color: "success",
-                          click: "PositionApprover",
+                          onClick: "PositionApprover",
                           tooltipMessage: "Approve This Record",
                         },
                       },
@@ -167,7 +167,7 @@ export const PositionMasterRecordsUISchema = {
                         main: {
                           icon: "RejectIcon",
                           color: "error",
-                          click: "Reject_Records",
+                          onClick: "Reject_Records",
                           tooltipMessage: "Reject This Record",
                         },
                       },

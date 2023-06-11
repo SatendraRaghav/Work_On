@@ -46,7 +46,7 @@ export const RoleMasterUISchema = {
                   icon: "BackIcon",
                   styleDefault: true,
                   size: "small",
-                  funcName: "backHandler",
+                  onClick: "backHandler",
                   tooltipMessage: "Back",
                 },
                 style: {
@@ -128,7 +128,7 @@ export const RoleMasterUISchema = {
               variant: "contained",
               color: "info",
               type: "text",
-              funcName: "Submit_Role",
+              onClick: "Submit_Role",
               size: "small",
             },
             style: {

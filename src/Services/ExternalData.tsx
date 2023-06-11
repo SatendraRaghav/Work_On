@@ -9,32 +9,24 @@ import { validateForm } from "../utils/validateForm";
 // import { uischema } from "@jsonforms/examples/lib/examples/allOf";
 let newui:any;
 export const ExternalData = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
+  store:any,
+  dynamicData:any
 ) => {
   const service = myService(
-    otherData.setLoading,
-    otherData.setDialogBox,
-    navigate
-  );
+    dynamicData?.setLoading,
+    store?.setDialogBox,
+    store.navigate
+      );
   return {
     setPage: async function () {
       const uiSchema = await this.getUiSchema();
       newui = uiSchema;
-      setUiSchema(uiSchema);
+      store.setUiSchema(uiSchema);
       const schema = await this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const formdata = await this.getFormData();
 
-      setFormdata(formdata);
+      store.setFormdata(formdata);
     },
     getFormData: async function () {
       return {};
@@ -69,7 +61,7 @@ export const ExternalData = (
       const uiSchema = ExternalDataUiSchema;
       console.log(uiSchema);
       await service
-        .get(`/program/getById?id=${otherData.event.target.value} `)
+        .get(`/program/getById?id=${dynamicData.event.target.value} `)
         .then((response: any) => {
           const result =
             response.data.payload.config.features.externalData.supportedTypes;
@@ -79,7 +71,7 @@ export const ExternalData = (
           });
           //@ts-ignore
           uiSchema.elements[1].elements[3].config.main.options = data1;
-          setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
+          store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         })
         .catch((error) => {
           console.log(error);
@@ -87,8 +79,8 @@ export const ExternalData = (
         });
     },
     uploadFile: async function () {
-      const programData = ctx.core.data;
-      const event = otherData.changeEvent;
+      const programData = store.ctx.core.data;
+      const event = dynamicData.changeEvent;
       const formData = new FormData();
       if (
         programData.programType === undefined ||
@@ -96,8 +88,8 @@ export const ExternalData = (
         programData.fileType === undefined ||
         programData.fileType === null
       ) {
-        setConfig("ValidateAndShow");
-        setNotify({
+        store.setConfig("ValidateAndShow");
+        store.setNotify({
           FailMessage: "Please select Program or Type to Upload the file",
           Fail: true,
         });
@@ -122,19 +114,19 @@ export const ExternalData = (
             return this.loadTable(newui);
           })
           .then((response) => {
-            const data = { ...ctx.core.data };
-            data[`${otherData.path}Id`] = fileUploadResponse;
-            setFormdata({
+            const data = { ...store.ctx.core.data };
+            data[`${dynamicData.path}Id`] = fileUploadResponse;
+            store.setFormdata({
               ...data,
               downloadAggrementCopy: event.target.files[0].name,
             });
-            setNotify({
+            store.setNotify({
               SuccessMessage: "File uploaded successfully",
               Success: true,
             });
           })
           .catch((error) => {
-            setNotify({
+            store.setNotify({
               FailMessage: "Server Error",
               Fail: true,
             });
@@ -161,25 +153,25 @@ export const ExternalData = (
           console.log(error);
           return [];
         });
-        // setUiSchema(pre=>{
+        // store.setUiSchema(pre=>{
         
           uiSchema1.elements[4].elements[2].config.main.allRowsData = finalResult;
-          setUiSchema(uiSchema1)
+          store.setUiSchema(uiSchema1)
         //   return pre;
         // })
       return finalResult;
     },
     loadData: async function () {
-      let programId: any = ctx.core.data.programType;
-      let externalDataId: any = ctx.core.data?.docAggrementCopyId;
+      let programId: any = store.ctx.core.data.programType;
+      let externalDataId: any = store.ctx.core.data?.docAggrementCopyId;
       if (
         programId === undefined ||
         programId === null ||
         externalDataId === undefined ||
         externalDataId === null
       ) {
-        setConfig("ValidateAndShow");
-        setNotify({
+        store.setConfig("ValidateAndShow");
+        store.setNotify({
           FailMessage: "Please select Program or Upload file to Load",
           Fail: true,
         });
@@ -198,20 +190,20 @@ export const ExternalData = (
             },
           })
           .then((response) => {
-            setNotify({
+            store.setNotify({
               SuccessMessage: "Data Loaded Successfully",
               Success: true,
             });
           })
           .catch((error) => {
-            setNotify({ FailMessage: "Data Load Failed", Fail: true });
+            store.setNotify({ FailMessage: "Data Load Failed", Fail: true });
           });
       }
     },
     Download_File: () => {
       service
         .get(
-          `/externalData/getById?withData=true&id=${ctx.core.data.uploadAggrementCopyId}`
+          `/externalData/getById?withData=true&id=${store.ctx.core.data.uploadAggrementCopyId}`
         )
         .then((response) => {
           downloadFile(response.data.payload);
@@ -222,7 +214,7 @@ export const ExternalData = (
     },
     Download_File_Table: () => {
       service
-        .get(`/externalData/getById?withData=true&id=${otherData.rowData.id}`)
+        .get(`/externalData/getById?withData=true&id=${dynamicData.rowData.id}`)
         .then((response) => {
           downloadFile(response.data.payload);
         })

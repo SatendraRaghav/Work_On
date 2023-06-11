@@ -5,31 +5,18 @@ import { myService } from "../service/service";
 import { RolePermissionRecordsUISchema } from "../UiSchema/RolePermissionRecords/UISchema";
 import { RolePermissionUISchema } from "../UiSchema/RolePermission/UISchema";
 export const RolePermissionRecords = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
+  store:any,
+  dynamicData:any
 ) => {
-  const serviceApi = myService(
-    otherData.setLoading,
-    otherData.setDialogBox,
-    navigate
-  );
+  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
   return {
     setPage: async function () {
-      // setFormdata({})
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
       const formData =  this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
     },
     getFormData: () => {
       return {}
@@ -80,17 +67,17 @@ export const RolePermissionRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.role.RolePermissionStaging",
-            entityValue: otherData.rowData,
+            entityValue: dynamicData.rowData,
             action: "A",
           },
         })
         .then(async (res) => {
           console.log("approved");
           const data = await this.getFormData();
-          setFormdata({
+          store.setFormdata({
             ...data,
           });
-          setNotify({ SuccessMessage: "Approved successfully", Success: true });
+          store.setNotify({ SuccessMessage: "Approved successfully", Success: true });
         });
     },
     Reject_Records: function () {
@@ -100,24 +87,24 @@ export const RolePermissionRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.role.RolePermissionStaging",
-            entityValue: otherData.rowData,
+            entityValue: dynamicData.rowData,
             action: "R",
           },
         })
         .then(async (res) => {
           const data = await this.getFormData();
-          setFormdata({
+          store.setFormdata({
             ...data,
           });
-          setNotify({ SuccessMessage: "Rejected successfully", Success: true });
+          store.setNotify({ SuccessMessage: "Rejected successfully", Success: true });
         });
     },
 
     newRecord: () => {
-      navigate("/RolePermission");
+      store.navigate("/RolePermission");
     },
     Edit_Approve_Records: function () {
-      navigate(`/RolePermission?id=${otherData.rowData.id}`);
+      store.navigate(`/RolePermission?id=${dynamicData.rowData.id}`);
     },
   };
 };

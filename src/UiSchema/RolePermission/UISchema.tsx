@@ -44,7 +44,7 @@ export const RolePermissionUISchema = {
                   icon: "BackIcon",
                   styleDefault: true,
                   size: "small",
-                  funcName: "backHandler",
+                  onClick: "backHandler",
                   tooltipMessage: "Back",
                 },
                 style: {
@@ -132,7 +132,7 @@ export const RolePermissionUISchema = {
               variant: "contained",
               color: "info",
               type: "text",
-              funcName: "Submit_RolePermission",
+              onClick: "Submit_RolePermission",
               size: "small",
             },
             style: {},

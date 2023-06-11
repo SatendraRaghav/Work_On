@@ -6,31 +6,23 @@ import { PositionMasterUISchema } from "../UiSchema/PositionMaster/UISchema";
 import { PositionMasterSchema } from "../UiSchema/PositionMaster/Schema";
 import { validateForm } from "../utils/validateForm";
 export const PositionMasterForm = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?:any
+  store:any,
+  dynamicData:any
 ) => {
-  const serviceApi =  myService(otherData.setLoading, otherData.setDialogBox, navigate);
+  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
   return {
     setPage: async function () {
-      setFormdata({})
+      store.setFormdata({})
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const formData = await this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
       const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
 
     },
     getFormData: async function () {
-      const action = otherData.searchParams?.get("id")
+      const action = store.searchParams?.get("id")
       let formdata = {}
       if (action) {
         const Api =
@@ -71,31 +63,31 @@ export const PositionMasterForm = (
       return PositionMasterSchema;
     },
     backHandler: function () {
-      navigate("/PositionMasterRecords")
+      store.navigate("/PositionMasterRecords")
     },
     Submit_Position: async function () {
       if (
-        ! validateForm(schema, ctx.core.errors)
+        ! validateForm(store.schema, store.ctx.core.errors)
       ) {
-        setConfig("ValidateAndShow")
-        setNotify({FailMessage:"Please fill all required fields",Fail:true,})
+        store.setConfig("ValidateAndShow")
+        store.setNotify({FailMessage:"Please fill all required fields",Fail:true,})
       } else {
         let idDataRep: any;
         let idData: any;
-        serviceApi.get(`/master/getDetailById?masterName=com.act21.hyperform3.entity.master.position.PositionTypeNew&id=${ctx.core.data.type}`).then((rest) => {
+        serviceApi.get(`/master/getDetailById?masterName=com.act21.hyperform3.entity.master.position.PositionTypeNew&id=${store.ctx.core.data.type}`).then((rest) => {
           console.log(rest.data.payload);
           idData = rest.data.payload;
 
         }).then(() => {
-          serviceApi.get(`/master/getDetailById?masterName=com.act21.hyperform3.entity.master.position.PositionNew&id=${ctx.core.data.parent}`).then((rest1) => {
+          serviceApi.get(`/master/getDetailById?masterName=com.act21.hyperform3.entity.master.position.PositionNew&id=${store.ctx.core.data.parent}`).then((rest1) => {
             console.log(rest1.data.payload);
             idDataRep = rest1.data.payload;
           }).then(() => {
-            serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.position.PositionNewStaging", entityValue: { ...ctx.core.data, type: idData, parent: idDataRep } } }).then((res) => {
-              //            service.post("/master/save?masterName=com.act21.hyperform3.entity.master.position.PositionNewStaging",ctx.core.data).then((res) => {    
-              setFormdata({ ...ctx.core.data});
-              navigate("/PositionMasterRecords")
-              setNotify({SuccessMessage:"Submitted Successfully",Success:true,})
+            serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.position.PositionNewStaging", entityValue: { ...store.ctx.core.data, type: idData, parent: idDataRep } } }).then((res) => {
+              //            service.post("/master/save?masterName=com.act21.hyperform3.entity.master.position.PositionNewStaging",store.ctx.core.data).then((res) => {    
+              store.setFormdata({ ...store.ctx.core.data});
+              store.navigate("/PositionMasterRecords")
+              store.setNotify({SuccessMessage:"Submitted Successfully",Success:true,})
             })
           })
 

@@ -1,38 +1,22 @@
 import { getUiSchema } from "@jsonforms/core";
 import { JsonFormsStateContext } from "@jsonforms/react";
-//import service from "service";
-
 import { myService } from "../service/service";
 import { PositionMasterRecordsUISchema } from "../UiSchema/PositionMasterRecords/UISchema";
 import { PositionMasterUISchema } from "../UiSchema/PositionMaster/UISchema";
-// let selectOption:any[] = [];
-// let selectParentData:any[]=[];
-// let idData:any;
 export const PositionMasterRecords = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
+  store:any,
+  dynamicData:any
 ) => {
-  const serviceApi = myService(
-    otherData.setLoading,
-    otherData.setDialogBox,
-    navigate
-  );
+  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
+
   return {
     setPage: async function () {
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
       const formData =  this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
     },
     getFormData:  () => {
       return {};
@@ -80,17 +64,17 @@ export const PositionMasterRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.position.PositionNewStaging",
-            entityValue: otherData.rowData,
+            entityValue: dynamicData.rowData,
             action: "A",
           },
         })
         .then(async (res) => {
           console.log("approved");
           const data = await this.getFormData();
-          setFormdata({
+          store.setFormdata({
             ...data,
           });
-          setNotify({ SuccessMessage: "Approved Successfully", Success: true });
+          store.setNotify({ SuccessMessage: "Approved Successfully", Success: true });
         });
     },
     Reject_Records: function () {
@@ -100,24 +84,24 @@ export const PositionMasterRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.position.PositionNewStaging",
-            entityValue: otherData.rowData,
+            entityValue: dynamicData.rowData,
             action: "R",
           },
         })
         .then(async (res) => {
           const data = await this.getFormData();
-          setFormdata({
+          store.setFormdata({
             ...data,
           });
-          setNotify({ SuccessMessage: "Rejected Successfully", Success: true });
+          store.setNotify({ SuccessMessage: "Rejected Successfully", Success: true });
         });
     },
 
     newRecord: () => {
-      navigate("/PositionMaster");
+      store.navigate("/PositionMaster");
     },
     Edit_Approve_Records: function () {
-      navigate(`/PositionMaster?id=${otherData.rowData.id}`);
+      store.navigate(`/PositionMaster?id=${dynamicData.rowData.id}`);
     },
   };
 };

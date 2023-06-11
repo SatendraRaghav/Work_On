@@ -75,7 +75,7 @@ export const ExternalDataUiSchema = {
               label: "Program",
               options: [{}],
               color: "secondary",
-              click: "typeLoadFunction",
+              onClick: "typeLoadFunction",
             },
             style: {
               background: "white",
@@ -97,7 +97,7 @@ export const ExternalDataUiSchema = {
             },
             main: {
               label: "Type",
-              click: "clearFileName",
+              onClick: "clearFileName",
               options: [{}],
             },
           },
@@ -117,7 +117,7 @@ export const ExternalDataUiSchema = {
             },
             main: {
               required: false,
-              click: "uploadFile",
+              onClick: "uploadFile",
               // iconStyleDefault:true,
             },
             style: {
@@ -140,7 +140,7 @@ export const ExternalDataUiSchema = {
             },
             main: {
               required: false,
-              click: "Download_File",
+              onClick: "Download_File",
               // iconStyleDefault:true,
             },
             style: {
@@ -258,7 +258,7 @@ export const ExternalDataUiSchema = {
                       config: {
                         main: {
                           size: "small",
-                          click: "Download_File_Table",
+                          onClick: "Download_File_Table",
                           icon: "DownloadIcon",
                         },
                       },

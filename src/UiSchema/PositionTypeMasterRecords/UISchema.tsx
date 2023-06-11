@@ -43,7 +43,7 @@ export const PositionTypeMasterRecordsUISchema = {
                   size: "small",
                   styleDefault: true,
                   tooltipMessage: "Add New Record",
-                  click: "newRecord",
+                  onClick: "newRecord",
                 },
                 style: {
                   float: "right",
@@ -98,7 +98,7 @@ export const PositionTypeMasterRecordsUISchema = {
                         main: {
                           color: "info",
                           size: "small",
-                          click: "Edit_Approve_Records",
+                          onClick: "Edit_Approve_Records",
                           icon: "EditIcon",
                           tooltipMessage: "Edit This Record",
                         },
@@ -149,7 +149,7 @@ export const PositionTypeMasterRecordsUISchema = {
                         main: {
                           icon: "ApproveIcon",
                           color: "success",
-                          click: "PositionTypeApprover",
+                          onClick: "PositionTypeApprover",
                           tooltipMessage: "Approve This Record",
                         },
                       },
@@ -170,7 +170,7 @@ export const PositionTypeMasterRecordsUISchema = {
                         main: {
                           icon: "RejectIcon",
                           color: "error",
-                          click: "Reject_Records",
+                          onClick: "Reject_Records",
                           tooltipMessage: "Reject This Record",
                         },
                       },

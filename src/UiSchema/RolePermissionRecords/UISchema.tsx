@@ -48,7 +48,7 @@ export const RolePermissionRecordsUISchema = {
                   size: "small",
                   styleDefault: true,
                   tooltipMessage: "Add New Record",
-                  click: "newRecord",
+                  onClick: "newRecord",
                 },
                 style: {
                   float: "right",
@@ -103,7 +103,7 @@ export const RolePermissionRecordsUISchema = {
                       config: {
                         main: {
                           color: "info",
-                          click: "Edit_Approve_Records",
+                          onClick: "Edit_Approve_Records",
                           size: "small",
                           icon: "EditIcon",
                           tooltipMessage: "Edit This Record",
@@ -157,7 +157,7 @@ export const RolePermissionRecordsUISchema = {
                       config: {
                         main: {
                           icon: "ApproveIcon",
-                          click: "RolePermissionApprover",
+                          onClick: "RolePermissionApprover",
                           color: "success",
                           tooltipMessage: "Approve this Record",
                         },
@@ -179,7 +179,7 @@ export const RolePermissionRecordsUISchema = {
                         main: {
                           icon: "RejectIcon",
                           color: "error",
-                          click: "Reject_Records",
+                          onClick: "Reject_Records",
                           tooltipMessage: "Reject This Record",
                         },
                       },

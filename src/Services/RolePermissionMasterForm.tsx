@@ -1,37 +1,27 @@
 import { getUiSchema } from "@jsonforms/core";
 import { JsonFormsStateContext } from "@jsonforms/react";
 import { myService } from "../service/service";
-
-import { RolePermissionRecordsUISchema } from "../UiSchema/RolePermissionRecords/UISchema";
 import { RolePermissionUISchema } from "../UiSchema/RolePermission/UISchema";
 import { RolePermissionSchema } from "../UiSchema/RolePermission/Schema";
 import { validateForm } from "../utils/validateForm";
 export const RolePermissionForm = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
+  store:any,
+  dynamicData:any
 ) => {
-  const serviceApi =  myService(otherData.setLoading, otherData.setDialogBox, navigate);
+  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
   return {
     setPage: async function () {
-      setFormdata({})
+      store.setFormdata({})
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const formData = await this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
       const UiSchema = this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
 
     },
     getFormData: async function () {
-      const action = otherData.searchParams?.get("id")
+      const action = store.searchParams?.get("id")
       let formdata = {}
       if (action) {
         const Api =
@@ -55,19 +45,19 @@ export const RolePermissionForm = (
       return RolePermissionSchema;
     },
     backHandler: function () {
-      navigate("/RolePermissionRecords")
+      store.navigate("/RolePermissionRecords")
     },
     Submit_RolePermission: async function () {
       if (
-        ! validateForm(schema, ctx.core.errors)
+        ! validateForm(store.schema, store.ctx.core.errors)
       ) {
-        setConfig("ValidateAndShow")
-        setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
+        store.setConfig("ValidateAndShow")
+        store.setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
       } else {
-        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.role.RolePermissionStaging", entityValue: ctx.core.data } }).then((res) => {
-          setFormdata({ ...ctx.core.data });
-          navigate("/RolePermissionRecords")
-          setNotify({ SuccessMessage: "Submitted Successfully", Success: true, })
+        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.role.RolePermissionStaging", entityValue: store.newData} }).then((res) => {
+          // store.setFormdata({ ...store.ctx.core.data });
+          store.navigate("/RolePermissionRecords")
+          store.setNotify({ SuccessMessage: "Submitted Successfully", Success: true, })
         })
           .catch(() => { });
       }

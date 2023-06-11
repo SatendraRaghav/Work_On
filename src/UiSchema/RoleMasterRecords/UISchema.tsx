@@ -43,7 +43,7 @@ export const RoleMasterRecordsUISchema = {
                   size: "small",
                   styleDefault: true,
                   tooltipMessage: "Add New Record",
-                  click: "newRecord",
+                  onClick: "newRecord",
                 },
                 style: {
                   float: "right",
@@ -99,7 +99,7 @@ export const RoleMasterRecordsUISchema = {
                           color: "info",
                           size: "small",
                           tooltipMessage: "Edit This Record",
-                          click: "Edit_Approve_Records",
+                          onClick: "Edit_Approve_Records",
                           icon: "EditIcon",
                         },
                         style: {
@@ -150,7 +150,7 @@ export const RoleMasterRecordsUISchema = {
                         main: {
                           icon: "ApproveIcon",
                           color: "success",
-                          click: "RoleApprover",
+                          onClick: "RoleApprover",
                           tooltipMessage: "Approve This Record",
                         },
                       },
@@ -171,7 +171,7 @@ export const RoleMasterRecordsUISchema = {
                         main: {
                           icon: "RejectIcon",
                           color: "error",
-                          click: "Reject_Records",
+                          onClick: "Reject_Records",
                           tooltipMessage: "Reject This Record",
                         },
                       },

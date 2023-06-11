@@ -143,7 +143,7 @@ export const InvoiceGenerationUiSchema = {
               color: "info",
               type: "text",
               page: "InvoiceGeneration",
-              funcName: "loadTables",
+              onClick: "loadTables",
               size: "large",
             }
           },
@@ -254,7 +254,7 @@ export const InvoiceGenerationUiSchema = {
               color: "info",
               type: "text",
               page: "InvoiceGeneration",
-              funcName: "generateInvoice",
+              onClick: "generateInvoice",
               size: "large",
             },
             style: {
@@ -408,7 +408,7 @@ export const InvoiceGenerationUiSchema = {
               variant: "contained",
               color: "info",
               page: "InvoiceGeneration",
-              funcName: "actionFunction",
+              onClick: "actionFunction",
               size: "large",
             },
             style: {

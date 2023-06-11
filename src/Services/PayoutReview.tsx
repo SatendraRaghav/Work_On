@@ -1,6 +1,4 @@
-import { JsonFormsStateContext } from "@jsonforms/react";
 import { PayoutReviewUiSchema } from "../UiSchema/PayoutReview/UiSchema";
-import { PayoutProcessingSchema } from "../UiSchema/PayoutProcessing/Schema";
 import { userValue } from "../Apple";
 import { myService } from "../service/service";
 import { validateForm } from "../utils/validateForm";
@@ -8,35 +6,23 @@ import { PayoutReviewSchema } from "../UiSchema/PayoutReview/Schema";
 import _ from "lodash";
 
 export const PayoutReview = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
+  store:any,
+  dynamicData:any
 ) => {
-  const service = myService(
-    otherData.setLoading,
-    otherData.setDialogBox,
-    navigate
-  );
+  const service = myService(store.setLoading, store.setDialogBox, store.navigate);
   return {
     setPage: async function () {
       const formdata = await this.getFormdata();
       const uiSchema = await this.getUiSchema();
       const schema = await this.getSchema();
 
-      setFormdata(formdata);
-      setUiSchema(uiSchema);
-      setSchema(schema);
+      store.setFormdata(formdata);
+      store.setUiSchema(uiSchema);
+      store.setSchema(schema);
     },
     getFormdata: async () => {
       return {
-        ...ctx.core.data,
+        ...store.ctx.core.data,
         caseReportList: [],
         summaryReportList: [],
         pendingActionList: [],
@@ -75,7 +61,7 @@ export const PayoutReview = (
           });
           //@ts-ignore
           uiSchema.elements[1].elements[3].config.main.options = result1;
-          setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
+          store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         })
         .catch((error) => {
           // return [{}];
@@ -83,9 +69,9 @@ export const PayoutReview = (
     },
     loadTable: async () => {
       const UiSchema = _.cloneDeep(PayoutReviewUiSchema);
-      if (!validateForm(schema, ctx.core.errors)) {
-        setConfig("ValidateAndShow");
-        setNotify({
+      if (!validateForm(store.schema, store.ctx.core.errors)) {
+        store.setConfig("ValidateAndShow");
+        store.setNotify({
           FailMessage: "Please fill all required fields",
           Fail: true,
         });
@@ -99,8 +85,8 @@ export const PayoutReview = (
             candidateGroup: userValue.payload.positionTypeName,
             candidateUser: userValue.payload.positionName,
             userName: userValue.payload.username,
-            programCycleId: ctx.core.data.programCycle,
-            programId: ctx.core.data.program,
+            programCycleId: store.ctx.core.data.programCycle,
+            programId: store.ctx.core.data.program,
             pageName: PayoutReviewUiSchema.pageName,
           },
         },
@@ -114,8 +100,8 @@ export const PayoutReview = (
             candidateGroup: userValue?.payload?.positionTypeName,
             candidateUser: userValue?.payload?.positionName,
             userName: userValue?.payload?.username,
-            programCycleId: ctx.core.data.programCycle,
-            programId: ctx.core.data.program,
+            programCycleId: store.ctx.core.data.programCycle,
+            programId: store.ctx.core.data.program,
             pageName: PayoutReviewUiSchema.pageName,
           },
         },
@@ -129,8 +115,8 @@ export const PayoutReview = (
             candidateGroup: userValue?.payload?.positionTypeName,
             candidateUser: userValue?.payload?.positionName,
             userName: userValue?.payload?.username,
-            programCycleId: ctx.core.data.programCycle,
-            programId: ctx.core.data.program,
+            programCycleId: store.ctx.core.data.programCycle,
+            programId: store.ctx.core.data.program,
             pageName: PayoutReviewUiSchema.pageName,
           },
         },
@@ -140,7 +126,7 @@ export const PayoutReview = (
           candidateGroup: userValue.payload.positionTypeName,
           candidateUser: userValue.payload.positionName,
           userName: userValue.payload.username,
-          programCycleId: ctx.core.data.programCycle,
+          programCycleId: store.ctx.core.data.programCycle,
 
           pageName: PayoutReviewUiSchema.pageName,
         },
@@ -189,45 +175,45 @@ export const PayoutReview = (
           UiSchema.elements[2].elements[1].elements[1].config.main.allRowsData=tablesData[1];
            //@ts-ignore
           UiSchema.elements[3].elements[2].config.main.allRowsData = tablesData[2];
-          setUiSchema(UiSchema)
+          store.setUiSchema(UiSchema)
         })
         .catch((error) => {
           console.log(error);
         });
 
-      setUiSchema(PayoutReviewUiSchema);
+      store.setUiSchema(PayoutReviewUiSchema);
       return tablesData;
     },
     actionFunction: async function () {
-      if (ctx.core.data.remarks === undefined || ctx.core.data.remarks === "") {
-        setNotify({
+      if (store.ctx.core.data.remarks === undefined || store.ctx.core.data.remarks === "") {
+        store.setNotify({
           FailMessage: "Please Enter Remarks To Proceed Further",
           Fail: true,
         });
         return;
       }
       if (
-        ctx.core.data.actions === undefined ||
-        ctx.core.data.actions === null
+        store.ctx.core.data.actions === undefined ||
+        store.ctx.core.data.actions === null
       ) {
-        setNotify({
+        store.setNotify({
           FailMessage: "Please Select Action To Proceed Further",
           Fail: true,
         });
         return;
       }
       if (
-        ctx.core.data["pendingActionListSelectedRowData"] === undefined ||
-        ctx.core.data["pendingActionListSelectedRowData"].length === 0
+        store.ctx.core.data["pendingActionListSelectedRowData"] === undefined ||
+        store.ctx.core.data["pendingActionListSelectedRowData"].length === 0
       ) {
-        setNotify({
+        store.setNotify({
           FailMessage: "Please Select Pending Tasks To Take Action",
           Fail: true,
         });
         return;
       }
-      console.log(ctx.core.data);
-      const taskMapList = ctx.core.data["pendingActionListSelectedRowData"].map(
+      console.log(store.ctx.core.data);
+      const taskMapList = store.ctx.core.data["pendingActionListSelectedRowData"].map(
         (elem: any) => {
           return {
             taskId: `${elem.id}`,
@@ -240,8 +226,8 @@ export const PayoutReview = (
         payload: {
           taskMapList: taskMapList,
           completionMap: {
-            action: ctx.core.data.actions,
-            remarks: ctx.core.data.remarks,
+            action: store.ctx.core.data.actions,
+            remarks: store.ctx.core.data.remarks,
           },
         },
       };
@@ -257,17 +243,17 @@ export const PayoutReview = (
         })
         .then((response) => {
           const message =
-            ctx.core.data.actions === "Reject" ? "Rejected" : "Approved";
-          setFormdata({
-            ...ctx.core.data,
+            store.ctx.core.data.actions === "Reject" ? "Rejected" : "Approved";
+          store.setFormdata({
+            ...store.ctx.core.data,
             caseReportList: response[0],
             summaryReportList: response[1],
             pendingActionList: response[2],
           });
-          setNotify({ SuccessMessage: message, Success: true });
+          store.setNotify({ SuccessMessage: message, Success: true });
         })
         .catch((error) => {
-          setNotify({ FailMessage: "Error", Fail: true });
+          store.setNotify({ FailMessage: "Error", Fail: true });
         });
     },
   };

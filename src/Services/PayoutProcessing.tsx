@@ -7,26 +7,18 @@ import { myService } from "../service/service";
 import _ from "lodash";
 
 export const PayoutProcessing = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?:any
+  store:any,
+  dynamicData:any
 ) => {
-  const service =  myService(otherData.setLoading, otherData.setDialogBox, navigate);
+  const service = myService(store.setLoading, store.setDialogBox, store.navigate);
   return {
     setPage: async function () {
       var formdata = await this.getFormdata();
       var uiSchema = await this.getUiSchema();
       var schema = await this.getSchema();
-      setFormdata(formdata);
-      setUiSchema(uiSchema);
-      setSchema(schema);
+      store.setFormdata(formdata);
+      store.setUiSchema(uiSchema);
+      store.setSchema(schema);
     },
     getFormdata: async function () {
       return {}
@@ -71,7 +63,7 @@ export const PayoutProcessing = (
           //@ts-ignore
           uiSchema.elements[2].options.detail.elements[3].config.main.options =
             result1;
-          setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
+          store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         })
         .catch((error) => {
           return [{}];
@@ -82,7 +74,7 @@ export const PayoutProcessing = (
       let exceptionData: Array<any> = [];
       let data3 = JSON.stringify({
         payload: {
-          programCycleId: ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          programCycleId: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
         },
       });
 
@@ -102,24 +94,24 @@ export const PayoutProcessing = (
         })
         .then((response) => {
           exceptionData = response;
-          setFormdata({
-            ...ctx.core.data,
+          store.setFormdata({
+            ...store.ctx.core.data,
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
-          setUiSchema(PayoutProcessingUiSchema);
-          setSchema({});
-          setNotify({SuccessMessage:"Data Loaded Successfully",Success:true,})
+          store.setUiSchema(PayoutProcessingUiSchema);
+          store.setSchema({});
+          store.setNotify({SuccessMessage:"Data Loaded Successfully",Success:true,})
 
         })
         .catch((error) => {
           console.log(error);
-          setFormdata({
-            ...ctx.core.data,
+          store.setFormdata({
+            ...store.ctx.core.data,
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
-          setNotify({FailMessage:"Data Loading Failed",Fail:true,})
+          store.setNotify({FailMessage:"Data Loading Failed",Fail:true,})
 
         });
     },
@@ -128,7 +120,7 @@ export const PayoutProcessing = (
       let exceptionData: Array<any> = [];
       let data2 = JSON.stringify({
         payload: {
-          programCycleId: ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          programCycleId: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
         },
       });
       await service
@@ -147,23 +139,23 @@ export const PayoutProcessing = (
         })
         .then(async (response) => {
           exceptionData = response;
-          setFormdata({
-            ...ctx.core.data,
+          store.setFormdata({
+            ...store.ctx.core.data,
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
 
-          setUiSchema(PayoutProcessingUiSchema);
-          setNotify({SuccessMessage:"Data Compute process completed",Success:true,})
+          store.setUiSchema(PayoutProcessingUiSchema);
+          store.setNotify({SuccessMessage:"Data Compute process completed",Success:true,})
 
         })
         .catch((err) => {
-          setFormdata({
-            ...ctx.core.data,
+          store.setFormdata({
+            ...store.ctx.core.data,
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
-          setNotify({FailMessage:"Data Compute process failed",Fail:true,})
+          store.setNotify({FailMessage:"Data Compute process failed",Fail:true,})
 
         });
     },
@@ -172,7 +164,7 @@ export const PayoutProcessing = (
       let exceptionData: Array<any> = [];
       let data2 = JSON.stringify({
         payload: {
-          programCycleId: ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          programCycleId: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
         },
       });
       service
@@ -191,21 +183,21 @@ export const PayoutProcessing = (
         })
         .then((response) => {
           exceptionData = response;
-          setFormdata({
-            ...ctx.core.data,
+          store.setFormdata({
+            ...store.ctx.core.data,
             notifySuccess: "",
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
 
-          setUiSchema(PayoutProcessingUiSchema);
-          setNotify({SuccessMessage:"Workflow Has Been Started",Success:true,})
+          store.setUiSchema(PayoutProcessingUiSchema);
+          store.setNotify({SuccessMessage:"Workflow Has Been Started",Success:true,})
 
         })
         .catch((error) => {
           console.log(error);
-          setFormdata({
-            ...ctx.core.data,
+          store.setFormdata({
+            ...store.ctx.core.data,
             "DataListWrapper.0.AuditList": auditData,
             "DataListWrapper.0.ExceptionList": exceptionData,
           });
@@ -215,7 +207,7 @@ export const PayoutProcessing = (
       const body = JSON.stringify({
         payload: {
           entityName: "ProgramCycle",
-          entityKey: ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          entityKey: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
         },
       });
       const result = await service
@@ -250,7 +242,7 @@ export const PayoutProcessing = (
           UiSchema.elements[3].elements[0].config.main.allRowsData = tempAuditData
           console.log(UiSchema)
           ;
-          setUiSchema(UiSchema);
+          store.setUiSchema(UiSchema);
         })
         .catch((error) => {
           console.log(error);
@@ -261,7 +253,7 @@ export const PayoutProcessing = (
       const body = JSON.stringify({
         payload: {
           entityName: "ProgramCycle",
-          entityKey: ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          entityKey: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
         },
       });
       const result = await service

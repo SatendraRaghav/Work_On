@@ -55,7 +55,7 @@ export const UserMasterUISchema = {
                   icon: "BackIcon",
                   styleDefault: true,
                   size: "small",
-                  click: "backHandler",
+                  onClick: "backHandler",
                   tooltipMessage: "Back",
                 },
                 style: {
@@ -749,7 +749,7 @@ export const UserMasterUISchema = {
               variant: "contained",
               color: "info",
               type: "text",
-              click: "Submit_User",
+              onClick: "Submit_User",
               size: "small",
             },
             style: {

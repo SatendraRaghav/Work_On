@@ -41,7 +41,7 @@ export const PositionMasterUISchema = {
                   icon: "BackIcon",
                   styleDefault: true,
                   size: "small",
-                  funcName: "backHandler",
+                  onClick: "backHandler",
                   tooltipMessage: "Back",
                 },
                 style: {
@@ -165,7 +165,7 @@ export const PositionMasterUISchema = {
               variant: "contained",
               color: "info",
               type: "text",
-              funcName: "Submit_Position",
+              onClick: "Submit_Position",
               size: "small",
             },
             style: {

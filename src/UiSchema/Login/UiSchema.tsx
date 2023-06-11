@@ -54,7 +54,6 @@ export const LoginUiSchema = {
               label: "Login ID",
               variant: "outlined",
               size: "normal",
-              onKeyDown:"onKeyPress",
               activeEnter: true,
               helperText: "",
               errorMessage:"Login ID is required"
@@ -82,7 +81,6 @@ export const LoginUiSchema = {
               label: "Password",
               type: "password",
               variant: "outlined",
-              onKeyDown:"onKeyPress",
               activeEnter: true,
               size: "normal",
               helperText: "",

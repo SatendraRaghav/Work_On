@@ -1,34 +1,21 @@
 import { JsonFormsStateContext } from "@jsonforms/react";
-//import service from "service";
 import { myService } from "../service/service";
 import { GroupMasterRecordsUISchema } from "../UiSchema/GroupMasterRecords/UISchema";
 
 export const GroupMasterRecords = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
+  store:any,
+  dynamicData:any
 ) => {
-  const serviceApi = myService(
-    otherData.setLoading,
-    otherData.setDialogBox,
-    navigate
-  );
+  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
   return {
     setPage: async function () {
-      setFormdata({});
+      store.setFormdata({});
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
       const formData = this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
     },
     getFormData: async () => {
       return {};
@@ -75,17 +62,17 @@ export const GroupMasterRecords = (
           id: 1,
           payload: {
             entityName: "com.act21.hyperform3.entity.group.GroupStaging",
-            entityValue: otherData.rowData,
+            entityValue: dynamicData.rowData,
             action: "A",
           },
         })
         .then(async (res) => {
           console.log("approved");
           const data = await this.getFormData();
-          setFormdata({
+          store.setFormdata({
             ...data,
           });
-          setNotify({ SuccessMessage: "Approved successfully", Success: true });
+          store.setNotify({ SuccessMessage: "Approved successfully", Success: true });
         });
     },
     Reject_Records: function () {
@@ -94,24 +81,24 @@ export const GroupMasterRecords = (
           id: 1,
           payload: {
             entityName: "com.act21.hyperform3.entity.group.GroupStaging",
-            entityValue: otherData.rowData,
+            entityValue: dynamicData.rowData,
             action: "R",
           },
         })
         .then(async (res) => {
           const data = await this.getFormData();
-          setFormdata({
+          store.setFormdata({
             ...data,
           });
-          setNotify({ SuccessMessage: "Rejected successfully", Success: true });
+          store.setNotify({ SuccessMessage: "Rejected successfully", Success: true });
         });
     },
 
     newRecord: () => {
-      navigate("/GroupMaster");
+      store.navigate("/GroupMaster");
     },
     Edit_Approve_Records: function () {
-      navigate(`/GroupMaster?id=${otherData.rowData.id}`);
+      store.navigate(`/GroupMaster?id=${dynamicData.rowData.id}`);
     },
   };
 };

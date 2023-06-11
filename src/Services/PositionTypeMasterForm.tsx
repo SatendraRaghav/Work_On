@@ -1,36 +1,27 @@
 import { getUiSchema } from "@jsonforms/core";
 import { JsonFormsStateContext } from "@jsonforms/react";
-
 import { myService } from "../service/service";
 import { PositionTypeMasterUISchema } from "../UiSchema/PositionTypeMaster/UISchema";
 import { PositionTypeMasterSchema } from "../UiSchema/PositionTypeMaster/Schema";
 import { validateForm } from "../utils/validateForm";
 export const PositionTypeMasterForm = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
+  store:any,
+  dynamicData:any
 ) => {
-  const serviceApi =  myService(otherData.setLoading, otherData.setDisetDialogBoxalog, navigate);
+  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
   return {
     setPage: async function () {
-      setFormdata({})
+      store.setFormdata({})
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const formData = await this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
       const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
 
     },
     getFormData: async function () {
-      const action = otherData.searchParams?.get("id")
+      const action = store.searchParams?.get("id")
       let formdata = {}
       if (action) {
         const Api =
@@ -54,20 +45,20 @@ export const PositionTypeMasterForm = (
       return PositionTypeMasterSchema;
     },
     backHandler: function () {
-      navigate("/PositionTypeMasterRecords")
+      store.navigate("/PositionTypeMasterRecords")
     },
     Submit_PositionType: async function () {
       if (
-        ! validateForm(schema, ctx.core.errors)
+        ! validateForm(store.schema, store.ctx.core.errors)
       ) {
-        setConfig("ValidateAndShow")
-        setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
+        store.setConfig("ValidateAndShow")
+        store.setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
       } else {
-        console.log(ctx.core.data)
-        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.position.PositionTypeNewStaging", entityValue: ctx.core.data } }).then((res) => {
-          setFormdata({ ...ctx.core.data });
-          navigate("/PositionTypeMasterRecords")
-          setNotify({ SuccessMessage: "Submitted Successfully", Success: true, })
+        console.log(store.ctx.core.data)
+        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.position.PositionTypeNewStaging", entityValue: store.ctx.core.data } }).then((res) => {
+          store.setFormdata({ ...store.ctx.core.data });
+          store.navigate("/PositionTypeMasterRecords")
+          store.setNotify({ SuccessMessage: "Submitted Successfully", Success: true, })
         })
           .catch(() => { });
       }

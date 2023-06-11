@@ -5,31 +5,23 @@ import { GroupMasterUISchema } from "../UiSchema/GroupMaster/UISchema";
 import { GroupMasterSchema } from "../UiSchema/GroupMaster/Schema";
 import { validateForm } from "../utils/validateForm";
 export const GroupMasterForm = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?: any
+  store:any,
+  dynamicData:any
 ) => {
-  const serviceApi = myService(otherData.setLoading, otherData.setDialogBox, navigate);
+  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
   return {
     setPage: async function () {
-      setFormdata({})
+      store.setFormdata({})
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const formData = await this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
       const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
 
     },
     getFormData: async function () {
-      const action = otherData.searchParams?.get("id")
+      const action = store.searchParams?.get("id")
       let formdata = {}
       if (action) {
         const Api =
@@ -66,18 +58,18 @@ export const GroupMasterForm = (
       return GroupMasterSchema;
     },
     backHandler: function () {
-      navigate("/GroupMasterRecords")
+      store.navigate("/GroupMasterRecords")
     },
     Submit: async function () {
       if (
-        ! validateForm(schema, ctx.core.errors)
+        ! validateForm(store.schema, store.ctx.core.errors)
       ) {
-        setConfig("ValidateAndShow")
-        setNotify({FailMessage:"Please fill all required fields",Fail:true,})
+        store.setConfig("ValidateAndShow")
+        store.setNotify({FailMessage:"Please fill all required fields",Fail:true,})
         return;
       } 
       let permList: any;
-      const idlist:any = ctx.core.data.positionList.map((a: any) => a.value);
+      const idlist:any = store.ctx.core.data.positionList.map((a: any) => a.value);
       
      ;
        
@@ -86,12 +78,12 @@ export const GroupMasterForm = (
         permList = rest.data.payload;
 
       }).then(() => {
-        console.log(ctx.core.data)
-        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.group.GroupStaging", entityValue: { ...ctx.core.data, positionList: permList } } }).then((res) => {
+        console.log(store.ctx.core.data)
+        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.group.GroupStaging", entityValue: { ...store.ctx.core.data, positionList: permList } } }).then((res) => {
           console.log("save")
-          setFormdata({ ...ctx.core.data});
-          setNotify({SuccessMessage:"Submitted Successfully",Success:true,})
-          navigate("/GroupMasterRecords")
+          store.setFormdata({ ...store.ctx.core.data});
+          store.setNotify({SuccessMessage:"Submitted Successfully",Success:true,})
+          store.navigate("/GroupMasterRecords")
         })
       }).catch(() => { });
     },

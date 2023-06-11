@@ -78,7 +78,7 @@ export const PayoutReviewUiSchema = {
             main: {
               label: "Program",
               options: [{}],
-              click: "loadCycle",
+              onClick: "loadCycle",
               errorMessage: "Program is not selected",
             },
           },
@@ -148,7 +148,7 @@ export const PayoutReviewUiSchema = {
               variant: "contained",
               color: "info",
               type: "text",
-              click: "loadTable",
+              onClick: "loadTable",
               size: "medium",
             },
             style: {
@@ -414,7 +414,7 @@ export const PayoutReviewUiSchema = {
               variant: "contained",
               color: "info",
               page: "PayoutReview",
-              click: "actionFunction",
+              onClick: "actionFunction",
               size: "small",
             },
             style: {

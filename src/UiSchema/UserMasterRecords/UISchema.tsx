@@ -42,7 +42,7 @@ export const UserMasterRecordsUISchema = {
                   icon: "AddIcon",
                   size: "small",
                   styleDefault: true,
-                  click: "newRecord",
+                  onClick: "newRecord",
                   tooltipMessage: "Add New Record",
                 },
                 style: {
@@ -136,7 +136,7 @@ export const UserMasterRecordsUISchema = {
                             color: "info",
                             size: "small",
                             icon: "EditIcon",
-                            click:"Edit_Approve_Records",
+                            onClick:"Edit_Approve_Records",
                             tooltipMessage: "Edit This Record",
                           },
                           style: {
@@ -209,7 +209,7 @@ export const UserMasterRecordsUISchema = {
                        main: {
                           icon: "ApproveIcon",
                           color: "success",
-                          click:"Approve_Records",
+                          onClick:"Approve_Records",
                           tooltipMessage: "Approve This Record",
                         },
                       },
@@ -230,7 +230,7 @@ export const UserMasterRecordsUISchema = {
                        main: {
                           icon: "RejectIcon",
                           color: "error",
-                          click:"Reject_Records",
+                          onClick:"Reject_Records",
                           tooltipMessage: "Reject This Record",
                         },
                       },

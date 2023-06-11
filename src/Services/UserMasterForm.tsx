@@ -6,31 +6,22 @@ import { UserMasterUISchema } from "../UiSchema/UserMaster/UISchema";
 import { UserMasterSchema } from "../UiSchema/UserMaster/Schema";
 import { validateForm } from "../utils/validateForm";
 export const UserMasterForm = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?:any
+  store:any,
+  dynamicData:any
 ) => {
-  const serviceApi =  myService(otherData.setLoading, otherData.setDialogBox, navigate);
+  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
   return {
     setPage: async function () {
-      // setFormdata({})
       const schema = this.getSchema();
-      setSchema(schema);
+      store.setSchema(schema);
       const formData = await this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
       const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setUiSchema(UiSchema);
 
     },
     getFormData: async function () {
-      const action = otherData.searchParams?.get("id")
+      const action = store.searchParams?.get("id")
       let formdata = {}
       if (action) {
         const Api =
@@ -73,35 +64,35 @@ export const UserMasterForm = (
       return UserMasterSchema;
     },
     backHandler: function () {
-      navigate("/UserMasterRecords")
+      store.navigate("/UserMasterRecords")
     },
     Submit_User: async function () {
       if (
-        ! validateForm(schema, ctx.core.errors)
+        ! validateForm(store.schema, store.ctx.core.errors)
       ) {
-        setConfig("ValidateAndShow")
-        setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
+        store.setConfig("ValidateAndShow")
+        store.setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
       } else {
         let idData: any;
         let idDataRep: any;
-        serviceApi.get(`/master/getDetailById?masterName=com.act21.hyperform3.entity.master.role.Role&id=${ctx.core.data.role}`).then((rest) => {
-          //  serviceApi.post("/master/getDetailById", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.role.Role",entityValue:{ id: ctx.core.data.role }}}).then((rest) => {
+        serviceApi.get(`/master/getDetailById?masterName=com.act21.hyperform3.entity.master.role.Role&id=${store.ctx.core.data.role}`).then((rest) => {
+          //  serviceApi.post("/master/getDetailById", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.role.Role",entityValue:{ id: store.ctx.core.data.role }}}).then((rest) => {
 
           idData = rest.data.payload;
 
 
         }).then(() => {
-          serviceApi.get(`/master/getDetailById?masterName=com.act21.hyperform3.entity.master.position.PositionNew&id=${ctx.core.data.position}`).then((rest1) => {
-            //  serviceApi.post("/master/getDetailById", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.position.PositionNew",entityValue:{ id: ctx.core.data.position }}}).then((rest1) => {
+          serviceApi.get(`/master/getDetailById?masterName=com.act21.hyperform3.entity.master.position.PositionNew&id=${store.ctx.core.data.position}`).then((rest1) => {
+            //  serviceApi.post("/master/getDetailById", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.position.PositionNew",entityValue:{ id: store.ctx.core.data.position }}}).then((rest1) => {
             idDataRep = rest1.data.payload;
 
           }).then(() => {
-            console.log({ ...ctx.core.data, role: idData, position: idDataRep })
-            serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.user.UserStaging", entityValue: { ...ctx.core.data, role: idData, position: idDataRep } } }).then((res) => {
+            console.log({ ...store.ctx.core.data, role: idData, position: idDataRep })
+            serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.user.UserStaging", entityValue: { ...store.ctx.core.data, role: idData, position: idDataRep } } }).then((res) => {
 
-              setFormdata({ ...ctx.core.data});
-              navigate("/UserMasterRecords")
-              setNotify({ SuccessMessage: "Submitted Successfully", Success: true, })
+              store.setFormdata({ ...store.ctx.core.data});
+              store.navigate("/UserMasterRecords")
+              store.setNotify({ SuccessMessage: "Submitted Successfully", Success: true, })
             })
           })
         }).catch(() => { });
