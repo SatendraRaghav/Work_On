@@ -22,9 +22,6 @@ const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
   const fieldName = getFieldName(path);
   const onChange = (_ev: any, value: any) => handleChange(path, value);
   const ctx = useJsonForms();
-  const callServiceProvider = (event: any, value?: unknown) => {
-    serviceProvider(ctx,uischemaData, { event, path,paramValue:value });
-  };
   return (
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
       <FormControl fullWidth={true} variant="outlined">
@@ -61,16 +58,8 @@ const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
             aria-labelledby="demo-row-radio-buttons-group-label"
             onChange={(event, value) => {
               onChange(event, value);
-              callServiceProvider(event,value);
             }}
-            onKeyPress={(event)=>{
-              callServiceProvider(event);
-            }}
-            onPointerEnter={(event) => callServiceProvider(event)}
-            onPointerLeave={(event) => callServiceProvider(event)}
-            onFocus={(event) => callServiceProvider(event)}
-            onBlur={(event) => callServiceProvider(event)}
-            onMouseEnter={(event) => callServiceProvider(event)}
+        
           >
             {uischemaData?.options?.map((elem: any, i: number) => (
               <FormControlLabel

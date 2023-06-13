@@ -5,7 +5,7 @@ import { userValue,setUserValue } from '../Apple';
 import { setOpenDialog } from '../Apple';
 // import { service } from '../Services/ExternalData';
   
-export const myService = (setLoading?:any,setDialogBox?:any,navigate?:any)=>{
+export const myService = (setLoading?:any,navigate?:any)=>{
   const demoService  = axios.create({
   baseURL:  `${rootUrl}`,
   headers: {
@@ -29,9 +29,9 @@ demoService.interceptors.response.use(
     return config;
   },
   error => {
-   if( error.response.status === 403){
-    setOpenDialog(true)
-   } 
+  //  if( error.response.status === 403){
+  //   setOpenDialog(true)
+  //  } 
     
     setLoading?.(false)
     return Promise.reject(error);

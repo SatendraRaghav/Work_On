@@ -36,7 +36,7 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
   const fieldName = getFieldName(path);
   const callServiceProvider=(event:any)=>{
   serviceProvider(ctx,uischemaData, 
-    {event, path,rowData:uischemaData.rowData,setLoading});
+    {event, path,...uischemaData.additionalData,setLoading});
   }
   return (
     <>
@@ -56,7 +56,7 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
             variant={uischemaData?.variant || "contained"}
             size={uischemaData?.size || "medium"}
             disabled={loading}
-            onKeyPress={e =>callServiceProvider(e)}
+            onKeyDown={e =>callServiceProvider(e)}
             onClick={e =>callServiceProvider(e)}
             onPointerEnter={(event)=>  callServiceProvider(event)}
             onPointerLeave={(event)=>  callServiceProvider(event)}

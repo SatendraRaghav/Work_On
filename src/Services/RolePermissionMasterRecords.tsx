@@ -8,17 +8,17 @@ export const RolePermissionRecords = (
   store:any,
   dynamicData:any
 ) => {
-  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
       const schema = this.getSchema();
       store.setSchema(schema);
       const UiSchema = await this.getUiSchema();
       store.setUiSchema(UiSchema);
-      const formData =  this.getFormData();
+      const formData =  await this.getFormData();
       store.setFormdata(formData);
     },
-    getFormData: () => {
+    getFormData: async () => {
       return {}
     },
     getUiSchema: async () => {
@@ -67,16 +67,14 @@ export const RolePermissionRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.role.RolePermissionStaging",
-            entityValue: dynamicData.rowData,
+            entityValue: dynamicData?.rowData,
             action: "A",
           },
         })
         .then(async (res) => {
           console.log("approved");
-          const data = await this.getFormData();
-          store.setFormdata({
-            ...data,
-          });
+          const data = await this.getUiSchema();
+          store.setUiSchema(data)
           store.setNotify({ SuccessMessage: "Approved successfully", Success: true });
         });
     },
@@ -87,15 +85,13 @@ export const RolePermissionRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.role.RolePermissionStaging",
-            entityValue: dynamicData.rowData,
+            entityValue: dynamicData?.rowData,
             action: "R",
           },
         })
         .then(async (res) => {
-          const data = await this.getFormData();
-          store.setFormdata({
-            ...data,
-          });
+          const data = await this.getUiSchema();
+          store.setUiSchema(data)
           store.setNotify({ SuccessMessage: "Rejected successfully", Success: true });
         });
     },
@@ -104,7 +100,7 @@ export const RolePermissionRecords = (
       store.navigate("/RolePermission");
     },
     Edit_Approve_Records: function () {
-      store.navigate(`/RolePermission?id=${dynamicData.rowData.id}`);
+      store.navigate(`/RolePermission?id=${dynamicData?.rowData.id}`);
     },
   };
 };

@@ -84,14 +84,13 @@ export const RoleMasterUISchema = {
           scope: "#/properties/permissionList",
 
           options: {
-            widget: "SelectInputField",
+            widget: "MultipleSelect",
           },
           config: {
             layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
             main: {
               label: "Permission List",
               options: [{}],
-              multiple: true,
               required: true,
               errorMessage: "Permissions are not selected",
             },

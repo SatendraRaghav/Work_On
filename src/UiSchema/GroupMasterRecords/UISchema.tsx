@@ -43,7 +43,7 @@ export const GroupMasterRecordsUISchema = {
                   size: "small",
                   styleDefault: true,
                   tooltipMessage: "Add New Record",
-                  ononClick: "newRecord",
+                  onClick: "newRecord",
                 },
                 style: {
                   float: "right",

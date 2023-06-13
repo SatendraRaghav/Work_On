@@ -53,11 +53,6 @@ const UploadFile = memo(function (props: inputProps) {
               Info: true,
             });
           }}
-          onPointerEnter={(event) => callServiceProvider(event)}
-          onPointerLeave={(event) => callServiceProvider(event)}
-          onFocus={(event) => callServiceProvider(event)}
-          onBlur={(event) => callServiceProvider(event)}
-          onMouseEnter={(event) => callServiceProvider(event)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

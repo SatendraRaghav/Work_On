@@ -209,7 +209,7 @@ export const UserMasterRecordsUISchema = {
                        main: {
                           icon: "ApproveIcon",
                           color: "success",
-                          onClick:"Approve_Records",
+                          onClick:"UserApprover",
                           tooltipMessage: "Approve This Record",
                         },
                       },

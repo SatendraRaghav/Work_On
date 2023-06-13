@@ -14,7 +14,7 @@ export const ExternalData = (
 ) => {
   const service = myService(
     dynamicData?.setLoading,
-    store?.setDialogBox,
+    
     store.navigate
       );
   return {
@@ -46,22 +46,21 @@ export const ExternalData = (
            return this.loadTable(uiSchema)
         }).then((res)=>{
           //@ts-ignore
-          uiSchema.elements[4].elements[2].config.main.allRowsData = res;
+          uiSchema.elements[3].elements[2].config.main.allRowsData = res;
         })
         .catch((error) => {
            //@ts-ignore
-          uiSchema.elements[4].elements[2].config.main.allRowsData = [];
+           uiSchema.elements[3].elements[2].config.main.allRowsData = [];
         });
       return uiSchema;
     },
     getSchema: () => {
       return ExternalDataSchema;
     },
-    typeLoadFunction: async (value: any) => {
+    onChange: async (value: any) => {
       const uiSchema = ExternalDataUiSchema;
-      console.log(uiSchema);
       await service
-        .get(`/program/getById?id=${dynamicData.event.target.value} `)
+        .get(`/program/getById?id=${store.newData.programType} `)
         .then((response: any) => {
           const result =
             response.data.payload.config.features.externalData.supportedTypes;
@@ -88,7 +87,7 @@ export const ExternalData = (
         programData.fileType === undefined ||
         programData.fileType === null
       ) {
-        store.setConfig("ValidateAndShow");
+        store.setValidation("ValidateAndShow");
         store.setNotify({
           FailMessage: "Please select Program or Type to Upload the file",
           Fail: true,
@@ -114,12 +113,16 @@ export const ExternalData = (
             return this.loadTable(newui);
           })
           .then((response) => {
+          
             const data = { ...store.ctx.core.data };
             data[`${dynamicData.path}Id`] = fileUploadResponse;
             store.setFormdata({
               ...data,
               downloadAggrementCopy: event.target.files[0].name,
             });
+            //@ts-ignore
+            ExternalDataUiSchema.elements[3].elements[2].config.main.allRowsData = response;
+            store.setUiSchema(ExternalDataUiSchema)
             store.setNotify({
               SuccessMessage: "File uploaded successfully",
               Success: true,
@@ -153,12 +156,6 @@ export const ExternalData = (
           console.log(error);
           return [];
         });
-        // store.setUiSchema(pre=>{
-        
-          uiSchema1.elements[4].elements[2].config.main.allRowsData = finalResult;
-          store.setUiSchema(uiSchema1)
-        //   return pre;
-        // })
       return finalResult;
     },
     loadData: async function () {
@@ -170,7 +167,7 @@ export const ExternalData = (
         externalDataId === undefined ||
         externalDataId === null
       ) {
-        store.setConfig("ValidateAndShow");
+        store.setValidation("ValidateAndShow");
         store.setNotify({
           FailMessage: "Please select Program or Upload file to Load",
           Fail: true,
@@ -214,7 +211,7 @@ export const ExternalData = (
     },
     Download_File_Table: () => {
       service
-        .get(`/externalData/getById?withData=true&id=${dynamicData.rowData.id}`)
+        .get(`/externalData/getById?withData=true&id=${dynamicData?.rowData.id}`)
         .then((response) => {
           downloadFile(response.data.payload);
         })

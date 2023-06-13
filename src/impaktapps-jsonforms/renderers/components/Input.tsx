@@ -13,8 +13,7 @@ import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { useJsonForms } from "@jsonforms/react";
 import { inputProps } from "../interface/inputfieldProps";
-import { useDebouncedChange } from "../common/handleChange";
-// import { useDebouncedChange } from "@jsonforms/material-renderers";
+import { useDebouncedChange } from "@jsonforms/material-renderers";
 import { Close } from "@mui/icons-material";
 const Input = memo(function (props: inputProps) {
   const { data, required, errors, enabled, uischema, path, handleChange } =
@@ -33,9 +32,7 @@ const Input = memo(function (props: inputProps) {
     eventToValue
   );
   const ctx = useJsonForms();
-  // const callServiceProvider = (event: any, value?: unknown) => {
-  //   serviceProvider(ctx, uischemaData, { event, path,paramValue:value });
-  // };
+ 
   const onPointerEnter = () => setShowAdornment(true);
   const onPointerLeave = () => setShowAdornment(false);
   return (
@@ -48,23 +45,10 @@ const Input = memo(function (props: inputProps) {
         value={inputText}
         onChange={(event) => {
           onChange(event);
-         
-          // callServiceProvider(event,event.target.value);
         }}
-        // onPointerEnter={(event) => {
-        //   onPointerEnter();
-        //   callServiceProvider(event);
-        // }}
-        // onKeyDown={(event)=>{
-        //   callServiceProvider(event);
-        // }}
-        // onPointerLeave={(event) => {
-        //   onPointerLeave();
-        //   callServiceProvider(event);
-        // }}
-        // onFocus={(event) => callServiceProvider(event)}
-        // onBlur={(event) => callServiceProvider(event)}
-        // onMouseEnter={(event) => callServiceProvider(event)}
+        onPointerEnter={(event) => onPointerEnter()
+        }
+        onPointerLeave={(event) => onPointerLeave()}
         InputProps={{
           endAdornment: (
             <InputAdornment

@@ -8,7 +8,7 @@ export const RolePermissionForm = (
   store:any,
   dynamicData:any
 ) => {
-  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
       store.setFormdata({})
@@ -16,9 +16,12 @@ export const RolePermissionForm = (
       store.setSchema(schema);
       const formData = await this.getFormData();
       store.setFormdata(formData);
-      const UiSchema = this.getUiSchema();
+      const UiSchema = await this.getUiSchema();
       store.setUiSchema(UiSchema);
 
+    },
+    onChange:()=>{
+   console.log("onChange")
     },
     getFormData: async function () {
       const action = store.searchParams?.get("id")
@@ -37,8 +40,7 @@ export const RolePermissionForm = (
 
       return formdata;
     },
-    getUiSchema: function () {
-      //  const updatedUserUiSchema = await this.pageLoad();
+    getUiSchema: async function () {
       return RolePermissionUISchema;
     },
     getSchema: () => {
@@ -51,11 +53,10 @@ export const RolePermissionForm = (
       if (
         ! validateForm(store.schema, store.ctx.core.errors)
       ) {
-        store.setConfig("ValidateAndShow")
+        store.setValidation("ValidateAndShow")
         store.setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
       } else {
-        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.role.RolePermissionStaging", entityValue: store.newData} }).then((res) => {
-          // store.setFormdata({ ...store.ctx.core.data });
+        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.role.RolePermissionStaging", entityValue: store.ctx.core.data} }).then((res) => {
           store.navigate("/RolePermissionRecords")
           store.setNotify({ SuccessMessage: "Submitted Successfully", Success: true, })
         })

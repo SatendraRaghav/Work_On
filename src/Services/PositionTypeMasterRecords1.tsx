@@ -6,7 +6,7 @@ export const PositionTypeMasterRecords = (
   store:any,
   dynamicData:any
 ) => {
-  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
       store.setFormdata({});
@@ -65,16 +65,14 @@ export const PositionTypeMasterRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.position.PositionTypeNewStaging",
-            entityValue: dynamicData.rowData,
+            entityValue: dynamicData?.rowData,
             action: "A",
           },
         })
         .then(async (res) => {
           console.log("approved");
-          const data = await this.getFormData();
-          store.setFormdata({
-            ...data,
-          });
+          const data = await this.getUiSchema();
+          store.setUiSchema(data)
           store.setNotify({ SuccessMessage: "Approved Successfully", Success: true });
         });
     },
@@ -85,15 +83,13 @@ export const PositionTypeMasterRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.position.PositionTypeNewStaging",
-            entityValue: dynamicData.rowData,
+            entityValue: dynamicData?.rowData,
             action: "R",
           },
         })
         .then(async (res) => {
-          const data = await this.getFormData();
-          store.setFormdata({
-            ...data,
-          });
+          const data = await this.getUiSchema();
+          store.setUiSchema(data)
           store.setNotify({ SuccessMessage: "Rejected Successfully", Success: true });
         });
     },
@@ -102,7 +98,7 @@ export const PositionTypeMasterRecords = (
       store.navigate("/PositionTypeMaster");
     },
     Edit_Approve_Records: function () {
-      store.navigate(`/PositionTypeMaster?id=${dynamicData.rowData.id}`);
+      store.navigate(`/PositionTypeMaster?id=${dynamicData?.rowData.id}`);
     },
   };
 };

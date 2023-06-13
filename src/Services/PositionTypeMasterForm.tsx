@@ -8,7 +8,7 @@ export const PositionTypeMasterForm = (
   store:any,
   dynamicData:any
 ) => {
-  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
       store.setFormdata({})
@@ -51,7 +51,7 @@ export const PositionTypeMasterForm = (
       if (
         ! validateForm(store.schema, store.ctx.core.errors)
       ) {
-        store.setConfig("ValidateAndShow")
+        store.setValidation("ValidateAndShow")
         store.setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
       } else {
         console.log(store.ctx.core.data)

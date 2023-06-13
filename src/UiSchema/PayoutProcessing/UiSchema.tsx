@@ -2,13 +2,8 @@ export const PayoutProcessingUiSchema = {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
-          elements: [
+      type: "WrapperLayout",
+      elements: [
             {
               type: "Control",
               scope: "#/properties/programType",
@@ -17,67 +12,24 @@ export const PayoutProcessingUiSchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 11.5,
                 main: {
                   heading: "Payout Processing",
                 },
               },
-            },
-            {
-              type: "Control",
-              scope: "#/properties/EmptyBox",
-              options: {
-                widget: "EmptyBox",
-              },
-              config: { layout: 5.5 },
-            },
+            }
           ],
+    },
+    {
+      type: "WrapperLayout",
+      config:{
+        main:{
+        label:"Search Program",
+        divider:true,
         },
+        defaultStyle:true
       },
-    },
-
-    {
-      type: "Control",
-      scope: "#/properties/EmptyBox",
-      options: {
-        widget: "Notify",
-      },
-      layout: 6,
-    },
-
-    {
-      type: "Control",
-      scope: "#/properties/PayoutProcessingWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/heading",
-
-              options: {
-                widget: "Box",
-              },
-              config: {
-                layout: 11.5,
-                main: {
-                  heading: "Search Program",
-                  // dividerAvailable:true
-                },
-              },
-              style: {
-                marginTop: "2px",
-              },
-            },
-            {
-              type: "Control",
-              scope: "#/properties/EmptyBox",
-              options: {
-                widget: "EmptyBox",
-              },
-            },
+      elements: [
             {
               type: "Control",
               scope: "#/properties/programType",
@@ -86,7 +38,7 @@ export const PayoutProcessingUiSchema = {
                 widget: "SelectInputField",
               },
               config: {
-                layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+                layout: { xs: 11, sm: 11, md: 6, lg: 5.5 },
                 main: {
                   label: "Program",
                   options: [{}],
@@ -125,7 +77,7 @@ export const PayoutProcessingUiSchema = {
                   xs: 11,
                   sm: 11,
                   md: 8.5,
-                  lg: 9.5,
+                  lg: 9,
                 },
               },
             },
@@ -141,7 +93,7 @@ export const PayoutProcessingUiSchema = {
                   xs: 11,
                   sm: 11,
                   md: 2.5,
-                  lg: 1.5,
+                  lg: 2,
                 },
                 main: {
                   name: "Search",
@@ -159,8 +111,6 @@ export const PayoutProcessingUiSchema = {
               },
             },
           ],
-        },
-      },
     },
     {
       type: "WrapperLayout",
@@ -169,6 +119,7 @@ export const PayoutProcessingUiSchema = {
           label: "Audit Data List",
           divider:true
         },
+        defaultStyle:true
       },
       elements:[
             {
@@ -178,7 +129,7 @@ export const PayoutProcessingUiSchema = {
                 widget: "Table",
               },
               config: {
-                layout: 12,
+                layout: 11.5,
                 main: {
                   allRowsData: [],
                   columns: {
@@ -219,14 +170,15 @@ export const PayoutProcessingUiSchema = {
             },
           ],
         },
-    {
-      type: "Control",
-      scope: "#/properties/DataListWrapper",
-      label: "Exception List",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+        {
+          type: "WrapperLayout",
+          config: {
+            main: {
+              label: "Exception List",
+              divider:true
+            },
+            defaultStyle:true
+          },
           elements: [
             {
               type: "Control",
@@ -272,8 +224,6 @@ export const PayoutProcessingUiSchema = {
               },
             },
           ],
-        },
-      },
     },
     {
       type: "Control",
@@ -377,6 +327,14 @@ export const PayoutProcessingUiSchema = {
           ],
         },
       },
+    },
+    {
+      type: "Control",
+      scope: "#/properties/EmptyBox",
+      options: {
+        widget: "Notify",
+      },
+      layout: 6,
     },
   ],
 };

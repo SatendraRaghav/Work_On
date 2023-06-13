@@ -14,7 +14,6 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
   const [loading,setLoading] = useState(false)
   const {
     serviceProvider,
-    setDialogBox,
     id,
     permissions,
     theme,
@@ -26,7 +25,7 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
   const fieldName = getFieldName(path);
   const callServiceProvider=(event:any)=>{
     serviceProvider(ctx, uischemaData, 
-      {event, path,rowData:uischemaData.rowData,setLoading});
+      {event, path,...uischemaData.additionalData,setLoading});
     }
   return (
     <>
@@ -37,7 +36,7 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
         color={uischemaData?.color}
         disabled={loading}
         title={uischemaData?.tooltipMessage}
-        onKeyPress={e =>callServiceProvider(e)}
+        onKeyDown={e =>callServiceProvider(e)}
         onClick={e =>callServiceProvider(e)}
         onPointerEnter={(event)=>  callServiceProvider(event)}
         onPointerLeave={(event)=>  callServiceProvider(event)}

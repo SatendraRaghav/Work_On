@@ -53,7 +53,7 @@ import { userValue, setUserValue} from "../Apple";;
         setUserValue(res.data)
           store.navigate("/Home");
           store.setNotify({SuccessMessage:"You Login Successfully",Success:true,})
-          store.setConfig("ValidateAndHide")
+          store.setValidation("ValidateAndHide")
       })
       .catch((er)=>{
         store.setNotify({FailMessage:"Invalid Login ID or Password",Fail:true,})

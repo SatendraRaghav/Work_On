@@ -19,15 +19,15 @@ export interface inputProps extends ControlProps,WithInput{
    export interface impaktappsJsonformsPropsType  {
     serviceHolder: serviceHolderType
     permissions?: any[];
-    objStyle?: any;
-    validation?:ValidationMode
+    styleTheme?: any;
+    validationMode?:ValidationMode
    }
 
 export interface HomePropsType {
     serviceHolder: serviceHolderType
     permissions?: any[];
     pageName:string
-    validation?:ValidationMode
+    validationMode?:ValidationMode
     theme:any
 }
 export interface additionalDataProps {
@@ -36,5 +36,5 @@ export interface additionalDataProps {
     paramValue?: unknown;
     componentUiSchema?: unknown;
     setLoading?: React.Dispatch<React.SetStateAction<boolean>>
-
+    additionalData?:any,
   }

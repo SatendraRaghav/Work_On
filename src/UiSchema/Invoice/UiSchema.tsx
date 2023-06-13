@@ -9,49 +9,53 @@ export const InvoiceGenerationUiSchema = {
         widget: "Wrapper",
         detail: {
           type: "HorizontalLayout",
-      elements: [
-        {
-          type: "Control",
-          scope: "#/properties/pageHeading",
-          layout: 5.5,
-          options: {
-            widget: "Box",
-          },
-          value: {
-            content: {
-              heading: "Invoice Generation",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/pageHeading",
+            
+              options: {
+                widget: "Box",
+              },
+              config: {  
+                layout: 5.5,
+                main: {
+                  heading: "Invoice Generation",
+                },
+              },
             },
-          },
+            {
+              type: "Control",
+              scope: "#/properties/EmptyBox",
+              options: {
+                widget: "EmptyBox",
+              },
+              config: { layout: 5.5 },
+            },
+          ],
         },
-        {
-          type: "Control",
-          scope: "#/properties/EmptyBox",
-          options: {
-            widget: "EmptyBox",
-          },
-          layout: 5.5,
-        },
-      ]}},
+      },
     },
     {
       type: "HorizontalLayout",
-      config:{defaultStyle: true},
+      config: { defaultStyle: true },
       elements: [
         {
           type: "Control",
           scope: "#/properties/heading",
-          layout: 11.5,
+
           options: {
             widget: "Box",
           },
-          value: {
-            content: {
+          config: {
+            layout: 11.5,
+            main: {
               heading: "Search Program",
               // dividerAvailable:true
             },
-            style:{
-              paddingTop:"5px"
-            }
+            // style: {
+            //   paddingTop: "5px",
+            // },
           },
         },
         {
@@ -60,7 +64,6 @@ export const InvoiceGenerationUiSchema = {
           options: {
             widget: "EmptyBox",
           },
-          layout: 12,
         },
         {
           type: "Control",
@@ -68,7 +71,7 @@ export const InvoiceGenerationUiSchema = {
           options: {
             widget: "EmptyBox",
           },
-          layout: 5,
+          config: { layout: 5 },
         },
         {
           type: "Control",
@@ -76,53 +79,57 @@ export const InvoiceGenerationUiSchema = {
           options: {
             widget: "EmptyBox",
           },
-          layout: 5,
+          config: { layout: 5 },
         },
         {
           type: "Control",
           scope: "#/properties/programType",
-          layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
               label: "Program",
               loadFunction: "loadCycle",
               options: [{}],
               color: "secondary",
-              errorMessage:"Program is not selected"
-            }
+              errorMessage: "Program is not selected",
+            },
           },
         },
         {
           type: "Control",
           scope: "#/properties/programCycle",
-          layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
               label: "Program Cycle",
               options: [{}],
               programType: true,
-              errorMessage:"Program Cycle is not selected"
+              errorMessage: "Program Cycle is not selected",
             },
           },
         },
         {
           type: "Control",
           scope: "#/properties/searchBtn",
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 8.5,
-            lg: 9.5,
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 8.5,
+              lg: 9.5,
+            },
           },
           options: {
             widget: "EmptyBox",
-          }
+          },
         },
         {
           type: "Control",
@@ -130,14 +137,15 @@ export const InvoiceGenerationUiSchema = {
           options: {
             widget: "Button",
           },
-          layout: {
-            xs: 11,
-            sm: 11,
-            md: 2.5,
-            lg: 1.5,
-          },
-          value: {
-            content: {
+
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 2.5,
+              lg: 1.5,
+            },
+            main: {
               name: "Search",
               variant: "contained",
               color: "info",
@@ -145,26 +153,27 @@ export const InvoiceGenerationUiSchema = {
               page: "InvoiceGeneration",
               onClick: "loadTables",
               size: "large",
-            }
+            },
           },
         },
       ],
     },
     {
       type: "HorizontalLayout",
-      config:{defaultStyle: true},
+      config: { defaultStyle: true },
       elements: [
         {
           type: "Control",
           scope: "#/properties/heading",
-          layout: 11.5,
+
           options: {
             widget: "Box",
           },
-          value: {
-            content: {
+          config: {
+            layout: 11.5,
+            main: {
               heading: "Case Review List",
-              dividerAvailable:true,
+              dividerAvailable: true,
             },
           },
         },
@@ -174,68 +183,60 @@ export const InvoiceGenerationUiSchema = {
           options: {
             widget: "EmptyBox",
           },
-          layout: 5.5,
+          config: { layout: 5.5 },
         },
         {
           type: "Control",
           scope: "#/properties/caseLevelReportList",
-          layout: 11.5,
           options: {
             widget: "Table",
-            addCheckBoxRow: true,
-            loadFunction: "caseTableDataLoad",
-            tableStyle: {
-              backgroundColor: "#F5F5F5",
+          },
+          config: {
+            layout: 11.5,
+            main: {
+              allRowsData: [],
+              columns: {
+                dataColumns: [
+                  {
+                    accessorKey: "Id",
+                    header: "Id",
+                  },
+                  {
+                    accessorKey: "Name",
+
+                    header: "Name",
+                  },
+                  {
+                    accessorKey: "Disbursal Amount",
+                    header: "Disbursal Amount",
+                  },
+                  {
+                    accessorKey: "Released Amount",
+
+                    header: "Released Amount",
+                  },
+                  {
+                    accessorKey: "Payout",
+
+                    header: "Payout",
+                  },
+                ],
+              },
             },
-            buttonInStarting: false,
-            ApiDetails: {
-              DataApi: "",
-            },
-            columns: [
-              {
-                field: "Id",
-                headerName: "Id",
-                width: "40",
-                widget: "api",
-              },
-              {
-                field: "Name",
-                width: "150",
-                headerName: "Name",
-                widget: "api",
-              },
-              {
-                field: "Disbursal Amount",
-                headerName: "Disbursal Amount",
-                width: "150",
-                widget: "api",
-              },
-              {
-                field: "Released Amount",
-                width: "240",
-                headerName: "Released Amount",
-                widget: "api",
-              },
-              {
-                field: "Payout",
-                width: "240",
-                headerName: "Payout",
-                widget: "api",
-              },
-            ],
           },
         },
         {
           type: "Control",
           scope: "#/properties/invoiceNumber",
-          layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
           options: {
             widget: "InputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
               label: "Invoice No.",
-              errorMessage:"Invoice No. is empty or invalid"
+              errorMessage: "Invoice No. is empty or invalid",
             },
           },
         },
@@ -245,9 +246,10 @@ export const InvoiceGenerationUiSchema = {
           options: {
             widget: "Button",
           },
-          layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
-          value: {
-            content: {
+
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
               name: "Generate",
               startIcon: "ApproveIcon",
               variant: "contained",
@@ -259,27 +261,28 @@ export const InvoiceGenerationUiSchema = {
             },
             style: {
               width: "35%",
-              float: "right"
-            }
+              float: "right",
+            },
           },
-        }
+        },
       ],
     },
     {
       type: "HorizontalLayout",
-      defaultStyle: true,
+      config: { defaultStyle: true },
       elements: [
         {
           type: "Control",
           scope: "#/properties/heading",
-          layout: 11.5,
+
           options: {
             widget: "Box",
           },
-          value: {
-            content: {
+          config: {
+            layout: 11.5,
+            main: {
               heading: "Invoice Review List",
-              dividerAvailable:true
+              dividerAvailable: true,
             },
           },
         },
@@ -294,103 +297,100 @@ export const InvoiceGenerationUiSchema = {
         {
           type: "Control",
           scope: "#/properties/invoiceReportList",
-          layout: 11.5,
           options: {
             widget: "Table",
-            addCheckBoxRow: true,
-            loadFunction: "invoiceTableDataLoad",
-            tableStyle: {
-              backgroundColor: "#F5F5F5",
-            },
-            buttonInStarting: false,
-            ApiDetails: {
-              DataApi: "",
-            },
-            columns: [
-              {
-                field: "Id",
-                headerName: "Id",
-                width: "40",
-                widget: "api",
-              },
-              {
-                field: "Invoice No.",
-                width: "150",
-                headerName: "Invoice No.",
-                widget: "api",
-              },
-              {
-                field: "Invoice Date",
-                headerName: "Invoice Date",
-                width: "150",
-                widget: "api",
-              },
-              {
-                field: "Payout",
-                width: "240",
-                headerName: "Invoice Amount",
-                widget: "api",
-              },
-              {
-                headerName: "Download File",
-                field: "downloadFile",
-                width: "120",
-                widget: {
-                  type: "Control",
-                  scope: "#/properties/Download_Records",
-                  options: {
-                    widget: "Button",
+          },
+          config: {
+            layout: 11.5,
+            main: {
+              allRowsData: [],
+              columns: {
+                dataColumns: [
+                  {
+                    accessorKey: "Id",
+                    header: "Id",
                   },
-                  value: {
-                    content: {
-                      color: "info",
-                      size: "small",
-                      icon: "DownloadIcon",
+                  {
+                    accessorKey: "Invoice No.",
+
+                    header: "Invoice No.",
+                  },
+                  {
+                    accessorKey: "Invoice Date",
+                    header: "Invoice Date",
+                  },
+                  {
+                    accessorKey: "Payout",
+
+                    header: "Invoice Amount",
+                  },
+                ],
+                actionColumns: [
+                  {
+                    header: "Download File",
+                    accessorKey: "downloadFile",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Download_Records",
+                      options: {
+                        widget: "Button",
+                      },
+                      config: {
+                        main: {
+                          color: "info",
+                          size: "small",
+                          icon: "DownloadIcon",
+                          onClick: "downloadFile",
+                        },
+                      },
                     },
                   },
-                },
-              },
-              {
-                headerName: "Delete File",
-                field: "deleteFile",
-                width: "120",
-                widget: {
-                  type: "Control",
-                  scope: "#/properties/Delete_Records",
-                  options: {
-                    widget: "Button",
-                  },
-                  value: {
-                    content: {
-                      color: "info",
-                      size: "small",
-                      icon: "DeleteIcon",
+                  {
+                    header: "Delete File",
+                    accessorKey: "deleteFile",
+
+                    widget: {
+                      type: "Control",
+                      scope: "#/properties/Delete_Records",
+                      options: {
+                        widget: "Button",
+                      },
+                      config: {
+                        main: {
+                          color: "info",
+                          size: "small",
+                          icon: "DeleteIcon",
+                          onClick: "deleteFile",
+                        },
+                      },
                     },
                   },
-                },
+                ],
               },
-            ],
+            },
           },
         },
         {
           type: "Control",
           scope: "#/properties/actions",
-          layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+
           options: {
             widget: "SelectInputField",
           },
-          value: {
-            content: {
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
               label: "Action",
               options: [
-                { label: "Approve", value: "Approve" },
-                { label: "Reject", value: "Reject" },
+                { label: "Approve", config: "Approve" },
+                { label: "Reject", config: "Reject" },
               ],
 
               required: true,
             },
             style: {
-              marginTop: "25px",
+              // marginTop: "25px",
             },
           },
         },
@@ -400,9 +400,10 @@ export const InvoiceGenerationUiSchema = {
           options: {
             widget: "Button",
           },
-          layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
-          value: {
-            content: {
+
+          config: {
+            layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+            main: {
               name: "Submit",
               startIcon: "ApproveIcon",
               variant: "contained",
@@ -413,10 +414,10 @@ export const InvoiceGenerationUiSchema = {
             },
             style: {
               width: "35%",
-              float: "right"
-            }
+              float: "right",
+            },
           },
-        }
+        },
       ],
     },
     {

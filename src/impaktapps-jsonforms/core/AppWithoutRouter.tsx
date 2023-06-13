@@ -9,18 +9,18 @@ import {
 import CommonSkeleton from "../renderers/common/Skeleton";
 import { useImpaktappsJsonformsStore } from "../renderers/context/useImpaktappsJsonformsStore";
 import { HomePropsType, impaktappsJsonformsPropsType } from "../renderers/interface/inputfieldProps";
-import { myTheme } from "../styles/StyleFactory";
+import { createStyleTheme } from "../styles/StyleFactory";
 
 function AppWithoutRouter({
   serviceHolder,
   permissions,
-  objStyle,
-  validation
+  styleTheme,
+  validationMode,
 }: impaktappsJsonformsPropsType) {
-  const theme = myTheme(objStyle);
+  const theme = createStyleTheme(styleTheme);
   const impaktappsJsonformsStore = useImpaktappsJsonformsStore(
     serviceHolder,
-    validation,
+    validationMode,
     "RouterUnavailable",
     theme,
     permissions

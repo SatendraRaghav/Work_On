@@ -43,8 +43,8 @@ const DownloadFile = memo(function (props:inputProps ) {
               path={`${id}:${fieldName}`}
               permissions={permissions}
             >
-                <Box sx={{paddingTop:"10px",fontFamily:"inherit"}} >
-                    {data?data:"No file uploaded."} 
+                <Box sx={{paddingTop:"10px",fontFamily:"inherit"}}color={errors && "red"} >
+                    {data?data:`No file uploaded`} <sup>{required && "*"}</sup>
                 </Box>
                 <IconButton
                         title="Download File"

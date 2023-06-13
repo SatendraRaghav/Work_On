@@ -13,7 +13,6 @@ export const CycleForm = (
 ) => {
   const serviceApi = myService(
     dynamicData?.setLoading,
-    store.setDialogBox,
     store.navigate
   );
   return {
@@ -126,7 +125,7 @@ export const CycleForm = (
             if (typeof elem === "string" || typeof elem === "number") {
               return { label: elem, value: elem };
             }
-            return elem.value;
+            return elem;
           }
         );
       const newData = {
@@ -135,17 +134,12 @@ export const CycleForm = (
         program: JSON.stringify(res.data.payload.program),
         startDate: res.data.payload.startDate,
         endDate: res.data.payload.endDate,
-
-        workflowFile:
-          res.data.payload.config.features.workflow.externalFileName,
-        workflowFileName:
+          downloadWorkflowFile:
           res.data.payload.config.features.workflow.externalFileName,
         workflowFileId:
           res.data.payload.config.features.workflow.externalDataId,
         processDefKey1: res.data.payload.config.features.workflow.processDefKey,
-
-        invoiceFile: res.data.payload.config.features.invoice.externalFileName,
-        invoiceFileName:
+        downloadInvoiceFile:
           res.data.payload.config.features.invoice.externalFileName,
         invoiceFileId: res.data.payload.config.features.invoice.externalDataId,
         invoiceEnabled: res.data.payload.config.features.invoice.enabled,

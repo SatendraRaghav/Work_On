@@ -16,12 +16,7 @@ const Date = memo(function(props:inputProps ){
   const { serviceProvider, id, permissions, theme, setDialogBox } =
     useContext(DataContext);
   const style = theme.useStyles();
-  const ctx = useJsonForms();
   const fieldName = getFieldName(path);
-  const callServiceProvider=(event:any,newValue?:any)=>{
-    serviceProvider(ctx, uischemaData, 
-      {event, path,paramValue:newValue});
-    }
   return (
     <Stack>
       <LocalizationProvider dateAdapter={AdapterDayjs} 
@@ -31,19 +26,12 @@ const Date = memo(function(props:inputProps ){
           path={`${id}:${fieldName}`}
           permissions={permissions}
         >
-
-          {/* <FormControl size={uischemaData?.size||"medium"}>
-            <PermissionWrapper
-              path={`${id}:${fieldName}`}
-              permissions={permissions}
-            > */}
               <DatePicker
                 label={uischemaData?.label}
                 className={style.dateStyle}
                 value={data || null}
                 onChange={(newValue) => {
                   handleChange(path, newValue);
-                  callServiceProvider({type:"change"},newValue)
                 }}
                 inputFormat={uischemaData?.inputFormat ?? "DD/MM/YYYY"}
                 orientation="landscape"
@@ -52,21 +40,11 @@ const Date = memo(function(props:inputProps ){
                   <TextField
                     {...params}
                     required={required}
-                    onKeyPress={e =>callServiceProvider(e)}
-                    onClick={e =>callServiceProvider(e)}
-                    onPointerEnter={(event)=>  callServiceProvider(event)}
-                    onPointerLeave={(event)=>  callServiceProvider(event)}
-                    onFocus={(event)=>  callServiceProvider(event)}
-                    onBlur={(event)=>  callServiceProvider(event)}
-                    onMouseEnter={(event)=>  callServiceProvider(event)}
                     value={data || null}
                   />
                 )}
               />
             </PermissionWrapper>
-            {/* <Helpertext uischemaData={uischemaData} errors={errors} />
-          </FormControl>
-        </PermissionWrapper> */}
       </LocalizationProvider>
     </Stack>
   );

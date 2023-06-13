@@ -36,34 +36,43 @@ const Wrapper = function Wrapper({
     [uischemas, schema, uischema.scope, path, uischema, rootSchema]
   );
   return (
-    <Box
-      sx={{
-        width: "98%",
-        margin: "15px auto ",
-        background: "white",
-        padding: "15px 1x",
-        borderRadius: "20px",
-        ...uischema?.config?.style?.wrapperStyle,
-      }}
-    >
-      {uischema?.config?.main?.label && (
-        <Box sx={{ padding: "20px", paddingBottom: "10px" }}>
+ 
+      <>
+    {uischema?.config?.main?.label && (
+        <Box sx={{ 
+          }}>
           <Typography
             component={"div"}
             sx={{
+               padding:"10px",
+              paddingLeft:"32px",
+             
               fontSize: { xs: "16px", sm: "20px" },
               fontFamily: "roboto",
               fontWeight: 500,
-              paddingBottom: "20px",
               ...uischema?.config?.style?.labelStyle,
             }}
           >
             {uischema.config?.main?.label}
           </Typography>
-          {uischema?.config?.main?.divider && <Divider></Divider>}
+          {uischema?.config?.main?.divider && <Divider sx={{paddingTop:"8px"}} variant="fullWidth"></Divider>}
         </Box>
       )}
-      <Box sx={{ padding: "20px", paddingBottom: "10px" }}>
+    <Grid2
+    container
+    xs={uischema?.config?.layout||11}
+    rowSpacing={0}
+    spacing={2}
+    justifyContent={'space-around'}
+    columnSpacing={4}
+      sx={{
+        width: "98%",
+        margin: "15px auto ",
+        background: "white",
+        borderRadius: "20px",
+        ...uischema?.config?.style?.wrapperStyle,
+      }}
+    >
         {!isEmpty(elements) &&
           elements.map((child: UISchemaElement | any, i: number) => {
             return (
@@ -109,8 +118,8 @@ const Wrapper = function Wrapper({
               </Grid2>
             );
           })}
-      </Box>
-    </Box>
+    </Grid2>
+    </>
   );
 };
 

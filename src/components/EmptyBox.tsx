@@ -4,9 +4,5 @@ export const EmptyBoxField =  {
     options: {
       widget: "EmptyBox",
     },
-    value: {
-        content: {
-     
-        },
-      },
+   config:{}
   }

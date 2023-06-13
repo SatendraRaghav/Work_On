@@ -3,12 +3,7 @@ export const PayoutReviewUiSchema = {
   pageName: "PayoutReview",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
           elements: [
             {
               type: "Control",
@@ -21,7 +16,7 @@ export const PayoutReviewUiSchema = {
                 layout: 5.5,
                 main: {
                   heading: "Payout Review",
-                },
+                }
               },
             },
             {
@@ -33,8 +28,6 @@ export const PayoutReviewUiSchema = {
               config: { layout: 5.5 },
             },
           ],
-        },
-      },
     },
     {
       type: "HorizontalLayout",

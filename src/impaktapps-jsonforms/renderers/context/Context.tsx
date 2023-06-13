@@ -6,7 +6,7 @@ export const DataContext = createContext<any>({});
 export const DataProvider = ({ children, impaktappsJsonformsStore }: any) => {
   const serviceProvider = (
     ctx: JsonFormsStateContext,
-    componentUiSchema: unknown,
+    componentUiSchema: any,
     additionalData: additionalDataProps
   ) => {
     if (componentUiSchema[additionalData.event._reactName]) {
@@ -14,14 +14,10 @@ export const DataProvider = ({ children, impaktappsJsonformsStore }: any) => {
         .getService({ ...impaktappsJsonformsStore, ctx }, additionalData)
         .then((res: any) => {
           return res[componentUiSchema[additionalData.event._reactName]](
-            additionalData?.paramValue
           );
         });
     }
   };
-  // const customChangeHandler = (data: any, errors?: any,) => {
-  //   impaktappsJsonformsStore.setFormdata(data);
-  // };
   return (
     <DataContext.Provider
       value={{ ...impaktappsJsonformsStore, serviceProvider: serviceProvider }}

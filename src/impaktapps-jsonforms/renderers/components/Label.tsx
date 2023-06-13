@@ -19,9 +19,6 @@ const Label = memo(function({ uischema, path }: inputProps){
     >
       {uischemaData?.heading}
     </Typography>
-    {uischemaData?.dividerAvailable &&
-      <Divider sx={{...theme.BoxDividerStyle,  ...uischema?.config?.dividerStyle,}}></Divider>
-}
     </>
   );
 });

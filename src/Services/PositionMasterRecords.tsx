@@ -7,7 +7,7 @@ export const PositionMasterRecords = (
   store:any,
   dynamicData:any
 ) => {
-  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
 
   return {
     setPage: async function () {
@@ -64,16 +64,14 @@ export const PositionMasterRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.position.PositionNewStaging",
-            entityValue: dynamicData.rowData,
+            entityValue: dynamicData?.rowData,
             action: "A",
           },
         })
         .then(async (res) => {
           console.log("approved");
-          const data = await this.getFormData();
-          store.setFormdata({
-            ...data,
-          });
+          const data = await this.getUiSchema();
+          store.setUiSchema(data)
           store.setNotify({ SuccessMessage: "Approved Successfully", Success: true });
         });
     },
@@ -84,15 +82,13 @@ export const PositionMasterRecords = (
           payload: {
             entityName:
               "com.act21.hyperform3.entity.master.position.PositionNewStaging",
-            entityValue: dynamicData.rowData,
+            entityValue: dynamicData?.rowData,
             action: "R",
           },
         })
         .then(async (res) => {
-          const data = await this.getFormData();
-          store.setFormdata({
-            ...data,
-          });
+          const data = await this.getUiSchema();
+          store.setUiSchema(data)
           store.setNotify({ SuccessMessage: "Rejected Successfully", Success: true });
         });
     },
@@ -101,7 +97,7 @@ export const PositionMasterRecords = (
       store.navigate("/PositionMaster");
     },
     Edit_Approve_Records: function () {
-      store.navigate(`/PositionMaster?id=${dynamicData.rowData.id}`);
+      store.navigate(`/PositionMaster?id=${dynamicData?.rowData.id}`);
     },
   };
 };

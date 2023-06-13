@@ -11,7 +11,6 @@ export const MasterForm = (
 ) => {
   const serviceApi = myService(
     dynamicData?.setLoading,
-    store?.setDialogBox,
     store.navigate
       );
   return {
@@ -99,7 +98,7 @@ export const MasterForm = (
       ) {
          store.setValidation("ValidateAndShow")
          store.setNotify({Fail:true,FailMessage:"Please fill all required fields"})
-        // setConfig("ValidateAndHide")
+        // setValidation("ValidateAndHide")
       } else {
         const groupRedesign =  store.ctx.core.data?.groupList?.map((elem: any) => {
           return JSON.parse(elem.value);

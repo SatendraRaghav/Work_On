@@ -13,15 +13,15 @@ export const buildUiSchema = (config: any,pageName:string) => {
       switch (config[i].type) {
         case "text":
           const inputField = JSON.parse(JSON.stringify(InputField));
-          inputField.value.content.label = config[i].name;
-          inputField.value.content.errorMessage = `${config[i].name} is empty or invalid`;
+          inputField.config.main.label = config[i].name;
+          inputField.config.main.errorMessage = `${config[i].name} is empty or invalid`;
           inputField.scope = myScope;
           elements.push(inputField);
           break;
         case "date":
           const dateInputField = JSON.parse(JSON.stringify(DateInputField));
-          dateInputField.value.content.label = config[i].name;
-          dateInputField.value.content.errorMessage = `${config[i].name} is empty or invalid`;
+          dateInputField.config.main.label = config[i].name;
+          dateInputField.config.main.errorMessage = `${config[i].name} is empty or invalid`;
           dateInputField.scope = myScope;
           elements.push(dateInputField);
           break;
@@ -29,17 +29,17 @@ export const buildUiSchema = (config: any,pageName:string) => {
           const selectInputField = JSON.parse(
             JSON.stringify(SelectInputField)
           );
-          selectInputField.value.content.label = config[i].name;
+          selectInputField.config.main.label = config[i].name;
           selectInputField.scope = myScope;
           if (config[i].hasOwnProperty("constant")) {
-            selectInputField.value.content.options = config[i].constant;
+            selectInputField.config.main.options = config[i].constant;
           }
           elements.push(selectInputField);
           break;
         case "button":
           const button = JSON.parse(JSON.stringify(Button));
           // elements.push(EmptyBox);
-          button.value.content.name = config[i].name;
+          button.config.main.name = config[i].name;
           elements.push(button);
           break;
       }

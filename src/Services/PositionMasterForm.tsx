@@ -9,7 +9,7 @@ export const PositionMasterForm = (
   store:any,
   dynamicData:any
 ) => {
-  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
       store.setFormdata({})
@@ -69,7 +69,7 @@ export const PositionMasterForm = (
       if (
         ! validateForm(store.schema, store.ctx.core.errors)
       ) {
-        store.setConfig("ValidateAndShow")
+        store.setValidation("ValidateAndShow")
         store.setNotify({FailMessage:"Please fill all required fields",Fail:true,})
       } else {
         let idDataRep: any;
@@ -84,8 +84,6 @@ export const PositionMasterForm = (
             idDataRep = rest1.data.payload;
           }).then(() => {
             serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.position.PositionNewStaging", entityValue: { ...store.ctx.core.data, type: idData, parent: idDataRep } } }).then((res) => {
-              //            service.post("/master/save?masterName=com.act21.hyperform3.entity.master.position.PositionNewStaging",store.ctx.core.data).then((res) => {    
-              store.setFormdata({ ...store.ctx.core.data});
               store.navigate("/PositionMasterRecords")
               store.setNotify({SuccessMessage:"Submitted Successfully",Success:true,})
             })

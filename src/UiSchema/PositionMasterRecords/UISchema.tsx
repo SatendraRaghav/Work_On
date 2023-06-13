@@ -98,6 +98,7 @@ export const PositionMasterRecordsUISchema = {
                           color: "info",
                           size: "small",
                           icon: "EditIcon",
+                          onClick:"Edit_Approve_Records",
                           tooltipMessage: "Edit This Record",
                         },
                         style: {

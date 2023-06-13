@@ -1,76 +1,76 @@
-
 export const ReportTemplate1UiSchema = () => {
-
   return {
     type: "HorizontalLayout",
-    pageStyle:{
-      height:"120vh",
+    pageStyle: {
+      height: "120vh",
     },
     elements: [
       {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
-          elements: [
-          {
-            type: "Control",
+        type: "Control",
+        scope: "#/properties/reportListWrapper",
+        options: {
+          widget: "Wrapper",
+          detail: {
+            type: "HorizontalLayout",
+            elements: [
+              {
+                type: "Control",
 
-            scope: "#/properties/programType",
+                scope: "#/properties/programType",
 
-            layout: 5.5,
+                options: {
+                  widget: "Box",
+                },
 
-            options: {
-              widget: "Box",
-            },
+                config: {
+                  layout: 5.5,
+                  main: {
+                    heading: window.localStorage.getItem("pageName"),
+                  },
 
-            value: {
-              content: {
-                heading: window.localStorage.getItem("pageName"),
+                  style: {
+                    fontWeight: "500",
+
+                    fontSize: "20px",
+
+                    background: "white",
+                  },
+                },
               },
+              {
+                type: "Control",
 
-              style: {
-                fontWeight: "500",
+                scope: "#/properties/EmptyBox",
 
-                fontSize: "20px",
+                config:{layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 }},
 
-                background: "white",
+                options: {
+                  widget: "EmptyBox",
+                },
               },
-            },
+            ],
           },
-          {
-            type: "Control",
-
-            scope: "#/properties/EmptyBox",
-
-            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
-
-            options: {
-              widget: "EmptyBox",
-            },
-          },
-        ]}},
+        },
       },
       {
         type: "HorizontalLayout",
-        config:{defaultStyle: true},
+        config: { defaultStyle: true },
 
         elements: [
           {
             type: "Control",
             scope: "#/properties/programType",
-            layout: {
+           
+            options: {
+              widget: "SelectInputField",
+            },
+            config: {
+               layout: {
               xs: 11,
               sm: 11,
               md: 5.5,
               lg: 5.5,
             },
-            options: {
-              widget: "SelectInputField",
-            },
-            value: {
               content: {
                 label: "Program",
                 options: [{}],

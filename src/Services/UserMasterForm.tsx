@@ -9,7 +9,7 @@ export const UserMasterForm = (
   store:any,
   dynamicData:any
 ) => {
-  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
       const schema = this.getSchema();
@@ -68,9 +68,9 @@ export const UserMasterForm = (
     },
     Submit_User: async function () {
       if (
-        ! validateForm(store.schema, store.ctx.core.errors)
+        ! validateForm(UserMasterSchema, store.ctx.core.errors)
       ) {
-        store.setConfig("ValidateAndShow")
+        store.setValidation("ValidateAndShow")
         store.setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
       } else {
         let idData: any;

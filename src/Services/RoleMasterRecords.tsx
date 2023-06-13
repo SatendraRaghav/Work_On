@@ -5,7 +5,7 @@ export const RoleMasterRecords = (
   store:any,
   dynamicData:any
 ) => {
-  const serviceApi = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
 
     setPage: async function () {
@@ -60,21 +60,17 @@ export const RoleMasterRecords = (
       return {};
     },
     RoleApprover: function () {
-      serviceApi.post("/master/action", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.role.RoleStaging", entityValue: dynamicData.rowData, action: "A" } }).then(async (res) => {
+      serviceApi.post("/master/action", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.role.RoleStaging", entityValue: dynamicData?.rowData, action: "A" } }).then(async (res) => {
         console.log("approved")
-        const data = await this.getFormData();
-        store.setFormdata({
-          ...data,
-        });
+        const data = await this.getUiSchema();
+        store.setUiSchema(data)
         store.setNotify({ SuccessMessage: "Approved successfully", Success: true, })
       })
     },
     Reject_Records: function () {
-      serviceApi.post("/master/action", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.role.RoleStaging", entityValue: dynamicData.rowData, action: "R" } }).then(async (res) => {
-        const data = await this.getFormData();
-        store.setFormdata({
-          ...data,
-        });
+      serviceApi.post("/master/action", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.role.RoleStaging", entityValue: dynamicData?.rowData, action: "R" } }).then(async (res) => {
+        const data = await this.getUiSchema();
+        store.setUiSchema(data)
         store.setNotify({ SuccessMessage: "Rejected successfully", Success: true, })
       });
     },
@@ -83,7 +79,7 @@ export const RoleMasterRecords = (
       store.navigate("/RoleMaster")
     },
     Edit_Approve_Records: function () {
-      store.navigate(`/RoleMaster?id=${dynamicData.rowData.id}`)
+      store.navigate(`/RoleMaster?id=${dynamicData?.rowData.id}`)
     }
 
   };

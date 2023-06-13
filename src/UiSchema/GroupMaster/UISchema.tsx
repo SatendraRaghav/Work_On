@@ -39,7 +39,7 @@ export const GroupMasterUISchema = {
               icon: "BackIcon",
               styleDefault: true,
               size: "small",
-              funcName: "backHandler",
+              onClick: "backHandler",
               tooltipMessage: "Back",
             },
             style: {
@@ -73,13 +73,12 @@ export const GroupMasterUISchema = {
           "scope": "#/properties/positionList",
          
           "options": {
-            "widget": "SelectInputField"
+            "widget": "MultipleSelect"
           },
           "config": { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
             "main": {
               "label": "Position List",
               options: [{}],
-              "multiple": true,
               errorMessage:"Positions are not selected"
             }
           }
@@ -120,7 +119,7 @@ export const GroupMasterUISchema = {
               variant: "contained",
               color: "info",
               type: "text",
-              "funcName": "Submit",
+              "onClick": "Submit",
               "size": "medium"
             },
             style: {

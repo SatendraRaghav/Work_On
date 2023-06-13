@@ -25,7 +25,7 @@ export function DailogBox({ open, setOpen }) {
         <DialogTitle id="alert-dialog-title">Session Expired</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            "Please Login again to continue.
+            Please Login again to continue.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

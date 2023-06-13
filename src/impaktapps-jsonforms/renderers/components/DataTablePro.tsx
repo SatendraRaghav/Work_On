@@ -16,6 +16,7 @@ import { DataContext } from "../context/Context";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { ExportToCsv } from "export-to-csv";
 import { inputProps } from "../interface/inputfieldProps";
+import _ from "lodash";
 
 export const DataTablePro = memo(function DataTablePro({
   path,
@@ -25,7 +26,7 @@ export const DataTablePro = memo(function DataTablePro({
   handleChange,
   data,
 }: inputProps) {
-  const { id, openNotify, setFormdata, theme } = useContext(DataContext);
+  const { id,theme } = useContext(DataContext);
   const uischemaData = uischema.config.main;
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [selection, setSelection] = useState({})
@@ -48,7 +49,7 @@ export const DataTablePro = memo(function DataTablePro({
     (elem) => elem.accessorKey
   );
   useEffect(()=>{
-    const selectedRows =uischemaData?.columns?.dataColumns?.filter((e, i) => {
+    const selectedRows =uischemaData?.columns?.allRowData?.filter((e, i) => {
       if (selection[i]) {
         return selection[i];
       }
@@ -84,19 +85,20 @@ export const DataTablePro = memo(function DataTablePro({
         enableRowActions={
           uischemaData?.columns?.actionColumns?.length > 0 ? true : false
         }
+       
         enableRowSelection
         enableGlobalFilter
         enableStickyFooter
         enableStickyHeader
+     
         displayColumnDefOptions={{ "mrt-row-actions": { minSize: 150 } }}
-        positionActionsColumn={"last"}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
             {uischemaData?.columns?.actionColumns?.map(
               (elem: UISchemaElement | any, i: number) => {
                 const childPath = composePaths(path, `${i}`);
-                const widget = JSON.parse(JSON.stringify(elem.widget));
-                widget.config.main.rowData  = row.original;
+                const widget = _.cloneDeep(elem.widget);
+                widget.config.main.additionalData  ={ ...widget.config.main?.additionalData,rowData:row.original};
                 return (
                   <JsonFormsDispatch
                     schema={schema}
@@ -110,6 +112,7 @@ export const DataTablePro = memo(function DataTablePro({
             )}
           </Box>
         )}
+           positionActionsColumn="last"
         renderTopToolbarCustomActions={({ table }) => (
           <Box sx={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
             <Button

@@ -9,24 +9,15 @@ import { template1 } from "./template1";
 
 
 export const templateServiceFactory =    (
-  pageName?:any,
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setConfig?: any,
-  setAdditionalErrors?: any,
-  setNotify?:any
+  store:any,
+  dynamicData:any
 ) => {
   const service = myService()
           return {
             masterTemplate:  async ( )=>{
               const data = JSON.stringify({
                 payload: {
-                  name: pageName,
+                  name: store.pageName,
                 },
               });
               const result = await  service
@@ -40,12 +31,8 @@ export const templateServiceFactory =    (
                   const template = response.data.payload.templateMaster.name;
                   switch (template) {
                     case "ReportTemplate1":
-                     return template1(pageName,ctx,
-                      setFormdata,
-                      setUiSchema,
-                      setSchema,
-                      navigate,
-                      otherData,config,schema,setConfig,setAdditionalErrors,setNotify)
+                     return template1(store,
+                      dynamicData,config,)
                     case "ReportTemplate2":
                       break;
                     case "ReportTemplate3":

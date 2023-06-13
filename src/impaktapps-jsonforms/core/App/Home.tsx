@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { JsonForms, JsonFormsStateContext, useJsonForms } from "@jsonforms/react";
+import {
+  JsonForms,
+  useJsonForms,
+} from "@jsonforms/react";
 import { materialCells } from "@jsonforms/material-renderers";
 import renderers from "../../renderers";
 import { DataProvider } from "../../renderers/context/Context";
@@ -13,55 +16,49 @@ import {
 } from "@mui/material";
 import CommonSkeleton from "../../renderers/common/Skeleton";
 import { useImpaktappsJsonformsStore } from "../../renderers/context/useImpaktappsJsonformsStore";
-import { HomePropsType, additionalDataProps } from "../../renderers/interface/inputfieldProps";
+import {
+  HomePropsType,
+} from "../../renderers/interface/inputfieldProps";
 
 function Home({
   serviceHolder,
   theme,
   permissions,
-  validation,
+  validationMode,
   pageName,
 }: HomePropsType) {
   const [loading, setLoading] = useState(false);
   const impaktappsJsonformsStore = useImpaktappsJsonformsStore(
     serviceHolder,
-    validation,
+    validationMode,
     pageName,
     theme,
     permissions
   );
-  const callService = () => {
+  const pageSetter = () => {
     impaktappsJsonformsStore.uiSchema && setLoading(true);
     serviceHolder.getService(impaktappsJsonformsStore).then((res: any) => {
       res.setPage().then(() => {
-        window.scrollTo(0, 0)
+        impaktappsJsonformsStore.setValidation("ValidateAndHide");
+        window.scrollTo(0, 0);
         setTimeout(() => {
           setLoading(false);
-         
         }, 100);
       });
     });
   };
-  
-  const serviceProvider = (
-    ctx: JsonFormsStateContext
-  ) => {
-      impaktappsJsonformsStore.serviceHolder
-        .getService({ ...impaktappsJsonformsStore, ctx } )
-        .then((res: any) => {
-          return res?res.onChange():"";
-        });
-    }
-    const ctx = useJsonForms()
+
+  const ctx = useJsonForms();
   const changeHandler = (data: any, errors: any) => {
-    
-    // impaktappsJsonformsStore.setPreData(impaktappsJsonformsStore.formData)
-    impaktappsJsonformsStore.setFormdata(data);
-    serviceProvider(ctx)
+    impaktappsJsonformsStore.updateFormdata(data);
+    impaktappsJsonformsStore.serviceHolder
+      .getService({ ...impaktappsJsonformsStore, ctx })
+      .then((res: any) => {
+        return res?.onChange && res.onChange();
+      });
   };
   useEffect(() => {
-
-    callService();
+    pageSetter();
   }, [impaktappsJsonformsStore.pageName]);
   return (
     <div>
@@ -79,9 +76,8 @@ function Home({
               uischema={impaktappsJsonformsStore.uiSchema}
               renderers={renderers}
               cells={materialCells}
-              onChange={({ data, errors}) => changeHandler(data, errors)}
+              onChange={({ data, errors }) => changeHandler(data, errors)}
               validationMode={impaktappsJsonformsStore.updatedValidation}
-              
             />
 
             <Dialog open={loading}>

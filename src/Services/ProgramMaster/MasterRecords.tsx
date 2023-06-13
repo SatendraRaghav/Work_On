@@ -6,7 +6,7 @@ import { dynamicDataType } from "../../utils/dynamicDataType";
 export const MasterRecords = (store: any,dynamicData?:dynamicDataType) => {
   const serviceApi = myService(
     dynamicData?.setLoading,
-    store?.setDialogBox,
+    
     store.navigate
   );
   return {
@@ -64,15 +64,13 @@ export const MasterRecords = (store: any,dynamicData?:dynamicDataType) => {
           id: 1,
           payload: {
             entityName: "com.act21.hyperform3.entity.program.ProgramStaging",
-            entityValue: dynamicData.rowData,
+            entityValue: dynamicData?.rowData,
             action: "A",
           },
         })
         .then(async (res) => {
-          const data = await this.getFormData();
-          store.setFormdata({
-            ...data,
-          });
+          const data = await this.getUiSchema();
+          store.setUiSchema(data)
           store.setNotify({
             SuccessMessage: "Approved successfully",
             Success: true,
@@ -85,15 +83,13 @@ export const MasterRecords = (store: any,dynamicData?:dynamicDataType) => {
           id: 1,
           payload: {
             entityName: "com.act21.hyperform3.entity.program.ProgramStaging",
-            entityValue: dynamicData.rowData,
+            entityValue: dynamicData?.rowData,
             action: "R",
           },
         })
         .then(async (res) => {
-          const data = await this.getFormData();
-          store.setFormdata({
-            ...data,
-          });
+          const data = await this.getUiSchema();
+          store.setUiSchema(data)
           store.setNotify({
             SuccessMessage: "Rejected successfully",
             Success: true,
@@ -101,7 +97,7 @@ export const MasterRecords = (store: any,dynamicData?:dynamicDataType) => {
         });
     },
     Edit_Approve_Records: function () {
-      store.navigate(`/MasterForm?id=${dynamicData.rowData.id}`);
+      store.navigate(`/MasterForm?id=${dynamicData?.rowData.id}`);
     },
     addNewRecords: function () {
       store.navigate("/MasterForm");

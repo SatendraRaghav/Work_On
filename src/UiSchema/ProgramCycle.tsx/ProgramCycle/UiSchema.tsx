@@ -303,7 +303,7 @@ export const ProgramMasterCycleUiSchema = {
               scope: "#/properties/reportNames",
 
               options: {
-                widget: "SelectInputField",
+                widget: "MultipleSelect",
               },
               config: {
                 layout: { xs: 12, sm: 10, md: 6, lg: 6 },
@@ -312,8 +312,6 @@ export const ProgramMasterCycleUiSchema = {
                   loadFunction: "",
                   color: "secondary",
                   variant: "standard",
-
-                  multiple: true,
                   options: [
                     { label: "DSL", config: "DSL" },
                     { label: "PSL", config: "PSL" },

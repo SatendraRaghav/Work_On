@@ -11,13 +11,21 @@ export const ProgramMasterCycleSchema = {
     
     workflowFile: {
       type: "string",
-      minLength: 3,
+      // minLength: 3,
+    },
+    downloadWorkflowFile:{
+      type: "string",
+      // minLength: 3,
     },
     processDefKey1: {
       type: "string",
       minLength: 3,
     },
     invoiceFile: {
+      type: "string",
+      // minLength: 3,
+    },
+    downloadInvoiceFile:{
       type: "string",
       minLength: 3,
     },
@@ -28,6 +36,6 @@ export const ProgramMasterCycleSchema = {
       type: "string",
     }
   },
-  required: ["name", "program", "startDate", "endDate", "workflowFile", "processDefKey1", "invoiceFile",
+  required: ["name", "program", "startDate", "endDate", "downloadWorkflowFile", "processDefKey1", "downloadInvoiceFile",
     "invoiceEnabled", "reportNames", "clawbackEnabled"],
 };

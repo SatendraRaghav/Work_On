@@ -18,7 +18,7 @@ export const useImpaktappsJsonformsStore = (ServiceHolder: any, validation:Valid
   const [formData, setFormdata] = useState({});
   const [uiSchema, setUiSchema] = useState< any>("");
   const [schema, setSchema] = useState<any>({});
-  const [updatedValidation, setValidation] = useState<ValidationMode >(validation||"NoValidation");
+  const [updatedValidation, setValidation] = useState<ValidationMode >(validation||"ValidateAndHide");
   const [searchParams, setSearchParams] =
     id !== "RouterUnavailable" && useSearchParams();
   const navigate = id !== "RouterUnavailable" && useNavigate();

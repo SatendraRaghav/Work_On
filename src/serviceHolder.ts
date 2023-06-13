@@ -35,7 +35,7 @@ export const serviceHolder = {
   getService: async (store: any, dynamicData?: dynamicDataType) => {
     navigator = store.navigate;
     const pageName = store.pageName;
-    if (pageName === "start") return Login(store, dynamicData);
+    if (pageName === "initial") return Login(store, dynamicData);
     if (pageName === "Home") return Home(store, dynamicData);
     if (pageName === "MasterRecords")
       return MasterRecords(store, dynamicData);
@@ -69,6 +69,8 @@ export const serviceHolder = {
     if (pageName === "InvoiceGeneration") return InvoiceGeneration(store, dynamicData);
     if (pageName === "MasterForm") return MasterForm(store, dynamicData);
     if (pageName === "MasterRecords") return MasterRecords(store, dynamicData);
+    if (pageName.startsWith("template")) {
+       return await templateServiceFactory(  store, dynamicData ).masterTemplate()};
     return error(store, dynamicData);
   },
 };

@@ -9,7 +9,7 @@ export const CycleRecords = (
 ) => {
   const serviceApi = myService(
     dynamicData?.setLoading,
-    store.setDialogBox,
+    
     store.navigate
   );
   return {
@@ -92,7 +92,7 @@ export const CycleRecords = (
     },
     Approve_Records: function () {
       const Api =
-        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${dynamicData.rowData.id }`;
+        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${dynamicData?.rowData.id }`;
       serviceApi
         .get(Api)
         .then((res) => {
@@ -105,17 +105,15 @@ export const CycleRecords = (
 
           )})
         .then(async (res) => {
-         const data =   await this.getFormData();
-         store.setFormdata({
-            ...data,
-          });
+         const data =   await this.getUiSchema();
+         store.setUiSchema(data)
           store.setNotify({SuccessMessage:"Approved Successfully",Success:true,})
         })
         .catch((e) => console.log(e));
     },
     Reject_Records: async function () {
       const Api =
-        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${dynamicData.rowData.id}`;
+        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${dynamicData?.rowData.id}`;
       await serviceApi
         .get(Api)
         .then((res) => {
@@ -128,15 +126,13 @@ export const CycleRecords = (
           );
         })
         .then( async (res) => {
-          const data =   await this.getFormData();
-          store.setFormdata({
-            ...data
-          });
+          const data =   await this.getUiSchema();
+          store.setUiSchema(data)
           store.setNotify({SuccessMessage:"Rejected Successfully",Success:true,})
         });
     },
     Edit_Approve_Records: function () {
-      store.navigate(`/CycleForm?id=${dynamicData.rowData.id}`)
+      store.navigate(`/CycleForm?id=${dynamicData?.rowData.id}`)
     },
     addNewRecords: function () {
       store.navigate("/CycleForm")

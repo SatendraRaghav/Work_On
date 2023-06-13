@@ -7,17 +7,12 @@ import { getFieldName } from "../permissions/getFieldName";
 import { inputProps } from "../interface/inputfieldProps";
 import Helpertext from "../common/Helpertext";
 
-const ImpaktAppsSelect = memo(
-  function CustomSelect(props: inputProps) {
-  const {errors, uischema, data, required, handleChange, path } = props;
+const ImpaktAppsSelect = memo(function CustomSelect(props: inputProps) {
+  const { errors, uischema, data, required, handleChange, path } = props;
   const uischemaData = uischema?.config?.main;
-  const { id, permissions, theme, serviceProvider } =
-    useContext(DataContext);
-    const ctx = useJsonForms();
+  const { id, permissions, theme, serviceProvider } = useContext(DataContext);
+  const ctx = useJsonForms();
   const fieldName = getFieldName(path);
-  const callServiceProvider = (event: any, value?: unknown) => {
-    serviceProvider(ctx, uischemaData, { event, path,paramValue:value });
-  };
   return (
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
       <FormControl
@@ -40,18 +35,8 @@ const ImpaktAppsSelect = memo(
           defaultValue={props.data !== undefined ? data : ""}
           value={props.data !== undefined ? data : ""}
           autoFocus={uischemaData?.autoFocus}
-          onChange={(event) => { 
-            console.log(event.target.value)
-            handleChange(path, event.target.value || undefined)
-            callServiceProvider( event,event.target.value);}}
-     
-          onPointerEnter={(event) => callServiceProvider(event)}
-          onPointerLeave={(event) => callServiceProvider(event)}
-          onFocus={(event) => callServiceProvider(event)}
-          onBlur={(event) => callServiceProvider(event)}
-          onMouseEnter={(event) => callServiceProvider(event)}
-          onKeyPress={(event)=>{
-            callServiceProvider(event);
+          onChange={(event) => {
+            handleChange(path, event.target.value || undefined);
           }}
         >
           {uischemaData?.options?.map((elem: any, i: number) => (

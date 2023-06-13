@@ -11,7 +11,7 @@ export const InvoiceGeneration = (
     store:any,
     dynamicData:any
 ) => {
-    const service = myService(store.setLoading, store.setDialogBox, store.navigate);
+    const service = myService(dynamicData?.setLoading,  store.navigate);
     return {
         setPage: async function () {
             var formdata = await this.getFormdata();
@@ -39,7 +39,7 @@ export const InvoiceGeneration = (
                     return { label: elem.name, value: elem.id };
                 });
                 //@ts-ignore
-                uiSchema.elements[1].elements[4].value.content.options = data;
+                uiSchema.elements[1].elements[4].config.main.options = data;
             })
                 .catch((error) => {
                     console.log(error);
@@ -51,13 +51,10 @@ export const InvoiceGeneration = (
         getSchema: () => {
             return InvoiceGenerationSchema;
         },
-        loadCycle: async (value: any) => {
+        onChange: async (v) => {
             const uiSchema = InvoiceGenerationUiSchema;
             const result: any = await service
-                .get(`/programCycle/getByProgramId?id=${value
-                    ? value
-                    : undefined
-                    } `)
+                .get(`/programCycle/getByProgramId?id=${store.newData.programType} `)
                 .then((response: any) => {
 
                     const result1 = response.data.payload.map((elem: any) => {
@@ -65,39 +62,42 @@ export const InvoiceGeneration = (
                         return cycle;
                     });
                     //@ts-ignore
-                    uiSchema.elements[1].elements[5].value.content.options = result1;
+                    uiSchema.elements[1].elements[5].config.main.options = result1;
                     store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
                 })
                 .catch((error) => {
                     return [{}];
                 });
-        }, loadTables: async function () {
-            if (store.ctx.core.data.programType === undefined) {
+        }, 
+        loadTables: async function () {
+            const uischema = InvoiceGenerationUiSchema;
+            if (store.formData.programType === undefined) {
                 store.setNotify({ FailMessage: "Please Select Program", Fail: true, })
-                store.setConfig("ValidateAndShow")
+                store.setValidation("ValidateAndShow")
                 return;
             }
-            if (store.ctx.core.data.programCycle === undefined) {
+            if (store.formData.programCycle === undefined) {
                 store.setNotify({ FailMessage: "Please Select Program Cycle", Fail: true, })
-                store.setConfig("ValidateAndShow")
+                store.setValidation("ValidateAndShow")
                 return;
             }
 
             await this.LoadFunction().then((res: any) => {
-                store.setFormdata({
-                    ...store.ctx.core.data,
-                    "caseLevelReportList": res[0],
-                    "invoiceReportList": res[1]
-                })
+                //@ts-ignore
+                uischema.elements[2].elements[2].config.main.allRowsData = res[0]
+                 //@ts-ignore
+                uischema.elements[3].elements[2].config.main.allRowsData = res[1]
+                store.setUiSchema(uischema);
             }).catch((err: any) => {
-                store.setFormdata({
-                    ...store.ctx.core.data,
-                    "caseLevelReportList": [],
-                    "invoiceReportList": []
-                })
+                store.setUiSchema(uischema);
+                // store.setFormdata({
+                //     ...store.ctx.core.data,
+                //     "caseLevelReportList": [],
+                //     "invoiceReportList": []
+                // })
             });
 
-            store.setUiSchema(InvoiceGenerationUiSchema);
+          
         },
         LoadFunction: async () => {
 
@@ -164,7 +164,7 @@ export const InvoiceGeneration = (
             if (
                 !validateForm(store.schema, store.ctx.core.errors)
             ) {
-                store.setConfig("ValidateAndShow")
+                store.setValidation("ValidateAndShow")
                 store.setNotify({ FailMessage: "Please fill all required fields", Fail: true, })
                 return;
             }
@@ -181,12 +181,17 @@ export const InvoiceGeneration = (
 
                     return this.LoadFunction();
                 }).then(res => {
-                    store.setFormdata({
-                        ...store.ctx.core.data,
-                        "caseLevelReportList": res[0],
-                        "invoiceReportList": res[1]
-                    })
-                    store.setUiSchema(InvoiceGenerationUiSchema);
+                       //@ts-ignore
+                InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
+                //@ts-ignore
+                InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
+               store.setUiSchema(InvoiceGenerationUiSchema);
+                    // store.setFormdata({
+                    //     ...store.ctx.core.data,
+                    //     "caseLevelReportList": res[0],
+                    //     "invoiceReportList": res[1]
+                    // })
+                    // store.setUiSchema(InvoiceGenerationUiSchema);
                     store.setNotify({ SuccessMessage: "Invoice Generated Succesfully", Success: true, })
                 }).catch(error => {
                     console.log(error);
@@ -222,13 +227,17 @@ export const InvoiceGeneration = (
                     return this.LoadFunction();
                 }).then(res => {
                     const message = store.ctx.core.data.actions === "Reject" ? "Rejected" : "Approved"
-
-                    store.setFormdata({
-                        ...store.ctx.core.data,
-                        "caseLevelReportList": res[0],
-                        "invoiceReportList": res[1]
-                    })
-                    store.setUiSchema(InvoiceGenerationUiSchema);
+                              //@ts-ignore
+                InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
+                //@ts-ignore
+                InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
+               store.setUiSchema(InvoiceGenerationUiSchema);
+                    // store.setFormdata({
+                    //     ...store.ctx.core.data,
+                    //     "caseLevelReportList": res[0],
+                    //     "invoiceReportList": res[1]
+                    // })
+                    // store.setUiSchema(InvoiceGenerationUiSchema);
                     store.setNotify({ SuccessMessage: message, Success: true, })
                 }).catch(error => {
                     store.setNotify({ FailMessage: "Error", Fail: true, })
@@ -237,7 +246,7 @@ export const InvoiceGeneration = (
         downloadFile: function () {
             const body = {
                 payload: {
-                    payoutInvoiceId: dynamicData.rowData.Id
+                    payoutInvoiceId: dynamicData?.rowData.Id
                 }
             }
             service.post("/invoice/download", body, { headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', }, })
@@ -252,19 +261,24 @@ export const InvoiceGeneration = (
         deleteFile: function () {
             const body = {
                 payload: {
-                    payoutInvoiceId: dynamicData.rowData.Id
+                    payoutInvoiceId: dynamicData?.rowData.Id
                 }
             }
             service.post("/invoice/delete", body, { headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', }, })
                 .then((response) => {
                     return this.LoadFunction()
                 }).then(res => {
-                    store.setFormdata({
-                        ...store.ctx.core.data,
-                        "caseLevelReportList": res[0],
-                        "invoiceReportList": res[1]
-                    })
-                    store.setUiSchema(InvoiceGenerationUiSchema);
+                             //@ts-ignore
+                InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
+                //@ts-ignore
+                InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
+               store.setUiSchema(InvoiceGenerationUiSchema);
+                    // store.setFormdata({
+                    //     ...store.ctx.core.data,
+                    //     "caseLevelReportList": res[0],
+                    //     "invoiceReportList": res[1]
+                    // })
+                    // store.setUiSchema(InvoiceGenerationUiSchema);
                     store.setNotify({ SuccessMessage: "Invoice Deleted Successfully", Success: true, })
                 })
                 .catch((error) => {

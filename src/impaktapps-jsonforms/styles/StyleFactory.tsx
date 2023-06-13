@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import { createTheme, ThemeProvider, ThemeOptions } from "@mui/material/styles";
 
-export const myTheme = (objProvidedStyle: any) => {
+export const createStyleTheme = (objProvidedStyle: any) => {
   const myTheme: any =
     objProvidedStyle?.theme ||
     createTheme({

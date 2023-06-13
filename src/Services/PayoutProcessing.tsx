@@ -10,7 +10,7 @@ export const PayoutProcessing = (
   store:any,
   dynamicData:any
 ) => {
-  const service = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const service = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
       var formdata = await this.getFormdata();
@@ -25,6 +25,7 @@ export const PayoutProcessing = (
     },
     getUiSchema: async function () {
       let uiSchema = PayoutProcessingUiSchema;
+      console.log(uiSchema)
       let data: any = null;
       await service
         .get("/program/getAll")
@@ -33,8 +34,8 @@ export const PayoutProcessing = (
             return { label: elem.name, value: elem.id };
           });
            //@ts-ignore
-          uiSchema.elements[2].options.detail.elements[2].config.main.options =
-            data;
+           uiSchema.elements[1].elements[0].config.main.options =
+           data;
         })
         .catch((error) => {
           console.log(error);
@@ -45,14 +46,12 @@ export const PayoutProcessing = (
     getSchema: () => {
       return PayoutProcessingSchema;
     },
-    loadCycle: async (value:any) => {
+    onChange: async () => {
       let uiSchema = PayoutProcessingUiSchema;
       const result: any = await service
         .get(
           `/programCycle/getByProgramId?id=${
-           value
-              ? value
-              : undefined
+           store.newData?.programType
           } `
         )
         .then((response: any) => {
@@ -61,7 +60,7 @@ export const PayoutProcessing = (
             return cycle;
           });
           //@ts-ignore
-          uiSchema.elements[2].options.detail.elements[3].config.main.options =
+          uiSchema.elements[1].elements[1].config.main.options =
             result1;
           store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         })
@@ -94,11 +93,7 @@ export const PayoutProcessing = (
         })
         .then((response) => {
           exceptionData = response;
-          store.setFormdata({
-            ...store.ctx.core.data,
-            "DataListWrapper.0.AuditList": auditData,
-            "DataListWrapper.0.ExceptionList": exceptionData,
-          });
+  
           store.setUiSchema(PayoutProcessingUiSchema);
           store.setSchema({});
           store.setNotify({SuccessMessage:"Data Loaded Successfully",Success:true,})
@@ -139,22 +134,20 @@ export const PayoutProcessing = (
         })
         .then(async (response) => {
           exceptionData = response;
-          store.setFormdata({
-            ...store.ctx.core.data,
-            "DataListWrapper.0.AuditList": auditData,
-            "DataListWrapper.0.ExceptionList": exceptionData,
-          });
+          //@ts-ignore
+          PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
+           //@ts-ignore
+          PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
 
           store.setUiSchema(PayoutProcessingUiSchema);
           store.setNotify({SuccessMessage:"Data Compute process completed",Success:true,})
 
         })
         .catch((err) => {
-          store.setFormdata({
-            ...store.ctx.core.data,
-            "DataListWrapper.0.AuditList": auditData,
-            "DataListWrapper.0.ExceptionList": exceptionData,
-          });
+          //@ts-ignore
+          PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
+           //@ts-ignore
+          PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
           store.setNotify({FailMessage:"Data Compute process failed",Fail:true,})
 
         });
@@ -183,24 +176,20 @@ export const PayoutProcessing = (
         })
         .then((response) => {
           exceptionData = response;
-          store.setFormdata({
-            ...store.ctx.core.data,
-            notifySuccess: "",
-            "DataListWrapper.0.AuditList": auditData,
-            "DataListWrapper.0.ExceptionList": exceptionData,
-          });
-
+           //@ts-ignore
+           PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
+            //@ts-ignore
+           PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
           store.setUiSchema(PayoutProcessingUiSchema);
           store.setNotify({SuccessMessage:"Workflow Has Been Started",Success:true,})
 
         })
         .catch((error) => {
           console.log(error);
-          store.setFormdata({
-            ...store.ctx.core.data,
-            "DataListWrapper.0.AuditList": auditData,
-            "DataListWrapper.0.ExceptionList": exceptionData,
-          });
+           //@ts-ignore
+           PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
+            //@ts-ignore
+           PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
         });
     },
     searchData: async () => {
@@ -235,7 +224,7 @@ export const PayoutProcessing = (
               modifiedOn: modifiedDateString,
             };
           });
-          const UiSchema = _.cloneDeep(PayoutProcessingUiSchema)
+          const UiSchema = PayoutProcessingUiSchema
           console.log(UiSchema)
           // UiSchema.elements[3].config.main.allRowsData = tempAuditData;
           //@ts-ignore

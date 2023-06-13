@@ -12,7 +12,7 @@ export const DataProvider = ({
   id = "Home",
   schema,
   setAdditionalErrors,
-  setConfig,
+  setValidation,
   permissions,
   theme,
   formData,
@@ -59,7 +59,7 @@ export const DataProvider = ({
           ...otherValues?.additionalData,
         },
         schema,
-        setConfig,
+        setValidation,
         setAdditionalErrors,
         setNotify
       )
@@ -82,7 +82,7 @@ export const DataProvider = ({
         serviceProvider,
         schema,
         setAdditionalErrors,
-        setConfig,
+        setValidation,
         permissions,
         theme,
         openNotify,

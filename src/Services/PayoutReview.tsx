@@ -9,7 +9,7 @@ export const PayoutReview = (
   store:any,
   dynamicData:any
 ) => {
-  const service = myService(store.setLoading, store.setDialogBox, store.navigate);
+  const service = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
       const formdata = await this.getFormdata();
@@ -22,10 +22,10 @@ export const PayoutReview = (
     },
     getFormdata: async () => {
       return {
-        ...store.ctx.core.data,
-        caseReportList: [],
-        summaryReportList: [],
-        pendingActionList: [],
+        // ...store.ctx.core.data,
+        // caseReportList: [],
+        // summaryReportList: [],
+        // pendingActionList: [],
       };
     },
     getUiSchema: async function () {
@@ -50,10 +50,10 @@ export const PayoutReview = (
     getSchema: () => {
       return PayoutReviewSchema;
     },
-    loadCycle: async function (value: any) {
+    onChange: async function () {
       const uiSchema = PayoutReviewUiSchema;
       await service
-        .get(`/programCycle/getByProgramId?id=${value} `)
+        .get(`/programCycle/getByProgramId?id=${  store.newData?.programType} `)
         .then((response: any) => {
           const result1 = response.data.payload.map((elem: any) => {
             const cycle = { label: elem.name, value: elem.id };
@@ -68,9 +68,9 @@ export const PayoutReview = (
         });
     },
     loadTable: async () => {
-      const UiSchema = _.cloneDeep(PayoutReviewUiSchema);
+      const UiSchema = PayoutReviewUiSchema;
       if (!validateForm(store.schema, store.ctx.core.errors)) {
-        store.setConfig("ValidateAndShow");
+        store.setValidation("ValidateAndShow");
         store.setNotify({
           FailMessage: "Please fill all required fields",
           Fail: true,
@@ -181,7 +181,7 @@ export const PayoutReview = (
           console.log(error);
         });
 
-      store.setUiSchema(PayoutReviewUiSchema);
+      // store.setUiSchema(PayoutReviewUiSchema);
       return tablesData;
     },
     actionFunction: async function () {
@@ -244,12 +244,19 @@ export const PayoutReview = (
         .then((response) => {
           const message =
             store.ctx.core.data.actions === "Reject" ? "Rejected" : "Approved";
-          store.setFormdata({
-            ...store.ctx.core.data,
-            caseReportList: response[0],
-            summaryReportList: response[1],
-            pendingActionList: response[2],
-          });
+              //@ts-ignore
+          PayoutReviewUiSchema.elements[2].elements[1].elements[0].config.main.allRowsData=response[0];
+          //@ts-ignore
+          PayoutReviewUiSchema.elements[2].elements[1].elements[1].config.main.allRowsData=response[1];
+          //@ts-ignore
+          PayoutReviewUiSchema.elements[3].elements[2].config.main.allRowsData = response[2];
+         store.setUiSchema(PayoutReviewUiSchema)
+          // store.setFormdata({
+          //   ...store.ctx.core.data,
+          //   caseReportList: response[0],
+          //   summaryReportList: response[1],
+          //   pendingActionList: response[2],
+          // });
           store.setNotify({ SuccessMessage: message, Success: true });
         })
         .catch((error) => {

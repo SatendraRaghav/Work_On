@@ -11,7 +11,7 @@ export const AgencyBranchRecords = (
   navigate?: any,
   otherData?: any,
   schema?: any,
-  setConfig?: any,
+  setValidation?: any,
   setAdditionalErrors?: any,
   setNotify?:any
 ) => {

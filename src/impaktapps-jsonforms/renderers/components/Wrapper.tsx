@@ -35,12 +35,13 @@ const Wrapper =  memo(function Wrapper ({
         background:"white",
          padding:"1x",
         borderRadius:"20px",
-        // ...uischema?.config?.style?.wrapperStyle,
-     
+        ...uischema?.config?.style?.wrapperStyle,
+        
       }}
     >
       {uischema.label &&
-      <Box sx={{ paddingTop:"20px",
+      <Box sx={{ 
+        paddingTop:"20px",
       paddingLeft:"20px",}}>
       <Typography
         component={"div"}
@@ -48,7 +49,7 @@ const Wrapper =  memo(function Wrapper ({
           fontSize: { xs: "16px", sm: "20px" },
           fontFamily:"roboto",
           fontWeight:500,
-            paddingBottom:"20px",
+            // paddingBottom:"20px",
           ...uischema?.config?.style?.labelStyle,
         }}
       >
