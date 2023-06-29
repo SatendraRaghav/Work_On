@@ -112,8 +112,8 @@ export const UserMasterForm = (
           selectOption = res.data?.payload?.map((e: any) => {
             return { label: e.name, value: e.id }
           });
-          //@ts-ignore
-          Ui.elements[2].elements[35].config.main.options = selectOption ? selectOption : [{ id: 1 }];
+          
+           Ui.elements[4].elements[0].config.main.options = selectOption ? selectOption : [{ id: 1 }];
         });
 
       await serviceApi
@@ -123,8 +123,8 @@ export const UserMasterForm = (
           selectPositionData = res.data?.payload?.map((e: any) => {
             return { label: e.name, value: e.id }
           });
-          //@ts-ignore
-          Ui.elements[2].elements[36].config.main.options = selectPositionData ? selectPositionData : [{ id: 1 }];
+          
+          Ui.elements[4].elements[1].config.main.options = selectPositionData ? selectPositionData : [{ id: 1 }];
         })
         ;
       console.log(Ui)

@@ -1,14 +1,14 @@
-export const ExternalDataUiSchema = {
+export const ExternalDataUiSchema :any= {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
-          elements: [
+      type: "WrapperLayout",
+      config:{
+        main:{
+          rowSpacing:3
+        }
+      },
+      elements: [
             {
               type: "Control",
               scope: "#/properties/pageHeading",
@@ -16,52 +16,24 @@ export const ExternalDataUiSchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 11.6,
                 main: {
                   heading: "External Data",
                 },
               },
-            },
-            {
-              type: "Control",
-              scope: "#/properties/EmptyBox",
-              options: {
-                widget: "EmptyBox",
-              },
-              config: {
-                layout: 5.5,
-              },
-            },
-          ],
-        },
-      },
+            }
+          ]
     },
     {
-      type: "HorizontalLayout",
-      config:{defaultStyle: true},
+      type: "WrapperLayout",
+      config:{
+        main:{
+        label:"Load External Data",
+        divider:true,
+        },
+        defaultStyle:true
+      },
       elements: [
-        {
-          type: "Control",
-          scope: "#/properties/heading",
-
-          options: {
-            widget: "Box",
-          },
-          config: {
-            layout: 11.5,
-            main: {
-              heading: "Load External Data",
-              dividerAvailable: true,
-            },
-          },
-        },
-        {
-          type: "Control",
-          scope: "#/properties/EmptyBox",
-          options: {
-            widget: "EmptyBox",
-          },
-        },
         {
           type: "Control",
           scope: "#/properties/programType",
@@ -73,7 +45,7 @@ export const ExternalDataUiSchema = {
             layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
             main: {
               label: "Program",
-              options: [{}],
+              options: [],
               color: "secondary",
               onClick: "typeLoadFunction",
             },
@@ -98,7 +70,7 @@ export const ExternalDataUiSchema = {
             main: {
               label: "Type",
               onClick: "clearFileName",
-              options: [{}],
+              options: [],
             },
           },
         },
@@ -154,8 +126,8 @@ export const ExternalDataUiSchema = {
           options: {
             widget: "Button",
           },
-          layout: 11.5,
-          config: {
+         
+          config: { layout: 11.5,
             main: {
               name: "Load",
               variant: "contained",
@@ -163,7 +135,7 @@ export const ExternalDataUiSchema = {
               type: "text",
               tooltipMessage: "Load Data",
 
-              funcName: "loadData",
+              onClick: "loadData",
               size: "large",
             },
             style: {
@@ -185,36 +157,17 @@ export const ExternalDataUiSchema = {
       options: {
         widget: "Notify",
       },
-      layout: 6,
     },
     {
-      type: "HorizontalLayout",
-      config:{defaultStyle: true},
+      type: "WrapperLayout",
+      config:{
+        main:{
+        label:"External Data List",
+        divider:true,
+        },
+        defaultStyle:true
+      },
       elements: [
-        {
-          type: "Control",
-          scope: "#/properties/pageHeading",
-          layout: 11.5,
-          options: {
-            widget: "Box",
-          },
-          config: {
-            main: {
-              heading: "External Data List",
-              dividerAvailable: true,
-            },
-          },
-        },
-        {
-          type: "Control",
-          scope: "#/properties/EmptyBox",
-          options: {
-            widget: "EmptyBox",
-          },
-          layout: 5.5,
-        },
-
-        //Table xcvbnhjklcvbn ghjkl; gukhilj;olk;lghbjnkml,; yguhijok'pl[ yuij;ok'p;l' ghjl;' vghbjnk]
         {
           type: "Control",
           scope: "#/properties/LoadRecords",

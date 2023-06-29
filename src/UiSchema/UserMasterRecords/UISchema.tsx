@@ -1,13 +1,13 @@
-export const UserMasterRecordsUISchema = {
+export const UserMasterRecordsUISchema:any= {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const UserMasterRecordsUISchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8.5,
                 main: {
                   heading: "User Master",
                 },
@@ -31,12 +31,7 @@ export const UserMasterRecordsUISchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: {
-                  xs: 6,
-                  sm: 4,
-                  md: 5.5,
-                  lg: 5.5,
-                },
+                layout:3,
                 main: {
                   name: "New Records",
                   icon: "AddIcon",
@@ -51,8 +46,6 @@ export const UserMasterRecordsUISchema = {
               },
             },
           ],
-        },
-      },
     },
     {
       type: "Control",
@@ -74,7 +67,7 @@ export const UserMasterRecordsUISchema = {
       config: {
         layout: 12,
         main: {
-          labels: ["Approve", "Pending", "Reject"],
+          tabLabels : ["Approve", "Pending", "Reject"],
         },
       },
       elements: [

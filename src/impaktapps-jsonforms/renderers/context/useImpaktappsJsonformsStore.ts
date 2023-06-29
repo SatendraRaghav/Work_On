@@ -2,10 +2,10 @@ import { useJsonForms } from "@jsonforms/react";
 import React from "react";
 import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { impaktappsJsonformsStore } from "./impaktappsJsonformsStore";
+import { ImpaktAppsJsonFormsStore } from "./impaktAppsJsonFormsStore";
 import {  ValidationMode } from "@jsonforms/core";
 
-export const useImpaktappsJsonformsStore = (ServiceHolder: any, validation:ValidationMode|undefined,pageName:string,theme: any, permissions?: any,) => {
+export const useImpaktAppsJsonFormsStore = (ServiceHolder: any, validation:ValidationMode|undefined,pageName:string,theme: any, permissions?: any,) => {
   const [openNotify, setNotify] = React.useState({
     Fail: false,
     FailMessage: "Error",
@@ -18,11 +18,11 @@ export const useImpaktappsJsonformsStore = (ServiceHolder: any, validation:Valid
   const [formData, setFormdata] = useState({});
   const [uiSchema, setUiSchema] = useState< any>("");
   const [schema, setSchema] = useState<any>({});
-  const [updatedValidation, setValidation] = useState<ValidationMode >(validation||"ValidateAndHide");
+  const [validationMode, setValidation] = useState<ValidationMode >(validation||"ValidateAndHide");
   const [searchParams, setSearchParams] =
     id !== "RouterUnavailable" && useSearchParams();
   const navigate = id !== "RouterUnavailable" && useNavigate();
-  const impaktappsJsonformsStoreInstance =  new impaktappsJsonformsStore(
+  const impaktappsJsonformsStoreInstance =  new ImpaktAppsJsonFormsStore(
     setFormdata,
     setUiSchema,
     setSchema,
@@ -30,8 +30,8 @@ export const useImpaktappsJsonformsStore = (ServiceHolder: any, validation:Valid
     setNotify,
     setSearchParams,
     navigate,
-    formData,uiSchema,schema,updatedValidation,openNotify,theme,permissions,ServiceHolder,id?id:pageName,searchParams
+    formData,uiSchema,schema,validationMode,openNotify,theme,permissions,ServiceHolder,id?id:pageName,searchParams
   )
   return impaktappsJsonformsStoreInstance;
 };
-export default useImpaktappsJsonformsStore;
+export default useImpaktAppsJsonFormsStore;

@@ -33,13 +33,13 @@ export const PayoutProcessing = (
           data = response.data.payload.map((elem: any) => {
             return { label: elem.name, value: elem.id };
           });
-           //@ts-ignore
+           
            uiSchema.elements[1].elements[0].config.main.options =
            data;
         })
         .catch((error) => {
           console.log(error);
-          return [{}];
+          return [];
         });
       return uiSchema;
     },
@@ -48,6 +48,7 @@ export const PayoutProcessing = (
     },
     onChange: async () => {
       let uiSchema = PayoutProcessingUiSchema;
+      if(  store.newData?.programType){
       const result: any = await service
         .get(
           `/programCycle/getByProgramId?id=${
@@ -59,14 +60,14 @@ export const PayoutProcessing = (
             const cycle = { label: elem.name, value: elem.id };
             return cycle;
           });
-          //@ts-ignore
+          
           uiSchema.elements[1].elements[1].config.main.options =
             result1;
           store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         })
         .catch((error) => {
-          return [{}];
-        });
+          return [];
+        });}
     },
     LoadFileData: async function () {
       let auditData: Array<any> = [];
@@ -134,9 +135,9 @@ export const PayoutProcessing = (
         })
         .then(async (response) => {
           exceptionData = response;
-          //@ts-ignore
+          
           PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
-           //@ts-ignore
+           
           PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
 
           store.setUiSchema(PayoutProcessingUiSchema);
@@ -144,9 +145,9 @@ export const PayoutProcessing = (
 
         })
         .catch((err) => {
-          //@ts-ignore
+          
           PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
-           //@ts-ignore
+           
           PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
           store.setNotify({FailMessage:"Data Compute process failed",Fail:true,})
 
@@ -176,9 +177,9 @@ export const PayoutProcessing = (
         })
         .then((response) => {
           exceptionData = response;
-           //@ts-ignore
+           
            PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
-            //@ts-ignore
+            
            PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
           store.setUiSchema(PayoutProcessingUiSchema);
           store.setNotify({SuccessMessage:"Workflow Has Been Started",Success:true,})
@@ -186,9 +187,9 @@ export const PayoutProcessing = (
         })
         .catch((error) => {
           console.log(error);
-           //@ts-ignore
+           
            PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
-            //@ts-ignore
+            
            PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
         });
     },
@@ -227,7 +228,7 @@ export const PayoutProcessing = (
           const UiSchema = PayoutProcessingUiSchema
           console.log(UiSchema)
           // UiSchema.elements[3].config.main.allRowsData = tempAuditData;
-          //@ts-ignore
+          
           UiSchema.elements[3].elements[0].config.main.allRowsData = tempAuditData
           console.log(UiSchema)
           ;
@@ -235,7 +236,7 @@ export const PayoutProcessing = (
         })
         .catch((error) => {
           console.log(error);
-          return [{}];
+          return [];
         });
     },
     AuditDataLoad: async function () {
@@ -275,7 +276,7 @@ export const PayoutProcessing = (
         })
         .catch((error) => {
           console.log(error);
-          return [{}];
+          return [];
         });
       return result;
     },
@@ -304,7 +305,7 @@ export const PayoutProcessing = (
         })
         .catch((error) => {
           console.log(error);
-          return [{}];
+          return [];
         });
 
       return result;

@@ -6,14 +6,12 @@ import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import { actions, DataContext } from '../Reducer';
 import { useContext } from 'react';
-import logo from "../Image/Act21-logo-300x75_adobe_express.svg"
-import { userValue,setUserValue } from '../Apple'; 
+// import logo from "../Image/Act21-logo-300x75_adobe_express.svg"
+import logo from "../assets/hyperformLogo.jpg";
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useProSidebar } from 'react-pro-sidebar';
-import "./style.css"
-
 
 export default function LoginHeader() {
   const { dispatch, state } = useContext(DataContext);
@@ -47,8 +45,8 @@ const AppBar = styled(MuiAppBar, {
       <CssBaseline />
       <AppBar position="fixed" >
         <Toolbar>
-          <Box sx={{marginRight:"40px"}}>
-        <img src = {logo} alt="impakt_logo" width={120} height={40}/></Box>
+          <Box sx={{marginLeft:"-30px"}}>
+        <img src = {logo} alt="impakt_logo" width={320} height={70} /></Box>
           <Box component={"div"} sx={{flexGrow:1}} />
         </Toolbar>
       </AppBar>

@@ -1,12 +1,10 @@
-import { JsonFormsStateContext } from "@jsonforms/react";
-import { ReportTemplate1UiSchema } from "../../UiSchema/Template/ReportTemplate1/UiSchema";
-import { InputField } from "../../components/TextInputField";
-import { DateInputField } from "../../components/DateInputField";
-import { SelectInputField } from "../../components/SelectInputField";
-import { Button } from "../../components/Button";
+
+import { reportUiSchema } from "../../UiSchema/Template/ReportTemplate1/UiSchema";
 import { myService } from "../../service/service";
 import { template1 } from "./template1";
-
+import { template2 } from "./template2";
+import { template3 } from "./template3";
+import { template4 } from "./template4";
 
 export const templateServiceFactory =    (
   store:any,
@@ -20,23 +18,47 @@ export const templateServiceFactory =    (
                   name: store.pageName,
                 },
               });
+              let pageData : any;
               const result = await  service
                 .post("/page/getByName", data, {
                   headers: {
                     "Content-Type": "application/json",
                   },
                 })
+                .then((response:any) =>{
+                  pageData = response;
+                  const data2 = JSON.stringify({
+                    payload: {
+                      pageId: pageData.data.payload.id,
+                    },
+                  });
+                  return service
+                  .post("/page/getConfiguredPageById", data2, {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  })
+                })
                 .then(  (response:any) => {
-                  const config = response.data.payload.config;
-                  const template = response.data.payload.templateMaster.name;
+                  if(!(response.data.payload === undefined || response.data.payload === null)){
+                    pageData = response;
+                  }
+                  const uiSchema = reportUiSchema;
+                  const schema = pageData.data.payload.schema;
+                  const template = pageData.data.payload.templateMaster.name;
                   switch (template) {
                     case "ReportTemplate1":
                      return template1(store,
-                      dynamicData,config,)
+                      dynamicData,uiSchema,schema)
                     case "ReportTemplate2":
-                      break;
+                      return template1(store,
+                        dynamicData,uiSchema,schema)
                     case "ReportTemplate3":
-                      break;
+                      return template3(store,
+                        dynamicData,uiSchema,schema)
+                        case "ReportTemplate4":
+                      return template4(store,
+                        dynamicData,uiSchema,schema)
                   }
                 
                 })

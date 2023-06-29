@@ -1,12 +1,10 @@
 import { error } from "./Services/Error";
 import Home from "./Services/Home";
-import Login from "./Services/Login";
 import { CycleForm } from "./Services/ProgramCycle/CycleForm";
 import { CycleRecords } from "./Services/ProgramCycle/CycleRecords";
 import { MasterForm } from "./Services/ProgramMaster/MasterForm";
 import { MasterRecords } from "./Services/ProgramMaster/MasterRecords";
 import { dynamicDataType } from "./utils/dynamicDataType";
-import { JsonFormsStateContext, useJsonForms } from "@jsonforms/react";
 import { UserMasterRecords } from "./Services/UserMasterRecords";
 import { UserMasterForm } from "./Services/UserMasterForm";
 import { RoleMasterForm } from "./Services/RoleMasterForm";
@@ -35,7 +33,7 @@ export const serviceHolder = {
   getService: async (store: any, dynamicData?: dynamicDataType) => {
     navigator = store.navigate;
     const pageName = store.pageName;
-    if (pageName === "initial") return Login(store, dynamicData);
+    if(pageName === "Profile") return Profile(store, dynamicData)
     if (pageName === "Home") return Home(store, dynamicData);
     if (pageName === "MasterRecords")
       return MasterRecords(store, dynamicData);
@@ -69,15 +67,10 @@ export const serviceHolder = {
     if (pageName === "InvoiceGeneration") return InvoiceGeneration(store, dynamicData);
     if (pageName === "MasterForm") return MasterForm(store, dynamicData);
     if (pageName === "MasterRecords") return MasterRecords(store, dynamicData);
+    // if (pageName === "Dashboard") return MasterRecords(store, dynamicData);
     if (pageName.startsWith("template")) {
        return await templateServiceFactory(  store, dynamicData ).masterTemplate()};
     return error(store, dynamicData);
   },
 };
 
-export const loginServiceHolder = {
-  getService: async (store: any, dynamicData?: any) => {
-    navigator = store.navigate;
-    return Login(store, dynamicData);
-  },
-};

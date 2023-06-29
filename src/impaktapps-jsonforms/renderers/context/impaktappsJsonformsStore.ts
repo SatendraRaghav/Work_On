@@ -2,7 +2,7 @@ import { ValidationMode } from "@jsonforms/core";
 import _ from "lodash";
 import { NavigateFunction } from "react-router"
 
-export class impaktappsJsonformsStore {
+export class ImpaktAppsJsonFormsStore {
   setFormdata: React.Dispatch<React.SetStateAction<{}>>
   setUiSchema: React.Dispatch<React.SetStateAction<{}>>
   setSchema: React.Dispatch<React.SetStateAction<{}>>
@@ -20,7 +20,7 @@ export class impaktappsJsonformsStore {
   formData: any
   uiSchema: any
   schema: any
-  updatedValidation: ValidationMode
+  validationMode: ValidationMode
   openNotify: {
     Fail: boolean;
     FailMessage: string;
@@ -50,7 +50,7 @@ export class impaktappsJsonformsStore {
     }>>,
     setSearchParams: any,
     navigate: NavigateFunction,
-    formData: any, uiSchema: any, schema: any, updatedValidation: ValidationMode, openNotify: {
+    formData: any, uiSchema: any, schema: any, validationMode: ValidationMode, openNotify: {
       Fail: boolean;
       FailMessage: string;
       Success: boolean;
@@ -69,7 +69,7 @@ export class impaktappsJsonformsStore {
     this.formData = formData;
     this.uiSchema = uiSchema;
     this.schema = schema;
-    this.updatedValidation = updatedValidation;
+    this.validationMode = validationMode;
     this.openNotify = openNotify;
     this.theme = theme;
     this.permissions = permissions;

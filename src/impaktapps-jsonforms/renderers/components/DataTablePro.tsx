@@ -1,11 +1,6 @@
 import MaterialReactTable from "material-react-table";
 import { Box, Button } from "@mui/material";
-import {
-  useEffect,
-  useState,
-  useContext,
-  memo,
-} from "react";
+import { useEffect, useState, useContext, memo } from "react";
 import {
   ArrayControlProps,
   UISchemaElement,
@@ -18,45 +13,49 @@ import { ExportToCsv } from "export-to-csv";
 import { inputProps } from "../interface/inputfieldProps";
 import _ from "lodash";
 
-export const DataTablePro = memo(function DataTablePro({
-  path,
-  schema,
-  uischema,
-  renderers,
-  handleChange,
-  data,
-}: inputProps) {
-  const { id,theme } = useContext(DataContext);
+export const DataTablePro = function DataTablePro(props: inputProps) {
+  const { data, uischema, path,schema,renderers, handleChange } =
+  props;
   const uischemaData = uischema.config.main;
-  const [tableLoading, setTableLoading] = useState<boolean>(true);
-  const [selection, setSelection] = useState({})
+  const [tableLoading, setTableLoading] = useState<boolean>(false);
+  const [selection, setSelection] = useState({});
+  const [tableData, setTableData] = useState<any>([]);
+  const { serviceHolder, pageName, id, theme,formData } = useContext(DataContext);
   useEffect(() => {
-    if (uischemaData.allRowsData) {
+    setTableData(data)
+    if (data) {
       setTableLoading(false);
     }
-  }, [uischemaData.allRowsData]);
-   const csvOptions = {
-    fieldSeparator:uischemaData?.csvOptions?.fieldSeparator?? ",",
-    quoteStrings:uischemaData?.csvOptions?.quoteStrings??'"',
-    decimalSeparator: uischemaData?.csvOptions?.decimalSeparator??".",
-    showLabels: uischemaData?.csvOptions?.showLabels??true,
-    useBom: uischemaData?.csvOptions?.useBom??true,
-    useKeysAsHeaders: uischemaData?.csvOptions?.useKeysAsHeaders??false,
-    headers:uischemaData?.csvOptions?.headers??uischemaData?.columns?.dataColumns?.map((c) => c.header),
-    filename: uischemaData?.csvOptions?.filename??id,
+    setTimeout(()=>{setTableLoading(false)},1000)
+  }, [data,formData]);
+  const csvOptions = {
+    fieldSeparator: uischemaData?.csvOptions?.fieldSeparator ?? ",",
+    quoteStrings: uischemaData?.csvOptions?.quoteStrings ?? '"',
+    decimalSeparator: uischemaData?.csvOptions?.decimalSeparator ?? ".",
+    showLabels: uischemaData?.csvOptions?.showLabels ?? true,
+    useBom: uischemaData?.csvOptions?.useBom ?? true,
+    useKeysAsHeaders: uischemaData?.csvOptions?.useKeysAsHeaders ?? false,
+    headers:
+      uischemaData?.csvOptions?.headers ??
+      uischemaData?.columns?.dataColumns?.map((c) => c.header),
+    filename: uischemaData?.csvOptions?.filename ?? id,
   };
   const allowedField = uischemaData?.columns?.dataColumns?.map(
     (elem) => elem.accessorKey
   );
-  useEffect(()=>{
-    const selectedRows =uischemaData?.columns?.allRowData?.filter((e, i) => {
+  
+  useEffect(() => {
+    const selectedRows = data?.filter((e, i) => {
       if (selection[i]) {
         return selection[i];
       }
       return false;
-    });  
-    handleChange(path,{id:selection,data:selectedRows})
-  },[selection])
+    });
+    handleChange(`Selected${path}`,{id:selection,data:selectedRows} );
+  }, [selection,data]);
+  // useEffect(()=>{
+
+  // },formData)
   const csvExporter = new ExportToCsv(csvOptions);
   const handleExportRows = (rows: any[]) => {
     csvExporter.generateCsv(
@@ -75,30 +74,35 @@ export const DataTablePro = memo(function DataTablePro({
     );
   };
   return (
-    <Box sx={{ width: "100%", overflowX: "auto" }}>
+    <div style={{ width: "100%", overflowX: "auto" }} className="myDiv">
       <MaterialReactTable
         columns={uischemaData?.columns?.dataColumns}
-        data={uischemaData.allRowsData ? uischemaData.allRowsData : []}
+        data={uischemaData.allRowsData||[]}
+        // data={data?data:[]}
         enableColumnResizing
-        state={{ isLoading: tableLoading, rowSelection:data?.id?data.id:[]}}
+        state={{
+          isLoading: tableLoading,
+          rowSelection:formData[`Selected${path}`]?.id?formData[`Selected${path}`].id:[],
+        }}
         onRowSelectionChange={setSelection}
         enableRowActions={
           uischemaData?.columns?.actionColumns?.length > 0 ? true : false
         }
-       
         enableRowSelection
         enableGlobalFilter
         enableStickyFooter
         enableStickyHeader
-     
         displayColumnDefOptions={{ "mrt-row-actions": { minSize: 150 } }}
         renderRowActions={({ row, table }) => (
-          <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
+          <Box sx={{ display: "flex", flexWrap: "nowrap" }}>
             {uischemaData?.columns?.actionColumns?.map(
               (elem: UISchemaElement | any, i: number) => {
                 const childPath = composePaths(path, `${i}`);
                 const widget = _.cloneDeep(elem.widget);
-                widget.config.main.additionalData  ={ ...widget.config.main?.additionalData,rowData:row.original};
+                widget.config.main.additionalData = {
+                  ...widget.config.main?.additionalData,
+                  rowData: row.original,
+                };
                 return (
                   <JsonFormsDispatch
                     schema={schema}
@@ -112,24 +116,29 @@ export const DataTablePro = memo(function DataTablePro({
             )}
           </Box>
         )}
-           positionActionsColumn="last"
+        positionActionsColumn="last"
         renderTopToolbarCustomActions={({ table }) => (
           <Box sx={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
             <Button
               disabled={table.getPrePaginationRowModel().rows.length === 0}
               size="small"
-              sx={{ ...theme.Buttonstyle, padding: "0 auto" }}
+              title="Export All Rows"
+              sx={{
+                ...theme.Buttonstyle,
+                paddingTop: { sx: "45px", sm: "auto" },
+              }}
               onClick={() =>
                 handleExportRows(table.getPrePaginationRowModel().rows)
               }
               startIcon={<FileDownloadIcon />}
               variant="contained"
             >
-              Export All Rows
+              All Rows
             </Button>
             <Button
-              sx={{ ...theme.Buttonstyle }}
+              sx={{ ...theme.Buttonstyle, padding: "0 auto" }}
               size="small"
+              title="Export All Selected Rows"
               disabled={
                 !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
               }
@@ -137,13 +146,13 @@ export const DataTablePro = memo(function DataTablePro({
               startIcon={<FileDownloadIcon />}
               variant="contained"
             >
-              Export Selected Rows
+              Selected
             </Button>
           </Box>
         )}
       />
-    </Box>
+    </div>
   );
-});
+};
 
 export default DataTablePro;

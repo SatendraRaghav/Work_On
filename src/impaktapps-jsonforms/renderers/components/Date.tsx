@@ -8,7 +8,7 @@ import { DataContext } from "../context/Context";
 import { getFieldName } from "../permissions/getFieldName";
 import { useJsonForms } from "@jsonforms/react";
 import { inputProps } from "../interface/inputfieldProps";
-import Helpertext from "../common/Helpertext";
+import Helpertext from "../common/HelperText";
 
 const Date = memo(function(props:inputProps ){
   const { data, handleChange, uischema, path, errors, required } = props;

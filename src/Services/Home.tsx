@@ -2,7 +2,7 @@ import { JsonFormsStateContext } from "@jsonforms/react";
 import {  myService } from "../service/service";
 import { HomeSchema } from "../UiSchema/Home/Schema";
 import { HomeUiSchema } from "../UiSchema/Home/UiSchema";
- const Home = (
+ const Home = async (
 store:any,
 dynamicData:any
 ) => {

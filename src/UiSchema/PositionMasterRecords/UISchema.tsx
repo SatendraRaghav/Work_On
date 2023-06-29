@@ -1,13 +1,13 @@
-export const PositionMasterRecordsUISchema = {
+export const PositionMasterRecordsUISchema :any= {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const PositionMasterRecordsUISchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8.5,
                 main: {
                   heading: "Position Master",
                 },
@@ -31,12 +31,7 @@ export const PositionMasterRecordsUISchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: {
-                  xs: 6,
-                  sm: 4,
-                  md: 5.5,
-                  lg: 5.5,
-                },
+                layout: 3,
                 main: {
                   icon: "AddIcon",
                   size: "small",
@@ -50,14 +45,12 @@ export const PositionMasterRecordsUISchema = {
               },
             },
           ],
-        },
-      },
     },
     {
       type: "TabLayout",
       config: {
         main: {
-          labels: ["Approve", "Pending", "Reject"],
+          tabLabels : ["Approve", "Pending", "Reject"],
           layout: 12,
         },
       },

@@ -1,21 +1,25 @@
-.scroll{
-background-color: black;
+/* Customize the scrollbar */
+.myDiv::-webkit-scrollbar {
+  width: 5px; /* Set the width of the scrollbar */
+  height:5px !important;
+}
+
+.myDiv::-webkit-scrollbar-track {
+  height:5px !important;
+  background-color: white; /* Set the background color of the scrollbar track */
+}
+
+.myDiv::-webkit-scrollbar-thumb {
+  height:5px !important;
+  background-color:white;
+  height:5px !important;
+  border-radius: 4px; /* Set the border radius of the scrollbar thumb */
+}
 
 
+.myDiv:hover::-webkit-scrollbar-thumb {
+  background-color: #e0e4e9; 
 }
-.pro-sidebar-content::-webkit-scrollbar {
-    width: 1px; /* Set the width of the scrollbar */
-  }
-.scroll::-webkit-scrollbar-thumb {
-    background-color: aqua;
-    width:1px
-}
-.scroll::-webkit-scrollbar {
-    width: 1px; /* Set the width of the scrollbar */
-  }
-.scroll::-webkit-scrollbar-thumb:hover {
-    background-color: aqua;
-}
-.scroll::-webkit-scrollbar-corner {
-    border-radius: 20px;
+.myDiv::-webkit-scrollbar-thumb:hover {
+  background-color: #788292; /* Set the color of the scrollbar thumb on hover */
 }

@@ -1,18 +1,41 @@
-import React, { memo, useContext, useEffect } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { DataContext } from "../context/Context";
 import { useJsonForms } from "@jsonforms/react";
 import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { inputProps } from "../interface/inputfieldProps";
-import Helpertext from "../common/Helpertext";
+import Helpertext from "../common/HelperText";
 
 const ImpaktAppsSelect = memo(function CustomSelect(props: inputProps) {
   const { errors, uischema, data, required, handleChange, path } = props;
   const uischemaData = uischema?.config?.main;
-  const { id, permissions, theme, serviceProvider } = useContext(DataContext);
+  const { id, permissions, theme, store,serviceProvider,setUiSchema,uiSchema, serviceHolder, pageName } =
+    useContext(DataContext);
+  // const [options, setOptions] = useState(uischemaData?.options);
+  // useEffect(() => {
+  //   setOptions(uischemaData.options);
+  // }, [uischemaData.options]);
   const ctx = useJsonForms();
   const fieldName = getFieldName(path);
+  const callServiceProvider = async () => {
+    await serviceHolder.getService({ pageName,uiSchema,setUiSchema }).then((res: any) => {
+      return (
+        uischemaData?.loadConfig?.funcName &&
+        res[uischemaData?.loadConfig?.funcName](
+          uischemaData?.loadConfig
+        )
+        // .then((res: any) => {
+        //   // uischemaData.options = res;
+        //   // setOptions(res);
+        //   // return res;
+        // })
+      );
+    });
+  };
+  useEffect(() => {
+    callServiceProvider();
+  }, []);
   return (
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
       <FormControl

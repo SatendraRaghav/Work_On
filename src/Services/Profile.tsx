@@ -1,4 +1,3 @@
-//JsonFormsStateContext
 import { loginService } from "../service/service";
 import axios from "axios";
 import { ProfileUiSchema } from "../UiSchema/Profile/UiSchema";
@@ -8,7 +7,7 @@ import { ProfileUiSchema } from "../UiSchema/Profile/UiSchema";
   dynamicData:any
 ) => {
   return {
-    setPage: function () {
+    setPage: async function () {
       const formdata = this.getFormData();
       const schema = this.getSchema();
       const uiSchema = this.getUiSchema();

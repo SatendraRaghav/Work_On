@@ -115,7 +115,7 @@ export const RoleMasterForm = (store: any, dynamicData: any) => {
           selectOption = res.data?.payload?.map((e: any) => {
             return { label: e.permName, value: e.id };
           });
-          //@ts-ignore
+          
           Ui.elements[1].elements[1].config.main.options = selectOption
             ? selectOption
             : [{ id: 1 }];

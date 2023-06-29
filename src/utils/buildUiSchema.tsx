@@ -1,46 +1,51 @@
+import _ from "lodash";
 import { Button, EmptyBox } from "../components/Button";
 import { DateInputField } from "../components/DateInputField";
 import { SelectInputField } from "../components/SelectInputField";
+import { Table } from "../components/Table";
 import { InputField } from "../components/TextInputField";
-
-export const buildUiSchema = (config: any,pageName:string) => {
+import { myService } from "../service/service";
+const service = myService();
+export const buildUiSchema =  (config: any) => {
     let elements: any = [];
-    
     for (let i = 0; i < config.length; i++) {
-      const myScope = `#/properties/${pageName}${config[i].name
+      const myScope = `#/properties/${config[i]?.name
         .toLowerCase()
         .replace(/ /g, "")}`;
-      switch (config[i].type) {
-        case "text":
-          const inputField = JSON.parse(JSON.stringify(InputField));
-          inputField.config.main.label = config[i].name;
-          inputField.config.main.errorMessage = `${config[i].name} is empty or invalid`;
+      switch (config[i]?.type) {
+        case "InputField":
+          const inputField:any = _.cloneDeep(InputField);
+          inputField.config.main.label = config[i]?.name;
+          inputField.config.main.errorMessage = `${config[i]?.name} is empty or invalid`;
           inputField.scope = myScope;
           elements.push(inputField);
           break;
-        case "date":
-          const dateInputField = JSON.parse(JSON.stringify(DateInputField));
-          dateInputField.config.main.label = config[i].name;
-          dateInputField.config.main.errorMessage = `${config[i].name} is empty or invalid`;
+        case "DateInputField":
+          const dateInputField:any = _.cloneDeep(DateInputField);
+          dateInputField.config.main.label = config[i]?.name;
+          dateInputField.config.main.errorMessage = `${config[i]?.name} is empty or invalid`;
           dateInputField.scope = myScope;
           elements.push(dateInputField);
           break;
-        case "select":
-          const selectInputField = JSON.parse(
-            JSON.stringify(SelectInputField)
-          );
-          selectInputField.config.main.label = config[i].name;
+        case "SelectInputField":
+            
+          const selectInputField =  _.cloneDeep(SelectInputField);
+          selectInputField.config.main.label = config[i]?.name;
           selectInputField.scope = myScope;
-          if (config[i].hasOwnProperty("constant")) {
-            selectInputField.config.main.options = config[i].constant;
+          if (config[i]?.hasOwnProperty("constant")) {
+            selectInputField.config.main.options = config[i]?.constant;
           }
           elements.push(selectInputField);
           break;
-        case "button":
-          const button = JSON.parse(JSON.stringify(Button));
-          // elements.push(EmptyBox);
-          button.config.main.name = config[i].name;
+        case "Button":
+          const button = _.cloneDeep(Button);
+          button.config.main.name = config[i]?.name;
           elements.push(button);
+          break;
+        case "Table":
+          const table:any = _.cloneDeep(Table);
+          table.config.main.columns = config[i]?.columns;
+          elements.push(table);
           break;
       }
     }
@@ -54,11 +59,11 @@ export const buildUiSchema = (config: any,pageName:string) => {
     const property:any =  {
     };
     for (let i = 0; i < config.length; i++) {
-      const demoName =  pageName+config[i].name.toLowerCase().replace(/ /g, "");
-      switch (config[i].type) {
+      const demoName =  pageName+config[i]?.name.toLowerCase().replace(/ /g, "");
+      switch (config[i]?.type) {
       
         case "text":
-          if(config[i].required){
+          if(config[i]?.required){
             property[demoName] = {
               type:"string",
               minLength:1,
@@ -68,16 +73,16 @@ export const buildUiSchema = (config: any,pageName:string) => {
           break;
         
         case "date":
-          if(config[i].required){
+          if(config[i]?.required){
           
             property[demoName] = {
-              errorMessage : `${config[i].name} is empty or invalid`
+              errorMessage : `${config[i]?.name} is empty or invalid`
             }
             required.push(demoName)
           }
           break;
         case "select":
-          if(config[i].required){
+          if(config[i]?.required){
             property[demoName] = {
               type:"string",
             }

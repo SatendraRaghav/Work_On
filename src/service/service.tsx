@@ -29,9 +29,9 @@ demoService.interceptors.response.use(
     return config;
   },
   error => {
-  //  if( error.response.status === 403){
-  //   setOpenDialog(true)
-  //  } 
+   if( error.response.status === 403){
+    // setOpenDialog(true)
+   } 
     
     setLoading?.(false)
     return Promise.reject(error);

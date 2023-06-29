@@ -1,13 +1,13 @@
-export const RolePermissionUISchema = {
+export const RolePermissionUISchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const RolePermissionUISchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8,
                 main: {
                   heading: "Role Permission Master",
                 },
@@ -39,7 +39,7 @@ export const RolePermissionUISchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: 5.5,
+                layout: 3,
                 main: {
                   icon: "BackIcon",
                   styleDefault: true,
@@ -57,11 +57,16 @@ export const RolePermissionUISchema = {
             },
           ],
         },
-      },
-    },
-    {
-      type: "HorizontalLayout",
-      elements: [
+        {
+          type: "WrapperLayout",
+          config:{
+            main:{
+             label:"Role Permission Details",
+             divider:true,
+            },
+            defaultStyle:true
+          },
+          elements: [
         {
           type: "Control",
           scope: "#/properties/permName",
@@ -70,7 +75,12 @@ export const RolePermissionUISchema = {
             widget: "InputField",
           },
           config: {
-            layout: 6,
+            layout:  {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
             main: {
               label: "Name",
               type: "text",

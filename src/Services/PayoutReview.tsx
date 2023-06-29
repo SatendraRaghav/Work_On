@@ -5,11 +5,8 @@ import { validateForm } from "../utils/validateForm";
 import { PayoutReviewSchema } from "../UiSchema/PayoutReview/Schema";
 import _ from "lodash";
 
-export const PayoutReview = (
-  store:any,
-  dynamicData:any
-) => {
-  const service = myService(dynamicData?.setLoading,  store.navigate);
+export const PayoutReview = (store: any, dynamicData: any) => {
+  const service = myService(dynamicData?.setLoading, store.navigate);
   return {
     setPage: async function () {
       const formdata = await this.getFormdata();
@@ -21,16 +18,10 @@ export const PayoutReview = (
       store.setSchema(schema);
     },
     getFormdata: async () => {
-      return {
-        // ...store.ctx.core.data,
-        // caseReportList: [],
-        // summaryReportList: [],
-        // pendingActionList: [],
-      };
+      return {};
     },
     getUiSchema: async function () {
-      const uiSchema = PayoutReviewUiSchema;
-      console.log(uiSchema);
+      console.log(PayoutReviewUiSchema);
       let data: any = null;
       await service
         .get("/program/getAll")
@@ -38,34 +29,36 @@ export const PayoutReview = (
           data = response.data.payload.map((elem: any) => {
             return { label: elem.name, value: elem.id };
           });
-          //@ts-ignore
-          uiSchema.elements[1].elements[2].config.main.options = data;
+          
+          PayoutReviewUiSchema.elements[1].elements[0].config.main.options =
+            data;
         })
         .catch((error) => {
           console.log(error);
-          return [{}];
+          return [];
         });
-      return uiSchema;
+      return PayoutReviewUiSchema;
     },
     getSchema: () => {
       return PayoutReviewSchema;
     },
     onChange: async function () {
       const uiSchema = PayoutReviewUiSchema;
+      if( store.newData?.programType){
       await service
-        .get(`/programCycle/getByProgramId?id=${  store.newData?.programType} `)
+        .get(`/programCycle/getByProgramId?id=${store.newData?.programType} `)
         .then((response: any) => {
           const result1 = response.data.payload.map((elem: any) => {
             const cycle = { label: elem.name, value: elem.id };
             return cycle;
           });
-          //@ts-ignore
-          uiSchema.elements[1].elements[3].config.main.options = result1;
-          store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
+          
+          uiSchema.elements[1].elements[1].config.main.options =
+            result1;
+            store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         })
-        .catch((error) => {
-          // return [{}];
-        });
+        .catch((error) => {});
+      }
     },
     loadTable: async () => {
       const UiSchema = PayoutReviewUiSchema;
@@ -138,7 +131,7 @@ export const PayoutReview = (
           const options = res.data.payload.map((e: string | number) => {
             return { label: e, value: e };
           });
-          //@ts-ignore
+          
           UiSchema.elements[3].elements[5].config.main.options = options;
         });
       const tablesData: Array<any> = [];
@@ -169,23 +162,27 @@ export const PayoutReview = (
         })
         .then(async (response) => {
           tablesData.push(response.data.payload.reportData.values);
-          //@ts-ignore
-          UiSchema.elements[2].elements[1].elements[0].config.main.allRowsData=tablesData[0];
-           //@ts-ignore
-          UiSchema.elements[2].elements[1].elements[1].config.main.allRowsData=tablesData[1];
-           //@ts-ignore
-          UiSchema.elements[3].elements[2].config.main.allRowsData = tablesData[2];
-          store.setUiSchema(UiSchema)
+          
+          UiSchema.elements[2].elements[1].elements[0].config.main.allRowsData =
+            tablesData[0];
+          
+          UiSchema.elements[2].elements[1].elements[1].config.main.allRowsData =
+            tablesData[1];
+          
+          UiSchema.elements[3].elements[2].config.main.allRowsData =
+            tablesData[2];
+            store.setUiSchema(UiSchema)
         })
         .catch((error) => {
           console.log(error);
         });
-
-      // store.setUiSchema(PayoutReviewUiSchema);
       return tablesData;
     },
     actionFunction: async function () {
-      if (store.ctx.core.data.remarks === undefined || store.ctx.core.data.remarks === "") {
+      if (
+        store.ctx.core.data.remarks === undefined ||
+        store.ctx.core.data.remarks === ""
+      ) {
         store.setNotify({
           FailMessage: "Please Enter Remarks To Proceed Further",
           Fail: true,
@@ -213,15 +210,15 @@ export const PayoutReview = (
         return;
       }
       console.log(store.ctx.core.data);
-      const taskMapList = store.ctx.core.data["pendingActionListSelectedRowData"].map(
-        (elem: any) => {
-          return {
-            taskId: `${elem.id}`,
-            businessKey: elem.businessKey,
-            businessKeyType: elem.businessKeyType,
-          };
-        }
-      );
+      const taskMapList = store.ctx.core.data[
+        "pendingActionListSelectedRowData"
+      ].map((elem: any) => {
+        return {
+          taskId: `${elem.id}`,
+          businessKey: elem.businessKey,
+          businessKeyType: elem.businessKeyType,
+        };
+      });
       const data: any = {
         payload: {
           taskMapList: taskMapList,
@@ -244,19 +241,16 @@ export const PayoutReview = (
         .then((response) => {
           const message =
             store.ctx.core.data.actions === "Reject" ? "Rejected" : "Approved";
-              //@ts-ignore
-          PayoutReviewUiSchema.elements[2].elements[1].elements[0].config.main.allRowsData=response[0];
-          //@ts-ignore
-          PayoutReviewUiSchema.elements[2].elements[1].elements[1].config.main.allRowsData=response[1];
-          //@ts-ignore
-          PayoutReviewUiSchema.elements[3].elements[2].config.main.allRowsData = response[2];
-         store.setUiSchema(PayoutReviewUiSchema)
-          // store.setFormdata({
-          //   ...store.ctx.core.data,
-          //   caseReportList: response[0],
-          //   summaryReportList: response[1],
-          //   pendingActionList: response[2],
-          // });
+          
+          PayoutReviewUiSchema.elements[2].elements[1].elements[0].config.main.allRowsData =
+            response[0];
+          
+          PayoutReviewUiSchema.elements[2].elements[1].elements[1].config.main.allRowsData =
+            response[1];
+          
+          PayoutReviewUiSchema.elements[3].elements[2].config.main.allRowsData =
+            response[2];
+          store.setUiSchema(PayoutReviewUiSchema);
           store.setNotify({ SuccessMessage: message, Success: true });
         })
         .catch((error) => {

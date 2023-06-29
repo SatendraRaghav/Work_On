@@ -1,13 +1,13 @@
-export const RoleMasterUISchema = {
+export const RoleMasterUISchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const RoleMasterUISchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8,
                 main: {
                   heading: "Role Master",
                 },
@@ -36,12 +36,7 @@ export const RoleMasterUISchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: {
-                  xs: 6,
-                  sm: 4,
-                  md: 5.5,
-                  lg: 5.5,
-                },
+                layout: 3,
                 main: {
                   icon: "BackIcon",
                   styleDefault: true,
@@ -56,13 +51,16 @@ export const RoleMasterUISchema = {
             },
           ],
         },
-      },
-    },
-    {
-      type: "HorizontalLayout",
-      config:{defaultStyle: true},
-
-      elements: [
+        {
+          type: "WrapperLayout",
+          config:{
+            main:{
+              label:"Role Details",
+              divider:true
+            },
+            defaultStyle:true
+          },
+          elements: [
         {
           type: "Control",
           scope: "#/properties/name",
@@ -90,7 +88,7 @@ export const RoleMasterUISchema = {
             layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
             main: {
               label: "Permission List",
-              options: [{}],
+              options: [],
               required: true,
               errorMessage: "Permissions are not selected",
             },

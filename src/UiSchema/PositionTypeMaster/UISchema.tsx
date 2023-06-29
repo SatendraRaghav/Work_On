@@ -1,13 +1,13 @@
-export const PositionTypeMasterUISchema = {
+export const PositionTypeMasterUISchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const PositionTypeMasterUISchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8,
                 main: {
                   heading: "Position Type Master",
                 },
@@ -39,7 +39,7 @@ export const PositionTypeMasterUISchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: 5.5,
+                layout: 3,
                 main: {
                   icon: "BackIcon",
                   styleDefault: true,
@@ -56,13 +56,17 @@ export const PositionTypeMasterUISchema = {
               },
             },
           ],
-        },
-      },
+    
     },
     {
-      type: "HorizontalLayout",
-      config:{defaultStyle: true},
-
+      type: "WrapperLayout",
+      config:{
+        main:{
+         label:"Position Type Details",
+         divider:true,
+        },
+        defaultStyle:true
+      },
       elements: [
         {
           type: "Control",

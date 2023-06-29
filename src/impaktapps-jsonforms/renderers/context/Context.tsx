@@ -3,15 +3,15 @@ import React, { useReducer, createContext, useMemo, useState } from "react";
 import { additionalDataProps } from "../interface/inputfieldProps";
 
 export const DataContext = createContext<any>({});
-export const DataProvider = ({ children, impaktappsJsonformsStore }: any) => {
+export const DataProvider = ({ children, impaktAppsJsonFormsStore }: any) => {
   const serviceProvider = (
     ctx: JsonFormsStateContext,
     componentUiSchema: any,
     additionalData: additionalDataProps
   ) => {
     if (componentUiSchema[additionalData.event._reactName]) {
-      impaktappsJsonformsStore.serviceHolder
-        .getService({ ...impaktappsJsonformsStore, ctx }, additionalData)
+      impaktAppsJsonFormsStore.serviceHolder
+        .getService({ ...impaktAppsJsonFormsStore, ctx }, additionalData)
         .then((res: any) => {
           return res[componentUiSchema[additionalData.event._reactName]](
           );
@@ -20,7 +20,7 @@ export const DataProvider = ({ children, impaktappsJsonformsStore }: any) => {
   };
   return (
     <DataContext.Provider
-      value={{ ...impaktappsJsonformsStore, serviceProvider: serviceProvider }}
+      value={{ ...impaktAppsJsonFormsStore, serviceProvider: serviceProvider }}
     >
       {children}
     </DataContext.Provider>

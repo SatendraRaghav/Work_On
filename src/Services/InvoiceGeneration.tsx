@@ -38,12 +38,12 @@ export const InvoiceGeneration = (
                 data = response.data.payload.map((elem: any) => {
                     return { label: elem.name, value: elem.id };
                 });
-                //@ts-ignore
-                uiSchema.elements[1].elements[4].config.main.options = data;
+                
+                uiSchema.elements[1].elements[0].config.main.options = data;
             })
                 .catch((error) => {
                     console.log(error);
-                    return [{}];
+                    return [];
                 });
             return uiSchema;
 
@@ -51,8 +51,9 @@ export const InvoiceGeneration = (
         getSchema: () => {
             return InvoiceGenerationSchema;
         },
-        onChange: async (v) => {
+        onChange: async () => {
             const uiSchema = InvoiceGenerationUiSchema;
+            if(store.newData.programType){
             const result: any = await service
                 .get(`/programCycle/getByProgramId?id=${store.newData.programType} `)
                 .then((response: any) => {
@@ -61,13 +62,13 @@ export const InvoiceGeneration = (
                         const cycle = { label: elem.name, value: elem.id }
                         return cycle;
                     });
-                    //@ts-ignore
-                    uiSchema.elements[1].elements[5].config.main.options = result1;
+                    
+                    uiSchema.elements[1].elements[1].config.main.options = result1;
                     store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
                 })
                 .catch((error) => {
-                    return [{}];
-                });
+                    return [];
+                });}
         }, 
         loadTables: async function () {
             const uischema = InvoiceGenerationUiSchema;
@@ -83,9 +84,9 @@ export const InvoiceGeneration = (
             }
 
             await this.LoadFunction().then((res: any) => {
-                //@ts-ignore
+                
                 uischema.elements[2].elements[2].config.main.allRowsData = res[0]
-                 //@ts-ignore
+                 
                 uischema.elements[3].elements[2].config.main.allRowsData = res[1]
                 store.setUiSchema(uischema);
             }).catch((err: any) => {
@@ -181,9 +182,9 @@ export const InvoiceGeneration = (
 
                     return this.LoadFunction();
                 }).then(res => {
-                       //@ts-ignore
+                       
                 InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
-                //@ts-ignore
+                
                 InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
                store.setUiSchema(InvoiceGenerationUiSchema);
                     // store.setFormdata({
@@ -227,9 +228,9 @@ export const InvoiceGeneration = (
                     return this.LoadFunction();
                 }).then(res => {
                     const message = store.ctx.core.data.actions === "Reject" ? "Rejected" : "Approved"
-                              //@ts-ignore
+                              
                 InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
-                //@ts-ignore
+                
                 InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
                store.setUiSchema(InvoiceGenerationUiSchema);
                     // store.setFormdata({
@@ -268,9 +269,9 @@ export const InvoiceGeneration = (
                 .then((response) => {
                     return this.LoadFunction()
                 }).then(res => {
-                             //@ts-ignore
+                             
                 InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
-                //@ts-ignore
+                
                 InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
                store.setUiSchema(InvoiceGenerationUiSchema);
                     // store.setFormdata({

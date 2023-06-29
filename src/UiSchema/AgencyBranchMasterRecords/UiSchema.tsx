@@ -72,7 +72,7 @@ export const  AgencyBranchRecordsUISchema = {
     {
       "type": "Control",
       "scope": "#/properties/agencyRecords",
-      "labels": ["Approve", "Pending", "Reject"],
+      tabLabels : ["Approve", "Pending", "Reject"],
       "options": {
         "widget": "Tab",
         "detail": {

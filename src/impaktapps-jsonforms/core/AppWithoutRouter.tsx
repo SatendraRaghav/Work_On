@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialCells } from "@jsonforms/material-renderers";
 import renderers from "../renderers";
-import { DataProvider } from "../../Reducer";
+import { DataProvider } from "../renderers/context/Context";
 import {
   Box,
 } from "@mui/material";
 import CommonSkeleton from "../renderers/common/Skeleton";
-import { useImpaktappsJsonformsStore } from "../renderers/context/useImpaktappsJsonformsStore";
+import { useImpaktAppsJsonFormsStore } from "../renderers/context/useImpaktAppsJsonFormsStore";
 import { HomePropsType, impaktappsJsonformsPropsType } from "../renderers/interface/inputfieldProps";
-import { createStyleTheme } from "../styles/StyleFactory";
+import {   useTheme } from "../styles/StyleFactory";
 
 function AppWithoutRouter({
   serviceHolder,
@@ -17,8 +17,8 @@ function AppWithoutRouter({
   styleTheme,
   validationMode,
 }: impaktappsJsonformsPropsType) {
-  const theme = createStyleTheme(styleTheme);
-  const impaktappsJsonformsStore = useImpaktappsJsonformsStore(
+  const theme =   useTheme(styleTheme);
+  const impaktappsJsonformsStore = useImpaktAppsJsonFormsStore(
     serviceHolder,
     validationMode,
     "RouterUnavailable",
@@ -46,7 +46,7 @@ function AppWithoutRouter({
           <Box
             sx={{
               ...theme.pageStyle,
-              ...impaktappsJsonformsStore.uiSchema?.stylePage,
+              ...impaktappsJsonformsStore.uiSchema?.pageStyle,
             }}
           >
             <JsonForms
@@ -56,7 +56,7 @@ function AppWithoutRouter({
               renderers={renderers}
               cells={materialCells}
               onChange={({ data, errors }) => changeHandler(data, errors)}
-              validationMode={impaktappsJsonformsStore.updatedValidation}
+              validationMode={impaktappsJsonformsStore.validationMode}
             />
           </Box>
         </DataProvider>

@@ -1,13 +1,13 @@
-export const GroupMasterUISchema = {
+export const GroupMasterUISchema:any = {
   "type": "HorizontalLayout",
   "elements": [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
         {
           type: "Control",
@@ -16,7 +16,7 @@ export const GroupMasterUISchema = {
           options: {
             widget: "Box",
           },
-          config: { layout: 5.5,
+          config: { layout: 8,
             main: {
               heading: "Group Master",
             },
@@ -34,7 +34,7 @@ export const GroupMasterUISchema = {
           options: {
             widget: "IconButton",
           },
-          config: {layout: 5.5,
+          config: {layout: 3,
             main: {
               icon: "BackIcon",
               styleDefault: true,
@@ -47,12 +47,18 @@ export const GroupMasterUISchema = {
             },
           },
         }
-      ]}},
+      ],
     },
     {
-      type: "HorizontalLayout",
-      config:{defaultStyle: true},
-      elements: [
+      type: "WrapperLayout",
+      config: {
+        main: {
+          label: "Group Details",
+          divider:true
+        },
+        defaultStyle:true
+      },
+      elements:[
         {
           "type": "Control",
           "scope": "#/properties/name",
@@ -78,7 +84,7 @@ export const GroupMasterUISchema = {
           "config": { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
             "main": {
               "label": "Position List",
-              options: [{}],
+              options: [],
               errorMessage:"Positions are not selected"
             }
           }

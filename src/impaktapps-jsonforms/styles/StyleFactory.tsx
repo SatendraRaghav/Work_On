@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import { createTheme, ThemeProvider, ThemeOptions } from "@mui/material/styles";
 
-export const createStyleTheme = (objProvidedStyle: any) => {
+export const useTheme = (objProvidedStyle: any) => {
   const myTheme: any =
     objProvidedStyle?.theme ||
     createTheme({
@@ -21,7 +21,7 @@ export const createStyleTheme = (objProvidedStyle: any) => {
         background: {
           paper: "white",
           button: "#3949ab",
-          input: "#f8fafc",
+          input: "white",
           default: "#eef2f6",
           iconButton: "#ede7f6",
         },
@@ -56,6 +56,7 @@ export const createStyleTheme = (objProvidedStyle: any) => {
       color: myTheme.palette.text.input,
       fontWeight: myTheme.palette.typography.fontWeightMedium,
       background: myTheme.palette.background.input,
+      // background:"white",
       fontFamily: "inherit",
       borderRadius: myTheme.palette.shape.borderRadius,
     },
@@ -72,12 +73,11 @@ export const createStyleTheme = (objProvidedStyle: any) => {
     },
     "& .MuiOutlinedInput-root": {
       "&.Mui-focused fieldset": {
-        border: `1.5px solid ${myTheme.palette.action.focus}`,
+        border: `2.5px solid ${myTheme.palette.action.focus}`,
       },
     },
     "& label": {
       fontSize: myTheme.palette.typography.fontSize,
-      marginBotton: "5px",
       fontFamily: "inherit",
     },
     "& label.MuiInputLabel-shrink": {
@@ -109,7 +109,7 @@ export const createStyleTheme = (objProvidedStyle: any) => {
         border: "0.8px solid black",
       },
       "&:active": {
-        border: `0.8px solid ${myTheme.palette.action.focus}`,
+        border: `2.5px solid ${myTheme.palette.action.focus}`,
       },
     },
     InputLabelStyle: objProvidedStyle?.InputLabelStyle || {
@@ -143,7 +143,8 @@ export const createStyleTheme = (objProvidedStyle: any) => {
     AutoCompleteStyle: objProvidedStyle?.AutoCompleteStyle || {
       borderRadius: myTheme.palette.shape.borderRadius,
       border: "0.8px solid #e3e8ef",
-      backgroundColor: "white",
+      // backgroundColor: "white",
+      backgroundColor: myTheme.palette.background.input,
       // paddingLeft: '14px',
       inputRoot: {
         "& .MuiInputBase-root": {
@@ -267,10 +268,12 @@ export const createStyleTheme = (objProvidedStyle: any) => {
       background: "white",
     },
     pageStyle: objProvidedStyle?.pageStyle || {
+      boxSizing:"border-box",
       background: myTheme.palette.primary.main,
       minHeight: "100vh",
-      margin: "10px 20px",
+      margin: "10px 20px 20px 10px",
       height: "auto",
+      padding:"10px 20px 20px 10px",
       borderRadius: myTheme.palette.shape.borderRadius,
       fontFamily: myTheme.palette.typography.fontFamily,
     },

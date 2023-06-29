@@ -32,7 +32,7 @@ export const ExternalData = (
       return {};
     },
     getUiSchema: async function () {
-      const uiSchema = ExternalDataUiSchema;
+      const uiSchema:unknown = ExternalDataUiSchema;
       let data: any = null;
       console.log(uiSchema);
       await service
@@ -41,16 +41,16 @@ export const ExternalData = (
           data = response.data.payload.map((elem: any) => {
             return { label: elem.name, value: elem.id };
           });
-          //@ts-ignore
-          uiSchema.elements[1].elements[2].config.main.options = data;
+          
+          uiSchema.elements[1].elements[0].config.main.options = data;
            return this.loadTable(uiSchema)
         }).then((res)=>{
-          //@ts-ignore
-          uiSchema.elements[3].elements[2].config.main.allRowsData = res;
+          
+        uiSchema.elements[3].elements[0].config.main.allRowsData = res;
         })
         .catch((error) => {
-           //@ts-ignore
-           uiSchema.elements[3].elements[2].config.main.allRowsData = [];
+           
+         uiSchema.elements[3].elements[0].config.main.allRowsData = [];
         });
       return uiSchema;
     },
@@ -59,8 +59,9 @@ export const ExternalData = (
     },
     onChange: async (value: any) => {
       const uiSchema = ExternalDataUiSchema;
+      if(store?.newData?.programType){
       await service
-        .get(`/program/getById?id=${store.newData.programType} `)
+        .get(`/program/getById?id=${store?.newData?.programType} `)
         .then((response: any) => {
           const result =
             response.data.payload.config.features.externalData.supportedTypes;
@@ -68,14 +69,15 @@ export const ExternalData = (
           const data1 = result.map((elem: any) => {
             return { label: elem, value: elem };
           });
-          //@ts-ignore
-          uiSchema.elements[1].elements[3].config.main.options = data1;
+          
+          uiSchema.elements[1].elements[1].config.main.options = data1;
           store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
         })
         .catch((error) => {
           console.log(error);
-          return [{}];
+          return [];
         });
+      }
     },
     uploadFile: async function () {
       const programData = store.ctx.core.data;
@@ -120,8 +122,8 @@ export const ExternalData = (
               ...data,
               downloadAggrementCopy: event.target.files[0].name,
             });
-            //@ts-ignore
-            ExternalDataUiSchema.elements[3].elements[2].config.main.allRowsData = response;
+            
+           ExternalDataUiSchema.elements[3].elements[0].config.main.allRowsData = response;
             store.setUiSchema(ExternalDataUiSchema)
             store.setNotify({
               SuccessMessage: "File uploaded successfully",

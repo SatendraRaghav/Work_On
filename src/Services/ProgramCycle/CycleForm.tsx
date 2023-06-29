@@ -165,7 +165,7 @@ export const CycleForm = (
               value: JSON.stringify(elem),
             };
           });
-          //@ts-ignore
+          
           Ui.elements[1].elements[0].elements[1].config.main.options =
             selectOption;
         })
@@ -306,9 +306,9 @@ export const CycleForm = (
           store.setNotify({ FailMessage: "File Uploading Failed", Fail: true });
         });
     },
-    verifyStartDate: (value: any) => {
-      const endDate = new Date( store.ctx.core.data.endDate);
-      const startDate = new Date(value);
+    verifyStartDate: () => {
+      const endDate = new Date( store.formData.endDate);
+      const startDate =  new Date(store.newData.startDate);
       if(endDate.getTime()){
       if (startDate.getTime() > endDate.getTime()) {
         store.setNotify({
@@ -317,12 +317,12 @@ export const CycleForm = (
         });
       }}
     },
-    verifyEndDate: (value: any) => {
-      const startDate = new Date( store.ctx.core.data.startDate);
-      const endDate = new Date(value);
-      if ( store.ctx.core.data.startDate === undefined) {
+    verifyEndDate: () => {
+      const startDate = new Date( store.formData.startDate);
+      const endDate = new Date(store.newData.endDate);
+      if ( store.formData.startDate === undefined) {
         store.setNotify({ FailMessage: "Please fill start date first.", Fail: true });
-        store.ctx.core.data.endDate  = undefined;
+        store.formData.endDate  = undefined;
       }
 
       if (startDate.getTime() > endDate.getTime()) {
@@ -332,5 +332,9 @@ export const CycleForm = (
         });
       }
     },
+    onchange:function (){
+    this.verifyEndDate()
+    this.verifyStartDate()
+    }
   };
 };

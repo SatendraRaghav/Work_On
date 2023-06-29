@@ -1,4 +1,4 @@
-export const ErrorPageUischema = {
+export const ErrorPageUischema:any = {
     "type": "HorizontalLayout",
     stylePage:{
      background:"#eef2f6",

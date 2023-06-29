@@ -15,7 +15,7 @@ import {
   Stack,
 } from "@mui/material";
 import CommonSkeleton from "../../renderers/common/Skeleton";
-import { useImpaktappsJsonformsStore } from "../../renderers/context/useImpaktappsJsonformsStore";
+import { useImpaktAppsJsonFormsStore} from "../../renderers/context/useImpaktAppsJsonFormsStore"
 import {
   HomePropsType,
 } from "../../renderers/interface/inputfieldProps";
@@ -28,7 +28,7 @@ function Home({
   pageName,
 }: HomePropsType) {
   const [loading, setLoading] = useState(false);
-  const impaktappsJsonformsStore = useImpaktappsJsonformsStore(
+  const impaktAppsJsonFormsStore = useImpaktAppsJsonFormsStore(
     serviceHolder,
     validationMode,
     pageName,
@@ -36,10 +36,10 @@ function Home({
     permissions
   );
   const pageSetter = () => {
-    impaktappsJsonformsStore.uiSchema && setLoading(true);
-    serviceHolder.getService(impaktappsJsonformsStore).then((res: any) => {
+    impaktAppsJsonFormsStore.uiSchema && setLoading(true);
+    serviceHolder.getService(impaktAppsJsonFormsStore).then((res: any) => {
       res.setPage().then(() => {
-        impaktappsJsonformsStore.setValidation("ValidateAndHide");
+        impaktAppsJsonFormsStore.setValidation("ValidateAndHide");
         window.scrollTo(0, 0);
         setTimeout(() => {
           setLoading(false);
@@ -50,34 +50,34 @@ function Home({
 
   const ctx = useJsonForms();
   const changeHandler = (data: any, errors: any) => {
-    impaktappsJsonformsStore.updateFormdata(data);
-    impaktappsJsonformsStore.serviceHolder
-      .getService({ ...impaktappsJsonformsStore, ctx })
+    impaktAppsJsonFormsStore.updateFormdata(data);
+    impaktAppsJsonFormsStore.serviceHolder
+      .getService({ ...impaktAppsJsonFormsStore, ctx })
       .then((res: any) => {
         return res?.onChange && res.onChange();
       });
   };
   useEffect(() => {
     pageSetter();
-  }, [impaktappsJsonformsStore.pageName]);
+  }, [impaktAppsJsonFormsStore.pageName]);
   return (
     <div>
-      {impaktappsJsonformsStore.uiSchema ? (
-        <DataProvider impaktappsJsonformsStore={impaktappsJsonformsStore}>
+      {impaktAppsJsonFormsStore.uiSchema ? (
+        <DataProvider impaktAppsJsonFormsStore={impaktAppsJsonFormsStore}>
           <Box
             sx={{
               ...theme.pageStyle,
-              ...impaktappsJsonformsStore.uiSchema?.stylePage,
+              ...impaktAppsJsonFormsStore.uiSchema?.pageStyle,
             }}
           >
             <JsonForms
-              data={impaktappsJsonformsStore.formData}
-              schema={impaktappsJsonformsStore.schema}
-              uischema={impaktappsJsonformsStore.uiSchema}
+              data={impaktAppsJsonFormsStore.formData}
+              schema={impaktAppsJsonFormsStore.schema}
+              uischema={impaktAppsJsonFormsStore.uiSchema}
               renderers={renderers}
               cells={materialCells}
               onChange={({ data, errors }) => changeHandler(data, errors)}
-              validationMode={impaktappsJsonformsStore.updatedValidation}
+              validationMode={impaktAppsJsonFormsStore.validationMode}
             />
 
             <Dialog open={loading}>

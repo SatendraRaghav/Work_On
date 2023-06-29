@@ -15,7 +15,7 @@ export const SelectInputField = {
     main: {
       label: "",
       type: "text",
-      options: [{}],
+      options: [],
     },
   },
 };

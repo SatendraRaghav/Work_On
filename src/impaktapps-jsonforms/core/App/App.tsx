@@ -1,6 +1,6 @@
 import { ValidationMode } from "@jsonforms/core";
-import { DataProvider } from "../../../Reducer";
-import { createStyleTheme } from "../../styles/StyleFactory";
+import { DataProvider } from "../../renderers/context/Context";
+import {   useTheme } from "../../styles/StyleFactory";
 import Home from "./Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { impaktappsJsonformsPropsType, serviceHolderType } from "../../renderers/interface/inputfieldProps";
@@ -11,11 +11,10 @@ const App = ({
   styleTheme,
   validationMode,
 }: impaktappsJsonformsPropsType) => {
-  const theme = createStyleTheme(styleTheme);
+  const theme =   useTheme(styleTheme);
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home serviceHolder={serviceHolder} theme={theme} permissions={permissions} validationMode={validationMode} pageName={"initial"}/>} />
         <Route path="/:id/*" element={<Home serviceHolder={serviceHolder} theme={theme} permissions={permissions} validationMode={validationMode} pageName="id"/>}/>
       </Routes>
     </Router>

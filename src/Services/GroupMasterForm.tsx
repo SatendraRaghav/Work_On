@@ -97,7 +97,7 @@ export const GroupMasterForm = (
           selectOption = res.data.payload.map((e: any) => {
             return { label: e.name, value: e.id }
           });
-          //@ts-ignore
+          
           Ui.elements[1].elements[1].config.main.options = selectOption;
         });
       console.log(Ui)

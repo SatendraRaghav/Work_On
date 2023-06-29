@@ -1,8 +1,13 @@
-export const PayoutProcessingUiSchema = {
+export const PayoutProcessingUiSchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
       type: "WrapperLayout",
+      config:{
+        main:{
+          rowSpacing:3
+        }
+      },
       elements: [
             {
               type: "Control",
@@ -12,7 +17,7 @@ export const PayoutProcessingUiSchema = {
                 widget: "Box",
               },
               config: {
-                layout: 11.5,
+                layout: 11.6,
                 main: {
                   heading: "Payout Processing",
                 },
@@ -38,10 +43,10 @@ export const PayoutProcessingUiSchema = {
                 widget: "SelectInputField",
               },
               config: {
-                layout: { xs: 11, sm: 11, md: 6, lg: 5.5 },
+                layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5},
                 main: {
                   label: "Program",
-                  options: [{}],
+                  options: [],
                   color: "secondary",
                   required: true,
                   onClick: "loadCycle",
@@ -56,11 +61,11 @@ export const PayoutProcessingUiSchema = {
                 widget: "SelectInputField",
               },
               config: {
-                layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
+                layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5},
                 main: {
                   label: "Program Cycle",
                   programType: true,
-                  options: [{}],
+                  options: [],
 
                   required: true,
                 },
@@ -106,7 +111,7 @@ export const PayoutProcessingUiSchema = {
                 },
                 style: {
                   textAlign: "right",
-                  marginTop: "25px",
+                  // marginTop: "25px",
                 },
               },
             },
@@ -129,7 +134,7 @@ export const PayoutProcessingUiSchema = {
                 widget: "Table",
               },
               config: {
-                layout: 11.5,
+                layout: 12,
                 main: {
                   allRowsData: [],
                   columns: {
@@ -226,12 +231,12 @@ export const PayoutProcessingUiSchema = {
           ],
     },
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -325,8 +330,8 @@ export const PayoutProcessingUiSchema = {
               },
             },
           ],
-        },
-      },
+      //   },
+      // },
     },
     {
       type: "Control",

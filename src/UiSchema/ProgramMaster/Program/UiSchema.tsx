@@ -1,13 +1,13 @@
-export const ProgramMasterUiSchema = {
+export const ProgramMasterUiSchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const ProgramMasterUiSchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8,
                 main: {
                   heading: "Program Master",
                 }
@@ -31,7 +31,7 @@ export const ProgramMasterUiSchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: 5.5,
+                layout: 3,
                 main: { 
                   icon:"BackIcon",
                   styleDefault:true,
@@ -46,14 +46,16 @@ export const ProgramMasterUiSchema = {
             }
         ],
         },
-      },
-    },
-    {
-          
-          type: "HorizontalLayout",
-          config:{defaultStyle: true},
-
-          elements: [
+        {
+          type: "WrapperLayout",
+          config: {
+            main: {
+              label: "Program Details",
+              divider:true
+            },
+            defaultStyle:true
+          },
+          elements:[
             {
               type: "Control",
               scope: "#/properties/name",

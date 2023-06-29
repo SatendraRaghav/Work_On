@@ -1,9 +1,14 @@
-export const PayoutReviewUiSchema = {
+export const PayoutReviewUiSchema:any = {
   type: "HorizontalLayout",
   pageName: "PayoutReview",
   elements: [
     {
           type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -13,52 +18,24 @@ export const PayoutReviewUiSchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 11.5,
                 main: {
                   heading: "Payout Review",
                 }
               },
-            },
-            {
-              type: "Control",
-              scope: "#/properties/EmptyBox",
-              options: {
-                widget: "EmptyBox",
-              },
-              config: { layout: 5.5 },
-            },
+            }
           ],
     },
     {
-      type: "HorizontalLayout",
-      config: { defaultStyle: true },
+      type: "WrapperLayout",
+      config:{
+        main:{
+        label:"Search Program",
+        divider:true,
+        },
+        defaultStyle:true
+      },
       elements: [
-        {
-          type: "Control",
-          scope: "#/properties/heading",
-
-          options: {
-            widget: "Box",
-          },
-          config: {
-            layout: 11.5,
-            main: {
-              heading: "Search Program",
-              // dividerAvailable:true
-            },
-          },
-          style: {
-            marginTop: "2px",
-          },
-        },
-        {
-          type: "Control",
-          scope: "#/properties/EmptyBox",
-          options: {
-            widget: "Notify",
-          },
-          config: { layout: 8 },
-        },
         {
           type: "Control",
           scope: "#/properties/programType",
@@ -70,7 +47,7 @@ export const PayoutReviewUiSchema = {
             layout: { xs: 11, sm: 11, md: 5.5, lg: 5.5 },
             main: {
               label: "Program",
-              options: [{}],
+              options: [],
               onClick: "loadCycle",
               errorMessage: "Program is not selected",
             },
@@ -92,7 +69,7 @@ export const PayoutReviewUiSchema = {
             },
             main: {
               label: "Program Cycle",
-              options: [{}],
+              options: [],
               programType: true,
               errorMessage: "Program Cycle is not selected",
             },
@@ -153,31 +130,13 @@ export const PayoutReviewUiSchema = {
         },
       ],
     },
-    {
-      type: "HorizontalLayout",
-      config: { defaultStyle: true },
-      elements: [
-        {
-          type: "Control",
-          scope: "#/properties/heading",
-
-          options: {
-            widget: "Box",
-          },
-          config: {
-            layout: 11.5,
-            main: {
-              heading: "Report List",
-              dividerAvailable: true,
-            },
-          },
-        },
         {
           type: "TabLayout",
-          config: {
+          config: { layout: 12,
             main: {
-              labels: ["Case", "Summary"],
-              layout: 12,
+              tabLabels: ["Case", "Summary"],
+              label:"Report List",
+                divider:true,
             },
           },
 
@@ -185,11 +144,11 @@ export const PayoutReviewUiSchema = {
             {
               type: "Control",
               scope: "#/properties/caseReportList",
-              layout: 12,
+             
               options: {
                 widget: "Table",
               },
-              config: {
+              config: { layout: 12,
                 main: {
                   allRowsData: [],
                   columns: {
@@ -225,11 +184,11 @@ export const PayoutReviewUiSchema = {
             {
               type: "Control",
               scope: "#/properties/summaryReportList",
-              layout: 12,
+            
               options: {
                 widget: "Table",
               },
-              config: {
+              config: {  layout: 12,
                 main: {
                   columns: {
                     dataColumns: [
@@ -253,35 +212,16 @@ export const PayoutReviewUiSchema = {
             },
           ],
         },
-      ],
-    },
     {
-      type: "HorizontalLayout",
-      config: { defaultStyle: true },
+      type: "WrapperLayout",
+      config:{
+        main:{
+        label:"Pending Actions",
+        divider:true,
+        },
+        defaultStyle:true
+      },
       elements: [
-        {
-          type: "Control",
-          scope: "#/properties/heading",
-
-          options: {
-            widget: "Box",
-          },
-          config: {
-            layout: 11.5,
-            main: {
-              heading: "Pending Actions",
-              dividerAvailable: true,
-            },
-          },
-        },
-        {
-          type: "Control",
-          scope: "#/properties/EmptyBox",
-          options: {
-            widget: "EmptyBox",
-          },
-          config: { layout: 5.5 },
-        },
         {
           type: "Control",
           scope: "#/properties/pendingActionList",
@@ -290,7 +230,7 @@ export const PayoutReviewUiSchema = {
             widget: "Table",
           },
           config: {
-            layout: 11.5,
+            layout: 12,
             main: {
               allRowsData: [],
               columns: {
@@ -344,8 +284,8 @@ export const PayoutReviewUiSchema = {
             layout: {
               xs: 11,
               sm: 11,
-              md: 5.5,
-              lg: 5.5,
+              md: 6,
+              lg: 6,
             },
             main: {
               label: "Remarks",
@@ -363,12 +303,12 @@ export const PayoutReviewUiSchema = {
             layout: {
               xs: 11,
               sm: 11,
-              md: 5.5,
-              lg: 5.5,
+              md: 6,
+              lg: 6,
             },
             main: {
               label: "Action",
-              options: [{}],
+              options: [],
             },
           },
         },
@@ -382,8 +322,8 @@ export const PayoutReviewUiSchema = {
             layout: {
               xs: 11,
               sm: 11,
-              md: 5.5,
-              lg: 5.5,
+              md: 6,
+              lg: 6,
             },
           },
         },
@@ -398,8 +338,8 @@ export const PayoutReviewUiSchema = {
             layout: {
               xs: 11,
               sm: 11,
-              md: 5.5,
-              lg: 5.5,
+              md: 6,
+              lg: 6,
             },
             main: {
               name: "Submit",
@@ -411,7 +351,7 @@ export const PayoutReviewUiSchema = {
               size: "small",
             },
             style: {
-              width: "25%",
+              width: {xs:"100%",sm:"100%",md:"25%"},
               float: "right",
             },
           },

@@ -1,13 +1,13 @@
-export const RolePermissionRecordsUISchema = {
+export const RolePermissionRecordsUISchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -16,7 +16,7 @@ export const RolePermissionRecordsUISchema = {
               options: {
                 widget: "Box",
               },
-              config: { layout: 5.5,
+              config: { layout: 8.5,
                 main: { heading: "Role Permission Master" },
                 style: {
                   fontFamily: "Roboto",
@@ -36,12 +36,7 @@ export const RolePermissionRecordsUISchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: {
-                  xs: 6,
-                  sm: 4,
-                  md: 5.5,
-                  lg: 5.5,
-                },
+                layout: 3,
                 main: {
                   name: "New Records",
                   icon: "AddIcon",
@@ -56,15 +51,13 @@ export const RolePermissionRecordsUISchema = {
               },
             },
           ],
-        },
-      },
     },
 
     {
       type: "TabLayout",
       config: {
         main: {
-          labels: ["Approve", "Pending", "Reject"],
+          tabLabels : ["Approve", "Pending", "Reject"],
           layout: 12,
         },
       },

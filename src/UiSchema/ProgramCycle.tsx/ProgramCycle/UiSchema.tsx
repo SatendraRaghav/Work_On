@@ -1,13 +1,13 @@
-export const ProgramMasterCycleUiSchema = {
+export const ProgramMasterCycleUiSchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const ProgramMasterCycleUiSchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8,
                 main: {
                   heading: "Cycle Master",
                 },
@@ -31,7 +31,7 @@ export const ProgramMasterCycleUiSchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: 5.5,
+                layout: 3,
                 main: {
                   icon: "BackIcon",
                   styleDefault: true,
@@ -45,14 +45,12 @@ export const ProgramMasterCycleUiSchema = {
               },
             },
           ],
-        },
-      },
     },
     {
       type: "TabLayout",
       config: {
         main: {
-          labels: ["Core", "Workflow", "Invoice", "Reports", "Clawback"],
+          tabLabels : ["Core", "Workflow", "Invoice", "Reports", "Clawback"],
           defaultStyle: true,
         },
       },
@@ -93,7 +91,7 @@ export const ProgramMasterCycleUiSchema = {
                 main: {
                   label: "Program Name",
                   type: "text",
-                  options: [{}],
+                  options: [],
                   errorMessage: "Program Name is not selected",
                 },
               },
@@ -110,6 +108,7 @@ export const ProgramMasterCycleUiSchema = {
                 main: {
                   label: "Start Date",
                   onClick: "verifyStartDate",
+                  // onChange: "verifyStartDate",
                   type: "date",
                   errorMessage: "Start Date is empty or invalid",
                 },
@@ -128,6 +127,7 @@ export const ProgramMasterCycleUiSchema = {
                   label: "End Date",
                   type: "date",
                   onClick: "verifyEndDate",
+                  // onChange: "verifyEndDate",
                   errorMessage: "End Date is empty or invalid",
                 },
               },

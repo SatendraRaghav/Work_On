@@ -20,9 +20,7 @@ export const RolePermissionForm = (
       store.setUiSchema(UiSchema);
 
     },
-    onChange:()=>{
-   console.log("onChange")
-    },
+   
     getFormData: async function () {
       const action = store.searchParams?.get("id")
       let formdata = {}

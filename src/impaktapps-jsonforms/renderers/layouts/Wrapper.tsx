@@ -39,13 +39,12 @@ const Wrapper = function Wrapper({
  
       <>
     {uischema?.config?.main?.label && (
-        <Box sx={{ 
-          }}>
+        <Box >
           <Typography
             component={"div"}
             sx={{
                padding:"10px",
-              paddingLeft:"32px",
+              paddingLeft:"28px",
              
               fontSize: { xs: "16px", sm: "20px" },
               fontFamily: "roboto",
@@ -61,15 +60,17 @@ const Wrapper = function Wrapper({
     <Grid2
     container
     xs={uischema?.config?.layout||11}
-    rowSpacing={0}
-    spacing={2}
-    justifyContent={'space-around'}
-    columnSpacing={4}
+    rowSpacing={uischema.config?.main?.rowSpacing||2}
+    columnSpacing={uischema.config?.main?.columnSpacingSpacing||2}
+    gap={uischema.config?.main?.gap}
+    spacing={uischema.config?.main?.spacing||2}
+    justifyContent="space-around"
       sx={{
         width: "98%",
         margin: "15px auto ",
         background: "white",
         borderRadius: "20px",
+        paddingBottom:uischema.config?.main?.label ?"10px":"auto",
         ...uischema?.config?.style?.wrapperStyle,
       }}
     >
@@ -110,8 +111,7 @@ const Wrapper = function Wrapper({
                 <JsonFormsDispatch
                   schema={schema}
                   uischema={child}
-                  // path={path}
-                  path={composePaths(path, `${0}`)}
+                  path={path}
                   cells={cells}
                   renderers={renderers}
                 />

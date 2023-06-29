@@ -1,13 +1,13 @@
-export const GroupMasterRecordsUISchema = {
+export const GroupMasterRecordsUISchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const GroupMasterRecordsUISchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8.5,
                 main: {
                   heading: "Group Master",
                 },
@@ -31,12 +31,7 @@ export const GroupMasterRecordsUISchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: {
-                  xs: 6,
-                  sm: 4,
-                  md: 5.5,
-                  lg: 5.5,
-                },
+                layout: 3,
                 main: {
                   name: "New Records",
                   icon: "AddIcon",
@@ -51,14 +46,12 @@ export const GroupMasterRecordsUISchema = {
               },
             },
           ],
-        },
-      },
     },
     {
       type: "TabLayout",
       config: {
         main: {
-          labels: ["Approve", "Pending", "Reject"],
+          tabLabels : ["Approve", "Pending", "Reject"],
           layout: 12,
         },
       },

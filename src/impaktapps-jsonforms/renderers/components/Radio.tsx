@@ -12,7 +12,7 @@ import { Stack } from "@mui/system";
 import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { radioInputProps } from "../interface/inputfieldProps";
-import Helpertext from "../common/Helpertext";
+import Helpertext from "../common/HelperText";
 import { useJsonForms } from "@jsonforms/react";
 
 const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {

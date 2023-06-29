@@ -1,4 +1,4 @@
-export const HomeUiSchema = {
+export const HomeUiSchema:any = {
     "type": "HorizontalLayout",
     "elements": [
       {

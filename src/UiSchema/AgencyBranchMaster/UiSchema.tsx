@@ -92,7 +92,7 @@ export const  AgencyBranchUISchema = {
       "value": {
         "content": {
           "label": "Agency",
-          options:[{}],
+          options:[],
           "required": true
         }
       }

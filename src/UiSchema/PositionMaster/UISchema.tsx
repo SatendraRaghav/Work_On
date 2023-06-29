@@ -1,13 +1,13 @@
-export const PositionMasterUISchema = {
+export const PositionMasterUISchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const PositionMasterUISchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8,
                 main: {
                   heading: "Position Master",
                 },
@@ -36,7 +36,7 @@ export const PositionMasterUISchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: 5.5,
+                layout: 3,
                 main: {
                   icon: "BackIcon",
                   styleDefault: true,
@@ -50,12 +50,16 @@ export const PositionMasterUISchema = {
               },
             },
           ],
-        },
-      },
     },
     {
-      type: "HorizontalLayout",
-      config:{defaultStyle: true},
+      type: "WrapperLayout",
+      config:{
+        main:{
+          label:"Position Details",
+          divider:true
+        },
+        defaultStyle:true
+      },
       elements: [
         {
           type: "Control",
@@ -84,7 +88,7 @@ export const PositionMasterUISchema = {
             layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
             main: {
               label: "Position Type",
-              options: [{}],
+              options: [],
               errorMessage: "Position Type is not selected",
             },
           },
@@ -100,7 +104,7 @@ export const PositionMasterUISchema = {
             layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
             main: {
               label: "Reporting To",
-              options: [{}],
+              options: [],
               errorMessage: "Reporting To is not selected",
             },
           },

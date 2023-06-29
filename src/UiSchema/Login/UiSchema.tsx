@@ -1,4 +1,4 @@
-export const LoginUiSchema = {
+export const LoginUiSchema:any = {
   type: "HorizontalLayout",
   elements: [ 
     {

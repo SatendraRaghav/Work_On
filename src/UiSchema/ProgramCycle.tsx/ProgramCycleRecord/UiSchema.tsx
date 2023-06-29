@@ -1,13 +1,13 @@
-export const ProgramMasterCycleRecordUiSchema = {
+export const ProgramMasterCycleRecordUiSchema:any= {
   type: "HorizontalLayout",
   elements: [
     {
-      type: "Control",
-      scope: "#/properties/reportListWrapper",
-      options: {
-        widget: "Wrapper",
-        detail: {
-          type: "HorizontalLayout",
+          type: "WrapperLayout",
+          config:{
+            main:{
+              rowSpacing:3
+            }
+          },
           elements: [
             {
               type: "Control",
@@ -17,7 +17,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                 widget: "Box",
               },
               config: {
-                layout: 5.5,
+                layout: 8.5,
                 main: {
                   heading: "Cycle Master",
                 },
@@ -31,7 +31,7 @@ export const ProgramMasterCycleRecordUiSchema = {
                 widget: "IconButton",
               },
               config: {
-                layout: 5.5,
+                layout: 3,
                 main: {
                   name: "New Records",
                   icon: "AddIcon",
@@ -46,14 +46,12 @@ export const ProgramMasterCycleRecordUiSchema = {
               },
             },
           ],
-        },
-      },
     },
 
     {
       type: "Control",
       scope: "#/properties/features",
-       config:{main:{labels: ["Approve", "Pending", "Reject"]}},
+       config:{main:{labels : ["Approve", "Pending", "Reject"]}},
       options: {
         widget: "Tab",
         detail: {

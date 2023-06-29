@@ -1,6 +1,6 @@
 import { ControlProps, LayoutProps, OwnPropsOfEnum, ValidationMode } from "@jsonforms/core";
 import { WithInput } from "@jsonforms/material-renderers";
-import { impaktappsJsonformsStore } from "../context/impaktappsJsonformsStore";
+import { ImpaktAppsJsonFormsStore } from "../context/impaktAppsJsonFormsStore";
 
 export interface inputProps extends ControlProps,WithInput{
     uischema:any

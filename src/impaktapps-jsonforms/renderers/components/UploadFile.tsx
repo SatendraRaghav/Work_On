@@ -12,7 +12,7 @@ import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { inputProps } from "../interface/inputfieldProps";
 import LoaderInfo from "../common/LoaderInfo";
-import Helpertext from "../common/Helpertext";
+import Helpertext from "../common/HelperText";
 import { ProgressBar } from "./Button";
 const UploadFile = memo(function (props: inputProps) {
   const { data, handleChange, uischema, path, errors, required } = props;
