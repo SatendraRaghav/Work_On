@@ -10,8 +10,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { DataContext, actions } from "../Reducer";
 import { useContext } from "react";
+//@ts-ignore
 import logo from "../assets/hyperformLogo.jpg";
-// import { userValue, setUserValue } from "../Apple";
+// import { userValue, setUserValue } from "../App";
 import { navigator } from "../serviceHolder";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -50,6 +51,7 @@ export default function Header({
     zIndex: theme.zIndex.drawer + 1,
   }));
   const StyledMenu = styled((props: MenuProps) => (
+       //@ts-ignore
     <Menu open={false} elevation={0} {...props} />
   ))(({ theme }) => ({
     "& .MuiPaper-root": {
@@ -107,6 +109,7 @@ export default function Header({
           >
             <StyledMenu
               id="demo-customized-menu"
+                 //@ts-ignore
               MenuListProps={{
                 "aria-labelledby": "demo-customized-button",
               }}

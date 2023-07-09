@@ -1,60 +1,68 @@
-export const ProgramMasterCycleUiSchema:any = {
+export const ProgramMasterCycleUiSchema: any = {
   type: "HorizontalLayout",
   elements: [
     {
-          type: "WrapperLayout",
-          config:{
-            main:{
-              rowSpacing:3
-            }
+      type: "WrapperLayout",
+      config: {
+        main: {
+          rowSpacing: 3,
+        },
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/programType",
+
+          options: {
+            widget: "Box",
           },
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/programType",
-
-              options: {
-                widget: "Box",
-              },
-              config: {
-                layout: 8,
-                main: {
-                  heading: "Cycle Master",
-                },
-              },
+          config: {
+            layout: 8,
+            main: {
+              heading: "Cycle Master",
             },
-            {
-              type: "Control",
-              scope: "#/properties/Back_Button",
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/Back_Button",
 
-              options: {
-                widget: "IconButton",
-              },
-              config: {
-                layout: 3,
-                main: {
-                  icon: "BackIcon",
-                  styleDefault: true,
-                  size: "small",
-                  onClick: "backHandler",
-                  tooltipMessage: "Back",
-                },
-                style: {
-                  float: "right",
-                },
-              },
+          options: {
+            widget: "IconButton",
+          },
+          config: {
+            layout: 3,
+            main: {
+              icon: "BackIcon",
+              styleDefault: true,
+              size: "small",
+              onClick: "backHandler",
+              tooltipMessage: "Back",
             },
-          ],
+            style: {
+              float: "right",
+            },
+          },
+        },
+      ],
     },
     {
       type: "TabLayout",
       config: {
         main: {
-          tabLabels : ["Core", "Workflow", "Invoice", "Reports", "Clawback"],
+          tabLabels: [
+            "Core",
+            "Workflow",
+            "Invoice",
+            "Reports",
+            "Clawback",
+            "Adjustments",
+            "Timeouts",
+          ],
           defaultStyle: true,
         },
       },
-    
+
       elements: [
         {
           type: "HorizontalLayout",
@@ -253,7 +261,6 @@ export const ProgramMasterCycleUiSchema:any = {
                 main: {
                   required: false,
                   onClick: "Download_Invioce_File",
-                 
                 },
                 style: {
                   backgroundColor: "none",
@@ -313,9 +320,9 @@ export const ProgramMasterCycleUiSchema:any = {
                   color: "secondary",
                   variant: "standard",
                   options: [
-                    { label: "DSL", config: "DSL" },
-                    { label: "PSL", config: "PSL" },
-                    { label: "Home LOAN", config: "Home LOAN" },
+                    { label: "DSL", value: "DSL" },
+                    { label: "PSL", value: "PSL" },
+                    { label: "Home LOAN", value: "Home LOAN" },
                   ],
                   errorMessage: "Reports are not selected",
                 },
@@ -367,6 +374,144 @@ export const ProgramMasterCycleUiSchema:any = {
 
               options: {
                 widget: "EmptyBox",
+              },
+            },
+          ],
+        },
+        {
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/adjustments",
+              layout: 11.5,
+              options: {
+                detail: {
+                  type: "HorizontalLayout",
+                  elements: [
+                    {
+                      type: "Control",
+                      scope: "#/properties/adjustment_type",
+
+                      options: {
+                        widget: "SelectInputField",
+                      },
+                      config: {
+                        layout: {
+                          xs: 11,
+                          sm: 11,
+                          md: 5.5,
+                          lg: 5.5,
+                        },
+                        main: {
+                          label: "Adjustment Type",
+                          type: "text",
+                          options: [
+                            {
+                              label: "Payee",
+                              value: "Payee",
+                            },
+                            {
+                              label: "Component",
+                              value: "Component",
+                            },
+                          ],
+                          errorMessage: "Adjustment Type is not selected",
+                        },
+                      },
+                    },
+                    {
+                      type: "Control",
+                      scope: "#/properties/adjustment_parameter",
+
+                      options: {
+                        widget: "InputField",
+                      },
+                      config: {
+                        layout: {
+                          xs: 11,
+                          sm: 11,
+                          md: 5.5,
+                          lg: 5.5,
+                        },
+                        main: {
+                          label: "Parameter Name",
+                          errorMessage: "Adjustment Type is not selected",
+                        },
+                      },
+                    },
+                    {
+                      type: "Control",
+                      scope: "#/properties/adjustment_parameter_type",
+
+                      options: {
+                        widget: "InputField",
+                      },
+                      config: {
+                        layout: {
+                          xs: 11,
+                          sm: 11,
+                          md: 5.5,
+                          lg: 5.5,
+                        },
+                        main: {
+                          label: "Parameter Type",
+                        },
+                      },
+                    },
+                    {
+                      type: "Control",
+                      scope: "#/properties/EmptyBox",
+
+                      options: {
+                        widget: "EmptyBox",
+                      },
+                      config: {
+                        layout: {
+                          xs: 11,
+                          sm: 11,
+                          md: 5.5,
+                          lg: 5.5,
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/loadTimeout",
+
+              options: {
+                widget: "InputField",
+              },
+              config: {
+                layout: 6,
+                main: {
+                  label: "Load Time Out",
+                  type: "text",
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/computeTimeout",
+
+              options: {
+                widget: "InputField",
+              },
+              config: {
+                layout: 6,
+                main: {
+                  label: "Compute Time Out",
+                  type: "text",
+                },
               },
             },
             {

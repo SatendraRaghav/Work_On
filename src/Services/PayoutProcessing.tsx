@@ -6,11 +6,8 @@ import { PayoutProcessingSchema } from "../UiSchema/PayoutProcessing/Schema";
 import { myService } from "../service/service";
 import _ from "lodash";
 
-export const PayoutProcessing = (
-  store:any,
-  dynamicData:any
-) => {
-  const service = myService(dynamicData?.setLoading,  store.navigate);
+export const PayoutProcessing = (store: any, dynamicData: any) => {
+  const service = myService(dynamicData?.setLoading, store.navigate);
   return {
     setPage: async function () {
       var formdata = await this.getFormdata();
@@ -21,11 +18,11 @@ export const PayoutProcessing = (
       store.setSchema(schema);
     },
     getFormdata: async function () {
-      return {}
+      return {};
     },
     getUiSchema: async function () {
       let uiSchema = PayoutProcessingUiSchema;
-      console.log(uiSchema)
+      console.log(uiSchema);
       let data: any = null;
       await service
         .get("/program/getAll")
@@ -33,9 +30,8 @@ export const PayoutProcessing = (
           data = response.data.payload.map((elem: any) => {
             return { label: elem.name, value: elem.id };
           });
-           
-           uiSchema.elements[1].elements[0].config.main.options =
-           data;
+
+          uiSchema.elements[1].elements[0].config.main.options = data;
         })
         .catch((error) => {
           console.log(error);
@@ -48,33 +44,29 @@ export const PayoutProcessing = (
     },
     onChange: async () => {
       let uiSchema = PayoutProcessingUiSchema;
-      if(  store.newData?.programType){
-      const result: any = await service
-        .get(
-          `/programCycle/getByProgramId?id=${
-           store.newData?.programType
-          } `
-        )
-        .then((response: any) => {
-          const result1 = response.data.payload.map((elem: any) => {
-            const cycle = { label: elem.name, value: elem.id };
-            return cycle;
+      if (store.newData?.programType) {
+        const result: any = await service
+          .get(`/programCycle/getByProgramId?id=${store.newData?.programType} `)
+          .then((response: any) => {
+            const result1 = response.data.payload.map((elem: any) => {
+              const cycle = { label: elem.name, value: elem.id };
+              return cycle;
+            });
+
+            uiSchema.elements[1].elements[1].config.main.options = result1;
+            store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
+          })
+          .catch((error) => {
+            return [];
           });
-          
-          uiSchema.elements[1].elements[1].config.main.options =
-            result1;
-          store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
-        })
-        .catch((error) => {
-          return [];
-        });}
+      }
     },
     LoadFileData: async function () {
       let auditData: Array<any> = [];
       let exceptionData: Array<any> = [];
       let data3 = JSON.stringify({
         payload: {
-          programCycleId: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          programCycleId: store.ctx.core.data.programCycle,
         },
       });
 
@@ -94,21 +86,16 @@ export const PayoutProcessing = (
         })
         .then((response) => {
           exceptionData = response;
-  
+
           store.setUiSchema(PayoutProcessingUiSchema);
           store.setSchema({});
-          store.setNotify({SuccessMessage:"Data Loaded Successfully",Success:true,})
-
+          store.setNotify({
+            SuccessMessage: "Data Loaded Successfully",
+            Success: true,
+          });
         })
         .catch((error) => {
-          console.log(error);
-          store.setFormdata({
-            ...store.ctx.core.data,
-            "DataListWrapper.0.AuditList": auditData,
-            "DataListWrapper.0.ExceptionList": exceptionData,
-          });
-          store.setNotify({FailMessage:"Data Loading Failed",Fail:true,})
-
+          store.setNotify({ FailMessage: "Data Loading Failed", Fail: true });
         });
     },
     ComputeData: async function () {
@@ -116,7 +103,7 @@ export const PayoutProcessing = (
       let exceptionData: Array<any> = [];
       let data2 = JSON.stringify({
         payload: {
-          programCycleId: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          programCycleId: store.ctx.core.data.programCycle,
         },
       });
       await service
@@ -135,30 +122,23 @@ export const PayoutProcessing = (
         })
         .then(async (response) => {
           exceptionData = response;
-          
-          PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
-           
-          PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
-
           store.setUiSchema(PayoutProcessingUiSchema);
-          store.setNotify({SuccessMessage:"Data Compute process completed",Success:true,})
-
+          store.setNotify({
+            SuccessMessage: "Data Compute process completed",
+            Success: true,
+          });
         })
         .catch((err) => {
-          
-          PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
-           
-          PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
-          store.setNotify({FailMessage:"Data Compute process failed",Fail:true,})
-
+          store.setNotify({
+            FailMessage: "Data Compute process failed",
+            Fail: true,
+          });
         });
     },
     SartWorkflow: function () {
-      let auditData: Array<any> = [];
-      let exceptionData: Array<any> = [];
       let data2 = JSON.stringify({
         payload: {
-          programCycleId: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          programCycleId: store.ctx.core.data.programCycle,
         },
       });
       service
@@ -172,82 +152,79 @@ export const PayoutProcessing = (
           return this.AuditDataLoad();
         })
         .then((response) => {
-          auditData = response;
           return this.ExceptionDataLoad();
         })
         .then((response) => {
-          exceptionData = response;
-           
-           PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
-            
-           PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
           store.setUiSchema(PayoutProcessingUiSchema);
-          store.setNotify({SuccessMessage:"Workflow Has Been Started",Success:true,})
-
+          store.setNotify({
+            SuccessMessage: "Workflow Has Been Started",
+            Success: true,
+          });
         })
         .catch((error) => {
-          console.log(error);
-           
-           PayoutProcessingUiSchema.elements[3].elements[0].config.main.allRowsData = auditData;
-            
-           PayoutProcessingUiSchema.elements[4].elements[0].config.main.allRowsData=exceptionData;
+          store.setNotify({
+            FailMessage: "Workflow process failed",
+            Fail: true,
+          });
         });
     },
-    searchData: async () => {
+    searchData: async function () {
       const body = JSON.stringify({
         payload: {
           entityName: "ProgramCycle",
-          entityKey: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          entityKey: store.ctx.core.data.programCycle,
         },
       });
-      const result = await service
-        .post("/audit/getAuditsByEntityNameAndKey", body, {
-          headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest",
-          },
-        })
-        .then((response: any) => {
-          const result = response.data.payload;
-          result?.sort(function compare(a: any, b: any) {
-            return b.modifiedOn - a.modifiedOn;
-          });
-          const tempAuditData = result?.map((elem: any) => {
-            const timestamp1 = elem.createdOn;
-            const timestamp2 = elem.modifiedOn;
-            const createdDate = new Date(timestamp1);
-            const modifiedDate = new Date(timestamp2);
-            const createdDateString = createdDate.toLocaleString();
-            const modifiedDateString = modifiedDate.toLocaleString();
-            return {
-              ...elem,
-              createdOn: createdDateString,
-              modifiedOn: modifiedDateString,
-            };
-          });
-          const UiSchema = PayoutProcessingUiSchema
-          console.log(UiSchema)
-          // UiSchema.elements[3].config.main.allRowsData = tempAuditData;
-          
-          UiSchema.elements[3].elements[0].config.main.allRowsData = tempAuditData
-          console.log(UiSchema)
-          ;
-          store.setUiSchema(UiSchema);
-        })
-        .catch((error) => {
-          console.log(error);
-          return [];
-        });
+      await this.AuditDataLoad();
+      // await this.ExceptionDataLoad();
+      // const result = await service
+      //   .post("/audit/getAuditsByEntityNameAndKey", body, {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "X-Requested-With": "XMLHttpRequest",
+      //     },
+      //   })
+      //   .then((response: any) => {
+      //     const result = response.data.payload;
+      //     result?.sort(function compare(a: any, b: any) {
+      //       return b.modifiedOn - a.modifiedOn;
+      //     });
+      //     const tempAuditData = result?.map((elem: any) => {
+      //       const timestamp1 = elem.createdOn;
+      //       const timestamp2 = elem.modifiedOn;
+      //       const createdDate = new Date(timestamp1);
+      //       const modifiedDate = new Date(timestamp2);
+      //       const createdDateString = createdDate.toLocaleString();
+      //       const modifiedDateString = modifiedDate.toLocaleString();
+      //       return {
+      //         ...elem,
+      //         createdOn: createdDateString,
+      //         modifiedOn: modifiedDateString,
+      //       };
+      //     });
+      //     const UiSchema = PayoutProcessingUiSchema
+      //     console.log(UiSchema)
+      //     // UiSchema.elements[3].config.main.allRowsData = tempAuditData;
+
+      //     UiSchema.elements[3].elements[0].config.main.allRowsData = tempAuditData
+      //     console.log(UiSchema)
+      //     ;
+      //     store.setUiSchema(UiSchema);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     return [];
+      //   });
     },
     AuditDataLoad: async function () {
       const body = JSON.stringify({
         payload: {
-          entityName: "ProgramCycle",
-          entityKey: store.ctx.core.data.PayoutProcessingWrapper[0].programCycle,
+          entityName: "payoutProcessingrequest",
+          entityKey: store.ctx.core.data.programCycle,
         },
       });
       const result = await service
-        .post("/audit/getAuditsByEntityNameAndKey", body, {
+        .post("/PayoutProcessingRequest/getAllByCycle", body, {
           headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest",
@@ -271,8 +248,9 @@ export const PayoutProcessing = (
               modifiedOn: modifiedDateString,
             };
           });
-
-          return tempAuditData;
+          store.setFormdata({...store.formData,
+            AuditList:tempAuditData
+          })
         })
         .catch((error) => {
           console.log(error);
@@ -301,7 +279,10 @@ export const PayoutProcessing = (
               modifiedOn: modifiedDateString,
             };
           });
-          return tempExpenseData;
+          store.setFormdata({...store.formData,
+            ExceptionList:tempExpenseData
+
+          })
         })
         .catch((error) => {
           console.log(error);

@@ -1,69 +1,41 @@
-import { JsonFormsStateContext } from "@jsonforms/react";
-import { ReportTemplate1UiSchema } from "../../UiSchema/Template/ReportTemplate1/UiSchema";
 import { myService } from "../../service/service";
-import { downloadFile } from "../../utils/downloadFile";
-import { buildSchema, buildUiSchema } from "../../utils/buildUiSchema";
-import { ReportTemplateSchema } from "../../UiSchema/Template/ReportTemplate1/Schema";
-import { EmptyBoxField } from "../../components/EmptyBox";
-import { validateForm } from "../../utils/validateForm";
+import { getUpdatedUiSchema } from "../../utils/getUpdatedUiSchema";
+import _ from "lodash";
 import { userValue } from "../../Apple";
-export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:any) => {
-  const service = myService();
+import { validateForm } from "../../utils/validateForm";
+export const reviewTemplate = (
+  store: any,
+  dynamicData: any,
+  config:any,
+  uiSchema: any,
+  schema: any
+) => {
+  const service =myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
-      const formdata = await this.getFormdata();
-      const uiSchema = await this.getUiSchema();
-      const schema = await this.getSchema();
-
-      store.setFormdata(formdata);
       store.setUiSchema(uiSchema);
+      const updatedUiSchema = await this.getUiSchema();
+      const schema = this.getSchema();
       store.setSchema(schema);
+      updatedUiSchema && store.setUiSchema(updatedUiSchema);
+      const formData: any = await this.getFormdata();
+      store.setFormdata(formData);
     },
-    getFormdata: async () => {
+    getFormdata: () => {
       return {};
     },
     getUiSchema: async function () {
-      console.log(uiSchema);
-      let data: any = null;
-      await service
-        .get("/program/getAll")
-        .then((response) => {
-          data = response.data.payload.map((elem: any) => {
-            return { label: elem.name, value: elem.id };
-          });
-          
-          uiSchema.elements[1].elements[0].config.main.options =
-            data;
-        })
-        .catch((error) => {
-          uiSchema.elements[1].elements[0].config.main.options =[]
-          console.log(error);
-          return [];
-        });
-      return uiSchema;
+      const responseUiSchema = await getUpdatedUiSchema(config, uiSchema,service);
+      return responseUiSchema;
     },
     getSchema: () => {
       return schema;
     },
-    onChange: async function () {
-      if( store.newData?.programType){
-      await service
-        .get(`/programCycle/getByProgramId?id=${store.newData?.programType} `)
-        .then((response: any) => {
-          const result1 = response.data.payload.map((elem: any) => {
-            const cycle = { label: elem.name, value: elem.id };
-            return cycle;
-          });
-          
-          uiSchema.elements[1].elements[1].config.main.options =
-            result1;
-            store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
-        })
-        .catch((error) => {});
-      }
+    search: async function () {
+      await this.eventHandle();
     },
-    loadTable: async () => {
-      const UiSchema = uiSchema;
+    eventHandle: async function () {
+      const formData = _.cloneDeep(store.formData);
       if (!validateForm(store.schema, store.ctx.core.errors)) {
         store.setValidation("ValidateAndShow");
         store.setNotify({
@@ -82,7 +54,7 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
             userName: userValue.payload.username,
             programCycleId: store.ctx.core.data.programCycle,
             programId: store.ctx.core.data.program,
-            pageName: uiSchema.pageName,
+            pageName: store.uiSchema.pageName,
           },
         },
       });
@@ -97,7 +69,7 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
             userName: userValue?.payload?.username,
             programCycleId: store.ctx.core.data.programCycle,
             programId: store.ctx.core.data.program,
-            pageName: uiSchema.pageName,
+            pageName: store.uiSchema.pageName,
           },
         },
       });
@@ -112,7 +84,7 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
             userName: userValue?.payload?.username,
             programCycleId: store.ctx.core.data.programCycle,
             programId: store.ctx.core.data.program,
-            pageName: uiSchema.pageName,
+            pageName: store.uiSchema.pageName,
           },
         },
       });
@@ -123,18 +95,18 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
           userName: userValue.payload.username,
           programCycleId: store.ctx.core.data.programCycle,
 
-          pageName: uiSchema.pageName,
+          pageName: store.uiSchema.pageName,
         },
       };
       await service
         .post("/workflow/getActionListOnCandidateUserAndGroup", myObj)
         .then((res) => {
           console.log(res);
-          const options = res.data.payload.map((e: string | number) => {
+          const options = res?.data?.payload?.map((e: string | number) => {
             return { label: e, value: e };
           });
-          
-          UiSchema.elements[3].elements[5].config.main.options = options;
+
+          store.uiSchema.elements[3].elements[2].config.main.options = options;
         });
       const tablesData: Array<any> = [];
       await service
@@ -164,23 +136,37 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
         })
         .then(async (response) => {
           tablesData.push(response.data.payload.reportData.values);
-          
-          UiSchema.elements[2].elements[1].elements[0].config.main.allRowsData =
-            tablesData[0];
-          
-          UiSchema.elements[2].elements[1].elements[1].config.main.allRowsData =
-            tablesData[1];
-          
-          UiSchema.elements[3].elements[2].config.main.allRowsData =
-            tablesData[2];
-            store.setUiSchema(UiSchema)
+
+          formData["caseReportList"] = tablesData[0];
+          formData["summaryReportList"] = tablesData[1];
+          formData["pendingActionList"] = tablesData[2];
+          // store.setUiSchema(UiSchema)
+          store.setFormdata(formData);
         })
         .catch((error) => {
           console.log(error);
         });
       return tablesData;
     },
-    actionFunction: async function () {
+    onChange: async function () {
+      const uiSchema = _.cloneDeep(store.uiSchema);
+      if (store.newData?.program) {
+        await service
+          .get(`/programCycle/getByProgramId?id=${store.newData?.program} `)
+          .then((response: any) => {
+            const result1 = response.data.payload.map((elem: any) => {
+              const cycle = { label: elem.name, value: elem.id };
+              return cycle;
+            });
+
+            uiSchema.elements[1].elements[1].config.main.options = result1;
+            store.setUiSchema(uiSchema);
+          })
+          .catch((error) => {});
+      }
+    },
+    submit: async function () {
+      const formData = _.cloneDeep(store.formData);
       if (
         store.ctx.core.data.remarks === undefined ||
         store.ctx.core.data.remarks === ""
@@ -191,10 +177,7 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
         });
         return;
       }
-      if (
-        store.ctx.core.data.actions === undefined ||
-        store.ctx.core.data.actions === null
-      ) {
+      if (formData.actions === undefined || formData.actions === null) {
         store.setNotify({
           FailMessage: "Please Select Action To Proceed Further",
           Fail: true,
@@ -202,8 +185,8 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
         return;
       }
       if (
-        store.ctx.core.data["pendingActionListSelectedRowData"] === undefined ||
-        store.ctx.core.data["pendingActionListSelectedRowData"].length === 0
+        formData["pendingActionListSelectedRowData"]?.data === undefined ||
+        formData["pendingActionListSelectedRowData"]?.data?.length === 0
       ) {
         store.setNotify({
           FailMessage: "Please Select Pending Tasks To Take Action",
@@ -214,7 +197,7 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
       console.log(store.ctx.core.data);
       const taskMapList = store.ctx.core.data[
         "pendingActionListSelectedRowData"
-      ].map((elem: any) => {
+      ]?.data?.map((elem: any) => {
         return {
           taskId: `${elem.id}`,
           businessKey: elem.businessKey,
@@ -225,8 +208,8 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
         payload: {
           taskMapList: taskMapList,
           completionMap: {
-            action: store.ctx.core.data.actions,
-            remarks: store.ctx.core.data.remarks,
+            action: formData.actions,
+            remarks: formData.remarks,
           },
         },
       };
@@ -238,22 +221,21 @@ export const template4 = (store: any, dynamicData: any, uiSchema: any, schema:an
           },
         })
         .then((response) => {
-          return this.loadTable();
+          return this.eventHandle();
         })
         .then((response) => {
           const message =
             store.ctx.core.data.actions === "Reject" ? "Rejected" : "Approved";
+
+          formData["caseReportList"] = response[0];
+          formData["summaryReportList"] = response[1];
+          formData["pendingActionList"] = response[2];
+          formData["caseReportListSelectedRowData"] = undefined;
+          formData["summaryReportListSelectedRowData"] = undefined;
+          formData["pendingActionListSelectedRowData"] = undefined;
           
-          uiSchema.elements[2].elements[1].elements[0].config.main.allRowsData =
-            response[0];
-          
-          uiSchema.elements[2].elements[1].elements[1].config.main.allRowsData =
-            response[1];
-          
-          uiSchema.elements[3].elements[2].config.main.allRowsData =
-            response[2];
-          store.setUiSchema(uiSchema);
           store.setNotify({ SuccessMessage: message, Success: true });
+          store.setFormdata(formData)
         })
         .catch((error) => {
           store.setNotify({ FailMessage: "Error", Fail: true });

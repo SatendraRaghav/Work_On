@@ -1,13 +1,10 @@
 import { JsonFormsStateContext } from "@jsonforms/react";
-
 import { myService } from "../service/service";
 import { ExternalDataSchema } from "../UiSchema/ExternalData/Schema";
 import { ExternalDataUiSchema } from "../UiSchema/ExternalData/UiSchema";
 import { downloadFile } from "../utils/downloadFile";
 import { validateForm } from "../utils/validateForm";
-// import { uischema } from "@jsonforms/examples/lib/examples/allOf";
-// import { uischema } from "@jsonforms/examples/lib/examples/allOf";
-let newui:any;
+// let newui:any;
 export const ExternalData = (
   store:any,
   dynamicData:any
@@ -20,7 +17,6 @@ export const ExternalData = (
   return {
     setPage: async function () {
       const uiSchema = await this.getUiSchema();
-      newui = uiSchema;
       store.setUiSchema(uiSchema);
       const schema = await this.getSchema();
       store.setSchema(schema);
@@ -29,7 +25,8 @@ export const ExternalData = (
       store.setFormdata(formdata);
     },
     getFormData: async function () {
-      return {};
+      const response = await this.loadTable();
+       return {LoadRecords:response}
     },
     getUiSchema: async function () {
       const uiSchema:unknown = ExternalDataUiSchema;
@@ -41,15 +38,11 @@ export const ExternalData = (
           data = response.data.payload.map((elem: any) => {
             return { label: elem.name, value: elem.id };
           });
-          
+          //@ts-ignore
           uiSchema.elements[1].elements[0].config.main.options = data;
-           return this.loadTable(uiSchema)
-        }).then((res)=>{
-          
-        uiSchema.elements[3].elements[0].config.main.allRowsData = res;
         })
         .catch((error) => {
-           
+            //@ts-ignore
          uiSchema.elements[3].elements[0].config.main.allRowsData = [];
         });
       return uiSchema;
@@ -112,7 +105,7 @@ export const ExternalData = (
           .then((response: any) => {
             fileUploadResponse = response.data.payload;
 
-            return this.loadTable(newui);
+            return this.loadTable();
           })
           .then((response) => {
           
@@ -139,7 +132,7 @@ export const ExternalData = (
           });
       }
     },
-    loadTable: async (uiSchema1:any) => {
+    loadTable: async () => {
       const finalResult = await service
         .get("/externalData/getAll?withData=false")
         .then((response: any) => {
@@ -162,7 +155,7 @@ export const ExternalData = (
     },
     loadData: async function () {
       let programId: any = store.ctx.core.data.programType;
-      let externalDataId: any = store.ctx.core.data?.docAggrementCopyId;
+      let externalDataId: any = store.ctx.core.data?.uploadAggrementCopyId;
       if (
         programId === undefined ||
         programId === null ||

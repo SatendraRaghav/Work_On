@@ -85,7 +85,9 @@ export const CycleForm = (
     changeFormdataToServer: () => {
       const reportsData =  store.ctx.core.data.reportNames.map((e:any)=>{
              return e.value
+            // return e
       })
+      
       const core = {
         name:  store.ctx.core.data.name,
         startDate:  store.ctx.core.data.startDate,
@@ -99,13 +101,13 @@ export const CycleForm = (
           features: {
             workflow: {
               processDefKey:  store.ctx.core.data.processDefKey1,
-              externalDataId:  store.ctx.core.data.workflowFileId,
-              externalFileName:  store.ctx.core.data.workflowFileName,
+              externalDataId:  store.ctx.core.data.uploadWorkflowFileId,
+              externalFileName:  store.ctx.core.data.downloadWorkflowFile,
             },
             invoice: {
               enabled:  store.ctx.core.data.invoiceEnabled,
-              externalDataId:  store.ctx.core.data.invoiceFileId,
-              externalFileName:  store.ctx.core.data.invoiceFileName,
+              externalDataId:  store.ctx.core.data.uploadInvoiceFileId,
+              externalFileName:  store.ctx.core.data.downloadInvoiceFile,
             },
             Reports: {
               names: reportsData,
@@ -113,6 +115,14 @@ export const CycleForm = (
             Clawback: {
               enabled:  store.ctx.core.data.clawbackEnabled,
             },
+            Adjustments : 
+            store.ctx.core.data.adjustments,
+            
+            timeouts:{
+              loadTimeOut: store.ctx.core.data.loadTimeout ,
+              computeTimeOut: store.ctx.core.data.computeTimeout ,
+            }
+
           },
         },
       };
@@ -136,17 +146,20 @@ export const CycleForm = (
         endDate: res.data.payload.endDate,
           downloadWorkflowFile:
           res.data.payload.config.features.workflow.externalFileName,
-        workflowFileId:
+          uploadWorkflowFileId:
           res.data.payload.config.features.workflow.externalDataId,
         processDefKey1: res.data.payload.config.features.workflow.processDefKey,
         downloadInvoiceFile:
           res.data.payload.config.features.invoice.externalFileName,
-        invoiceFileId: res.data.payload.config.features.invoice.externalDataId,
+          uploadInvoiceFileId: res.data.payload.config.features.invoice.externalDataId,
         invoiceEnabled: res.data.payload.config.features.invoice.enabled,
 
         reportNames: reportData,
-
         clawbackEnabled: res.data.payload.config.features.Clawback.enabled,
+        loadTimeout: res.data.payload.config.features?.timeouts?.loadTimeOut ,
+        computeTimeout: res.data.payload.config.features?.timeouts?.computeTimeOut ,
+        adjustments: res.data.payload.config.features?.Adjustments
+       
       };
       return newData;
     },
@@ -210,6 +223,7 @@ export const CycleForm = (
         .then((response: any) => {
           const data = { ... store.ctx.core.data };
           data[`${dynamicData.path}Id`] = response.data.payload;
+          data[`${dynamicData.path}Name`] = event.target.files[0].name;
           store.setFormdata({
             ...data,
             downloadWorkflowFile: event.target.files[0].name
@@ -291,9 +305,11 @@ export const CycleForm = (
         .post("/externalData/save", formData)
         .then((response: any) => {
           const data = { ... store.ctx.core.data };
-          data[`${dynamicData[5]}Id`] = response.data.payload;
+          data[`${dynamicData.path}Id`] = response.data.payload;
+          data[`${dynamicData.path}Name`] = event.target.files[0].name;
           store.setFormdata({
             ...data,
+            [`${dynamicData.path}Id`]:response.data.payload,
             downloadInvoiceFile: event.target.files[0].name
           });
 

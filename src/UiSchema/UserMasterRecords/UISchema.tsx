@@ -67,13 +67,14 @@ export const UserMasterRecordsUISchema:any= {
       config: {
         layout: 12,
         main: {
+          id:"user",
           tabLabels : ["Approve", "Pending", "Reject"],
         },
       },
       elements: [
         {
           type: "Control",
-          scope: "#/properties/ApproveRecords",
+          scope: "#/properties/UserApproveRecords",
           options: {
             widget: "Table",
           },

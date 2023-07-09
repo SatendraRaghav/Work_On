@@ -10,32 +10,9 @@ import Helpertext from "../common/HelperText";
 const ImpaktAppsSelect = memo(function CustomSelect(props: inputProps) {
   const { errors, uischema, data, required, handleChange, path } = props;
   const uischemaData = uischema?.config?.main;
-  const { id, permissions, theme, store,serviceProvider,setUiSchema,uiSchema, serviceHolder, pageName } =
+  const { id, permissions, theme } =
     useContext(DataContext);
-  // const [options, setOptions] = useState(uischemaData?.options);
-  // useEffect(() => {
-  //   setOptions(uischemaData.options);
-  // }, [uischemaData.options]);
-  const ctx = useJsonForms();
   const fieldName = getFieldName(path);
-  const callServiceProvider = async () => {
-    await serviceHolder.getService({ pageName,uiSchema,setUiSchema }).then((res: any) => {
-      return (
-        uischemaData?.loadConfig?.funcName &&
-        res[uischemaData?.loadConfig?.funcName](
-          uischemaData?.loadConfig
-        )
-        // .then((res: any) => {
-        //   // uischemaData.options = res;
-        //   // setOptions(res);
-        //   // return res;
-        // })
-      );
-    });
-  };
-  useEffect(() => {
-    callServiceProvider();
-  }, []);
   return (
     <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
       <FormControl
@@ -54,6 +31,7 @@ const ImpaktAppsSelect = memo(function CustomSelect(props: inputProps) {
           id="demo-simple-select"
           required={required}
           size={uischemaData?.size || "medium"}
+          disabled={uischemaData?.disabled}
           label={uischemaData?.label}
           defaultValue={props.data !== undefined ? data : ""}
           value={props.data !== undefined ? data : ""}

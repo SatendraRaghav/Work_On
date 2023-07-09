@@ -25,6 +25,12 @@ export const ProgramMasterCycleSchema = {
       type: "string",
       // minLength: 3,
     },
+    timeouts: {
+      type: "object",
+      properties: {},
+      // minLength: 3,
+    },
+  
     downloadInvoiceFile:{
       type: "string",
       minLength: 3,
@@ -34,8 +40,27 @@ export const ProgramMasterCycleSchema = {
     },
     clawbackEnabled:{
       type: "string",
-    }
-  },
+    },
+  adjustments: {
+    type: "array",
+    items: {
+      type: "object",
+      properties: {
+        adjustment_type: {
+          type: "string",
+          minLength: 3,
+        },
+        adjustment_parameter: {
+          type: "string",
+          minLength: 3,
+        },
+        adjustment_parameter_type: {
+          type: "string",
+          minLength: 3,
+        },
+      },
+    },
+  }},
   required: ["name", "program", "startDate", "endDate", "downloadWorkflowFile", "processDefKey1", "downloadInvoiceFile",
-    "invoiceEnabled", "reportNames", "clawbackEnabled"],
+    "invoiceEnabled", "reportNames", "clawbackEnabled", "adjustments"],
 };

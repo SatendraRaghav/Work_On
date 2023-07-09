@@ -51,6 +51,7 @@ export const GroupMasterRecordsUISchema:any = {
       type: "TabLayout",
       config: {
         main: {
+          id:"groupMaster",
           tabLabels : ["Approve", "Pending", "Reject"],
           layout: 12,
         },
@@ -58,7 +59,7 @@ export const GroupMasterRecordsUISchema:any = {
       elements: [
         {
           type: "Control",
-          scope: "#/properties/ApproveRecords",
+          scope: "#/properties/GroupApproveRecords",
           options: {
             widget: "Table",
           },

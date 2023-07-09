@@ -2,7 +2,6 @@ import MaterialReactTable from "material-react-table";
 import { Box, Button } from "@mui/material";
 import { useEffect, useState, useContext, memo } from "react";
 import {
-  ArrayControlProps,
   UISchemaElement,
   composePaths,
 } from "@jsonforms/core";
@@ -17,28 +16,26 @@ export const DataTablePro = function DataTablePro(props: inputProps) {
   const { data, uischema, path,schema,renderers, handleChange } =
   props;
   const uischemaData = uischema.config.main;
-  const [tableLoading, setTableLoading] = useState<boolean>(false);
+  const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [selection, setSelection] = useState({});
-  const [tableData, setTableData] = useState<any>([]);
-  const { serviceHolder, pageName, id, theme,formData } = useContext(DataContext);
+  const { id,theme,formData,pageName } = useContext(DataContext);
   useEffect(() => {
-    setTableData(data)
     if (data) {
       setTableLoading(false);
     }
     setTimeout(()=>{setTableLoading(false)},1000)
-  }, [data,formData]);
+  }, [data]);
   const csvOptions = {
-    fieldSeparator: uischemaData?.csvOptions?.fieldSeparator ?? ",",
-    quoteStrings: uischemaData?.csvOptions?.quoteStrings ?? '"',
-    decimalSeparator: uischemaData?.csvOptions?.decimalSeparator ?? ".",
-    showLabels: uischemaData?.csvOptions?.showLabels ?? true,
-    useBom: uischemaData?.csvOptions?.useBom ?? true,
-    useKeysAsHeaders: uischemaData?.csvOptions?.useKeysAsHeaders ?? false,
+    fieldSeparator: uischemaData?.csvOptions?.fieldSeparator || ",",
+    quoteStrings: uischemaData?.csvOptions?.quoteStrings || '"',
+    decimalSeparator: uischemaData?.csvOptions?.decimalSeparator || ".",
+    showLabels: uischemaData?.csvOptions?.showLabels || true,
+    useBom: uischemaData?.csvOptions?.useBom || true,
+    useKeysAsHeaders: uischemaData?.csvOptions?.useKeysAsHeaders || false,
     headers:
-      uischemaData?.csvOptions?.headers ??
+      uischemaData?.csvOptions?.headers ||
       uischemaData?.columns?.dataColumns?.map((c) => c.header),
-    filename: uischemaData?.csvOptions?.filename ?? id,
+    filename: uischemaData?.csvOptions?.filename || id||pageName,
   };
   const allowedField = uischemaData?.columns?.dataColumns?.map(
     (elem) => elem.accessorKey
@@ -51,11 +48,8 @@ export const DataTablePro = function DataTablePro(props: inputProps) {
       }
       return false;
     });
-    handleChange(`Selected${path}`,{id:selection,data:selectedRows} );
-  }, [selection,data]);
-  // useEffect(()=>{
-
-  // },formData)
+   data && selectedRows.length > 0 && handleChange(`${path}SelectedRowData`,{id:selection,data:selectedRows} );
+  }, [selection]);
   const csvExporter = new ExportToCsv(csvOptions);
   const handleExportRows = (rows: any[]) => {
     csvExporter.generateCsv(
@@ -77,12 +71,11 @@ export const DataTablePro = function DataTablePro(props: inputProps) {
     <div style={{ width: "100%", overflowX: "auto" }} className="myDiv">
       <MaterialReactTable
         columns={uischemaData?.columns?.dataColumns}
-        data={uischemaData.allRowsData||[]}
-        // data={data?data:[]}
+        data={data?data:[]}
         enableColumnResizing
         state={{
           isLoading: tableLoading,
-          rowSelection:formData[`Selected${path}`]?.id?formData[`Selected${path}`].id:[],
+          rowSelection:formData[`${path}SelectedRowData`]?.id?formData[`${path}SelectedRowData`].id:[],
         }}
         onRowSelectionChange={setSelection}
         enableRowActions={

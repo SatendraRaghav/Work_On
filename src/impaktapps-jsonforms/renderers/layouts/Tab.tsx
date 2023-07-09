@@ -55,7 +55,7 @@ export default function TabLayout({
   const [value, setValue] = React.useState(0);
   React.useEffect(() => {
     setValue(0);
-  }, [path]);
+  }, [uischema?.config?.main?.id]);
   const { theme } = React.useContext(DataContext);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

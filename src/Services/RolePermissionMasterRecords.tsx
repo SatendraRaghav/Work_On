@@ -11,6 +11,7 @@ export const RolePermissionRecords = (
   const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
+      store.setFormdata({});
       const schema = this.getSchema();
       store.setSchema(schema);
       const UiSchema = await this.getUiSchema();
@@ -19,43 +20,38 @@ export const RolePermissionRecords = (
       store.setFormdata(formData);
     },
     getFormData: async () => {
-      return {}
-    },
-    getUiSchema: async () => {
-      const UiSchema = JSON.parse(
-        JSON.stringify(RolePermissionRecordsUISchema)
-      );
-      console.log(UiSchema);
+      const fomData:any = {};
       const Api =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.master.role.RolePermissionStaging&status=A";
       const ApiPending =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.master.role.RolePermissionStaging&status=N";
       const ApiReject =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.master.role.RolePermissionStaging&status=R";
-      const data = await serviceApi
-        .get(Api)
-        .then((res) => {
-          UiSchema.elements[1].elements[0].config.main.allRowsData =
-            res.data.payload;
+    const data = await serviceApi
+      .get(Api)
+      .then((res) => {
+        fomData.ApproveRecords=  res.data.payload;
 
-          return serviceApi.get(ApiPending);
-        })
-        .then((res) => {
-          UiSchema.elements[1].elements[1].config.main.allRowsData =
-            res.data.payload;
-          return serviceApi.get(ApiReject);
-        })
-        .then((res) => {
-          UiSchema.elements[1].elements[2].config.main.allRowsData =
-            res.data.payload;
-          // return UiSchema;
-        })
-        .catch((err) => {
-          UiSchema.elements[1].elements[0].config.main.allRowsData = [];
-          UiSchema.elements[1].elements[1].config.main.allRowsData = [];
-          UiSchema.elements[1].elements[2].config.main.allRowsData = [];
-        });
-      return UiSchema;
+        return serviceApi.get(ApiPending);
+      })
+      .then((res) => {
+      
+        fomData.PendingRecords=  res.data.payload;
+        return serviceApi.get(ApiReject);
+      })
+      .then((res) => {
+        fomData.RejectRecords=  res.data.payload;
+        console.log(fomData)
+      })
+      .catch((err) => {
+        fomData.ApproveRecords=  [];
+        fomData.PendingRecords=  [];
+        fomData.RejectRecords=  [];
+      });
+      return fomData;
+    },
+    getUiSchema: async () => {
+      return RolePermissionRecordsUISchema
     },
     getSchema: () => {
       return {};
@@ -73,8 +69,8 @@ export const RolePermissionRecords = (
         })
         .then(async (res) => {
           console.log("approved");
-          const data = await this.getUiSchema();
-          store.setUiSchema(data)
+          const formData = await this.getFormData();
+          store.setFormdata(formData);
           store.setNotify({ SuccessMessage: "Approved successfully", Success: true });
         });
     },
@@ -90,8 +86,8 @@ export const RolePermissionRecords = (
           },
         })
         .then(async (res) => {
-          const data = await this.getUiSchema();
-          store.setUiSchema(data)
+          const formData = await this.getFormData();
+          store.setFormdata(formData);
           store.setNotify({ SuccessMessage: "Rejected successfully", Success: true });
         });
     },

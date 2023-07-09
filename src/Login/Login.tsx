@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+//@ts-ignore
 import HyperformLogo from "../assets/hyperformLogo.jpg";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import HttpsIcon from "@mui/icons-material/Https";

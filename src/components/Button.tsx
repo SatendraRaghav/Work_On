@@ -25,14 +25,3 @@ export const Button = {
     },
   },
 };
-export const EmptyBox = {
-  type: "Control",
-  scope: "#/properties/emptyBox",
-  options: {
-    widget: "EmptyBox",
-  },
-
-  config: {
-    main: {},
-  },
-};

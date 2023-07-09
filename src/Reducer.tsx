@@ -6,7 +6,7 @@ export const actions = {
   }
 const initialState:any = {
   drawerBoolean:false,
-  drawerWidth: 200
+  drawerWidth: 260
 };
 const reducer = (state:any, action:any) => {
     switch (action.type) {

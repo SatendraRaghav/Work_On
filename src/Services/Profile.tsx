@@ -16,13 +16,17 @@ import { ProfileUiSchema } from "../UiSchema/Profile/UiSchema";
       store.setFormdata(formdata);
     },
     getFormData: function () {
-      return {};
+      return {
+        pbc_progress:{total:500,achieved:300,bottomLabel_3_value:200},
+        graph:[{y:"Anant Sharma",x:60},{y:"satendra Raghav",x:150},{y:"Vivek Pahadi",x:80},{y:"Siddarth verma",x:100}]};
     },
     getUiSchema: function () {
       return ProfileUiSchema;
     },
     getSchema: () => {
-      return {};
+      return {
+      
+      };
     },
   };
 };

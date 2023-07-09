@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { navigator } from "../serviceHolder";
-import { userValue, setUserValue } from "../Apple";
+// import { userValue, setUserValue } from "../Apple";
 import { myService } from "../service/service";
 import { Permission } from "../impaktapps-jsonforms/lib";
-import { IconProvider } from "./IconProvider";
-import { actions, DataContext } from "../Reducer";
-import { useContext } from "react";
+import { IconProvider } from "../utils/IconProvider";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import SearchOffIcon from "@mui/icons-material/SearchOff";
 import "./Style.css";
 import {
   Sidebar,
@@ -20,12 +17,11 @@ import {
 } from "react-pro-sidebar";
 import { hasPermissions } from "./hasPermissions";
 import { Box, Divider, Stack, Typography } from "@mui/material";
+
 export default function ProSidebar(props: any) {
   const [activeValue, setActiveValue] = useState<string>("");
-  const { dispatch, state } = useContext(DataContext);
   const [menu, setMenu] = useState<any>([]);
   const [search, setSearch] = useState<string>("");
-  const [searchOn, setSearchOn] = useState<boolean>(false);
   const [rtlBoolean, setRtlBoolean] = useState(false);
   const [filterMenu, setFilterMenu] = useState([]);
   const { collapsed } = useProSidebar();
@@ -35,9 +31,9 @@ export default function ProSidebar(props: any) {
       await service
         .get("/menu/getCompleteTree")
         .then((res: any) => {
-          const filterResponse = [];
+          const filterResponse: any[] = [];
           const data = res.data.payload.children.map((e: any) => {
-            const elem = [];
+            const elem: any[] = [];
             if (e.children.length > 0) {
               const childData = e.children.map((elemChild: any) => {
                 elem[elemChild.priority] = elemChild;
@@ -51,7 +47,6 @@ export default function ProSidebar(props: any) {
           });
           setFilterMenu(filterResponse);
           setMenu(filterResponse);
-          setSearchOn(false);
           setSearch("");
         })
         .catch((err: any) => {
@@ -62,33 +57,33 @@ export default function ProSidebar(props: any) {
 
   useEffect(() => {
     callApi();
-  }, [userValue]);
+  }, [props.userValue]);
 
   const clickHandler = (url: string, name: any) => {
     window.localStorage.setItem("pageName", name);
     setActiveValue(name);
     navigator(url);
-
-    // dispatch({ type: actions.currentMenuChange, payload: name });
   };
-  const searchBtn = (value: string) => {
-    // const strRegExPattern = `${value}`;
-
-    const regex = new RegExp(value, "gi");
-
-    let searchResult: any[] = [];
-
+  const searchBtn = (paramValue: string) => {
+    const value = paramValue.toUpperCase();
     const data = filterMenu.map((e: any) => {
-      let finalObj: any = { name: "", url: null, id: e.id, children: [] };
-      if (regex.test(e.name)) {
+      const parentElem = e.name.toUpperCase();
+      let finalObj: any = {
+        name: "",
+        url: null,
+        id: e.id,
+        children: [],
+      };
+      if (parentElem.indexOf(value) > -1) {
         finalObj.children = e.children;
         finalObj.name = e.name;
         return finalObj;
       }
       if (e.children.length > 0) {
         const childData = e.children.filter((elemChild: any) => {
-          const boolean = regex.test(elemChild.name);
-          return boolean;
+          const elem = elemChild.name.toUpperCase();
+          const result = elem.indexOf(value) > -1;
+          return result;
         });
 
         if (childData.length > 0) {
@@ -97,16 +92,12 @@ export default function ProSidebar(props: any) {
           return finalObj;
         }
       }
-      // else{
-      // finalObj.children = []
       return finalObj;
-      // }
     });
 
     data.length > 0 && setMenu(data);
-
-    data.length > 0 && setSearchOn(true);
   };
+
   const enterCall = (e: any) => {
     if (e.key === "Enter") {
       searchBtn(search);
@@ -114,17 +105,21 @@ export default function ProSidebar(props: any) {
   };
   return (
     <>
-      <div
+      <Box
         className="myDiv"
-        style={{
-          position: "fixed",
+        sx={{
+          position: { sx: "static", sm: "static", md: "fixed" },
           left: 0,
           scrollbarColor: "white",
           overflowY: "scroll",
-          // overflowX: "auto",
+          overflowX: "scroll",
+          paddingBottom:"50px",
           transition: "width 2s",
-          paddingBottom:"150px",
-          // width:"100%",
+          display: {
+            xs: collapsed ? "none" : "block",
+            sm: collapsed ? "none" : "block",
+            md: "block",
+          },
           height: "100vh",
         }}
       >
@@ -152,7 +147,7 @@ export default function ProSidebar(props: any) {
                 placeholder="Search.."
                 value={search}
                 sx={{
-                  marginTop: "5px",
+                  marginTop: "16px",
                   padding: "18px auto 10px auto",
                   "& .MuiInputBase-root": {
                     background: "#f8fafc",
@@ -204,7 +199,7 @@ export default function ProSidebar(props: any) {
                   borderRadius: "20px",
                   overflowX: "auto",
                   margin: !collapsed && "2px 15px",
-                  "&:hover": !collapsed && {
+                  "&:hover": {
                     color: "#3f51b5",
                     background: "#e8eaf6",
                   },
@@ -260,12 +255,14 @@ export default function ProSidebar(props: any) {
                                       );
                                       return permission ? (
                                         <MenuItem
-                                          onClick={() =>
+                                          onClick={() => {
+                                            props.drawer &&
+                                              props.handleDrawer();
                                             clickHandler(
                                               grandChildElem.url,
                                               grandChildElem.name
-                                            )
-                                          }
+                                            );
+                                          }}
                                           active={
                                             activeValue === grandChildElem.name
                                               ? true
@@ -278,7 +275,6 @@ export default function ProSidebar(props: any) {
                                               ? true
                                               : false
                                           )}
-                                          {/* <CircleIcon /> */}
                                           {grandChildElem.name}
                                         </MenuItem>
                                       ) : null;
@@ -288,9 +284,10 @@ export default function ProSidebar(props: any) {
                               </>
                             ) : permission ? (
                               <MenuItem
-                                onClick={() =>
-                                  clickHandler(childElem.url, childElem.name)
-                                }
+                                onClick={() => {
+                                  props.drawer && props.handleDrawer();
+                                  clickHandler(childElem.url, childElem.name);
+                                }}
                                 active={
                                   activeValue === childElem.name ? true : false
                                 }
@@ -329,7 +326,10 @@ export default function ProSidebar(props: any) {
                     </>
                   ) : childrenPermission ? (
                     <MenuItem
-                      onClick={() => clickHandler(elem.url, elem.name)}
+                      onClick={() => {
+                        props.drawer && props.handleDrawer();
+                        clickHandler(elem.url, elem.name);
+                      }}
                       active={activeValue === elem.name ? true : false}
                     >
                       <Stack spacing={2} direction={"row"}>
@@ -346,7 +346,7 @@ export default function ProSidebar(props: any) {
             })}
           </Menu>
         </Sidebar>
-      </div>
+      </Box>
     </>
   );
 }

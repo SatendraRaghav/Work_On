@@ -29,7 +29,7 @@ export const MasterRecords = (store: any,dynamicData?:dynamicDataType) => {
     const data = await serviceApi
       .get(Api)
       .then((res) => {
-        fomData.ApproveRecords=  res.data.payload;
+        fomData.ProgramApproveRecords=  res.data.payload;
 
         return serviceApi.get(ApiPending);
       })
@@ -67,7 +67,7 @@ export const MasterRecords = (store: any,dynamicData?:dynamicDataType) => {
           },
         })
         .then(async (res) => {
-          const data = await this.getFormData();
+          const data =   await this.getFormData();
           store.setFormdata(data)
           store.setNotify({
             SuccessMessage: "Approved successfully",
@@ -86,8 +86,8 @@ export const MasterRecords = (store: any,dynamicData?:dynamicDataType) => {
           },
         })
         .then(async (res) => {
-          const data = await this.getFormData();
-          store.setFormdata(data)
+          const data =   await this.getFormData();
+         store.setFormdata(data)
           store.setNotify({
             SuccessMessage: "Rejected successfully",
             Success: true,

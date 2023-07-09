@@ -52,6 +52,7 @@ export const PositionTypeMasterRecordsUISchema:any = {
       type: "TabLayout",
       config: {
         main: {
+          id:"PositionType",
           tabLabels : ["Approve", "Pending", "Reject"],
           layout: 11.5,
         },
@@ -59,7 +60,7 @@ export const PositionTypeMasterRecordsUISchema:any = {
       elements: [
         {
           type: "Control",
-          scope: "#/properties/ApproveRecords",
+          scope: "#/properties/PositionTypeApproveRecords",
           options: {
             widget: "Table",
           },

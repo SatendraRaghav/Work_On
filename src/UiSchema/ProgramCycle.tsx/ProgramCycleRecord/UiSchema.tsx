@@ -1,65 +1,66 @@
-export const ProgramMasterCycleRecordUiSchema:any= {
+export const ProgramMasterCycleRecordUiSchema: any = {
   type: "HorizontalLayout",
   elements: [
     {
-          type: "WrapperLayout",
-          config:{
-            main:{
-              rowSpacing:3
-            }
+      type: "WrapperLayout",
+      config: {
+        main: {
+          rowSpacing: 3,
+        },
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/programType",
+
+          options: {
+            widget: "Box",
           },
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/programType",
-
-              options: {
-                widget: "Box",
-              },
-              config: {
-                layout: 8.5,
-                main: {
-                  heading: "Cycle Master",
-                },
-              },
+          config: {
+            layout: 8.5,
+            main: {
+              heading: "Cycle Master",
             },
-            {
-              type: "Control",
-              scope: "#/properties/New_Record",
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/New_Record",
 
-              options: {
-                widget: "IconButton",
-              },
-              config: {
-                layout: 3,
-                main: {
-                  name: "New Records",
-                  icon: "AddIcon",
-                  size: "small",
-                  onClick:"addNewRecords",
-                  styleDefault: true,
-                  tooltipMessage: "Add New Record"
-                },
-                style: {
-                  float: "right",
-                },
-              },
+          options: {
+            widget: "IconButton",
+          },
+          config: {
+            layout: 3,
+            main: {
+              name: "New Records",
+              icon: "AddIcon",
+              size: "small",
+              onClick: "addNewRecords",
+              styleDefault: true,
+              tooltipMessage: "Add New Record",
             },
-          ],
+            style: {
+              float: "right",
+            },
+          },
+        },
+      ],
     },
 
     {
-      type: "Control",
-      scope: "#/properties/features",
-       config:{main:{labels : ["Approve", "Pending", "Reject"]}},
-      options: {
-        widget: "Tab",
-        detail: {
-          type: "HorizontalLayout",
-          elements: [
+      type: "TabLayout",
+      config: {
+        main: {
+          id:"cycle",
+          tabLabels: ["Approve", "Pending", "Reject"],
+          layout: 12,
+        },
+      },
+      elements: [
         {
           type: "Control",
-          scope: "#/properties/ApproveRecords",
+          scope: "#/properties/CycleApproveRecords",
           options: {
             widget: "Table",
           },
@@ -114,7 +115,7 @@ export const ProgramMasterCycleRecordUiSchema:any= {
                           color: "info",
                           size: "small",
                           icon: "EditIcon",
-                          onClick:"Edit_Approve_Records",
+                          onClick: "Edit_Approve_Records",
                           tooltipMessage: "Edit This Record",
                         },
                         style: {
@@ -201,7 +202,7 @@ export const ProgramMasterCycleRecordUiSchema:any= {
                         main: {
                           icon: "RejectIcon",
                           color: "error",
-                          onClick:"Reject_Records",
+                          onClick: "Reject_Records",
                           tooltipMessage: "Reject This Record",
                         },
                       },
@@ -255,7 +256,7 @@ export const ProgramMasterCycleRecordUiSchema:any= {
             },
           },
         },
-      ]}},
+      ],
     },
     {
       type: "Control",

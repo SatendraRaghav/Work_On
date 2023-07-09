@@ -52,6 +52,7 @@ export const AutoComplete = memo(function CustomAutoComplete(
               }}
               variant="outlined"
               label={uischemaData?.label}
+              disabled={uischemaData?.disabled}
               required={required}
               placeholder={uischemaData?.placeholder}
             />

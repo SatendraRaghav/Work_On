@@ -4,11 +4,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { setUserValue } from "./Apple";
 import { navigator } from "./serviceHolder";
 
-export function DailogBox({ open, setOpen }) {
-  const handleClose = (event) => {
+export function DailogBox({ open, setOpen,setUserValue }: any) {
+  const handleClose = () => {
     setOpen(false);
     setUserValue(null);
     navigator("/");
@@ -19,18 +18,30 @@ export function DailogBox({ open, setOpen }) {
       <Dialog
         open={open}
         onClose={handleClose}
+        sx={{padding:"20px"}}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Session Expired</DialogTitle>
+        <DialogTitle
+          sx={{
+            // textAlign: "le",
+            color: "#f15928",
+            fontSize: "16px",
+            fontWeight: 900,
+            marginBottom: "-6px",
+          }}
+          id="alert-dialog-title"
+        >
+          Session Expired
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText sx={{ textAlign: "center", color: "#697586" }} id="alert-dialog-description">
             Please Login again to continue.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
-            Login Page
+          <Button onClick={handleClose} sx={{color:"#1c2455",}} autoFocus>
+            Login Again
           </Button>
         </DialogActions>
       </Dialog>

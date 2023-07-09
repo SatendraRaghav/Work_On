@@ -57,6 +57,7 @@ export const RolePermissionRecordsUISchema:any = {
       type: "TabLayout",
       config: {
         main: {
+          id:"RolePermission",
           tabLabels : ["Approve", "Pending", "Reject"],
           layout: 12,
         },
@@ -64,7 +65,7 @@ export const RolePermissionRecordsUISchema:any = {
       elements: [
         {
           type: "Control",
-          scope: "#/properties/ApproveRecords",
+          scope: "#/properties/RolePermissionApproveRecords",
           options: {
             widget: "Table",
           },

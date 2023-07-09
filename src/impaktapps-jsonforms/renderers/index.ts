@@ -22,6 +22,7 @@ import ControlDownloadFile from "./controls/ControlDownloadFile";
 import ControlUploadFile from "./controls/ControlUploadFile";
 import { WrapperLayoutControl, WrapperLayoutTester } from "./layouts/WrapperControl";
 import ControlGraph from "./controls/ControlGraph";
+import ControlProgressBar from "./controls/ControlProgressBar";
 export const renderers = [
   ...materialRenderers,
   {
@@ -47,5 +48,7 @@ export const renderers = [
   { tester: rankTester("RadioInputField"), renderer: ControlRadio },
   { tester: rankTester("Notify"), renderer: ControlNotify },
   { tester: rankTester("MultipleSelect"), renderer: ControlAutoComplete },
+  { tester: rankTester("ProgressBar"), renderer: ControlProgressBar },
+
 ];
 export default renderers;

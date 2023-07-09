@@ -1,10 +1,7 @@
 import React,{useEffect} from 'react'
 import axios from "axios";
 import { rootUrl } from "../constant";
-import { userValue,setUserValue } from '../Apple'; 
 import { setOpenDialog } from '../Apple';
-// import { service } from '../Services/ExternalData';
-  
 export const myService = (setLoading?:any,navigate?:any)=>{
   const demoService  = axios.create({
   baseURL:  `${rootUrl}`,
@@ -30,7 +27,7 @@ demoService.interceptors.response.use(
   },
   error => {
    if( error.response.status === 403){
-    // setOpenDialog(true)
+    setOpenDialog(true)
    } 
     
     setLoading?.(false)

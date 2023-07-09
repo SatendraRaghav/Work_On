@@ -46,6 +46,7 @@ const Input = memo(function (props: inputProps) {
         onChange={(event) => {
           onChange(event);
         }}
+        disabled={uischemaData?.disabled}
         onPointerEnter={(event) => onPointerEnter()
         }
         onPointerLeave={(event) => onPointerLeave()}

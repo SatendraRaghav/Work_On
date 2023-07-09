@@ -19,7 +19,7 @@ export const AgencyMasterRecords = (
   setAdditionalErrors?: any,
   setNotify?:any
 ) => {
-    const serviceApi =  myService(otherData[3],otherData[4],navigate);
+    const serviceApi =  myService();
     return {
         
         setPage: async function () {

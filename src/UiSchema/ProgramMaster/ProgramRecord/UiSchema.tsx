@@ -61,16 +61,17 @@ export const ProgramMasterRecordUiSchema:any = {
   
       {
         type: "TabLayout",
-        config: {
+        config: {layout: 12,
           main: {
+            id:"Program",
             tabLabels : ["Approve", "Pending", "Reject"],
-            layout: 12,
+            
           },
         },
           elements: [
             {
               type: "Control",
-              scope: "#/properties/ApproveRecords",
+              scope: "#/properties/ProgramApproveRecords",
               options: {
                 widget: "Table",
               },

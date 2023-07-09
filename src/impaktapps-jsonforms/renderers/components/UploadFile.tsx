@@ -74,6 +74,7 @@ const UploadFile = memo(function (props: inputProps) {
               </InputAdornment>
             ),
           }}
+          disabled={uischemaData?.disabled}
           helperText={uischemaData.helperText}
           size={uischemaData.size || "medium"}
           type={"file"}

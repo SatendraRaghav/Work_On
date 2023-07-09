@@ -12,6 +12,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useProSidebar } from 'react-pro-sidebar';
+import "./style.css"
+
 
 export default function LoginHeader() {
   const { dispatch, state } = useContext(DataContext);

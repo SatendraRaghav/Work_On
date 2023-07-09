@@ -1,6 +1,6 @@
-// import {Permission, getMatchedPermissions} from "json2ui";
-import { Permission } from "../impaktapps-jsonforms/lib";
-import {getMatchedPermissions} from "../impaktapps-jsonforms/lib";
+import {Permission, getMatchedPermissions} from "../impaktapps-jsonforms/lib"; 
+// import { Permission } 
+// // import {getMatchedPermissions} from "impaktapps-jsonforms";
 import { MenuItem } from "./MenuItem";
 
 

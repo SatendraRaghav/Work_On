@@ -30,6 +30,7 @@ const Date = memo(function(props:inputProps ){
                 label={uischemaData?.label}
                 className={style.dateStyle}
                 value={data || null}
+                disabled={uischemaData?.disabled}
                 onChange={(newValue) => {
                   handleChange(path, newValue);
                 }}

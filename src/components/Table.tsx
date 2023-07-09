@@ -6,9 +6,12 @@ export const Table = {
   },
   config: {
     main: {
+      //@ts-ignore
         allRowData:[],
       columns: {
+        //@ts-ignore
         dataColumns: [],
+         //@ts-ignore
         actionColumns: [],
       },
     },

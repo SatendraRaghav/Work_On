@@ -101,15 +101,15 @@ export const UserMasterUISchema:any = {
               options: [
                 {
                   label: "Mr.",
-                  config: "Mr.",
+                  value: "Mr.",
                 },
                 {
                   label: "Ms.",
-                  config: "Ms.",
+                  value: "Ms.",
                 },
                 {
                   label: "Mrs.",
-                  config: "Mrs.",
+                  value: "Mrs.",
                 },
               ],
             },
@@ -225,8 +225,8 @@ export const UserMasterUISchema:any = {
             main: {
               label: "Gender",
               options: [
-                { label: "Male", config: "Male" },
-                { label: "Female", config: "Female" },
+                { label: "Male", value: "Male" },
+                { label: "Female", value: "Female" },
               ],
             },
           },

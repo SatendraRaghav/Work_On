@@ -51,6 +51,7 @@ export const RoleMasterRecordsUISchema:any = {
       type: "TabLayout",
       config: {
         main: {
+          id:"Role",
           tabLabels : ["Approve", "Pending", "Reject"],
          
         },
@@ -58,7 +59,7 @@ export const RoleMasterRecordsUISchema:any = {
       elements: [
         {
           type: "Control",
-          scope: "#/properties/ApproveRecords",
+          scope: "#/properties/RoleApproveRecords",
           options: {
             widget: "Table",
           },

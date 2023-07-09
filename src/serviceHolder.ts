@@ -17,7 +17,6 @@ import { RolePermissionForm } from "./Services/RolePermissionMasterForm";
 import { RolePermissionRecords } from "./Services/RolePermissionMasterRecords";
 import { ExternalData } from "./Services/ExternalData";
 import { PayoutProcessing } from "./Services/PayoutProcessing";
-import { PayoutReview } from "./Services/PayoutReview";
 import { InvoiceGeneration } from "./Services/InvoiceGeneration";
 import Profile from "./Services/Profile";
 import { templateServiceFactory } from "./Services/Template/templateServiceFactory.";
@@ -62,12 +61,10 @@ export const serviceHolder = {
     if (pageName === "CycleRecords") return CycleRecords(store, dynamicData);
     if (pageName === "CycleForm") return CycleForm(store, dynamicData);
     if (pageName === "ExternalData") return ExternalData(store, dynamicData);
-    if (pageName === "PayoutReview") return PayoutReview(store, dynamicData);
     if (pageName === "PayoutProcessing") return PayoutProcessing(store, dynamicData);
     if (pageName === "InvoiceGeneration") return InvoiceGeneration(store, dynamicData);
     if (pageName === "MasterForm") return MasterForm(store, dynamicData);
     if (pageName === "MasterRecords") return MasterRecords(store, dynamicData);
-    // if (pageName === "Dashboard") return MasterRecords(store, dynamicData);
     if (pageName.startsWith("template")) {
        return await templateServiceFactory(  store, dynamicData ).masterTemplate()};
     return error(store, dynamicData);

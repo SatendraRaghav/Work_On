@@ -1,71 +1,160 @@
-import React, { useEffect, useState } from 'react'
-// import Hyperform from './impaktapps-jsonforms/core/Hyperform/Hyperform';
-import { serviceHolder,loginServiceHolder } from './serviceHolder';
-import Header from './Header/Header';
-import './App.css'
-import ProSidebar from './Sidebar/ProSideBar';
-import LoginHeader from './Header/LoginHeader';
-import App from "./impaktapps-jsonforms/core/App/App"
+import React, { useEffect, useState } from "react";
+import { serviceHolder } from "./serviceHolder";
+import Header from "./Header/Header";
+import "./App.css";
+import { App } from "./impaktapps-jsonforms/lib";
+import Box from "@mui/material/Box";
 import { useLocalStorage } from "./Authentication/useLocalStorage";
 import { useProSidebar } from "react-pro-sidebar";
-export let userValue: any = false;
-export let setUserValue: any;
-export let setOpenDialog:React.Dispatch<React.SetStateAction<boolean>>;
-import DailogBox from './DialogBox';
-import { Box } from '@mui/system';
-import Login from './Login/Login';
-import Footer from './Footer/Footer';
-function Apple() {
-  const { collapsed } = useProSidebar();
+import Drawer from "@mui/material/Drawer";
+import ProSidebar from "./Sidebar/ProSideBar";
+import DailogBox from "./DialogBox";
+import Login from "./Login/Login";
+import Footer from "./Footer/Footer";
+import { BrowserView, MobileView } from "react-device-detect";
+
+export let setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+export let userValue: any;
+function Hyperform() {
+  const { collapsed, collapseSidebar } = useProSidebar();
   const [user, setUser] = useLocalStorage("user", null);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(collapsed);
+  const [sidebarBoolean, setSidebarBoolean] = useState(false);
   useEffect(() => {
+    setOpenDialog = setOpen;
     userValue = user;
-    setUserValue = setUser;
-    setOpenDialog= setOpen;
   }, [user]);
-  useEffect(() => {
-    if (window.location.pathname === "/" || !window.location.pathname) {
-      setUser("null");
-    }
-  }, []);
   return (
-    <>
-     {user?.payload?.token ? (
+    <div>
+      {user?.payload?.token ? (
         <>
-          <Header />
-          <ProSidebar permissions={user.payload.permissions} />
-          <div style={{ width: "100%" ,display:"flex"}}>
-            <div style={{ width: collapsed ? 0 : "240px" }} >
-          
+          <BrowserView>
+            <div 
+            style={{ position: "relative" }}
+            >
+              <Header
+                handleDrawer={() => collapseSidebar()}
+                userValue={user}
+                setUserValue={setUser}
+              />
+              <ProSidebar
+                permissions={user.payload.permissions}
+                handleDrawer={() => setSidebarBoolean((pre) => !pre)}
+                drawer={false}
+                userValue={user}
+                setUserValue={setUser}
+              />
+              <div style={{ width: "100%", display: "flex" }}>
+                <Box
+                  sx={{
+                    width: collapsed
+                      ? { xs: "0", sm: "0", md: "50px" }
+                      : "240px",
+                    transition: " width 0.s",
+                  }}
+                ></Box>
+                <Box
+                //  component={"div"}
+                  sx={{
+                    width: collapsed
+                      ? { xs: "100%", sm: "100%", md: "calc(100% - 65px)" }
+                      : "calc(100% - 255px)",
+                    position: "absolute",
+                    float: "right",
+                    transition: "width .6s",
+                    right: 0,
+                    zIndex: -1,
+                  }}
+                >
+                  <App
+                    serviceHolder={serviceHolder}
+                    permissions={user.payload.permissions}
+                  />
+                  <DailogBox
+                    open={open}
+                    setOpen={setOpen}
+                    userValue={user}
+                    setUserValue={setUser}
+                  />
+                  <Footer padding={"20px"} />
+                </Box>
+              </div>
             </div>
-            <div style={{ width:collapsed?"97.8%": "calc(98% - 250px)"}}>
-              <App serviceHolder={serviceHolder} permissions={user.payload.permissions} />
-              <DailogBox open={open} setOpen={setOpen}></DailogBox>
+          </BrowserView>
+          <MobileView>
+            <Header
+              handleDrawer={() => setSidebarBoolean((pre) => !pre)}
+              userValue={user}
+              setUserValue={setUser}
+            />
+            <div>
+              <Box
+                sx={{
+                  width: "100%",
+
+                  transition: "width .6s",
+                  right: 0,
+                }}
+              >
+              {sidebarBoolean ? <App
+                  serviceHolder={serviceHolder}
+                  permissions={user.payload.permissions}
+                />:
+                <App
+                  serviceHolder={serviceHolder}
+                  permissions={user.payload.permissions}
+                />
+              }
+                <DailogBox
+                  open={open}
+                  setOpen={setOpen}
+                  userValue={user}
+                  setUserValue={setUser}
+                />
+                <Footer padding={"20px"} />
+              </Box>
+              <Drawer
+                anchor="left"
+                open={sidebarBoolean}
+                onClose={() => setSidebarBoolean(false)}
+              >
+                <Box
+                  sx={{ width: "275px", color: "black", marginTop: "48px" }}
+                  role="presentation"
+                  className="myDiv"
+                >
+                  <ProSidebar
+                    permissions={user.payload.permissions}
+                    userValue={user}
+                    setUserValue={setUser}
+                    handleDrawer={() => setSidebarBoolean((pre) => !pre)}
+                    drawer={true}
+                  />
+                </Box>
+              </Drawer>
             </div>
-          </div>
+          </MobileView>
         </>
-      ) 
-      : (
+      ) : (
         <Box
-        className="myDiv"
-        style={{
-          background: "#eef2f6",
-          height: "100vh",
-          marginTop: "none",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Box sx={{ margin: "-8px -16px" }}>
-          <Login  setUserValue={setUser} />
+          className="myDiv"
+          style={{
+            background: "#eef2f6",
+            height: "100vh",
+            marginTop: "none",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ margin: "-8px -16px" }}>
+            <Login userValue={user} setUserValue={setUser} />
+          </Box>
+          <Box sx={{ flexGrow: 1 }}></Box>
+          <Footer padding="10px" color="inherit" />
         </Box>
-        <Box sx={{ flexGrow: 1 }}></Box>
-        <Footer padding="10px" color="inherit" />
-      </Box>
-   )} 
- </>
+      )}
+    </div>
   );
 }
 
-export default Apple
+export default Hyperform;

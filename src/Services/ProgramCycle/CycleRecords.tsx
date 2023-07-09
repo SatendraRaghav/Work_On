@@ -14,30 +14,43 @@ export const CycleRecords = (
   );
   return {
     setPage: async function () {
-      store.setFormdata({})
-      const schema = this.getSchema();
-      store.setSchema(schema);
+      // store.setFormdata({})
+    
       const UiSchema = await  this.getUiSchema();
       store.setUiSchema(UiSchema);
-      const formData = this.getFormData();
+      const formData = await this.getFormData();
       store.setFormdata(formData);
+      const schema = await this.getSchema();
+      store.setSchema(schema);
     },
-    getFormData:  () => {
-     return {}
-    },
-    getUiSchema: async () => {
-      const UiSchema = JSON.parse(JSON.stringify(ProgramMasterCycleRecordUiSchema));      
-      console.log(UiSchema)
-      const Api =
+    getFormData:  async () => {
+      const fomData:any = {};
+    const Api =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=A";
         const ApiPending =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=N";
         const ApiReject =
         "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=R";
-      await serviceApi
-        .get(Api)
-        .then((res) => {
-          const approveData =  res.data?.payload?.map((e:any) => {
+    const data = await serviceApi
+      .get(Api)
+      .then((res) => {
+        const approveData =  res.data?.payload?.map((e:any) => {
+                const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
+                const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
+                return {
+                  id: e.id,
+                  name:e.name,
+                  program: e.program?.name,
+                  startDate: demoStartDate,
+                  endDate: demoEndDate,
+                };
+              });
+        fomData.CycleApproveRecords=approveData;
+
+        return serviceApi.get(ApiPending);
+      })
+      .then((res) => {
+              const pendingData =  res.data?.payload?.map((e: any) => {
             const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
             const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
             return {
@@ -48,11 +61,11 @@ export const CycleRecords = (
               endDate: demoEndDate,
             };
           });
-          UiSchema.elements[1].options.detail.elements[0].config.main.allRowsData = approveData;
-          return serviceApi.get(ApiPending);
-        })
-        .then((res) => {
-          const pendingData =  res.data?.payload?.map((e: any) => {
+        fomData.PendingRecords=  pendingData;
+        return serviceApi.get(ApiReject);
+      })
+      .then((res) => {
+              const rejectData =  res?.data?.payload?.map((e:any) => {
             const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
             const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
             return {
@@ -63,31 +76,80 @@ export const CycleRecords = (
               endDate: demoEndDate,
             };
           });
-          UiSchema.elements[1].options.detail.elements[1].config.main.allRowsData = pendingData;
-          return serviceApi.get(ApiReject);
-        })
-        .then((res) => {
-          const rejectData =  res?.data?.payload?.map((e:any) => {
-            const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
-            const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
-            return {
-              id: e.id,
-              name:e.name,
-              program: e.program?.name,
-              startDate: demoStartDate,
-              endDate: demoEndDate,
-            };
-          });
-          UiSchema.elements[1].options.detail.elements[2].config.main.allRowsData = rejectData;
-        })
-        .catch((err) =>{
-          UiSchema.elements[1].options.detail.elements[0].config.main.allRowsData =  [];
-          UiSchema.elements[1].options.detail.elements[1].config.main.allRowsData =  [];
-          UiSchema.elements[1].options.detail.elements[2].config.main.allRowsData = [];
-        });
-        return UiSchema;
+        fomData.RejectRecords= rejectData;
+        console.log(fomData)
+      })
+      .catch((err) => {
+        fomData.ApproveRecords=  [];
+        fomData.PendingRecords=  [];
+        fomData.RejectRecords=  [];
+      });
+      return fomData;
     },
-    getSchema: () => {
+    getUiSchema: async () => {
+      return ProgramMasterCycleRecordUiSchema;
+      // const UiSchema = JSON.parse(JSON.stringify(ProgramMasterCycleRecordUiSchema));      
+      // console.log(UiSchema)
+      // const Api =
+      //   "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=A";
+      //   const ApiPending =
+      //   "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=N";
+      //   const ApiReject =
+      //   "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=R";
+      // await serviceApi
+      //   .get(Api)
+      //   .then((res) => {
+      //     const approveData =  res.data?.payload?.map((e:any) => {
+      //       const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
+      //       const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
+      //       return {
+      //         id: e.id,
+      //         name:e.name,
+      //         program: e.program?.name,
+      //         startDate: demoStartDate,
+      //         endDate: demoEndDate,
+      //       };
+      //     });
+      //     UiSchema.elements[1].options.detail.elements[0].config.main.allRowsData = approveData;
+      //     return serviceApi.get(ApiPending);
+      //   })
+      //   .then((res) => {
+      //     const pendingData =  res.data?.payload?.map((e: any) => {
+      //       const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
+      //       const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
+      //       return {
+      //         id: e.id,
+      //         name:e.name,
+      //         program: e.program?.name,
+      //         startDate: demoStartDate,
+      //         endDate: demoEndDate,
+      //       };
+      //     });
+      //     UiSchema.elements[1].options.detail.elements[1].config.main.allRowsData = pendingData;
+      //     return serviceApi.get(ApiReject);
+      //   })
+      //   .then((res) => {
+      //     const rejectData =  res?.data?.payload?.map((e:any) => {
+      //       const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
+      //       const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
+      //       return {
+      //         id: e.id,
+      //         name:e.name,
+      //         program: e.program?.name,
+      //         startDate: demoStartDate,
+      //         endDate: demoEndDate,
+      //       };
+      //     });
+      //     UiSchema.elements[1].options.detail.elements[2].config.main.allRowsData = rejectData;
+      //   })
+      //   .catch((err) =>{
+      //     UiSchema.elements[1].options.detail.elements[0].config.main.allRowsData =  [];
+      //     UiSchema.elements[1].options.detail.elements[1].config.main.allRowsData =  [];
+      //     UiSchema.elements[1].options.detail.elements[2].config.main.allRowsData = [];
+      //   });
+      //   return UiSchema;
+    },
+    getSchema: async () => {
       return {};
     },
     Approve_Records: function () {
@@ -105,8 +167,8 @@ export const CycleRecords = (
 
           )})
         .then(async (res) => {
-         const data =   await this.getUiSchema();
-         store.setUiSchema(data)
+         const data =   await this.getFormData();
+         store.setFormdata(data)
           store.setNotify({SuccessMessage:"Approved Successfully",Success:true,})
         })
         .catch((e) => console.log(e));
@@ -126,8 +188,8 @@ export const CycleRecords = (
           );
         })
         .then( async (res) => {
-          const data =   await this.getUiSchema();
-          store.setUiSchema(data)
+          const data =   await this.getFormData();
+          store.setFormdata(data)
           store.setNotify({SuccessMessage:"Rejected Successfully",Success:true,})
         });
     },

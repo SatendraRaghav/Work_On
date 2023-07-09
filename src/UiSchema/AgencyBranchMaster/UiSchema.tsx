@@ -92,6 +92,7 @@ export const  AgencyBranchUISchema = {
       "value": {
         "content": {
           "label": "Agency",
+           //@ts-ignore
           options:[],
           "required": true
         }

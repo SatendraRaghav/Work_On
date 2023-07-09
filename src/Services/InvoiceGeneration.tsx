@@ -6,6 +6,7 @@ import { InvoiceGenerationSchema } from "../UiSchema/Invoice/Schema";
 import { downloadFile } from "../utils/downloadFile";
 import { userValue } from "../Apple";;
 import { validateForm } from "../utils/validateForm";
+import _ from "lodash";
 
 export const InvoiceGeneration = (
     store:any,
@@ -52,7 +53,7 @@ export const InvoiceGeneration = (
             return InvoiceGenerationSchema;
         },
         onChange: async () => {
-            const uiSchema = InvoiceGenerationUiSchema;
+            const uiSchema = _.cloneDeep(InvoiceGenerationUiSchema);
             if(store.newData.programType){
             const result: any = await service
                 .get(`/programCycle/getByProgramId?id=${store.newData.programType} `)
@@ -64,7 +65,7 @@ export const InvoiceGeneration = (
                     });
                     
                     uiSchema.elements[1].elements[1].config.main.options = result1;
-                    store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
+                    store.setUiSchema(uiSchema);
                 })
                 .catch((error) => {
                     return [];
@@ -84,18 +85,22 @@ export const InvoiceGeneration = (
             }
 
             await this.LoadFunction().then((res: any) => {
-                
-                uischema.elements[2].elements[2].config.main.allRowsData = res[0]
+                  store.setFormdata({
+                    ...store.ctx.core.data,
+                    "caseLevelReportList": res[0],
+                    "invoiceReportList": res[1]
+                })
+                // uischema.elements[2].elements[2].config.main.allRowsData = res[0]
                  
-                uischema.elements[3].elements[2].config.main.allRowsData = res[1]
-                store.setUiSchema(uischema);
+                // uischema.elements[3].elements[2].config.main.allRowsData = res[1]
+                // store.setUiSchema(uischema);
             }).catch((err: any) => {
-                store.setUiSchema(uischema);
-                // store.setFormdata({
-                //     ...store.ctx.core.data,
-                //     "caseLevelReportList": [],
-                //     "invoiceReportList": []
-                // })
+                // store.setUiSchema(uischema);
+                store.setFormdata({
+                    ...store.ctx.core.data,
+                    "caseLevelReportList": [],
+                    "invoiceReportList": []
+                })
             });
 
           
@@ -183,15 +188,15 @@ export const InvoiceGeneration = (
                     return this.LoadFunction();
                 }).then(res => {
                        
-                InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
+            //     InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
                 
-                InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
-               store.setUiSchema(InvoiceGenerationUiSchema);
-                    // store.setFormdata({
-                    //     ...store.ctx.core.data,
-                    //     "caseLevelReportList": res[0],
-                    //     "invoiceReportList": res[1]
-                    // })
+            //     InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
+            //    store.setUiSchema(InvoiceGenerationUiSchema);
+                    store.setFormdata({
+                        ...store.ctx.core.data,
+                        "caseLevelReportList": res[0],
+                        "invoiceReportList": res[1]
+                    })
                     // store.setUiSchema(InvoiceGenerationUiSchema);
                     store.setNotify({ SuccessMessage: "Invoice Generated Succesfully", Success: true, })
                 }).catch(error => {
@@ -229,15 +234,15 @@ export const InvoiceGeneration = (
                 }).then(res => {
                     const message = store.ctx.core.data.actions === "Reject" ? "Rejected" : "Approved"
                               
-                InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
+                // InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
                 
-                InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
-               store.setUiSchema(InvoiceGenerationUiSchema);
-                    // store.setFormdata({
-                    //     ...store.ctx.core.data,
-                    //     "caseLevelReportList": res[0],
-                    //     "invoiceReportList": res[1]
-                    // })
+                // InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
+            //    store.setUiSchema(InvoiceGenerationUiSchema);
+                    store.setFormdata({
+                        ...store.ctx.core.data,
+                        "caseLevelReportList": res[0],
+                        "invoiceReportList": res[1]
+                    })
                     // store.setUiSchema(InvoiceGenerationUiSchema);
                     store.setNotify({ SuccessMessage: message, Success: true, })
                 }).catch(error => {
@@ -270,15 +275,15 @@ export const InvoiceGeneration = (
                     return this.LoadFunction()
                 }).then(res => {
                              
-                InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
+            //     InvoiceGenerationUiSchema.elements[2].elements[2].config.main.allRowsData = res[0]
                 
-                InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
-               store.setUiSchema(InvoiceGenerationUiSchema);
-                    // store.setFormdata({
-                    //     ...store.ctx.core.data,
-                    //     "caseLevelReportList": res[0],
-                    //     "invoiceReportList": res[1]
-                    // })
+            //     InvoiceGenerationUiSchema.elements[3].elements[2].config.main.allRowsData = res[1]
+            //    store.setUiSchema(InvoiceGenerationUiSchema);
+                    store.setFormdata({
+                        ...store.ctx.core.data,
+                        "caseLevelReportList": res[0],
+                        "invoiceReportList": res[1]
+                    })
                     // store.setUiSchema(InvoiceGenerationUiSchema);
                     store.setNotify({ SuccessMessage: "Invoice Deleted Successfully", Success: true, })
                 })

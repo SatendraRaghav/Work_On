@@ -51,6 +51,7 @@ const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
               ...theme.InputFieldStyle,
               ...uischema?.config?.RadioGroupStyle,
             }}
+          
             row
             value={data ?? ""}
             defaultValue={data}
@@ -74,6 +75,7 @@ const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
                       },
                     }}
                     value={elem}
+                    disabled={uischemaData?.disabled}
                   />
                 }
                 label={elem}
