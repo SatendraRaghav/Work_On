@@ -1,80 +1,98 @@
-import React, { useReducer, createContext, useMemo } from "react";
-export const DataContext = createContext< any>({
-  url:false,
-  isDataChange:false,
-  formData:{ 
-  },
-  graphData:null,
-  accessPermissions: ["_Agency_Form:*:","_Agency_Records:*:R","_Agency_Form:venndorCode:W"],
-  recordsApi:" ",
-}); 
-export const actions = {
-    changeUrl:"changeUrl",
-    resetFormData:"resetFormData",
-    resetRecordsApi:"recordsApi",
-    changeStatus:"changeStatus",
-    dataChange:"dataChange",
-    setAccessPermissions:"setPermission",
-    setGraphData:"setGraphData",
-    notifyChange:"notifyChange",
-  }
- export const initialState = {
-  url:false,
-  isDataChange:false,
-  notify:{success:false,fail:false,info:false,message:""},
-  formData:{ 
-  },
-  graphData:null,
-  accessPermissions: ["_Agency_Form:*:","_Agency_Records:*:R","_Agency_Form:venndorCode:W"],
-  recordsApi:" ",
-};
-const reducer = (state:any, action:any) => {
-    switch (action.type) {
-        case actions.changeUrl:
-          return {
-           ...state,url:action.payload
-          };
-          case actions.notifyChange:
-          return {
-           ...state,notify:action.payload
-          };
-          case actions.dataChange:
-          return {
-           ...state,isDatachange:action.payload
-          };
-          case actions.resetFormData:
-          return {
-           ...state,formData:action.payload
-          };
-          case actions.setAccessPermissions:
-          return {
-           ...state,accessPermissions:action.payload
-          };
-          case actions.resetRecordsApi:
-          return {
-           ...state,recordsApi:action.payload
-          };
-          case actions.setGraphData:
-            return {
-             ...state,graphData:action.payload
-            };
-          case actions.changeStatus:
-          return {
-           ...state,status:action.payload
-          };
-        default:
-          return state;
-  }
-};
-export const DataProvider = ({ children,objFunc,setFormdata,setUiSchema,setSchema,id="Home",theme}:any) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const contextValue = useMemo(() => {
-    return { state, dispatch};
-  }, [state, dispatch]);
-return (
-    <DataContext.Provider value={{...contextValue, objFunc:objFunc,setFormdata:setFormdata,setUiSchema:setUiSchema,setSchema:setSchema,id:id,theme:theme}}>
+import { JsonFormsStateContext, useJsonForms } from "@jsonforms/react";
+import React, { useReducer, createContext, useMemo, ChangeEvent, FormEvent } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+export const DataContext = createContext<any>({});
+
+export const DataProvider = ({
+  children,
+  objFunc,
+  setFormdata,
+  setUiSchema,
+  setSchema,
+  id = "Home",
+  schema,
+  setAdditionalErrors,
+  setValidation,
+  permissions,
+  theme,
+  formData,
+}: any) => {
+  const [openDialogBox, setDialogBox] = React.useState({
+    open: false,
+    page: "",
+  });
+  const [openNotify, setNotify] = React.useState({
+    Fail: false,
+    FailMessage: "Error",
+    Success: false,
+    SuccessMessage: "Success",
+    Info: false,
+    InfoMessage: "",
+  });
+  const [searchParams, setSearchParams] =
+    id === "RouterUnavailable"
+      ? ["NotAvailable", "NotAvailable"]
+      : useSearchParams();
+  const [loading, setLoading] = React.useState(false);
+  const navigate = id === "RouterUnavailable" ? "NotAvailable" : useNavigate();
+  const serviceProvider = (
+    ctx: JsonFormsStateContext,
+    uischemaData: { content: any },
+    otherValues?: {
+      additionalData?: {event:ChangeEvent|KeyboardEvent|MouseEvent|FormEvent,path:string};
+      paramValue?: unknown;
+      funcName?: string;
+    }
+  ) => {
+    objFunc
+      .getService(
+        id,
+        ctx,
+        setFormdata,
+        setUiSchema,
+        setSchema,
+        navigate,
+        {
+          searchParams,
+          setSearchParams,
+          setDialogBox,
+          ...otherValues?.additionalData,
+        },
+        schema,
+        setValidation,
+        setAdditionalErrors,
+        setNotify
+      )
+      .then((res: any) => {
+        return res[
+          uischemaData.content[otherValues?.additionalData?.event.type]
+        ](otherValues?.paramValue);
+      });
+  };
+  return (
+    <DataContext.Provider
+      value={{
+        objFunc,
+        openDialogBox,
+        setDialogBox,
+        setFormdata,
+        setUiSchema,
+        setSchema,
+        id,
+        serviceProvider,
+        schema,
+        setAdditionalErrors,
+        setValidation,
+        permissions,
+        theme,
+        openNotify,
+        setNotify,
+        formData,
+        loading,
+        setLoading,
+      }}
+    >
       {children}
     </DataContext.Provider>
   );
 };
-export default initialState;

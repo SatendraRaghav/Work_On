@@ -1,17 +1,25 @@
-
-import { Box, Typography } from '@mui/material'
 import React from 'react'
+import { Box, Typography } from '@mui/material'
+// import logo from "../assets/Image/Act21-logo-300x75_adobe_express.svg"
+import { useTheme } from "@mui/styles";
 
-import logo from "../Image/Act21-logo-300x75_adobe_express.svg"
-
-
-const Footer = () => {
+const Footer = ({padding,color="white"}:any) => {
+  const theme:any = useTheme();
+  const textPadding= padding/3
   return (
-    <Box sx={{textAlign:"right",paddingRight:"15px", margin: "0",width:"100%",position:"absolute",zIndex:-1,color: "white",background:"linear-gradient(rgba(34, 42, 69, 0.96), rgba(34, 42, 69, 0.96))" }}>
-        <Typography sx={{fontSize:"22px",paddingLeft:"20px" }}>Power By:
-          </Typography><br />
+    <Box sx={{textAlign:"right",
+     margin: "0",width:"100%",
+    color: theme?.palette?.text.primary||"black",
+    display:"flex",
+    justifyContent:"flex-end",
+    background:theme?.palette?.background?.heading||"white"
+    }}>
+      <Box sx={{width:"70"}}>
+        <Typography sx={{fontSize:"12px",paddingRight:padding }}>Powered By:
+          </Typography>
           <Box>
-            <img  src={logo} alt="Impakt_logo" width={250} height={40} />
+            <img  src={"act21.svg"} alt="Impakt_logo" width={100} height={25} style={{paddingRight:padding}} />
+          </Box>
           </Box>
     </Box>
   )

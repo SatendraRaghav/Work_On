@@ -1,2 +1,14 @@
-export const rootUrl:string = "http://52.183.128.14:8080"
-// export const rootUrl:string = "http://localhost:8080"
+interface appConfig {
+    backendHost: string;
+  }
+  
+  declare global {
+    interface Window {
+      appConfig: appConfig;
+    }
+  }
+  
+  const config = window.appConfig;
+  
+  export const rootUrl: string = "http://" + config.backendHost;
+  

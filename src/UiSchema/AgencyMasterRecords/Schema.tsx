@@ -1,1 +1,1 @@
-export const  UserMasterRecordsSchema = {}
+export const  AgencyMasterRecordsSchema = {}
