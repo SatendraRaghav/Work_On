@@ -1,9 +1,18 @@
 import { myService } from "../../service/service";
 import { dashboardTemplate } from "./dashboardTemplate";
+import { invoiceTemplate } from "./invoiceTemplate";
+import { overRideTemplate } from "./overrideTemplate";
 import { reportTemplate } from "./reportTemplate";
 import { reviewTemplate } from "./reviewTemplate";
+
+
+
 export const templateServiceFactory = (store: any, dynamicData: any) => {
-  const service = myService();
+  const service = myService(
+    dynamicData?.setLoading,
+
+    store.navigate
+  );
   return {
     masterTemplate: async () => {
       const data = JSON.stringify({
@@ -25,7 +34,7 @@ export const templateServiceFactory = (store: any, dynamicData: any) => {
               pageId: pageData?.data?.payload?.id,
             },
           });
-          return  service.post("/page/getConfiguredPageById", data2, {
+          return service.post("/page/getConfiguredPageById", data2, {
             headers: {
               "Content-Type": "application/json",
             },
@@ -40,17 +49,63 @@ export const templateServiceFactory = (store: any, dynamicData: any) => {
           ) {
             pageData = response;
           }
-          const config = pageData?.data?.payload?.config && pageData?.data?.payload?.config[0]
-          const uiSchema = pageData.data.payload.uiSchema;
-          const schema = pageData.data.payload.schema;
+          const config =
+            pageData?.data?.payload?.config &&
+            pageData?.data?.payload?.config[0];
+          const uiSchema = pageData.data.payload.templateMaster.uiSchema;
+          const schema = pageData.data.payload.templateMaster.schema;
+
           const template = pageData.data.payload.templateMaster.name;
+
           switch (template) {
             case "ReportTemplate1":
-              return reportTemplate(store, dynamicData,config, uiSchema, schema);
-            case "ReportTemplate3":
-              return reviewTemplate(store, dynamicData,config, uiSchema, schema);
-              case "DashboardTemplate1":
-              return dashboardTemplate(store, dynamicData,config, uiSchema, schema);
+              return reportTemplate(
+                store,
+                dynamicData,
+                config,
+                uiSchema,
+                schema
+              );
+            case "ReviewTemplate1":
+              return reviewTemplate(
+                store,
+                dynamicData,
+                config,
+                uiSchema,
+                schema
+              );
+            case "DashboardTemplate1":
+              return dashboardTemplate(
+                store,
+                dynamicData,
+                config,
+                uiSchema,
+                schema
+              );
+            case "InvoiceGenerationTemplate":
+              return invoiceTemplate(
+                store,
+                dynamicData,
+                config,
+                uiSchema,
+                schema
+              );
+            case "PayoutOverrideTemplate":
+              return overRideTemplate(
+                store,
+                dynamicData,
+                config,
+                uiSchema,
+                schema
+              );
+            case "PayoutOverrideEditTemplate":
+              return overRideTemplate(
+                store,
+                dynamicData,
+                config,
+                uiSchema,
+                schema
+              );
           }
         })
         .catch((err: any) => {

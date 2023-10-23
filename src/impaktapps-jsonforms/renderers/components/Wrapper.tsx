@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState, useContext, memo } from "react";
 import { ArrayControlProps, findUISchema, composePaths } from "@jsonforms/core";
 import { JsonFormsDispatch } from "@jsonforms/react";
 import { DataContext } from "../context/Context"; 
-import { Typography, Paper, Box, Divider } from "@mui/material";
+import { Typography, Paper, Box, Divider, useTheme } from "@mui/material";
 
 
 const Wrapper =  memo(function Wrapper ({
@@ -13,6 +13,7 @@ const Wrapper =  memo(function Wrapper ({
   renderers,
   rootSchema,
 }: ArrayControlProps | any){
+  const theme = useTheme()
   const { dispatch, state } = useContext(DataContext);
   const childUiSchema = useMemo(
     () =>
@@ -32,7 +33,7 @@ const Wrapper =  memo(function Wrapper ({
       sx={{
         width:"98%",
         margin: "15px auto",
-        background:"white",
+        background:"inherit",
          padding:"1x",
         borderRadius:"20px",
         ...uischema?.config?.style?.wrapperStyle,
@@ -49,7 +50,7 @@ const Wrapper =  memo(function Wrapper ({
           fontSize: { xs: "16px", sm: "20px" },
           fontFamily:"roboto",
           fontWeight:500,
-            // paddingBottom:"20px",
+          color:theme.palette.text.primary,
           ...uischema?.config?.style?.labelStyle,
         }}
       >
@@ -58,6 +59,16 @@ const Wrapper =  memo(function Wrapper ({
        <Divider></Divider>
       </Box>
 }
+<div
+      style={{
+        width: "98%",
+        margin: "15px auto ",
+        background:"inherit",
+        borderRadius: "20px",
+        paddingBottom:uischema.config?.main?.label ?"10px":"auto",
+        ...uischema?.config?.style?.wrapperStyle,
+      }}
+    >
       <JsonFormsDispatch
         schema={schema}
         uischema={childUiSchema || uischema}
@@ -65,6 +76,7 @@ const Wrapper =  memo(function Wrapper ({
         key={composePaths(path, `${0}`)}
         renderers={renderers}
       />
+  </div>
     </Box>
   );
 });

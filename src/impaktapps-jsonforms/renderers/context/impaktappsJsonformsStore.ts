@@ -16,7 +16,7 @@ export class ImpaktAppsJsonFormsStore {
     InfoMessage: string;
   }>>
   setSearchParams: any
-  navigate: NavigateFunction
+  navigate: NavigateFunction|any
   formData: any
   uiSchema: any
   schema: any
@@ -35,6 +35,9 @@ export class ImpaktAppsJsonFormsStore {
   pageName: string
   searchParams: any
   newData: any
+  setAdditionalErrors:any
+  additionalErrors:any
+  urlHistory:any
   constructor(
     updateFormdata: React.Dispatch<React.SetStateAction<{}>>,
     setUiSchema: React.Dispatch<React.SetStateAction<{}>>,
@@ -57,7 +60,10 @@ export class ImpaktAppsJsonFormsStore {
       SuccessMessage: string;
       Info: boolean;
       InfoMessage: string;
-    }, theme: any, permissions: any[], serviceHolder: any, pageName: string, searchParams: any
+    }, theme: any, permissions: any[], serviceHolder: any, pageName: string, searchParams: any,
+    setAdditionalErrors:any,
+    additionalErrors:any,
+ 
   ) {
     this.setFormdata = updateFormdata;
     this.setUiSchema = setUiSchema;
@@ -75,8 +81,9 @@ export class ImpaktAppsJsonFormsStore {
     this.permissions = permissions;
     this.serviceHolder = serviceHolder;
     this.pageName = pageName;
-    this.searchParams = searchParams
-  }
+    this.searchParams = searchParams;
+    this.setAdditionalErrors = setAdditionalErrors
+    this.additionalErrors = additionalErrors}
 
    updateFormdata(data: any) {
 

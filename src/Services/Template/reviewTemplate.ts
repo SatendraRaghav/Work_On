@@ -1,16 +1,17 @@
 import { myService } from "../../service/service";
 import { getUpdatedUiSchema } from "../../utils/getUpdatedUiSchema";
 import _ from "lodash";
-import { userValue } from "../../Apple";
-import { validateForm } from "../../utils/validateForm";
+import { userValue } from "../../App";
+import { isErrorsExist } from "../../utils/isErrorsExist";
+import { fetchFormdata } from "../../utils/fetchFormdata";
 export const reviewTemplate = (
   store: any,
   dynamicData: any,
-  config:any,
+  config: any,
   uiSchema: any,
   schema: any
 ) => {
-  const service =myService(dynamicData?.setLoading,  store.navigate);
+  const service = myService(dynamicData?.setLoading, store.navigate);
   return {
     setPage: async function () {
       store.setUiSchema(uiSchema);
@@ -25,134 +26,55 @@ export const reviewTemplate = (
       return {};
     },
     getUiSchema: async function () {
-      const responseUiSchema = await getUpdatedUiSchema(config, uiSchema,service);
+      const responseUiSchema = await getUpdatedUiSchema(
+        config,
+        uiSchema,
+        service
+      );
       return responseUiSchema;
     },
     getSchema: () => {
       return schema;
     },
     search: async function () {
-      await this.eventHandle();
-    },
-    eventHandle: async function () {
-      const formData = _.cloneDeep(store.formData);
-      if (!validateForm(store.schema, store.ctx.core.errors)) {
+      if (!isErrorsExist(store.schema, store.ctx.core.errors)) {
         store.setValidation("ValidateAndShow");
         store.setNotify({
-          FailMessage: "Please fill all required fields",
+          FailMessage: "Errors on page",
           Fail: true,
         });
         return;
       }
-      const data = JSON.stringify({
-        payload: {
-          reportName: "case_level_report",
-          reportFormat: "grid",
-          params: {
-            candidateGroup: userValue.payload.positionTypeName,
-            candidateUser: userValue.payload.positionName,
-            userName: userValue.payload.username,
-            programCycleId: store.ctx.core.data.programCycle,
-            programId: store.ctx.core.data.program,
-            pageName: store.uiSchema.pageName,
-          },
-        },
-      });
-
-      const summaryData = JSON.stringify({
-        payload: {
-          reportName: "payout_level_report",
-          reportFormat: "grid",
-          params: {
-            candidateGroup: userValue?.payload?.positionTypeName,
-            candidateUser: userValue?.payload?.positionName,
-            userName: userValue?.payload?.username,
-            programCycleId: store.ctx.core.data.programCycle,
-            programId: store.ctx.core.data.program,
-            pageName: store.uiSchema.pageName,
-          },
-        },
-      });
-
-      const workflowData = JSON.stringify({
-        payload: {
-          reportName: "workflow_report",
-          reportFormat: "grid",
-          params: {
-            candidateGroup: userValue?.payload?.positionTypeName,
-            candidateUser: userValue?.payload?.positionName,
-            userName: userValue?.payload?.username,
-            programCycleId: store.ctx.core.data.programCycle,
-            programId: store.ctx.core.data.program,
-            pageName: store.uiSchema.pageName,
-          },
-        },
-      });
-      const myObj = {
-        payload: {
+      await this.eventHandle();
+    },
+    eventHandle: async function () {
+      const data = await fetchFormdata(
+        config,
+        [...config.reportList.components, ...config.pendingActions.components],
+        // [...config.reportList.components]
+        store.ctx.core.data,
+        {
           candidateGroup: userValue.payload.positionTypeName,
           candidateUser: userValue.payload.positionName,
           userName: userValue.payload.username,
-          programCycleId: store.ctx.core.data.programCycle,
-
-          pageName: store.uiSchema.pageName,
+          pageName: "PayoutReview",
+          // pageName:"payoutOverride_datatablePayee",
         },
-      };
-      await service
-        .post("/workflow/getActionListOnCandidateUserAndGroup", myObj)
-        .then((res) => {
-          console.log(res);
-          const options = res?.data?.payload?.map((e: string | number) => {
-            return { label: e, value: e };
-          });
-
-          store.uiSchema.elements[3].elements[2].config.main.options = options;
-        });
-      const tablesData: Array<any> = [];
-      await service
-        .post("/workflow/generateReport", data, {
-          headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest",
-          },
-        })
-        .then(async (response: any) => {
-          tablesData.push(response.data.payload.reportData.values);
-          return await service.post("/workflow/generateReport", summaryData, {
-            headers: {
-              "Content-Type": "application/json",
-              "X-Requested-With": "XMLHttpRequest",
-            },
-          });
-        })
-        .then(async (response) => {
-          tablesData.push(response.data.payload.reportData.values);
-          return await service.post("/workflow/generateReport", workflowData, {
-            headers: {
-              "Content-Type": "application/json",
-              "X-Requested-With": "XMLHttpRequest",
-            },
-          });
-        })
-        .then(async (response) => {
-          tablesData.push(response.data.payload.reportData.values);
-
-          formData["caseReportList"] = tablesData[0];
-          formData["summaryReportList"] = tablesData[1];
-          formData["pendingActionList"] = tablesData[2];
-          // store.setUiSchema(UiSchema)
-          store.setFormdata(formData);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      return tablesData;
+        ["search"],
+        service
+      );
+      store.setFormdata(data);
+      return data;
     },
+
     onChange: async function () {
-      const uiSchema = _.cloneDeep(store.uiSchema);
-      if (store.newData?.program) {
+      if (
+        store?.formData?.programId !== store.newData?.programId &&
+        store?.newData?.programId !== undefined
+      ) {
+        const uiSchema = _.cloneDeep(store.uiSchema);
         await service
-          .get(`/programCycle/getByProgramId?id=${store.newData?.program} `)
+          .get(`/programCycle/getByProgramId?id=${store.newData?.programId} `)
           .then((response: any) => {
             const result1 = response.data.payload.map((elem: any) => {
               const cycle = { label: elem.name, value: elem.id };
@@ -164,7 +86,35 @@ export const reviewTemplate = (
           })
           .catch((error) => {});
       }
+      if (
+        store?.formData?.programCycleId !== store.newData?.programCycleId &&
+        store?.newData?.programCycleId !== undefined &&
+        store.pageName === "template_payoutReview"
+      ) {
+        const uiSchema = _.cloneDeep(store.uiSchema);
+        const myObj = {
+          payload: {
+            candidateGroup: userValue.payload.positionTypeName,
+            candidateUser: userValue.payload.positionName,
+            userName: userValue.payload.username,
+            programCycleId: store.newData.programCycleId,
+            pageName: store.uiSchema.pageName,
+          },
+        };
+        await service
+          .post("/workflow/getActionListOnCandidateUserAndGroup", myObj)
+          .then((res) => {
+            console.log(res);
+            const options = res?.data?.payload?.map((e: string | number) => {
+              return { label: e, value: e };
+            });
+
+            uiSchema.elements[3].elements[2].config.main.options = options;
+            store.setUiSchema(uiSchema);
+          });
+      }
     },
+
     submit: async function () {
       const formData = _.cloneDeep(store.formData);
       if (
@@ -224,21 +174,18 @@ export const reviewTemplate = (
           return this.eventHandle();
         })
         .then((response) => {
+          store.setFormdata(response);
           const message =
             store.ctx.core.data.actions === "Reject" ? "Rejected" : "Approved";
-
-          formData["caseReportList"] = response[0];
-          formData["summaryReportList"] = response[1];
-          formData["pendingActionList"] = response[2];
           formData["caseReportListSelectedRowData"] = undefined;
           formData["summaryReportListSelectedRowData"] = undefined;
           formData["pendingActionListSelectedRowData"] = undefined;
-          
+
           store.setNotify({ SuccessMessage: message, Success: true });
-          store.setFormdata(formData)
+          // store.setFormdata(formData)
         })
         .catch((error) => {
-          store.setNotify({ FailMessage: "Error", Fail: true });
+          // store.setNotify({ FailMessage: "Error", Fail: true });
         });
     },
   };

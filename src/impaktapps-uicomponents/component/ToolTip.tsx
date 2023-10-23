@@ -8,17 +8,18 @@ const ToolTip = ({ style, top, left, tooltipData }: tooltipProps) => {
   });
   return (
     <TooltipInPortal 
+  
      key={Math.random()} top={top} left={left}>
       <div
         style={{
-          width: "70px",
+          width: "100%",
           // paddingleft: "10px",
-          height: "50px",
+          height: "auto",
           textAlign:"center",
           background:"black",
          boxShadow:"2px 2px 5px black",
           color:"#6c5efb",
-          padding:"5px",
+          padding:"15px",
           ...style?.tooltipStyle,
         }}
       >

@@ -35,7 +35,7 @@ const ProgressBar = ({value} : any) => {
     <div
       className="progress-bar-fill"
       style={{
-        width: `${progress}%`,
+        width: `${progress<100?progress:100}%`,
         backgroundColor: getColor()[1],
         // backgroundColor: "#3f51b5",
         height: "100%",
@@ -53,7 +53,7 @@ const ProgressBar = ({value} : any) => {
       style={{
         backgroundColor: "white",
         borderRadius: "20px",
-        width: "300px",
+        width: "auto",
         height: "auto",
         margin: "auto",
         padding: " 40px none",
@@ -111,7 +111,7 @@ const ProgressBar = ({value} : any) => {
             <div
               className="progress-bar-fill"
               style={{
-                width: `${progress}%`,
+                width: `${progress<=100?progress:100}%`,
                 backgroundColor: getColor()[1],
                 // backgroundColor: "#3f51b5",
                 height: "100%",

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  JsonForms,
-  useJsonForms,
-} from "@jsonforms/react";
+import { JsonForms, useJsonForms } from "@jsonforms/react";
 import { materialCells } from "@jsonforms/material-renderers";
 import renderers from "../../renderers";
 import { DataProvider } from "../../renderers/context/Context";
@@ -15,10 +12,11 @@ import {
   Stack,
 } from "@mui/material";
 import CommonSkeleton from "../../renderers/common/Skeleton";
-import { useImpaktAppsJsonFormsStore} from "../../renderers/context/useImpaktAppsJsonFormsStore"
+import { useImpaktAppsJsonFormsStore} from "./../../renderers/context/useImpaktappsJsonformsStore"
 import {
   HomePropsType,
 } from "../../renderers/interface/inputfieldProps";
+import { useLocation } from "react-router-dom";
 
 function Home({
   serviceHolder,
@@ -28,6 +26,7 @@ function Home({
   pageName,
 }: HomePropsType) {
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
   const impaktAppsJsonFormsStore = useImpaktAppsJsonFormsStore(
     serviceHolder,
     validationMode,
@@ -49,6 +48,7 @@ function Home({
   };
 
   const ctx = useJsonForms();
+
   const changeHandler = (data: any, errors: any) => {
     impaktAppsJsonFormsStore.updateFormdata(data);
     impaktAppsJsonFormsStore.serviceHolder
@@ -59,7 +59,7 @@ function Home({
   };
   useEffect(() => {
     pageSetter();
-  }, [impaktAppsJsonFormsStore.pageName]);
+  }, [impaktAppsJsonFormsStore.pageName,location]);
   return (
     <div>
       {impaktAppsJsonFormsStore.uiSchema ? (
@@ -78,6 +78,7 @@ function Home({
               cells={materialCells}
               onChange={({ data, errors }) => changeHandler(data, errors)}
               validationMode={impaktAppsJsonFormsStore.validationMode}
+              additionalErrors={impaktAppsJsonFormsStore.additionalErrors}
             />
 
             <Dialog open={loading}>

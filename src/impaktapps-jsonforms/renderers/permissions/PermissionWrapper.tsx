@@ -1,11 +1,6 @@
 import React, { Children, cloneElement } from 'react';
 import getMatchedPermissions from './getMatchedPermissions';
 import Permission from './Permission';
-
-
-
-
-
 function PermissionWrapper({ children, path, permissions }) {
   if (permissions !== undefined && permissions !== null && path !== null) {
     const permissionObjects = permissions.map((p) => new Permission(p));
@@ -13,7 +8,11 @@ function PermissionWrapper({ children, path, permissions }) {
 
     if (fieldPermissions.length === 0) {
       return null;
-    } else {
+    } 
+   else if(fieldPermissions[0].action === 'H'){
+    return null
+   }
+    else {
       if (fieldPermissions[0].action === 'R') {
         const updatedChildren = Children.map(children, (child) => {
           if (React.isValidElement(child)) {

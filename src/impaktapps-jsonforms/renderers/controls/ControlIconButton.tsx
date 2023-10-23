@@ -1,6 +1,7 @@
 import React from 'react'
 import IconsButton from '../components/IconsButton'
 import { inputProps } from '../interface/inputfieldProps'
+import { withJsonFormsControlProps } from '@jsonforms/react'
 
 const ControlIconButton = (props:inputProps) => {
   return (
@@ -9,4 +10,4 @@ const ControlIconButton = (props:inputProps) => {
   )
 }
 
-export default ControlIconButton
+export default withJsonFormsControlProps(ControlIconButton)

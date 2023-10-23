@@ -20,8 +20,14 @@ const BarGraph = ({ value }:any) => {
     </ParentSize>
   );
 
-  return <div style={barData?.style?.containerStyle}>
-    {barData?.main?.header && <div style={barData?.style?.headerStyle}>{barData?.main?.header}</div> }
+  return <div style={{...barData?.style?.containerStyle}}>
+    {barData?.main?.header && <div style={{ fontWeight: 500,
+      textAlign: "left",
+      fontFamily: "inherit",
+      marginBottom:"20px",
+      padding: "15px 0 1px 20px",
+      fontSize: "18px",
+      color: "#121926",...barData?.style?.headerStyle}}>{barData?.main?.header}</div> }
     {GraphRender}
   </div>;
 };

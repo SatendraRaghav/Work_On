@@ -12,7 +12,6 @@ import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { inputProps } from "../interface/inputfieldProps";
 import LoaderInfo from "../common/LoaderInfo";
-import Helpertext from "../common/HelperText";
 import { ProgressBar } from "./Button";
 const UploadFile = memo(function (props: inputProps) {
   const { data, handleChange, uischema, path, errors, required } = props;
@@ -25,16 +24,16 @@ const UploadFile = memo(function (props: inputProps) {
     HTMLTextAreaElement | HTMLInputElement
   > | null>(null);
   const fieldName = getFieldName(path);
-  
+
   const myStyle = uischemaData?.iconStyleDefault ? theme.IconStyle : {};
   const callServiceProvider = (event: any, uploadEvent?: any) => {
-    serviceProvider(ctx,uischemaData, {
+    serviceProvider(ctx, uischemaData, {
       event,
       changeEvent: uploadEvent,
       uischemaData,
       path,
       setLoading,
-      paramValue:event?.target?.value
+      paramValue: event?.target?.value,
     });
   };
   return (
@@ -61,7 +60,9 @@ const UploadFile = memo(function (props: inputProps) {
                     callServiceProvider(event, changeEvent);
                   }}
                   sx={{
-                    color: uischemaData?.color ? "none" : "#3949ab",
+                    color: uischemaData?.color
+                      ? "none"
+                      : theme.myTheme.palette.text.iconButton,
                     ...myStyle,
                     ...uischema?.config?.style,
                   }}

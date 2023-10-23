@@ -1,7 +1,7 @@
 import { FormHelperText } from '@mui/material'
 import React from 'react'
 
-const Helpertext = ({errors,uischemaData}:any) => {
+const HelperText = ({errors,uischemaData}:any) => {
   return (
     <>
     <FormHelperText error={true}>
@@ -18,4 +18,4 @@ const Helpertext = ({errors,uischemaData}:any) => {
   )
 }
 
-export default Helpertext
+export default HelperText

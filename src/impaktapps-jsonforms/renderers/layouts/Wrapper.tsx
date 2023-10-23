@@ -7,7 +7,7 @@ import {
 } from "@jsonforms/core";
 import { JsonFormsDispatch } from "@jsonforms/react";
 import { DataContext } from "../context/Context";
-import { Typography, Paper, Box, Divider } from "@mui/material";
+import { Typography, Paper, Box, Divider, useTheme } from "@mui/material";
 import { isEmpty } from "lodash";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
@@ -21,59 +21,51 @@ const Wrapper = function Wrapper({
   cells,
   rootSchema,
 }: ArrayControlProps | any) {
+  const theme = useTheme();
   const { dispatch, state } = useContext(DataContext);
-  const childUiSchema = useMemo(
-    () =>
-      findUISchema(
-        uischemas,
-        schema,
-        uischema.scope,
-        path,
-        undefined,
-        uischema,
-        rootSchema
-      ),
-    [uischemas, schema, uischema.scope, path, uischema, rootSchema]
-  );
+
   return (
- 
-      <>
-    {uischema?.config?.main?.label && (
-        <Box >
+    <>
+      {uischema?.config?.main?.label && (
+        <Box>
           <Typography
             component={"div"}
             sx={{
-               padding:"10px",
-              paddingLeft:"28px",
-             
+              padding: "10px",
+              paddingLeft: "28px",
               fontSize: { xs: "16px", sm: "20px" },
               fontFamily: "roboto",
               fontWeight: 500,
+              color: "inherit",
               ...uischema?.config?.style?.labelStyle,
             }}
           >
             {uischema.config?.main?.label}
           </Typography>
-          {uischema?.config?.main?.divider && <Divider sx={{paddingTop:"8px"}} variant="fullWidth"></Divider>}
+          {uischema?.config?.main?.divider && (
+            <Divider sx={{ paddingTop: "8px" }} variant="fullWidth"></Divider>
+          )}
         </Box>
       )}
-    <Grid2
-    container
-    xs={uischema?.config?.layout||11}
-    rowSpacing={uischema.config?.main?.rowSpacing||2}
-    columnSpacing={uischema.config?.main?.columnSpacingSpacing||2}
-    gap={uischema.config?.main?.gap}
-    spacing={uischema.config?.main?.spacing||2}
-    justifyContent="space-around"
-      sx={{
-        width: "98%",
-        margin: "15px auto ",
-        background: "white",
-        borderRadius: "20px",
-        paddingBottom:uischema.config?.main?.label ?"10px":"auto",
-        ...uischema?.config?.style?.wrapperStyle,
-      }}
-    >
+      <Grid2
+        container
+        xs={11.8}
+        sm={11.8}
+        md={uischema?.config?.layout || 11.5}
+        rowSpacing={uischema.config?.main?.rowSpacing || 2}
+        columnSpacing={uischema.config?.main?.columnSpacingSpacing || 2}
+        gap={uischema.config?.main?.gap}
+        spacing={uischema.config?.main?.spacing || 2}
+        justifyContent="space-around"
+        sx={{
+          width: { xs: "100%", sm: "100%", md: "98%" },
+          margin: "15px auto ",
+          background: "inherit",
+          borderRadius: "20px",
+          paddingBottom: uischema.config?.main?.label ? "10px" : "auto",
+          ...uischema?.config?.style?.wrapperStyle,
+        }}
+      >
         {!isEmpty(elements) &&
           elements.map((child: UISchemaElement | any, i: number) => {
             return (
@@ -118,7 +110,7 @@ const Wrapper = function Wrapper({
               </Grid2>
             );
           })}
-    </Grid2>
+      </Grid2>
     </>
   );
 };

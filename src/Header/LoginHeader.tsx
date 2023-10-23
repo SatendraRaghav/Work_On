@@ -7,7 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { actions, DataContext } from '../Reducer';
 import { useContext } from 'react';
 // import logo from "../Image/Act21-logo-300x75_adobe_express.svg"
-import logo from "../assets/hyperformLogo.jpg";
+// import logo from "../assets/hyperformLogo.jpg";
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -48,7 +48,7 @@ const AppBar = styled(MuiAppBar, {
       <AppBar position="fixed" >
         <Toolbar>
           <Box sx={{marginLeft:"-30px"}}>
-        <img src = {logo} alt="impakt_logo" width={320} height={70} /></Box>
+        <img src = {"hyperformLogo.jpg"} alt="impakt_logo" width={320} height={70} /></Box>
           <Box component={"div"} sx={{flexGrow:1}} />
         </Toolbar>
       </AppBar>

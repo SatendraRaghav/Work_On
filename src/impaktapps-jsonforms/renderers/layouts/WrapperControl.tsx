@@ -47,7 +47,13 @@ export const WrapperLayoutControl = ({
     <div
       style={
         uischema?.config?.defaultStyle || uischema?.config?.wrapperStyle
-          ? { ...theme.WrapperStyle, ...uischema?.config?.wrapperStyle }
+          ? {
+              ...theme.WrapperStyle,
+              ...uischema?.config?.wrapperStyle,
+              background: uischema?.config?.main?.page?theme.myTheme.palette.primary.main:uischema?.config?.main?.header
+                ? theme.myTheme.palette.background.heading
+                : theme.myTheme.palette.secondary.main,
+            }
           : {}
       }
     >

@@ -12,18 +12,19 @@ import { Stack } from "@mui/system";
 import PermissionWrapper from "../permissions/PermissionWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { radioInputProps } from "../interface/inputfieldProps";
-import Helpertext from "../common/HelperText";
 import { useJsonForms } from "@jsonforms/react";
+//@ts-ignore
+import Helpertext from "../common/Helpertext";
 
 const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
   const { required, errors, data, uischema, handleChange, path } = props;
   const uischemaData = uischema?.config?.main;
-  const { id, permissions, theme, serviceProvider } = useContext(DataContext);
+  const { pageName, permissions, theme, serviceProvider } = useContext(DataContext);
   const fieldName = getFieldName(path);
   const onChange = (_ev: any, value: any) => handleChange(path, value);
   const ctx = useJsonForms();
   return (
-    <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
+    <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
       <FormControl fullWidth={true} variant="outlined">
         <Stack
           direction={"row"}
@@ -51,7 +52,6 @@ const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
               ...theme.InputFieldStyle,
               ...uischema?.config?.RadioGroupStyle,
             }}
-          
             row
             value={data ?? ""}
             defaultValue={data}
@@ -60,7 +60,6 @@ const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
             onChange={(event, value) => {
               onChange(event, value);
             }}
-        
           >
             {uischemaData?.options?.map((elem: any, i: number) => (
               <FormControlLabel
@@ -71,7 +70,10 @@ const ImpaktAppsRadio = memo(function CustomRadio(props: radioInputProps) {
                     sx={{
                       margin: "1px auto",
                       "&.Mui-checked": {
-                        color: "black",
+                        color: theme.myTheme.palette.text.primary,
+                      },
+                      "& label": {
+                        color: theme.myTheme.palette.text.inputLabel,
                       },
                     }}
                     value={elem}

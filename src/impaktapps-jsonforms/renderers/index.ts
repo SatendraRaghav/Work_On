@@ -23,6 +23,15 @@ import ControlUploadFile from "./controls/ControlUploadFile";
 import { WrapperLayoutControl, WrapperLayoutTester } from "./layouts/WrapperControl";
 import ControlGraph from "./controls/ControlGraph";
 import ControlProgressBar from "./controls/ControlProgressBar";
+import ControlSpeedoMeter from "./controls/ControlSpeedoMeter";
+import { SliderLayoutControl, SliderLayoutTester } from "./layouts/SliderControl";
+import ControlTimer from "./controls/ControlTimer";
+import TextArea from "./components/TextArea";
+import Image from "./components/Image";
+import RollAndDice from "./components/RollAndDice";
+import RunningBoyProgressBar from "./components/RunningBoyProgressBar";
+import Slider from "./components/Slider";
+import RankCard from "./components/RankCard";
 export const renderers = [
   ...materialRenderers,
   {
@@ -31,6 +40,8 @@ export const renderers = [
   },
   { tester: TabLayoutTester, renderer: TabLayoutControl },
   { tester: WrapperLayoutTester, renderer: WrapperLayoutControl},
+  { tester: SliderLayoutTester, renderer: SliderLayoutControl},
+  { tester: rankTester("Timer"), renderer: ControlTimer },
   { tester: rankTester("Wrapper"), renderer: ControlWrapper },
   { tester: rankTester("Graph"), renderer: ControlGraph },
   { tester: rankTester("Tab"), renderer: ControlTab },
@@ -49,6 +60,12 @@ export const renderers = [
   { tester: rankTester("Notify"), renderer: ControlNotify },
   { tester: rankTester("MultipleSelect"), renderer: ControlAutoComplete },
   { tester: rankTester("ProgressBar"), renderer: ControlProgressBar },
-
+  { tester: rankTester("SpeedoMeter"), renderer: ControlSpeedoMeter },
+  { tester: rankTester("TextArea"), renderer: TextArea },
+  { tester: rankTester("Image"), renderer: Image },
+  { tester: rankTester("Slider"), renderer: Slider },
+  { tester: rankTester("RunnerBoyProgressBar"), renderer: RunningBoyProgressBar },
+  { tester: rankTester("RollAndDice"), renderer:RollAndDice  },
+  { tester: rankTester("RankCard"), renderer:RankCard  },
 ];
 export default renderers;

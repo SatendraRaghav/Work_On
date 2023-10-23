@@ -4,24 +4,22 @@ import Tab from "@mui/material/Tab";
 import isEmpty from "lodash/isEmpty";
 import {
   ArrayControlProps,
-  composePaths,
-  findUISchema,
   UISchemaElement,
 } from "@jsonforms/core";
 import Box from "@mui/material/Box";
 import { JsonFormsDispatch } from "@jsonforms/react";
 import { DataContext } from "../context/Context";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { Divider, Typography } from "@mui/material";
 
 interface TabPanelProps {
   children: any;
   index: number;
   value: number;
+  id:number|string;
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index,id, ...other } = props;
 
   return (
     <div
@@ -31,7 +29,10 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {/* {value === index && */}
+      <Box key={id} sx={{ p: 3 }}>
+        {children}
+      </Box>
     </div>
   );
 }
@@ -112,7 +113,7 @@ export default function TabLayout({
         {!isEmpty(elements) &&
           elements.map((elem: UISchemaElement | any, i: number) => {
             return (
-              <TabPanel value={value} index={i}>
+              <TabPanel value={value} index={i}  id = {uischema?.config?.main?.id}>
                 <JsonFormsDispatch
                   schema={schema}
                   uischema={elem}

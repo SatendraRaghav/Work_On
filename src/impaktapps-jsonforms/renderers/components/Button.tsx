@@ -28,7 +28,7 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
   const [loading,setLoading] = useState(false)
   const {
     serviceProvider,
-    id,
+    pageName,
     permissions,
     theme,
   } = useContext(DataContext);
@@ -40,35 +40,38 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
   }
   return (
     <>
-      <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
-          <Button
-            fullWidth={true}
-            endIcon={
-              uischemaData?.endIcon ? ButtonIcon(uischemaData?.endIcon, uischemaData) : false
-            }
-            title={uischemaData?.tooltipMessage}
-            startIcon={
-              uischemaData?.startIcon
-                ? ButtonIcon(uischemaData?.startIcon, uischemaData)
-                : false
-            }
-            sx={{ ...theme.Buttonstyle, ...uischema?.config?.style }}
-            variant={uischemaData?.variant || "contained"}
-            size={uischemaData?.size || "medium"}
-            disabled={loading}
-            onKeyDown={e =>callServiceProvider(e)}
-            onClick={e =>callServiceProvider(e)}
-            onPointerEnter={(event)=>  callServiceProvider(event)}
-            onPointerLeave={(event)=>  callServiceProvider(event)}
-            onFocus={(event)=>  callServiceProvider(event)}
-            onBlur={(event)=>  callServiceProvider(event)}
-            onMouseEnter={(event)=>  callServiceProvider(event)}
-          >
-            {uischemaData?.name}
-            {loading && ProgressBar}
-          </Button>
+      <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
+        <Button
+          fullWidth={true}
+          endIcon={
+            uischemaData?.endIcon
+              ? ButtonIcon(uischemaData?.endIcon, uischemaData)
+              : false
+          }
+          title={uischemaData?.tooltipMessage}
+          startIcon={
+            uischemaData?.startIcon
+              ? ButtonIcon(uischemaData?.startIcon, uischemaData)
+              : false
+          }
+          color={uischemaData?.color}
+          sx={{ ...theme.Buttonstyle, ...uischema?.config?.style }}
+          variant={uischemaData?.variant || "contained"}
+          size={uischemaData?.size || "medium"}
+          disabled={loading || uischemaData?.disabled}
+          onKeyDown={(e) => callServiceProvider(e)}
+          onClick={(e) => callServiceProvider(e)}
+          onPointerEnter={(event) => callServiceProvider(event)}
+          onPointerLeave={(event) => callServiceProvider(event)}
+          onFocus={(event) => callServiceProvider(event)}
+          onBlur={(event) => callServiceProvider(event)}
+          onMouseEnter={(event) => callServiceProvider(event)}
+        >
+          {uischemaData?.name}
+          {loading && ProgressBar}
+        </Button>
       </PermissionWrapper>
-      <LoaderInfo id={path} loading={loading}/>
+      <LoaderInfo id={path} loading={loading} />
     </>
   );
 });

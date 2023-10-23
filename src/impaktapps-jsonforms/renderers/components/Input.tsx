@@ -20,7 +20,7 @@ const Input = memo(function (props: inputProps) {
     props;
   const uischemaData = uischema?.config?.main;
   const [showAdornment, setShowAdornment] = useState(false);
-  const { id, permissions, theme, serviceProvider } = useContext(DataContext);
+  const { pageName, permissions, theme, serviceProvider } = useContext(DataContext);
   const fieldName = getFieldName(path);
   const eventToValue = (ev: any) =>
     ev.target.value === "" ? undefined : ev.target.value;
@@ -31,12 +31,10 @@ const Input = memo(function (props: inputProps) {
     path,
     eventToValue
   );
-  const ctx = useJsonForms();
- 
   const onPointerEnter = () => setShowAdornment(true);
   const onPointerLeave = () => setShowAdornment(false);
   return (
-    <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
+    <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
       <TextField
         required={required}
         autoFocus={uischemaData?.autoFocus}
@@ -80,11 +78,7 @@ const Input = memo(function (props: inputProps) {
         type={uischemaData?.type}
         variant={uischemaData?.variant}
         helperText={
-          errors !== ""
-            ? uischemaData?.errorMessage
-              ? uischemaData?.errorMessage
-              : errors
-            : ""
+          errors !== "" && errors.includes('pattern')?uischemaData?.errorMessage:errors
         }
         error={errors !== "" ? true : false}
       />

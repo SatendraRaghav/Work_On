@@ -10,7 +10,7 @@ const getMatchedPermissions = (path:string, permissions:Permission[]) => {
 
         if(tokenList.length>1){
             const fieldNameList = finalPermissions.map(elem => elem.fieldName);
-            finalPermissions =  filterPermission(tokenList[1],permissions,"fieldName");
+            finalPermissions =  filterPermission(tokenList[1],finalPermissions,"fieldName");
 
         }
         if(finalPermissions.length > 1){

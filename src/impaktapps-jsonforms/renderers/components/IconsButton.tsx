@@ -14,7 +14,7 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
   const [loading,setLoading] = useState(false)
   const {
     serviceProvider,
-    id,
+    pageName,
     permissions,
     theme,
   } = useContext(DataContext);
@@ -29,7 +29,7 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
     }
   return (
     <>
-    <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
+    <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
       <IconButton
         sx={{ color: uischemaData?.color?"none":"#3949ab", ...myStyle, ...uischema?.config?.style }}
         size={uischemaData?.size || "medium"}

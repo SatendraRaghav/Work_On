@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { navigator } from "../serviceHolder";
-// import { userValue, setUserValue } from "../Apple";
+// import { userValue, setUserValue } from "../App";
 import { myService } from "../service/service";
-import { Permission } from "../impaktapps-jsonforms/lib";
+import { Permission } from "impaktapps-jsonforms";
 import { IconProvider } from "../utils/IconProvider";
-import { TextField, IconButton, InputAdornment } from "@mui/material";
+import { TextField, IconButton, InputAdornment, useTheme } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import "./Style.css";
 import {
@@ -103,6 +103,7 @@ export default function ProSidebar(props: any) {
       searchBtn(search);
     }
   };
+  const theme:any = useTheme();
   return (
     <>
       <Box
@@ -110,33 +111,42 @@ export default function ProSidebar(props: any) {
         sx={{
           position: { sx: "static", sm: "static", md: "fixed" },
           left: 0,
-          scrollbarColor: "white",
           overflowY: "scroll",
+          zIndex:-2,
           overflowX: "scroll",
-          paddingBottom:"50px",
+          // marginTop:"-10px",
+          paddingBottom:"30px",
+          background:theme.palette.background.heading,
+          '&:hover::-webkit-scrollbar-thumb': {
+            background: theme.palette.secondary.main,
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            background: theme.palette.action.hover
+          },
           transition: "width 2s",
           display: {
             xs: collapsed ? "none" : "block",
             sm: collapsed ? "none" : "block",
             md: "block",
           },
-          height: "100vh",
+          maxHeight: "100vh",
         }}
       >
         <Sidebar
           collapsedWidth={"60px"}
           defaultCollapsed={false}
-          style={{ transition: " width 0.5s" }}
+          style={{ transition: " width 0.5s", background:theme.palette.background.heading,}}
           rtl={rtlBoolean}
           rootStyles={{
             border: "none",
+            background:theme.palette.background.heading,
             transition: "width 2s",
             overflow: "hidden",
           }}
         >
           {!collapsed && (
             <div
-              style={{ width: "80%", marginRight: "auto", marginLeft: "auto" }}
+              style={{  background:theme.palette.background.heading, }}
             >
               <TextField
                 fullWidth
@@ -148,9 +158,11 @@ export default function ProSidebar(props: any) {
                 value={search}
                 sx={{
                   marginTop: "16px",
+                
                   padding: "18px auto 10px auto",
                   "& .MuiInputBase-root": {
-                    background: "#f8fafc",
+                    width: "80%", marginRight: "auto", marginLeft: "auto",
+                    background: "inherit",
                     fontFamily: "inherit",
                     borderRadius: "20px",
                     marginBottom: "14px",
@@ -187,11 +199,20 @@ export default function ProSidebar(props: any) {
           )}
           <Menu
             closeOnClick={true}
+            style={{
+              background:theme.palette.background.heading,
+            }}
             menuItemStyles={{
               button: ({ level, active, disabled }) => {
                 return {
-                  color: active ? "#3f51b5" : "#364152",
-                  backgroundColor: active ? "#e8eaf6" : undefined,
+                  color: active ?theme.palette.action.active 
+                  // "#3f51b5" 
+                  : theme.palette.text.primary,
+                  // "#364152",
+                  backgroundColor: active ? 
+                  // "#e8eaf6"
+                  theme.palette.background.iconButton
+                   : undefined,
                   fontSize: "0.875rem",
                   transition: "width 5.5s",
                   fontWeight: active ? "500" : undefined,
@@ -200,8 +221,8 @@ export default function ProSidebar(props: any) {
                   overflowX: "auto",
                   margin: !collapsed && "2px 15px",
                   "&:hover": {
-                    color: "#3f51b5",
-                    background: "#e8eaf6",
+                    color: theme.palette.action.active ,
+                    background: theme.palette.background.iconButton,
                   },
                 };
               },
@@ -226,7 +247,7 @@ export default function ProSidebar(props: any) {
                             paddingLeft: "20px",
                             transition: " width 5.5s",
                             fontWeight: "500",
-                            color: "rgb(18, 25, 38)",
+                            color: theme.palette.text.primary,
                             marginBottom: "5px",
                             fontSize: "0.875rem",
                           }}
@@ -346,6 +367,9 @@ export default function ProSidebar(props: any) {
             })}
           </Menu>
         </Sidebar>
+        {/* <div style={{height:"100px",paddingBottom:"80px"}}>
+           Move to Top
+        </div> */}
       </Box>
     </>
   );

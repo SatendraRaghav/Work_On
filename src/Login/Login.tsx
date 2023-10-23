@@ -8,8 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-//@ts-ignore
-import HyperformLogo from "../assets/hyperformLogo.jpg";
+// import HyperformLogo from "../assets/Image/hyperformLogo.jpg";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import HttpsIcon from "@mui/icons-material/Https";
 import PersonIcon from "@mui/icons-material/Person";
@@ -74,7 +73,7 @@ const Login = ({setUserValue}:any) => {
             }}
           >
             <img
-              src={HyperformLogo}
+              src={"hyperformLogo.jpg"}
               alt="Hyperform-Logo"
               width={280}
               height={40}

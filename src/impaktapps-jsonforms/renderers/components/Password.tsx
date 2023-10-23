@@ -18,7 +18,7 @@ const Password = memo(function (props: inputProps) {
   const { data, required, errors, enabled, uischema, path, handleChange } =
     props;
   const uischemaData = uischema?.config?.main;
-  const { id, permissions, theme, serviceProvider } = useContext(DataContext);
+  const { pageName, permissions, theme, serviceProvider } = useContext(DataContext);
   const fieldName = getFieldName(path);
   const [showPassword, setShowPassword] = useState(false);
   const eventToValue = (ev: any) =>
@@ -31,7 +31,7 @@ const Password = memo(function (props: inputProps) {
     eventToValue
   );
   return (
-    <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
+    <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
       <TextField
         required={required}
         autoFocus={uischemaData?.autoFocus}

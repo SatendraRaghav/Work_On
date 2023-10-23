@@ -2,7 +2,7 @@ import ts from "typescript";
 import { myService } from "../../service/service";
 import _ from "lodash";
 import { getUpdatedUiSchema } from "../../utils/getUpdatedUiSchema";
-import { getParams } from "../../utils/getParams";
+import { fetchFormdata } from "../../utils/fetchFormdata";
 export const reportTemplate = (
   store: any,
   dynamicData: any,
@@ -24,18 +24,7 @@ export const reportTemplate = (
 
     },
     getFormdata: async function () {
-      return {
-        programId:"dsa",
-        fromDate:new Date("July 21, 2020 01:15:00"),
-        endDate:Date.now(),
-         HP_Sales_Incentive:[{y:"Uday",x:12},{y:"Sanchay Plus",x:8},{y:"New Product",x:9},{y:"Sanchay FMP",x:23},{y:"Sampoorn Nivesh",x:5},{y:"Samriddh",x:5},{y:"Pragati",x:8},{y:"Pension plan",x:27}],
-         DW_Incentive:[{x:"ASM",y:10.12},{x:"SDM",y:14.12},{x:"DCM",y:11.12},{x:"RCM",y:10.12}],
-         BCW_Incentive:[{branch:"Kotak",value:500},{branch:"SBI",value:700},{branch:"HDFC",value:900}],
-         Top5_Incentive:[{y:"Anant Sharma",x:1116.5},{y:"Pankaj Chauhan",x:1109.5},{y:"Umesh Kumar",x:1046.5},{y:"Vivek Solanki",x:1022},{y:"Siddarth verma",x:1009}],
-         Bottom5_Incentive:[{y:"Shriti Gupta",x:259},{y:"Rajat Kumar",x:269},{y:"Alam Khan",x:279},{y:"Raman Singh",x:315},{y:"Jay Sharma",x:265}],
-         Top5_PBC:[{y:"Chitranjan Sinha",x:258},{y:"Mohd Adil",x:256},{y:"Shrigopal Singh",x:253},{y:"Gowtham Mukkar",x:241},{y:"Nareshbhai Raval",x:236}],
-         Bottom5_PBC:[{y:"Sanju Adhikari",x:66.96},{y:"Amit Prajapati",x:"66"},{y:"Sunil Nirmal",x:70.96},{y:"Pratap Praharaj",x:74.96},{y:"Gurusam Balaguru",x:75.96}]
-       };
+      return {}
     },
     getUiSchema: async function () {
       const responseUiSchema = await getUpdatedUiSchema(config, uiSchema,service);
@@ -63,49 +52,9 @@ export const reportTemplate = (
       await this.eventHandle();
     },
     eventHandle: async function () {
-      const formData = _.cloneDeep(store.formData);
-      const tempName: string[] = window.location.pathname.split("_");
-      const paramName = tempName[tempName.length - 1];
-    const data:any = getParams(formData,config,["search"])
-      const body = JSON.stringify({
-        payload: {
-          reportName: paramName,
-          reportFormat: "grid",
-          params: {
-            ...data
-            // programId: formData.Program,
-            // fromDate: formData.StartDate,
-            // endDate: formData.EndDate,
-          },
-        },
-      });
-      const headers = {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-      };
-   const Api = "/workflow/generateReport";
-      const response = await this.callBackendApi({
-        method: "post",
-        body: body,
-        header: headers,
-        api: Api,
-      });
-      formData["table"] = response;
-      store.setFormdata(formData);
+      const data = await fetchFormdata(config,config.report.components,store.ctx.core.data,{},["search"],service);
+     store.setFormdata(data)
     },
-    findGraphData : () => {
-     store.setFormdata({
-      HP_Sales_Incentive:[{y:"Uday",x:12},{y:"Sanchay Plus",x:8},{y:"New Product",x:9},{y:"Sanchay FMP",x:23},{y:"Sampoorn Nivesh",x:5},{y:"Samriddh",x:5},{y:"Pragati",x:8},{y:"Pension plan",x:27}],
-      DW_Incentive:[{manager:"ASM",rupees:10.12},{manager:"SDM",rupees:14.12},{manager:"managermanagerDCM",rupees:11.12},{manager:"RCM",rupees:10.12}],
-      BCW_Incentive:[{branch:"Kotak",value:500},{branch:"SBI",value:700},{branch:"HDFC",value:900}],
-      Top5_Incentive:[{y:"Anant Sharma",x:1116500},{y:"Pankaj Chauhan",x:1109500},{y:"Umesh Kumar",x:1046500},{y:"Vivek Solanki",x:1022000},{y:"Siddarth verma",x:1009000}],
-      Bottom5_Incentive:[{y:"Shriti Gupta",x:259000},{y:"Rajat Kumar",x:269000},{y:"Alam Khan",x:279000},{y:"Raman Singh",x:315000},{y:"Jay Sharma",x:265000}],
-      Top5_PBC:[{y:"CHITRANJAN SINHA",x:258},{y:"MOHD ADIL",x:256},{y:"SHRIGOPAL SINGH",x:253},{y:"GOWTHAM MUKKARA",x:241},{y:"NARESHBHAI RAVAL",x:236}],
-      Bottom5_PBC:[{y:"Sanju Adhikari",x:66.96},{y:"AMIT PRAJAPATI",x:"66"},{y:"SUNIL NIRMAL",x:70.96},{y:"PRATAP PRAHARAJ",x:74.96},{y:"GURUSAM BALAGURU",x:75.96}]
-     })
-    }
   };
 };
 
@@ -213,7 +162,7 @@ export const reportTemplate = (
 // if (store.ctx.core.errors.length > 0) {
 //   store.setValidation("ValidateAndShow");
 //   store.setNotify({
-//     FailMessage: "Please fill all required fields",
+//     FailMessage: "Errors on page",
 //     Fail: true,
 //   });
 //   return;

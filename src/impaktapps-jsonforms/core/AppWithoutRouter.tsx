@@ -3,13 +3,14 @@ import { JsonForms } from "@jsonforms/react";
 import { materialCells } from "@jsonforms/material-renderers";
 import renderers from "../renderers";
 import { DataProvider } from "../renderers/context/Context";
-import {
-  Box,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import CommonSkeleton from "../renderers/common/Skeleton";
-import { useImpaktAppsJsonFormsStore } from "../renderers/context/useImpaktAppsJsonFormsStore";
-import { HomePropsType, impaktappsJsonformsPropsType } from "../renderers/interface/inputfieldProps";
-import {   useTheme } from "../styles/StyleFactory";
+import { useImpaktAppsJsonFormsStore } from "../renderers/context/useImpaktappsJsonformsStore";
+import {
+  HomePropsType,
+  impaktappsJsonformsPropsType,
+} from "../renderers/interface/inputfieldProps";
+import { useTheme } from "../styles/StyleFactory";
 
 function AppWithoutRouter({
   serviceHolder,
@@ -17,7 +18,7 @@ function AppWithoutRouter({
   styleTheme,
   validationMode,
 }: impaktappsJsonformsPropsType) {
-  const theme =   useTheme(styleTheme);
+  const theme = useTheme(styleTheme);
   const impaktappsJsonformsStore = useImpaktAppsJsonFormsStore(
     serviceHolder,
     validationMode,
@@ -26,10 +27,10 @@ function AppWithoutRouter({
     permissions
   );
   const callService = () => {
-    impaktappsJsonformsStore.uiSchema 
+    impaktappsJsonformsStore.uiSchema;
     serviceHolder.getService(impaktappsJsonformsStore).then((res: any) => {
       res.setPage().then(() => {
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 0);
       });
     });
   };
@@ -57,6 +58,7 @@ function AppWithoutRouter({
               cells={materialCells}
               onChange={({ data, errors }) => changeHandler(data, errors)}
               validationMode={impaktappsJsonformsStore.validationMode}
+              additionalErrors={impaktappsJsonformsStore.additionalErrors}
             />
           </Box>
         </DataProvider>

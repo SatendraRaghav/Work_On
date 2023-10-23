@@ -28,6 +28,7 @@ export function DailogBox({ open, setOpen,setUserValue }: any) {
             color: "#f15928",
             fontSize: "16px",
             fontWeight: 900,
+            zIndex:50,
             marginBottom: "-6px",
           }}
           id="alert-dialog-title"

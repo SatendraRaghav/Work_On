@@ -19,7 +19,7 @@ const DownloadFile = memo(function (props:inputProps ) {
     const [loading, setLoading] = useState(false);
     const { data, uischema, path, errors, required } = props;
     const uischemaData = uischema.config.main;
-    const { serviceProvider, permissions, id, theme, setNotify } =
+    const { serviceProvider, permissions, pageName, theme, setNotify } =
       useContext(DataContext);
       const ctx = useJsonForms();
     const myStyle = uischemaData?.iconStyleDefault ? theme.IconStyle : {};
@@ -40,7 +40,7 @@ const DownloadFile = memo(function (props:inputProps ) {
             }}
           >
             <PermissionWrapper
-              path={`${id}:${fieldName}`}
+              path={`${pageName}:${fieldName}`}
               permissions={permissions}
             >
                 <Box sx={{paddingTop:"10px",fontFamily:"inherit"}}color={errors && "red"} >
@@ -48,7 +48,7 @@ const DownloadFile = memo(function (props:inputProps ) {
                 </Box>
                 <IconButton
                         title="Download File"
-                        sx={{ color: uischemaData?.color?"none":"#3949ab", ...myStyle, ...uischema?.config?.style }}
+                        sx={{ color: uischemaData?.color?"none": theme.myTheme.palette.text.iconButton||"#3949ab", ...myStyle, ...uischema?.config?.style }}
                         color={uischemaData?.color}
                         disabled={data?false:true}
                         onClick={(event) => callServiceProvider(event)}

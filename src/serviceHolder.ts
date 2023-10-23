@@ -1,31 +1,40 @@
+
+import { AgencyBranchRecords } from "./Services/AgencyBranchMasterRecords";
+import { AgencyMasterForm } from "./Services/AgencyMasterForm";
+import { AgencyMasterRecords } from "./Services/AgencyMasterRecords";
 import { error } from "./Services/Error";
+import { ExternalData } from "./Services/ExternalData";
+import { GroupMasterForm } from "./Services/GroupMasterForm";
+import { GroupMasterRecords } from "./Services/GroupMasterRecords";
 import Home from "./Services/Home";
-import { CycleForm } from "./Services/ProgramCycle/CycleForm";
-import { CycleRecords } from "./Services/ProgramCycle/CycleRecords";
-import { MasterForm } from "./Services/ProgramMaster/MasterForm";
-import { MasterRecords } from "./Services/ProgramMaster/MasterRecords";
-import { dynamicDataType } from "./utils/dynamicDataType";
-import { UserMasterRecords } from "./Services/UserMasterRecords";
-import { UserMasterForm } from "./Services/UserMasterForm";
-import { RoleMasterForm } from "./Services/RoleMasterForm";
-import { RoleMasterRecords } from "./Services/RoleMasterRecords";
+import { InvoiceGeneration } from "./Services/InvoiceGeneration";
+import { PayoutProcessing } from "./Services/PayoutProcessing";
 import { PositionMasterForm } from "./Services/PositionMasterForm";
 import { PositionMasterRecords } from "./Services/PositionMasterRecords";
 import { PositionTypeMasterForm } from "./Services/PositionTypeMasterForm";
 import { PositionTypeMasterRecords } from "./Services/PositionTypeMasterRecords1";
+import Profile from "./Services/Profile";
+import { CycleForm } from "./Services/ProgramCycle/CycleForm";
+import { CycleRecords } from "./Services/ProgramCycle/CycleRecords";
+import { MasterForm } from "./Services/ProgramMaster/MasterForm";
+import { MasterRecords } from "./Services/ProgramMaster/MasterRecords";
+import { RoleMasterForm } from "./Services/RoleMasterForm";
+import { RoleMasterRecords } from "./Services/RoleMasterRecords";
 import { RolePermissionForm } from "./Services/RolePermissionMasterForm";
 import { RolePermissionRecords } from "./Services/RolePermissionMasterRecords";
-import { ExternalData } from "./Services/ExternalData";
-import { PayoutProcessing } from "./Services/PayoutProcessing";
-import { InvoiceGeneration } from "./Services/InvoiceGeneration";
-import Profile from "./Services/Profile";
+import { RuleMasterForm } from "./Services/RuleMasterForm";
+import { RuleMasterRecords } from "./Services/RuleMasterRecords";
+import { SimulationForm } from "./Services/Simulation/SimulationForm";
+import { SimulationRecords } from "./Services/Simulation/SimulationRecords";
 import { templateServiceFactory } from "./Services/Template/templateServiceFactory.";
-import { GroupMasterRecords } from "./Services/GroupMasterRecords";
-import { AgencyMasterRecords } from "./Services/AgencyMasterRecords";
-import { AgencyMasterForm } from "./Services/AgencyMasterForm";
-import { AgencyBranchRecords } from "./Services/AgencyBranchMasterRecords";
+import { UserMasterForm } from "./Services/UserMasterForm";
+import { UserMasterRecords } from "./Services/UserMasterRecords";
+import { dynamicDataType } from "./utils/dynamicDataType";
+import { PageMaster } from "./Services/PageMaster/PageMaster";
+import { PageMasterRecords } from "./Services/PageMaster/PageMasterRecords";
+import { Component } from "./Services/PageMaster/Component";
 import { AgencyBranchForm } from "./Services/AgencyBranchMasterForm";
-import { GroupMasterForm } from "./Services/GroupMasterForm";
+
 export let navigator: any;
 
 export const serviceHolder = {
@@ -40,6 +49,8 @@ export const serviceHolder = {
     if (pageName === "CycleForm") return CycleForm(store, dynamicData);
     if (pageName === "CycleRecords")
       return CycleRecords(store, dynamicData);
+    if (pageName === "Simulation") return SimulationRecords(store, dynamicData);
+    if (pageName === "SimulationForm") return SimulationForm(store, dynamicData);  
     if (pageName === "PositionTypeMaster") return PositionTypeMasterForm(store, dynamicData);
     if (pageName === "PositionMaster") return PositionMasterForm(store, dynamicData);
     if (pageName === "GroupMasterRecords") return GroupMasterRecords(store, dynamicData);
@@ -64,9 +75,14 @@ export const serviceHolder = {
     if (pageName === "PayoutProcessing") return PayoutProcessing(store, dynamicData);
     if (pageName === "InvoiceGeneration") return InvoiceGeneration(store, dynamicData);
     if (pageName === "MasterForm") return MasterForm(store, dynamicData);
+    if(pageName === "RuleMaster") return RuleMasterForm(store,dynamicData);
+    if(pageName === "RuleMasterRecords") return RuleMasterRecords(store,dynamicData);
     if (pageName === "MasterRecords") return MasterRecords(store, dynamicData);
     if (pageName.startsWith("template")) {
        return await templateServiceFactory(  store, dynamicData ).masterTemplate()};
+    if(pageName === 'PageMaster') return PageMaster(store,dynamicData);
+    if(pageName === 'PageMasterRecords') return PageMasterRecords(store,dynamicData);
+    if(pageName === 'Component') return Component(store,dynamicData);
     return error(store, dynamicData);
   },
 };

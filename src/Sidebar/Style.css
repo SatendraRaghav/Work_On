@@ -6,20 +6,20 @@
 
 .myDiv::-webkit-scrollbar-track {
   height:5px !important;
-  background-color: white; /* Set the background color of the scrollbar track */
+  /* background-color: white;Set the background color of the scrollbar track */
 }
 
 .myDiv::-webkit-scrollbar-thumb {
   height:5px !important;
-  background-color:white;
+  /* background-color:white; */
   height:5px !important;
   border-radius: 4px; /* Set the border radius of the scrollbar thumb */
 }
 
-
+/* 
 .myDiv:hover::-webkit-scrollbar-thumb {
   background-color: #e0e4e9; 
 }
 .myDiv::-webkit-scrollbar-thumb:hover {
-  background-color: #788292; /* Set the color of the scrollbar thumb on hover */
-}
+  background-color: #788292; Set the color of the scrollbar thumb on hover
+} */

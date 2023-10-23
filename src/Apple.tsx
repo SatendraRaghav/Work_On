@@ -12,29 +12,42 @@ import DailogBox from "./DialogBox";
 import Login from "./Login/Login";
 import Footer from "./Footer/Footer";
 import { BrowserView, MobileView } from "react-device-detect";
+import { createTheme, ThemeProvider, ThemeOptions } from "@mui/material/styles";
+import { getTheme } from "./Style/StyleFactory";
+import { CssBaseline } from "@mui/material";
 
 export let setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
 export let userValue: any;
+export let appThemeDemo :any;
 function Hyperform() {
   const { collapsed, collapseSidebar } = useProSidebar();
   const [user, setUser] = useLocalStorage("user", null);
+  const [appTheme,setAppTheme] = useState(createTheme(getTheme("light") as any))
   const [open, setOpen] = useState(collapsed);
   const [sidebarBoolean, setSidebarBoolean] = useState(false);
   useEffect(() => {
     setOpenDialog = setOpen;
     userValue = user;
-  }, [user]);
+    appThemeDemo=appTheme
+  }, [user,appTheme]);
+  
+  const changeTheme = (mode:string)=>{
+   setAppTheme(createTheme(getTheme(mode) as any))
+  }
   return (
-    <div>
+    <div >
       {user?.payload?.token ? (
         <>
+        <ThemeProvider theme={appTheme}>
+        <CssBaseline />
           <BrowserView>
             <div 
-            style={{ position: "relative" }}
+            style={{ position: "relative",background:appTheme.palette.background.heading }}
             >
               <Header
                 handleDrawer={() => collapseSidebar()}
                 userValue={user}
+                changeTheme={changeTheme}
                 setUserValue={setUser}
               />
               <ProSidebar
@@ -44,9 +57,11 @@ function Hyperform() {
                 userValue={user}
                 setUserValue={setUser}
               />
-              <div style={{ width: "100%", display: "flex" }}>
+              <div style={{ width: "100%", display: "flex",
+            }}>
                 <Box
                   sx={{
+                  
                     width: collapsed
                       ? { xs: "0", sm: "0", md: "50px" }
                       : "240px",
@@ -58,8 +73,9 @@ function Hyperform() {
                   sx={{
                     width: collapsed
                       ? { xs: "100%", sm: "100%", md: "calc(100% - 65px)" }
-                      : "calc(100% - 255px)",
+                      : "calc(100% - 265px)",
                     position: "absolute",
+                    background:appTheme.palette.background.heading,
                     float: "right",
                     transition: "width .6s",
                     right: 0,
@@ -68,6 +84,7 @@ function Hyperform() {
                 >
                   <App
                     serviceHolder={serviceHolder}
+                    styleTheme={{theme:appTheme}}
                     permissions={user.payload.permissions}
                   />
                   <DailogBox
@@ -134,6 +151,7 @@ function Hyperform() {
               </Drawer>
             </div>
           </MobileView>
+          </ThemeProvider> 
         </>
       ) : (
         <Box
