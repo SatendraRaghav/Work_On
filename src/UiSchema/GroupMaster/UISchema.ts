@@ -13,8 +13,8 @@ export const GroupMasterUISchema:any = {
           elements: [
         {
           type: "Control",
-          scope: "#/properties/programType",
-         
+          scope: "#/properties/masterName",
+
           options: {
             widget: "Box",
           },
@@ -78,16 +78,17 @@ export const GroupMasterUISchema:any = {
         },
         {
           "type": "Control",
-          "scope": "#/properties/positionList",
+          "scope": "#/properties/userList",
          
           "options": {
             "widget": "MultipleSelect"
           },
           "config": { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
             "main": {
-              "label": "Position List",
+              multiple: true,
+              "label": "User List",
               options: [],
-              errorMessage:"Positions are not selected"
+              errorMessage:"User are not selected"
             }
           }
         },
@@ -109,11 +110,11 @@ export const GroupMasterUISchema:any = {
         }
         ,
         {
-          "type": "Control",
-          "scope": "#/properties/AgencyButton",
-          
-          "options": {
-            "widget": "Button"
+          type: "Control",
+          scope: "#/properties/SubmitButton",
+
+          options: {
+            widget: "Button",
           },
           "config": {layout: {
             xs: 11,

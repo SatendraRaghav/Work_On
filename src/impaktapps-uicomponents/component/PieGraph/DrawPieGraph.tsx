@@ -9,13 +9,15 @@ import ToolTip from "../ToolTip";
 
 const DrawPieGraph = ({ value, parentWidth, parentHeight }: any) => {
   const letters = value?.main?.data;
+  // ["branch","value"]
   const arr =
     value?.main?.xAxisValue && value?.main?.yAxisValue
       ? [value?.main?.xAxisValue, value?.main?.yAxisValue]
       : Object.keys(letters[0]);
   const frequency = (d: any) => d[arr[1]];
+  const labelArray = letters.map((l:[any]) => l[arr[0]]);
   const getLetterFrequencyColor = scaleOrdinal({
-    domain: letters.map((l:[any]) => l[arr[0]]),
+    domain:labelArray,
     range: value?.style?.pieStyle?.colorRange,
   });
 
@@ -47,6 +49,8 @@ const DrawPieGraph = ({ value, parentWidth, parentHeight }: any) => {
       {value?.main?.legendAvailable && (
         <Legend
           value={value}
+           colorRange={value?.style?.pieStyle?.colorRange}
+          dataKeyArray={labelArray}
         />
       )}
       <svg
@@ -66,10 +70,11 @@ const DrawPieGraph = ({ value, parentWidth, parentHeight }: any) => {
           >
             {(pie) => {
               return pie.arcs.map((arc, index) => {
-                const letter = value?.style?.pieStyle?.showPieLabel?arc.data[arr[0]]:arc.data[arr[1]];
+                const letter =  value?.style?.pieStyle?.showPieLabel?arc.data[arr[0]]:arc.data[arr[1]];
+                
                 const [centriodX, centriodY] = pie.path.centroid(arc);
                 const arcPath = pie.path(arc);
-                const arcFill: any = getLetterFrequencyColor(letter);
+                const arcFill: any = getLetterFrequencyColor( arc.data[arr[0]]);
                 return (
                   <g
                     key={`arc-${letter}-${index}`}

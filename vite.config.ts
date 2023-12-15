@@ -9,17 +9,17 @@ import manifest from "./manifest.json";
 export default defineConfig({
   plugins: [
     react(),
-    VitePWA({
-      manifest,
-      devOptions: {
-        enabled: false,
-        /* other options */
-      },
-      workbox: {
-        globPatterns: ["**/*.{js,css,html}", "**/*.{svg,png,jpg,gif}"],
-        navigateFallback: "/fallback.html",
-      },
-    }),
+    // VitePWA({
+    //   manifest,
+    //   devOptions: {
+    //     enabled: false,
+    //     /* other options */
+    //   },
+    //   workbox: {
+    //     globPatterns: ["**/*.{js,css,html}", "**/*.{svg,png,jpg,gif}"],
+    //     navigateFallback: "/fallback.html",
+    //   },
+    // }),
   ],
   resolve: {
     alias: {

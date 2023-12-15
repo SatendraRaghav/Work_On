@@ -13,7 +13,7 @@ export const RuleMasterUISchema = {
         elements: [
           {
             type: "Control",
-            scope: "#/properties/programType",
+            scope: "#/properties/masterName",
             options: {
               widget: "Box",
             },
@@ -100,7 +100,7 @@ export const RuleMasterUISchema = {
                   layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
                   main: {
                     label: "Group",
-                    options : [{}],
+                    options : [],
                     color: "secondary",
                     onClick: "typeLoadFunction",
                   },
@@ -111,7 +111,7 @@ export const RuleMasterUISchema = {
             },
             {
                 type: "Control",
-                scope: "#/properties/project",
+                scope: "#/properties/artifactId",
                 
                 options: {
                   widget: "SelectInputField",
@@ -120,7 +120,7 @@ export const RuleMasterUISchema = {
                   layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
                   main: {
                     label: "Project",
-                    options: [{}],
+                    options: [],
                     color: "secondary",
                     onClick: "typeLoadFunction",
                   },
@@ -140,7 +140,7 @@ export const RuleMasterUISchema = {
                   layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
                   main: {
                     label: "Version",
-                    options: [{}],
+                    options: [],
                     onClick: "loadExternalData",
                     errorMessage:"Project Not Selected",
                   },
@@ -151,14 +151,23 @@ export const RuleMasterUISchema = {
             },
             {
               type: "Control",
-              scope: "#/properties/EmptyBox",
+              scope: "#/properties/ruleId",
+              
               options: {
-                widget: "EmptyBox",
+                widget: "InputField",
               },
-              config : {
+              config: {
                 layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
-              }
-            },
+                main: {
+                  label: "Entry Point",
+                  options: [],
+                  color: "secondary",
+                },
+                style: {
+                  backgroundColor: "none",
+                },
+              },
+          }
         ],
       },
       {
@@ -235,61 +244,57 @@ export const RuleMasterUISchema = {
                 options: {
                   widget: "Table",
                 },
+                elements:[ {
+                  accessorKey: "id",
+                  header: "Id",
+                },
+                {
+                  accessorKey: "name",
+                  header: "Name",
+                },
+                {
+                  header: "Download File",
+                  accessorKey: "Download_File_Table",
+                  width: "120",
+                  widget: {
+                    type: "Control",
+                    scope: "#/properties/download_file",
+                    options: {
+                      widget: "IconButton",
+                    },
+                    config: {
+                      main: {
+                        size: "small",
+                        onClick: "Download_File_Table",
+                        icon: "DownloadIcon",
+                      },
+                    },
+                  },
+                },
+                {
+                  header: "Download File",
+                  accessorKey: "Delete_File_Table",
+                  width: "120",
+                  widget: {
+                    type: "Control",
+                    scope: "#/properties/Delete_Records",
+                    options: {
+                      widget: "IconButton",
+                    },
+                    config: {
+                      main: {
+                        size: "small",
+                        onClick: "Delete_File_Table",
+                        icon: "DeleteIcon",
+                      },
+                    },
+                  },
+                }
+              ],
                 config: {
                   main: {
-                    // allRowsData:,
-                    columns: {
-                      dataColumns: [
-                        {
-                          accessorKey: "id",
-                          header: "Id",
-                        },
-                        {
-                          accessorKey: "name",
-                          header: "Name",
-                        }
-                      ],
-                      actionColumns: [
-                        {
-                          header: "Download File",
-                          accessorKey: "Download_File_Table",
-                          width: "120",
-                          widget: {
-                            type: "Control",
-                            scope: "#/properties/download_file",
-                            options: {
-                              widget: "IconButton",
-                            },
-                            config: {
-                              main: {
-                                size: "small",
-                                onClick: "Download_File_Table",
-                                icon: "DownloadIcon",
-                              },
-                            },
-                          },
-                        },
-                        {
-                          header: "Download File",
-                          accessorKey: "Delete_File_Table",
-                          width: "120",
-                          widget: {
-                            type: "Control",
-                            scope: "#/properties/Delete_Records",
-                            options: {
-                              widget: "IconButton",
-                            },
-                            config: {
-                              main: {
-                                size: "small",
-                                onClick: "Delete_File_Table",
-                                icon: "DeleteIcon",
-                              },
-                            },
-                          },
-                        }
-                      ],
-                    },
+                  
+                   
                   },
                 },
               },
@@ -316,11 +321,11 @@ export const RuleMasterUISchema = {
        
         config: { layout: 11.5,
           main: {
-            name: "Save",
+            name: "Submit",
             variant: "contained",
             color: "info",
             type: "text",
-            tooltipMessage: "saveBtn",
+            tooltipMessage: "Submit",
 
             onClick: "saveData",
             size: "large",

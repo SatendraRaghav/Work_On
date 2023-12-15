@@ -5,8 +5,10 @@ export const ExternalDataUiSchema :any= {
       type: "WrapperLayout",
       config:{
         main:{
-          rowSpacing:3
-        }
+          rowSpacing:3,
+          header:true,
+        },
+        defaultStyle:true
       },
       elements: [
             {
@@ -177,30 +179,27 @@ export const ExternalDataUiSchema :any= {
           },
           config: {
             main: {
-              // allRowsData:,
-              columns: {
-                dataColumns: [
-                  {
-                    accessorKey: "File Name",
-                    header: "File Name",
-                  },
-                  {
-                    accessorKey: "Code",
-                    header: "Code",
-                  },
-                  {
-                    accessorKey: "Description",
-                    header: "Description",
-                  },
-                  {
-                    accessorKey: "Created On",
-                    header: "Created On",
-                  },
-                ]
-              },
-            },
           },
         },
+       elements:[
+        {
+          accessorKey: "File Name",
+          header: "File Name",
+        },
+        {
+          accessorKey: "Code",
+          header: "Code",
+        },
+        {
+          accessorKey: "Description",
+          header: "Description",
+        },
+        {
+          accessorKey: "Created On",
+          header: "Created On",
+        },
+      ]
+      },
       ],
     },
     {
@@ -222,70 +221,65 @@ export const ExternalDataUiSchema :any= {
           },
           config: {
             main: {
-              // allRowsData:,
-              columns: {
-                dataColumns: [
-                  {
-                    accessorKey: "id",
-                    header: "Id",
-                  },
-                  {
-                    accessorKey: "name",
-                    header: "Name",
-                  },
-                  {
-                    accessorKey: "type",
-                    header: "Type",
-                  },
-                  {
-                    accessorKey: "createdOn",
-                    header: "Updated Time",
-                  },
-                ],
-                actionColumns: [
-                  {
-                    header: "Download File",
-                    accessorKey: "Download_File_Table",
-                    width: "120",
-                    widget: {
-                      type: "Control",
-                      scope: "#/properties/Edit_Records",
-                      options: {
-                        widget: "IconButton",
-                      },
-                      config: {
-                        main: {
-                          size: "small",
-                          onClick: "Download_File_Table",
-                          icon: "DownloadIcon",
-                        },
-                      },
-                    },
-                  },
-                  {
-                    header: "View Errors",
-                    accessorKey: "View_Error_Table",
-                    width: "120",
-                    widget: {
-                      type: "Control",
-                      scope: "#/properties/View_Error",
-                      options: {
-                        widget: "IconButton",
-                      },
-                      config: {
-                        main: {
-                          size: "small",
-                          onClick: "View_Error_Table",
-                          icon: "ExceptionIcon",
-                        },
-                      },
-                    },
-                  },
-                ],
               },
             },
+            elements:[
+              {
+                accessorKey: "id",
+                header: "Id",
+              },
+              {
+                accessorKey: "name",
+                header: "Name",
+              },
+              {
+                accessorKey: "type",
+                header: "Type",
+              },
+              {
+                accessorKey: "createdOn",
+                header: "Updated Time",
+              },
+              {
+                header: "Download File",
+                accessorKey: "Download_File_Table",
+                width: "120",
+                widget: {
+                  type: "Control",
+                  scope: "#/properties/Edit_Records",
+                  options: {
+                    widget: "IconButton",
+                  },
+                  config: {
+                    main: {
+                      size: "small",
+                      onClick: "Download_File_Table",
+                      icon: "DownloadIcon",
+                    },
+                  },
+                },
+              },
+              {
+                header: "View Errors",
+                accessorKey: "View_Error_Table",
+                width: "120",
+                widget: {
+                  type: "Control",
+                  scope: "#/properties/View_Error",
+                  options: {
+                    widget: "IconButton",
+                  },
+                  config: {
+                    main: {
+                      size: "small",
+                      onClick: "View_Error_Table",
+                      icon: "ExceptionIcon",
+                    },
+                  },
+                },
+              },
+            ]
           },
-        },
       ],
     },
   ],

@@ -1,1 +1,6 @@
-export const  PayoutProcessingSchema = {}
+export const  PayoutProcessingSchema = {
+    type: "object",
+    properties: {
+        
+    }
+}

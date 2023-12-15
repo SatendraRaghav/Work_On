@@ -6,6 +6,7 @@ export const EmptyBox = {
     },
   
     config: {
+      layout: {xs:12,md:5.5},
       main: {},
     },
   };

@@ -1,4 +1,4 @@
-import { loginService, myService } from "../service/service";
+import { loginService } from "../service/service";
 import axios from "axios";
 import { ProfileUiSchema } from "../UiSchema/Profile/UiSchema";
 
@@ -6,14 +6,9 @@ import { ProfileUiSchema } from "../UiSchema/Profile/UiSchema";
   store:any,
   dynamicData:any
 ) => {
-  const serviceApi = myService(
-    dynamicData?.setLoading,
-    
-    store.navigate
-  );
   return {
     setPage: async function () {
-      const formdata =  await this.getFormData();
+      const formdata = this.getFormData();
       store.setFormdata(formdata);
       const schema = this.getSchema();
       const uiSchema = this.getUiSchema();
@@ -21,10 +16,8 @@ import { ProfileUiSchema } from "../UiSchema/Profile/UiSchema";
       store.setUiSchema(uiSchema);
      
     },
-    getFormData: async function () {
-      const fomData:any = {};
-      return fomData
-    },
+    getFormData: function () {
+      return{type:{options:[{label:"name",value:"name"}]}}},
     getUiSchema: function () {
       return ProfileUiSchema;
     },
@@ -33,18 +26,16 @@ import { ProfileUiSchema } from "../UiSchema/Profile/UiSchema";
       
       };
     },
-    add:function () {
-      let tableData = store.ctx.core.data?.table?   JSON.parse(JSON.stringify(store.ctx.core.data?.table)):{}
-   
-       if(tableData?.rows){
-          tableData.rows.push({})
-       }else{
-        tableData = {rows:[{}]}
-       }
-       store.setFormdata({table:tableData})
+    addRecords:()=>{
+      let tableData = store?.ctx?.core?.data?.table?JSON.parse(JSON.stringify(store?.ctx?.core?.data?.table)):undefined;
+      if(tableData){
+           tableData.rows.push({})
+      }else{
+        tableData = {rows:[]}
+      }
+      store.setFormdata((pre)=>{return {...pre,table:tableData}})
     }
   };
 };
 
 export default Profile;
-//   adjustmentParameter:{options:options}

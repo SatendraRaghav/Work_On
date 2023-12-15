@@ -3,16 +3,17 @@ import { FormControl, FormHelperText, Stack, TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers";
-import PermissionWrapper from "../permissions/PermissionWrapper";
+import ComponentWrapper from "../common/ComponentWrapper";
 import { DataContext } from "../context/Context";
 import { getFieldName } from "../permissions/getFieldName";
 import { useJsonForms } from "@jsonforms/react";
 import { inputProps } from "../interface/inputfieldProps";
+import { getComponentProps } from "../common/getComponentProps";
 
 const Date = memo(function (props: inputProps) {
-  const { data, handleChange, uischema, path, errors, required } = props;
+  const { data, handleChange, uischema, path, schema, required,rootSchema ,errors} = props;
   const uischemaData: any = uischema?.config?.main;
-  const { serviceProvider, id, permissions, theme, setDialogBox } =
+  const { serviceProvider, id, permissions, theme, pageName } =
     useContext(DataContext);
   const style = theme.useStyles();
   const fieldName = getFieldName(path);
@@ -22,29 +23,36 @@ const Date = memo(function (props: inputProps) {
         dateAdapter={AdapterDayjs}
         sx={{ ...theme.DateStyleLocal, ...uischema?.config?.dateStyleLocal }}
       >
-        <PermissionWrapper
-          path={`${id}:${fieldName}`}
-          permissions={permissions}
+        <ComponentWrapper
+       {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)} 
         >
           <DatePicker
             label={uischemaData?.label}
             className={style.dateStyle}
             value={data || null}
+            
             disabled={uischemaData?.disabled}
             onChange={(newValue) => {
               handleChange(path, newValue);
             }}
+            
             inputFormat={uischemaData?.inputFormat ?? "DD/MM/YYYY"}
             orientation="landscape"
             views={uischemaData?.views}
             renderInput={(params) => (
-              <TextField {...params} required={required} value={data || null} />
+              <TextField {...params} required={required} 
+              error={errors !== "" ? true : false}
+              helperText={
+                errors !== "" ? errors.includes('pattern')?uischemaData?.errorMessage:errors:uischemaData?.helperText
+              }
+              value={data || null} />
             )}
           />
-        </PermissionWrapper>
+        </ComponentWrapper>
       </LocalizationProvider>
     </Stack>
   );
 });
 
 export default Date;
+

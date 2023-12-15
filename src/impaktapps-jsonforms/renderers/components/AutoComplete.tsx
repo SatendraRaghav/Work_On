@@ -1,181 +1,220 @@
 import React, { memo, useContext, useEffect, useState } from "react";
-import { Autocomplete, MenuItem, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { DataContext } from "../context/Context";
-import { useJsonForms } from "@jsonforms/react";
-import PermissionWrapper from "../permissions/PermissionWrapper";
+import ComponentWrapper from "../common/ComponentWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { inputProps } from "../interface/inputfieldProps";
-
-export const AutoComplete = memo(function CustomAutoComplete(
-  props: inputProps
+import { getComponentProps } from "../common/getComponentProps";
+import _ from "lodash";
+export const ImpaktAppsAutoComplete = memo(function CustomAutoComplete(
+  props: inputProps | any
 ) {
-  const { errors, uischema, data, required, handleChange, path } = props;
+  const {
+    errors,
+    uischema,
+    rootSchema,
+    data,
+    required,
+    handleChange,
+    path,
+    schema,
+    options,
+  } = props.props;
   const uischemaData = uischema?.config?.main;
-  const { pageName, permissions, theme } = useContext(DataContext);
+  const { pageName, permissions, theme, setSchema, serviceProvider } =
+    useContext(DataContext);
   const fieldName = getFieldName(path);
-  const initialpath = path.split(".")[0];
-  const isNested =  path.split(".").length > 1 &&  !path.split(".").includes("0")
-  const optionsFromUiSchema =  path.split(".").length <2;
-  const [options, setOptions] = useState(
-   isNested
-      ? data
-        ? data
-        : uischemaData.options||[{}]
-      : uischemaData.options||[{}]
+  const [changeState, setChangeState] = useState("");
+  const [selectOptions, setSelectOptions] = useState(
+    options || uischemaData.options || []
   );
+  const [value, setValue] = useState<any>(uischemaData.multiple? []:"");
   useEffect(() => {
-    setOptions(
-     isNested
-        ? data
-          ? data
-          : uischemaData.options??[{}]
-        : uischemaData.options??[{}]
-    );
-  }, [path, uischemaData.options, data]);
-  const ctx = useJsonForms()
-  return (
-    <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
-      {!uischemaData.multiple && (
-        <Autocomplete
-          onChange={(event, newValue) => {
-            handleChange(
-             isNested?`${initialpath}.selected`:path, 
-              newValue);
-          }}
-          sx={{
-            ...theme.InputFieldStyle,
-            ...uischema?.config?.style,
-            ".MuiAutocomplete-tag": {
-              backgroundColor: theme.myTheme.palette.background.input,
-              color: theme.myTheme.palette.text.input,
-              border: `0.5px solid ${theme.myTheme.palette.text.input}`,
-            },
+    const filteredOptions = [];
+    options?.map((e)=>{
+      if(!(data?.includes(e?.value))){
+      filteredOptions.push(e);
+      }
+    })
+    setSelectOptions(filteredOptions|| []);
+  }, [options]);
+  useEffect(() => {
+    if (uischemaData.lazyLoading) {
+      throttledFunction();
+    }
+  }, []);
+  function throttle(fn: any, delay: any) {
+    let timer: any;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn(...args), delay);
+    };
+  }
 
-            ".MuiAutocomplete-clearIndicator": {
-              color: theme.myTheme.palette.text.input, // Change this to the desired color for the close button
-            },
-          }}
-          freeSolo={true}
-          id="tags-standard"
-          options={options?.map((option) => option.label)}
-          value={isNested?ctx.core.data[initialpath]?.selected ?? "":data??""}
-          renderInput={(params) => {
-            return (
-              <TextField
-                {...params}
-                size={uischemaData?.size ?? "medium"}
-                helperText={
-                  errors !== ""
-                    ? uischemaData?.errorMessage
-                      ? uischemaData?.errorMessage
-                      : errors
-                    : ""
-                }
-                error={errors !== "" ? true : false}
-                sx={{
-                  ...theme.InputFieldStyle,
-                  fontSize:
-                    theme.myTheme.palette.typography.autoCompleteFontSize,
-                  ...uischema?.config?.TextFieldStyle,
-                }}
-                variant="outlined"
-                label={uischemaData?.label}
-                disabled={uischemaData?.disabled}
-                required={required}
-                placeholder={uischemaData?.placeholder}
-              />
-            );
-          }}
-        />
-      )}
-      {uischemaData.multiple && (
-        <Autocomplete
-          onChange={(event, newValue) => {
-           
-            handleChange(
-             isNested?`${initialpath}.selected`:path, 
-              newValue);
-          }}
-          multiple={true}
-          sx={{
-            ...theme.InputFieldStyle,
-            ...uischema?.config?.style,
-            ".MuiAutocomplete-tag": {
-              backgroundColor: theme.myTheme.palette.background.input,
-              color: theme.myTheme.palette.text.input,
-              border: `0.5px solid ${theme.myTheme.palette.text.input}`,
-            },
-
-            ".MuiAutocomplete-clearIndicator": {
-              color: theme.myTheme.palette.text.input, // Change this to the desired color for the close button
-            },
-          }}
-          disableCloseOnSelect
-          id="tags-standard"
-          options={options || []}
-          getOptionLabel={(option) => {
-            return option.label;
-          }}
-          value={
-            optionsFromUiSchema? data??[]:
-          ctx.core.data[initialpath]?.selected ?? []
+  const throttledFunction = throttle((value) => {
+    serviceProvider(
+      props.ctx,
+      {
+        ...uischemaData,
+        onInputChange: uischemaData.lazyLoadFunction || "getSelectOptions",
+      },
+      {
+        event: { _reactName: "onInputChange" },
+        path,
+        ...uischemaData.additionalData,
+        paramValue: {
+          path,
+          serachValue: value,
+          currentValue: data,
+        },
+      }
+    ).then((response: any) => {
+      if (response) {
+        if (uischemaData.freeSolo) {
+          response[response.length] = {
+            const: changeState,
+            title: changeState,
+          };
+        }
+        updateSchema({ options, response, setSchema, path, uischemaData });
+        const filteredOptions = [];
+         response.map((e)=>{
+           if(!(data?.includes(e?.const))){
+           filteredOptions.push({ label: e.title, value: e.const });
            }
-          renderOption={(props, option, { selected }) => (
-            <MenuItem
-              sx={{
-                color: theme.myTheme.palette.text.primary,
-                background: theme.myTheme.palette.secondary.main,
-                marginTop: "-6.5px",
-                marginBottom: "-7px",
-
-              
-                "&:hover": {
-                  background: theme.myTheme.palette.primary.main,
-             
-
-                  color: theme.myTheme.palette.text.iconButton,
-                },
-                "&:focus": {
-                  color: theme.myTheme.palette.action.active,
-                  background: theme.myTheme.palette.action.focusBackground,
-                },
-              }}
-              {...props}
-            >
-              {option.label}
-            </MenuItem>
-          )}
-          renderInput={(params) => {
-            return (
-              <TextField
-                {...params}
-                size={uischemaData?.size ?? "medium"}
-                helperText={
-                  errors !== ""
-                    ? uischemaData?.errorMessage
-                      ? uischemaData?.errorMessage
-                      : errors
-                    : ""
-                }
-                error={errors !== "" ? true : false}
-                sx={{
-                  ...theme.InputFieldStyle,
-                  fontSize:
-                    theme.myTheme.palette.typography.autoCompleteFontSize,
-                  ...uischema?.config?.TextFieldStyle,
-                }}
-                variant="outlined"
-                label={uischemaData?.label}
-                disabled={uischemaData?.disabled}
-                required={required}
-                placeholder={uischemaData?.placeholder}
-              />
-            );
-          }}
-        />
+         })
+        setSelectOptions(filteredOptions);
+      }
+    });
+  }, 1000);
+  const findOptions = () => {
+    const value = data
+      ? uischemaData.multiple
+        ? options?.filter((o) => data.includes(o.value)) ?? []
+        : options?.find((o) => o.value === data) ?? data
+      : uischemaData.multiple
+      ? []
+      : "";
+    setValue(value);
+  };
+  useEffect(() => {
+    if (options) {
+      findOptions();
+    }
+  }, [options,data]);
+  return (
+    <ComponentWrapper
+      {...getComponentProps(
+        `${pageName}:${fieldName}`,
+        permissions,
+        schema,
+        rootSchema
       )}
-    </PermissionWrapper>
+    >
+      <Autocomplete
+     
+        onChange={(event, newValue) => {
+          if (uischemaData.multiple) {
+            if (newValue.length === 0) {
+              handleChange(path, undefined);
+            } else {
+              handleChange(
+                path,
+                newValue.map((e) => e?.value || e)
+              );
+            }
+          } else {
+            handleChange(path, newValue === null ? newValue : newValue.value);
+          }
+        }}
+        onInputChange={(event, newInputValue) => {
+          uischemaData.lazyLoading && throttledFunction(newInputValue);
+        }}
+        sx={{
+          ...theme.InputFieldStyle,
+          ...uischema?.config?.style,
+          ".MuiAutocomplete-tag": {
+            backgroundColor: theme.myTheme.palette.background.input,
+            color: theme.myTheme.palette.text.input,
+            border: `0.5px solid ${theme.myTheme.palette.text.input}`,
+          },
+
+          ".MuiAutocomplete-clearIndicator": {
+            color: theme.myTheme.palette.text.input, // Change this to the desired color for the close button
+          },
+        }}
+        filterOptions={(x) => x}
+        filterSelectedOptions
+        freeSolo={uischemaData.freeSolo ? true : false}
+        multiple={uischemaData.multiple ? true : false}
+        id="tags-standard"
+        options={selectOptions?.map((option: any) => option)}
+        value={value}
+        renderInput={(params) => {
+          return (
+            <TextField
+              {...params}
+              size={uischemaData?.size ?? "medium"}
+              helperText={
+                errors !== "" ? errors.includes('pattern')?uischemaData?.errorMessage:errors:uischemaData?.helperText
+              }
+              error={errors !== "" ? true : false}
+              sx={{
+                ...theme.InputFieldStyle,
+                fontSize: theme.myTheme.palette.typography.autoCompleteFontSize,
+                ...uischema?.config?.TextFieldStyle,
+              }}
+              variant="outlined"
+              label={uischemaData?.label}
+              disabled={uischemaData?.disabled}
+              required={required}
+              placeholder={uischemaData?.placeholder}
+              onChange={
+                uischemaData.freeSolo
+                  ? (newValue) => {
+                      setChangeState(newValue.target.value);
+                      handleChange(path, newValue.target.value);
+                    }
+                  : () => {}
+              }
+            />
+          );
+        }}
+      />
+    </ComponentWrapper>
   );
 });
 
-export default AutoComplete;
+export default ImpaktAppsAutoComplete;
+
+function updateSchema(param) {
+  if (param.uischemaData.multiple) {
+    param.setSchema((pre: any) => {
+      return {
+        ...pre,
+        properties: {
+          ...pre.properties,
+          [param.path]: {
+            ...pre.properties?.[param.path],
+            items: {
+              oneOf: param.response,
+            },
+          },
+        },
+      };
+    });
+  } else {
+    param.setSchema((pre: any) => {
+      return {
+        ...pre,
+        properties: {
+          ...pre.properties,
+          [param.path]: {
+            ...pre.properties?.[param.path],
+            oneOf: param.response || [],
+          },
+        },
+      };
+    });
+  }
+}

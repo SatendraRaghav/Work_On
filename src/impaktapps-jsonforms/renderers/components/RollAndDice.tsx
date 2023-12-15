@@ -1,26 +1,34 @@
-import  { useState } from "react";
+import  { useContext, useState } from "react";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { inputProps } from "../interface/inputfieldProps";
 import { Box } from "@mui/system";
 import Button from "@mui/material/Button";
-import { withJsonFormsControlProps } from "@jsonforms/react";
+import { useJsonForms, withJsonFormsControlProps } from "@jsonforms/react";
+import { DataContext } from "../context/Context";
+import { getFieldName } from "../permissions/getFieldName";
+import ComponentWrapper from "../common/ComponentWrapper";
+import { getComponentProps } from "../common/getComponentProps";
 
 const RollAndDice = ({
   data,
   uischema,
   path,
   schema,
+  rootSchema,
   renderers,
   handleChange,
 }: inputProps) => {
   const [showRank, setShowRank] = useState(false);
-  const [rank, setRank] = useState( data?data:0);
+  const [rank, setRank] = useState( data?data.rank:0);
   const rankHandler = () => {
-    setRank(data?data:0);
+    setRank(data?data?.rank:0);
     setShowRank(true);
-
   };
+  const { pageName, permissions, theme } = useContext(DataContext);
+  const fieldName = getFieldName(path);
   return (
+    <ComponentWrapper
+    {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)}>
     <Grid2
       container
       xs={uischema?.config?.layout || 11}
@@ -155,6 +163,7 @@ const RollAndDice = ({
       </>
 }
     </Grid2>
+    </ComponentWrapper>
   );
 };
 

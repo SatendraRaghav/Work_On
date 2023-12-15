@@ -6,6 +6,8 @@ import { RoleMasterUISchema } from "../UiSchema/RoleMaster/UISchema";
 import { RoleMasterSchema } from "../UiSchema/RoleMaster/Schema";
 import { isErrorsExist } from "../utils/isErrorsExist";
 import { handleErrors } from "@/utils/handleErrors";
+import { userValue } from "@/App";
+import _ from "lodash";
 export const RoleMasterForm = (store: any, dynamicData: any) => {
   const serviceApi = myService(
     dynamicData?.setLoading,
@@ -15,13 +17,14 @@ export const RoleMasterForm = (store: any, dynamicData: any) => {
   );
   return {
     setPage: async function () {
-      store.setFormdata({});
-      const schema = this.getSchema();
-      store.setSchema(schema);
-      const UiSchema = await this.getUiSchema();
-      store.setUiSchema(UiSchema);
       const formData = await this.getFormData();
       store.setFormdata(formData);
+      const schema = await this.getSchema();
+      store.setSchema(schema);
+      const UiSchema =  this.getUiSchema();
+      store.setUiSchema(UiSchema);
+  
+      
     },
     getFormData: async function () {
       const action = store.searchParams?.get("id");
@@ -31,28 +34,45 @@ export const RoleMasterForm = (store: any, dynamicData: any) => {
         await serviceApi
           .get(Api)
           .then((res) => {
-            if (res.data.payload.permissionList) {
-              let result = res.data.payload.permissionList.map((a: any) => {
-                return { label: a.permName, value: a.id };
+            if (res.data.permissionList) {
+              let result = res.data.permissionList.map((a: any) => {
+                return a.id 
               });
-              console.log({ ...res.data.payload, permissionList: result });
-              formdata = { ...res.data.payload, permissionList: result };
+              
+              formdata = { ...res.data, permissionList: result };
             } else {
-              console.log(res.data);
-              formdata = res.data.payload;
+              formdata = res.data;
             }
           })
           .catch(() => {});
       }
-
+      console.log(formdata)
       return formdata;
     },
-    getUiSchema: async function () {
-      const updatedRoleUiSchema = await this.pageLoad();
-      return updatedRoleUiSchema;
+    getUiSchema:  function () {
+      return RoleMasterUISchema
     },
-    getSchema: () => {
-      return RoleMasterSchema;
+    getSchema: async () => {
+      let schema:any =  _.cloneDeep(RoleMasterSchema);
+      const disabled = localStorage.getItem("disabled");
+      schema["disabled"] = disabled === "true" ? true : false;
+      await serviceApi
+      .get(
+        "/master/getDetails?masterName=com.act21.hyperform3.entity.master.role.RolePermission&status=A"
+      )
+      .then((res) => {
+       const selectOption = res.data?.map((e: any) => {
+          return { title: String(e.permName||e.id), const: e.id|| e.permName };
+        });
+        if(!(_.isEmpty(selectOption))){
+       schema.properties.permissionList = {
+        type:"array",
+        items:{
+          oneOf:selectOption
+        }
+       }}
+      });
+      return schema;
     },
     backHandler: function () {
       store.navigate("/RoleMasterRecords");
@@ -72,24 +92,26 @@ export const RoleMasterForm = (store: any, dynamicData: any) => {
         }
         
             return serviceApi.post("/master/save", {
-              id: 1,
-              payload: {
+              
                 entityName:
                   "com.act21.hyperform3.entity.master.role.RoleStaging",
                 entityValue: {
                   ...store.ctx.core.data,
                   permissionList: permissions,
                 },
-              },
+                userId : userValue.payload.userId
+              
             })
           .then((res2) => {
-            if (res2.data.status=="SUCCESS") { 
+            if (res2.status==200) { 
             store.navigate("/RoleMasterRecords");
+            console.log(store.setNotify)
             store.setNotify({
               SuccessMessage: "Submitted Successfully",
               Success: true,
             });
           }
+
           })
           .catch((error) => {
             if( error.response ){
@@ -105,35 +127,30 @@ export const RoleMasterForm = (store: any, dynamicData: any) => {
       let selectOption: any[] = [];
       await serviceApi
         .get(
-          "/master/getDetails?masterName=com.act21.hyperform3.entity.master.role.RolePermissionStaging&status=A"
+          "/master/getDetails?masterName=com.act21.hyperform3.entity.master.role.RolePermission&status=A"
         )
         .then((res) => {
-          selectOption = res.data?.payload?.map((e: any) => {
-            return { label: e.permName, value: e.id };
+          selectOption = res.data?.map((e: any) => {
+            return { label: e.permName||e.id, value: e.id };
           });
-          
           Ui.elements[1].elements[1].config.main.options = selectOption
-            ? selectOption
-            : [{ id: 1 }];
         });
       console.log(Ui);
       return Ui;
     },
     getPermissions: async ()=> {
-      const idlist = store.ctx.core.data.permissionList.map(
-        (a: any) => a.value
-      );
+      const idlist = store.ctx.core.data.permissionList;
      return serviceApi
           .post("/master/getDetailsById", {
             id: 1,
-            payload: {
+           
               entityName:
-                "com.act21.hyperform3.entity.master.role.RolePermissionStaging",
+                "com.act21.hyperform3.entity.master.role.RolePermission",
               entityValue: idlist,
-            },
+            
           })
           .then((rest) => {
-       return  rest.data.payload;
+       return  rest.data;
         });
       },
   };

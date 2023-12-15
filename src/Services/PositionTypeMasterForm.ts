@@ -5,6 +5,7 @@ import { PositionTypeMasterUISchema } from "../UiSchema/PositionTypeMaster/UISch
 import { PositionTypeMasterSchema } from "../UiSchema/PositionTypeMaster/Schema";
 import { isErrorsExist } from "../utils/isErrorsExist";
 import { handleErrors } from "@/utils/handleErrors";
+import { userValue } from "@/App";
 export const PositionTypeMasterForm = (
   store:any,
   dynamicData:any
@@ -19,7 +20,7 @@ export const PositionTypeMasterForm = (
       store.setUiSchema(UiSchema);
       const formData = await this.getFormData();
       store.setFormdata(formData);
-
+      store.setAdditionalErrors(() => []);
     },
     getFormData: async function () {
       const action = store.searchParams?.get("id")
@@ -30,8 +31,7 @@ export const PositionTypeMasterForm = (
         await serviceApi
           .get(Api)
           .then((res) => {
-            console.log(res.data.payload);
-            formdata = res.data.payload;
+            formdata = res.data;
           })
           .catch(() => { });
       }
@@ -43,7 +43,10 @@ export const PositionTypeMasterForm = (
       return PositionTypeMasterUISchema;
     },
     getSchema: () => {
-      return PositionTypeMasterSchema;
+      let schema = PositionTypeMasterSchema;
+      const disabled = localStorage.getItem("disabled");
+      schema["disabled"] = disabled === "true" ? true : false;
+      return schema;
     },
     backHandler: function () {
       store.navigate("/PositionTypeMasterRecords")
@@ -56,8 +59,8 @@ export const PositionTypeMasterForm = (
         store.setNotify({ FailMessage: "Errors on page", Fail: true, })
      } else {
         console.log(store.ctx.core.data)
-        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.position.PositionTypeNewStaging", entityValue: store.ctx.core.data } }).then((res) => {
-          if (res.data.status=="SUCCESS") { 
+        serviceApi.post("/master/save", {  entityName: "com.act21.hyperform3.entity.master.position.PositionTypeNewStaging", entityValue: store.ctx.core.data ,userId : userValue.payload.userId}).then((res) => {
+          if (res.status==200) {  
           store.setFormdata({ ...store.ctx.core.data });
           store.navigate("/PositionTypeMasterRecords")
           store.setNotify({ SuccessMessage: "Submitted Successfully", Success: true, })

@@ -3,8 +3,8 @@ import { finalDataProvider } from "../../utils/finalDataProvider";
 import DrawHorizontalBarGraph from "./DrawHorizontalBarGraph";
 import { ParentSize } from "@visx/responsive";
 
-const HorizontalBarGraph = ({ value }:any) => {
-  const barData:any = finalDataProvider("HorizontalBarGraph",value)
+const HorizontalBarGraph = ({ value,theme }:any) => {
+  const barData:any = finalDataProvider("HorizontalBarGraph",value,theme)
 
   let GraphRender = (
     <ParentSize>

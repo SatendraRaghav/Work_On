@@ -3,19 +3,24 @@ import React, { useContext } from "react";
 import { inputProps } from "../interface/inputfieldProps";
 import { DataContext } from "../context/Context";
 import { Box } from "@mui/system";
-import { withJsonFormsControlProps } from "@jsonforms/react";
+import { useJsonForms, withJsonFormsControlProps } from "@jsonforms/react";
+import { getFieldName } from "../permissions/getFieldName";
+import ComponentWrapper from "../common/ComponentWrapper";
+import { getComponentProps } from "../common/getComponentProps";
 
 const RankCard = ({
   data,
   uischema,
   path,
   schema,
-  renderers,
-  handleChange,
+  rootSchema
 }: inputProps) => {
   const uischemaData = uischema?.config?.main;
-  const { theme } = useContext(DataContext);
+  const { pageName, permissions, theme } = useContext(DataContext);
+  const fieldName = getFieldName(path);
   return (
+    <ComponentWrapper
+    {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)}>
     <Grid2
       container
       xs={uischema?.config?.layout || 11}
@@ -114,6 +119,7 @@ const RankCard = ({
         {data?.rank ?`#${data.rank}`: `#${uischemaData?.rank}`}
       </Box>
     </Grid2>
+    </ComponentWrapper>
   );
 };
 

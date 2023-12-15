@@ -9,14 +9,15 @@ import {
   TextField,
 } from "@mui/material";
 import { DataContext } from "../context/Context";
-import PermissionWrapper from "../permissions/PermissionWrapper";
+import ComponentWrapper from "../common/ComponentWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { useJsonForms } from "@jsonforms/react";
 import { inputProps } from "../interface/inputfieldProps";
 import { useDebouncedChange } from "@jsonforms/material-renderers";
 import { Close } from "@mui/icons-material";
+import { getComponentProps } from "../common/getComponentProps";
 const Input = memo(function (props: inputProps) {
-  const { data, required, errors, enabled, uischema, path, handleChange } =
+  const { data, required, errors, enabled, uischema, path, handleChange,schema,rootSchema } =
     props;
   const uischemaData = uischema?.config?.main;
   const [showAdornment, setShowAdornment] = useState(false);
@@ -34,11 +35,14 @@ const Input = memo(function (props: inputProps) {
   const onPointerEnter = () => setShowAdornment(true);
   const onPointerLeave = () => setShowAdornment(false);
   return (
-    <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
+    <ComponentWrapper 
+    {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)}
+    >
       <TextField
         required={required}
         autoFocus={uischemaData?.autoFocus}
         fullWidth
+        
         sx={{ ...theme.InputFieldStyle, ...uischema?.config?.style }}
         value={inputText}
         onChange={(event) => {
@@ -67,6 +71,7 @@ const Input = memo(function (props: inputProps) {
                 aria-label="Clear input field"
                 onClick={onClear}
                 size="large"
+                disabled={getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema).disabled}
               >
                 <Close />
               </IconButton>
@@ -78,11 +83,11 @@ const Input = memo(function (props: inputProps) {
         type={uischemaData?.type}
         variant={uischemaData?.variant}
         helperText={
-          errors !== "" && errors.includes('pattern')?uischemaData?.errorMessage:errors
+          errors !== "" ? errors.includes('pattern')?uischemaData?.errorMessage:errors:uischemaData?.helperText
         }
         error={errors !== "" ? true : false}
       />
-    </PermissionWrapper>
+    </ComponentWrapper>
   );
 });
 

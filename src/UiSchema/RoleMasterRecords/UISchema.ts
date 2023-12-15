@@ -1,61 +1,60 @@
-export const RoleMasterRecordsUISchema:any = {
+export const RoleMasterRecordsUISchema: any = {
   type: "HorizontalLayout",
   elements: [
     {
-          type: "WrapperLayout",
-          config:{
-            main:{
-              rowSpacing:3,
-              header:true,
-            },
-            defaultStyle:true
+      type: "WrapperLayout",
+      config: {
+        main: {
+          rowSpacing: 3,
+          header: true,
+        },
+        defaultStyle: true,
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/programType",
+
+          options: {
+            widget: "Box",
           },
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/programType",
-
-              options: {
-                widget: "Box",
-              },
-              config: {
-                layout: 8.5,
-                main: {
-                  heading: "Role Master",
-                },
-              },
+          config: {
+            layout: 8.5,
+            main: {
+              heading: "Role Master",
             },
-            {
-              type: "Control",
-              scope: "#/properties/New_Record",
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/New_Record",
 
-              options: {
-                widget: "IconButton",
-              },
-              config: {
-                layout: 3,
-                main: {
-                  name: "New Records",
-                  icon: "AddIcon",
-                  size: "small",
-                  styleDefault: true,
-                  tooltipMessage: "Add New Record",
-                  onClick: "newRecord",
-                },
-                style: {
-                  float: "right",
-                },
-              },
+          options: {
+            widget: "IconButton",
+          },
+          config: {
+            layout: 3,
+            main: {
+              name: "New Records",
+              icon: "AddIcon",
+              size: "small",
+              styleDefault: true,
+              tooltipMessage: "Add New Record",
+              onClick: "newRecord",
             },
-          ]
+            style: {
+              float: "right",
+            },
+          },
+        },
+      ],
     },
     {
       type: "TabLayout",
       config: {
         main: {
-          id:"Role",
-          tabLabels : ["Approve", "Pending", "Reject"],
-         
+          id: "Role",
+          tabLabels: ["Approve", "Pending For Approval", "Reject", "Pending"],
         },
       },
       elements: [
@@ -67,113 +66,213 @@ export const RoleMasterRecordsUISchema:any = {
           },
           config: {
             main: {
-              columns: {
-                dataColumns: [
-                  {
-                    accessorKey: "id",
-                    header: "id",
-                  },
-                  {
-                    accessorKey: "name",
-
-                    header: "Name",
-                  },
-                ],
-                actionColumns: [
-                  {
-                    widget: {
-                      type: "Control",
-                      scope: "#/properties/Edit_Records",
-                      options: {
-                        widget: "IconButton",
-                      },
-                      config: {
-                        main: {
-                          color: "info",
-                          size: "small",
-                          tooltipMessage: "Edit This Record",
-                          onClick: "Edit_Approve_Records",
-                          icon: "EditIcon",
-                        },
-                        style: {
-                          color: "#3949ab",
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
+              // lazyLoading:true,
             },
           },
+          elements: [
+            {
+              accessorKey: "id",
+              header: "id",
+            },
+            {
+              accessorKey: "name",
+
+              header: "Name",
+            },
+            {
+              accessorKey: "edit_record",
+
+              header: "Name",
+              widget: {
+                type: "Control",
+                scope: "#/properties/Edit_Records",
+                options: {
+                  widget: "IconButton",
+                },
+                config: {
+                  main: {
+                    color: "info",
+                    size: "small",
+                    tooltipMessage: "Edit This Record",
+                    onClick: "Edit_Approve_Records",
+                    icon: "EditIcon",
+                  },
+                  style: {
+                    color: "#3949ab",
+                  },
+                },
+              },
+            },
+            {
+              accessorKey: "View_Records",
+              header: "View",
+
+              widget: {
+                type: "Control",
+                scope: "#/properties/View_Records",
+                options: {
+                  widget: "IconButton",
+                },
+                config: {
+                  main: {
+                    color: "info",
+                    size: "small",
+                    icon: "SearchIcon",
+                    onClick: "View_Records",
+                    tooltipMessage: "View This Record",
+                  },
+                  style: {
+                    color: "#3949ab",
+                  },
+                },
+              },
+            },
+          ],
         },
         {
-          type: "Control",
-          scope: "#/properties/PendingRecords",
-          layout: 12,
-          options: {
-            widget: "Table",
-          },
-          config: {
-            main: {
-              columns: {
-                dataColumns: [
-                  {
-                    accessorKey: "id",
-                    header: "id",
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/PendingRecords",
+              layout: 12,
+              options: {
+                widget: "Table",
+              },
+              config: {
+                main: {},
+              },
+              elements: [
+                {
+                  accessorKey: "Selected",
+                  header: "Selected",
+                  size: 100,
+                  widget: {
+                    type: "Control",
+                    scope: "#/properties/checked",
+                    options: {
+                      widget: "CheckBox",
+                    },
+                    config: {
+                      main: {},
+                    },
                   },
-                  {
-                    accessorKey: "name",
+                },
+                {
+                  accessorKey: "id",
+                  header: "id",
+                },
+                {
+                  accessorKey: "name",
 
-                    header: "Name",
-                  },
-                ],
-                actionColumns: [
-                  {
-                    accessorKey: "RoleApprover",
-                    header: "Approve",
+                  header: "Name",
+                },
 
-                    widget: {
-                      type: "Control",
-                      scope: "#/properties/Approve2Button",
-                      accessorKeyName: "RoleApprover",
-                      options: {
-                        widget: "IconButton",
+                {
+                  accessorKey: "View_Records",
+                  header: "View",
+
+                  widget: {
+                    type: "Control",
+                    scope: "#/properties/View_Records",
+                    options: {
+                      widget: "IconButton",
+                    },
+                    config: {
+                      main: {
+                        color: "info",
+                        size: "small",
+                        icon: "SearchIcon",
+                        onClick: "View_Records",
+                        tooltipMessage: "View This Record",
                       },
-                      config: {
-                        main: {
-                          icon: "ApproveIcon",
-                          color: "success",
-                          onClick: "RoleApprover",
-                          tooltipMessage: "Approve This Record",
-                        },
+                      style: {
+                        color: "#3949ab",
                       },
                     },
                   },
-                  {
-                    accessorKey: "Reject_Records",
-                    header: "Reject",
+                },
+              ],
+            },
+            {
+              type: "Control",
+              scope: "#/properties/remarks",
 
-                    widget: {
-                      type: "Control",
-                      scope: "#/properties/RejectButton",
-                      accessorKeyName: "Reject_Records",
-                      options: {
-                        widget: "IconButton",
-                      },
-                      config: {
-                        main: {
-                          icon: "RejectIcon",
-                          color: "error",
-                          onClick: "Reject_Records",
-                          tooltipMessage: "Reject This Record",
-                        },
-                      },
-                    },
-                  },
-                ],
+              options: {
+                widget: "TextArea",
+              },
+              config: {
+                layout: { xs: 11, sm: 11, md: 11.5, lg: 11.5 },
+                main: {
+                  label: "Remarks",
+                  errorMessage: "Remarks is empty or invalid",
+                },
               },
             },
-          },
+            {
+              type: "Control",
+              scope: "#/properties/load",
+              options: {
+                widget: "Button",
+              },
+
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 2.75,
+                  lg: 2.75,
+                },
+                main: {
+                  name: "Approve",
+                  variant: "contained",
+                  color: "info",
+                  type: "text",
+                  onClick: "Approve_Records",
+                  size: "large",
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/load",
+              options: {
+                widget: "Button",
+              },
+
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 2.75,
+                  lg: 2.75,
+                },
+                main: {
+                  name: "Reject",
+                  variant: "contained",
+                  color: "info",
+                  type: "text",
+                  onClick: "Reject_Records",
+                  size: "large",
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/EmptyBox",
+              config: {
+                layout: {
+                  xs: 5.5,
+                  sm: 7.5,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+              },
+              options: {
+                widget: "EmptyBox",
+              },
+            },
+          ],
         },
         {
           type: "Control",
@@ -183,22 +282,91 @@ export const RoleMasterRecordsUISchema:any = {
             widget: "Table",
           },
           config: {
-            main: {
-              columns: {
-                dataColumns: [
-                  {
-                    accessorKey: "id",
-                    header: "id",
-                  },
-                  {
-                    accessorKey: "name",
+            main: {},
+          },
+          elements: [
+            {
+              accessorKey: "id",
+              header: "id",
+            },
+            {
+              accessorKey: "name",
 
-                    header: "Name",
-                  },
-                ],
-              },
+              header: "Name",
+            },
+          ],
+        },
+        {
+          type: "Control",
+          scope: "#/properties/RaisedRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {
+              columns: {},
             },
           },
+          elements: [
+            {
+              accessorKey: "id",
+              header: "id",
+            },
+            {
+              accessorKey: "name",
+
+              header: "Name",
+            },
+            {
+              accessorKey: "Edit_Approve_Records",
+              header: "Actions",
+              width: 150,
+              widget: {
+                type: "Control",
+                scope: "#/properties/Edit_Records",
+                options: {
+                  widget: "IconButton",
+                },
+                config: {
+                  main: {
+                    color: "info",
+                    size: "small",
+                    tooltipMessage: "View All Actions",
+                    onClick: "View_Actions",
+                    icon: "ReportIcon",
+                  },
+                  style: {
+                    color: "#3949ab",
+                  },
+                },
+              },
+            },
+            {
+              accessorKey: "View_Records",
+              header: "View",
+
+              widget: {
+                type: "Control",
+                scope: "#/properties/View_Records",
+                options: {
+                  widget: "IconButton",
+                },
+                config: {
+                  main: {
+                    color: "info",
+                    size: "small",
+                    icon: "SearchIcon",
+                    onClick: "View_Records",
+                    tooltipMessage: "View This Record",
+                  },
+                  style: {
+                    color: "#3949ab",
+                  },
+                },
+              },
+            },
+          ],
         },
       ],
     },
@@ -210,6 +378,5 @@ export const RoleMasterRecordsUISchema:any = {
       },
       layout: 6,
     },
-    
   ],
 };

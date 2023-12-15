@@ -1,43 +1,31 @@
 import { Box, Divider, Typography } from "@mui/material";
-
 import { memo, useContext } from "react";
-
 import { DataContext } from "../context/Context";
-
 import { inputProps } from "../interface/inputfieldProps";
+import { getFieldName } from "../permissions/getFieldName";
+import { useJsonForms } from "@jsonforms/react";
+import ComponentWrapper from "../common/ComponentWrapper";
+import { getComponentProps } from "../common/getComponentProps";
 
-const Label = memo(function ({ uischema, path ,data}: inputProps) {
+const Label = memo(function ({ uischema, path, data,schema,rootSchema }: inputProps) {
   const uischemaData = uischema?.config?.main;
-
-  const { theme } = useContext(DataContext);
-
+  const { pageName, permissions, theme } = useContext(DataContext);
+  const fieldName = getFieldName(path);
   return (
-    <>
-      {uischemaData?.url ? (
-        <Box sx={{  ...uischema?.config?.containerStyle}}>
-        <img
-          src={data?data:uischemaData?.url}
-          alt="Image Not Found"
-          style={{
-            ...theme?.BoxStyle,
+    <ComponentWrapper
+    {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)} >
+      <Typography
+       
+        sx={{
+          ...theme?.BoxStyle,
 
-            ...uischema?.config?.style,
-          }}
-        />
-        </Box>
-      ) : (
-        <Typography
-          sx={{
-            ...theme?.BoxStyle,
-
-            ...uischema?.config?.style,
-          }}
-          variant={uischemaData?.variant}
-        >
-          {data?data:uischemaData?.heading}
-        </Typography>
-      )}
-    </>
+          ...uischema?.config?.style,
+        }}
+        variant={uischemaData?.variant}
+      >
+        {data ? data : uischemaData?.heading}
+      </Typography>
+    </ComponentWrapper>
   );
 });
 

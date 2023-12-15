@@ -4,18 +4,20 @@ import { additionalDataProps } from "../interface/inputfieldProps";
 
 export const DataContext = createContext<any>({});
 export const DataProvider = ({ children, impaktAppsJsonFormsStore }: any) => {
-  const serviceProvider = (
+  const serviceProvider = async (
     ctx: JsonFormsStateContext,
     componentUiSchema: any,
     additionalData: additionalDataProps
   ) => {
     if (componentUiSchema[additionalData.event._reactName]) {
-      impaktAppsJsonFormsStore.serviceHolder
+   const data =   impaktAppsJsonFormsStore.serviceHolder
         .getService({ ...impaktAppsJsonFormsStore, ctx }, additionalData)
         .then((res: any) => {
           return res[componentUiSchema[additionalData.event._reactName]](
+            additionalData?.paramValue
           );
         });
+        return data;
     }
   };
   return (

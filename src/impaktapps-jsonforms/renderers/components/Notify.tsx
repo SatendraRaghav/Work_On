@@ -6,8 +6,10 @@ import { useContext } from "react";
 import { DataContext } from "../context/Context";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useJsonForms } from "@jsonforms/react";
+import { inputProps } from "../interface/inputfieldProps";
 
-function Notify() {
+function Notify(props:inputProps) {
+  const {path} = props;
   const ctx = useJsonForms();
   const { setNotify, openNotify } = useContext(DataContext);
 

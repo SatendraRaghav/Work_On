@@ -1,80 +1,77 @@
-export const ProgramMasterUiSchema:any = {
+export const ProgramMasterUiSchema: any = {
   type: "HorizontalLayout",
   elements: [
     {
-          type: "WrapperLayout",
-          config:{
-            main:{
-              rowSpacing:3,
-              header:true,
-            },
-            defaultStyle:true
+      type: "WrapperLayout",
+      config: {
+        main: {
+          rowSpacing: 3,
+          header: true,
+        },
+        defaultStyle: true,
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/masterName",
+
+          options: {
+            widget: "Box",
           },
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/programType",
-             
-              options: {
-                widget: "Box",
-              },
-              config: {
-                layout: 8,
-                main: {
-                  heading: "Program Master",
-                }
-              },
+          config: {
+            layout: 8,
+            main: {
+              heading: "Program Master",
             },
-            {
-              type: "Control",
-              scope: "#/properties/Back_Button",
-             
-              options: {
-                widget: "IconButton",
-              },
-              config: {
-                layout: 3,
-                main: { 
-                  icon:"BackIcon",
-                  styleDefault:true,
-                  size:"small",
-                  onClick: "backHandler",
-                  tooltipMessage:"Back",
-                },
-                style: {
-                  float:"right",
-                },
-              },
-            }
-        ],
+          },
         },
         {
-          type: "TabLayout",
+          type: "Control",
+          scope: "#/properties/Back_Button",
+
+          options: {
+            widget: "IconButton",
+          },
           config: {
+            layout: 3,
             main: {
-              tabLabels: [
-                "Core",
-                "Simulation"
-              ],
-              defaultStyle: true,
+              icon: "BackIcon",
+              styleDefault: true,
+              size: "small",
+              onClick: "backHandler",
+              tooltipMessage: "Back",
+            },
+            style: {
+              float: "right",
             },
           },
-    
-          elements: [
-            {
+        },
+      ],
+    },
+    {
+      type: "TabLayout",
+      config: {
+        main: {
+          tabLabels: ["Core", "Simulation"],
+          defaultStyle: true,
+        },
+      },
+
+      elements: [
+        {
           type: "WrapperLayout",
           config: {
             main: {
               label: "Program Details",
-              divider:true
+              divider: true,
             },
-            defaultStyle:true
+            defaultStyle: true,
           },
-          elements:[
+          elements: [
             {
               type: "Control",
               scope: "#/properties/name",
-             
+
               options: {
                 widget: "InputField",
               },
@@ -82,29 +79,29 @@ export const ProgramMasterUiSchema:any = {
                 layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
                 main: {
                   label: "Name",
-                  errorMessage:"Name is empty or invalid"
+                  errorMessage: "Name is empty or invalid",
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/description",
-             
+
               options: {
                 widget: "InputField",
               },
               config: {
-                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6},
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
                 main: {
                   label: "Description",
-                  errorMessage:"Description is empty or invalid"
+                  errorMessage: "Description is empty or invalid",
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/groupList",
-             
+
               options: {
                 widget: "MultipleSelect",
               },
@@ -113,28 +110,75 @@ export const ProgramMasterUiSchema:any = {
                 main: {
                   label: "Groups",
                   type: "text",
-                  // multiple: true,
+                  multiple: true,
                   variant: "standard",
-                  options: [
-                    { label: "DSL", value: "DSL" },
-                    { label: "HL", value: "HL" },
-                    { label: "PL", value: "PL" },
-                  ],
-                  errorMessage:"Groups are not selected"
+                  errorMessage: "Groups are not selected",
                 },
               },
             },
             {
               type: "Control",
-              scope: "#/properties/cycleFrequency",
-             
+              scope: "#/properties/startDate",
               options: {
-                widget: "SelectInputField",
+                widget: "DateInputField",
+              },
+
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+                main: {
+                  label: "Start Date",
+                  onClick: "verifyStartDate",
+                  // onChange: "verifyStartDate",
+                  type: "date",
+                  errorMessage: "Start Date is empty or invalid",
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/isRecurring",
+
+              options: {
+                widget: "RadioInputField",
               },
               config: {
                 layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
                 main: {
-                  label: "Cycle Frequency",
+                  label: "Recurring",
+                  options: ["YES", "NO"],
+                  // errorMessage:"Finalize is not marked YES or NO"
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/endDate",
+              options: {
+                widget: "DateInputField",
+              },
+
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
+                main: {
+                  label: "End Date",
+                  type: "date",
+                  onClick: "verifyEndDate",
+                  // onChange: "verifyEndDate",
+                  errorMessage: "End Date is empty or invalid",
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/cyclePeriod",
+
+              options: {
+                widget: "EmptyBox",
+              },
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 },
+                main: {
+                  label: "Cycle Period",
                   type: "text",
                   options: [
                     { label: "Year", value: "Year" },
@@ -142,22 +186,21 @@ export const ProgramMasterUiSchema:any = {
                     { label: "Week", value: "Week" },
                     { label: "Day", value: "Day" },
                   ],
-                  errorMessage:"Cycle Frequency is not selected"
+                  //  errorMessage:"Cycle Frequency must be in number"
                 },
               },
             },
             {
               type: "Control",
-              scope: "#/properties/cycleValue",
-             
+              scope: "#/properties/cycleFrequency",
+
               options: {
-                widget: "InputField",
+                widget: "EmptyBox",
               },
               config: {
                 layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
                 main: {
-                  label: "Cycle Value",
-                  errorMessage:"Cycle config is empty or invalid"
+                  label: "Cycle Frequency",
                 },
               },
             },
@@ -165,7 +208,7 @@ export const ProgramMasterUiSchema:any = {
             {
               type: "Control",
               scope: "#/properties/enabled",
-             
+
               options: {
                 widget: "RadioInputField",
               },
@@ -174,15 +217,15 @@ export const ProgramMasterUiSchema:any = {
                 main: {
                   label: "Finalize",
                   options: ["YES", "NO"],
-                  errorMessage:"Finalize is not marked YES or NO"
+                  errorMessage: "Finalize is not marked YES or NO",
                 },
               },
             },
             {
               type: "Control",
               scope: "#/properties/externalData",
-              config:{
-                   layout: 11.5,
+              config: {
+                layout: 11.5,
               },
               options: {
                 detail: {
@@ -191,7 +234,7 @@ export const ProgramMasterUiSchema:any = {
                     {
                       type: "Control",
                       scope: "#/properties/supportedTypes",
-                      
+
                       options: {
                         widget: "InputField",
                       },
@@ -210,14 +253,14 @@ export const ProgramMasterUiSchema:any = {
                     {
                       type: "Control",
                       scope: "#/properties/EmptyBox",
-                     config:{
-                      layout: {
-                        xs: 11,
-                        sm: 11,
-                        md: 5.5,
-                        lg: 5.5,
+                      config: {
+                        layout: {
+                          xs: 11,
+                          sm: 11,
+                          md: 5.5,
+                          lg: 5.5,
+                        },
                       },
-                     },
                       options: {
                         widget: "EmptyBox",
                       },
@@ -229,150 +272,154 @@ export const ProgramMasterUiSchema:any = {
             {
               type: "Control",
               scope: "#/properties/EmptyBox",
-               config:{ layout: {
-                xs: 11,
-                sm: 11,
-                md: 8.5,
-                lg: 9.5,
-              }},
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 8.5,
+                  lg: 9.5,
+                },
+              },
               options: {
                 widget: "EmptyBox",
               },
-            }
-            
+            },
           ],
-    },
-    {
-      type: "HorizontalLayout",
-      elements: [
+        },
         {
-          type: "Control",
-          scope: "#/properties/timeout",
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/timeout",
 
-          options: {
-            widget: "InputField",
-          },
-          config: {
-            layout: {
-              xs: 11,
-              sm: 11,
-              md: 5.5,
-              lg: 5.5,
-            },
-            main: {
-              label: "Time Out",
-              type: "text",
-            },
-          },
-        },
-        {
-          type: "Control",
-          scope: "#/properties/EmptyBox",
-           config:{ layout: {
-            xs: 11,
-            sm: 11,
-            md: 5.5,
-            lg: 5.5,
-          }},
-          options: {
-            widget: "EmptyBox",
-          },
-        },
-        {
-          type: "Control",
-          scope: "#/properties/simulation",
-          config:{
-               layout: 11.5,
-          },
-          options: {
-            detail: {
-              type: "HorizontalLayout",
-              elements: [
-                {
-                  type: "Control",
-                  scope: "#/properties/simulationTypes",
-                  
-                  options: {
-                    widget: "InputField",
-                  },
-                  config: {
-                    layout: {
-                      xs: 11,
-                      sm: 11,
-                      md: 5.5,
-                      lg: 5.5,
-                    },
-                    main: {
-                      label: "Type",
-                    },
-                  },
+              options: {
+                widget: "InputField",
+              },
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 5.5,
+                  lg: 5.5,
                 },
-                {
-                  type: "Control",
-                  scope: "#/properties/EmptyBox",
-                 config:{
-                  layout: {
-                    xs: 11,
-                    sm: 11,
-                    md: 5.5,
-                    lg: 5.5,
-                  },
-                 },
-                  options: {
-                    widget: "EmptyBox",
-                  },
+                main: {
+                  label: "Time Out",
+                  type: "text",
+                  errorMessage: "Timeout should be number",
                 },
-              ],
+              },
             },
-          },
+            {
+              type: "Control",
+              scope: "#/properties/EmptyBox",
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+              },
+              options: {
+                widget: "EmptyBox",
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/simulation",
+              config: {
+                layout: 11.5,
+              },
+              options: {
+                detail: {
+                  type: "HorizontalLayout",
+                  elements: [
+                    {
+                      type: "Control",
+                      scope: "#/properties/simulationTypes",
+
+                      options: {
+                        widget: "InputField",
+                      },
+                      config: {
+                        layout: {
+                          xs: 11,
+                          sm: 11,
+                          md: 5.5,
+                          lg: 5.5,
+                        },
+                        main: {
+                          label: "Type",
+                        },
+                      },
+                    },
+                    {
+                      type: "Control",
+                      scope: "#/properties/EmptyBox",
+                      config: {
+                        layout: {
+                          xs: 11,
+                          sm: 11,
+                          md: 5.5,
+                          lg: 5.5,
+                        },
+                      },
+                      options: {
+                        widget: "EmptyBox",
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/EmptyBox",
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 8.5,
+                  lg: 9.5,
+                },
+              },
+              options: {
+                widget: "EmptyBox",
+              },
+            },
+            {
+              type: "Control",
+              scope: "#/properties/SubmitButton",
+              options: {
+                widget: "Button",
+              },
+
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 2.5,
+                  lg: 1.5,
+                },
+                main: {
+                  name: "Submit",
+                  startIcon: "ApproveIcon",
+                  variant: "contained",
+                  color: "info",
+                  type: "text",
+                  onClick: "Submit_PM_Program",
+                  size: "small",
+                },
+                style: {
+                  marginBottom: "8px",
+                },
+              },
+            },
+          ],
         },
-        {
-          type: "Control",
-          scope: "#/properties/EmptyBox",
-           config:{ layout: {
-            xs: 11,
-            sm: 11,
-            md: 8.5,
-            lg: 9.5,
-          }},
-          options: {
-            widget: "EmptyBox",
-          },
-        },
-        {
-          type: "Control",
-          scope: "#/properties/btn",
-          options: {
-            widget: "Button",
-          },
-         
-          config: {
-            layout: {
-              xs: 11,
-              sm: 11,
-              md: 2.5,
-              lg: 1.5,
-            },
-            main: {
-              name: "Submit",
-              startIcon:"ApproveIcon",
-              variant: "contained",
-              color: "info",
-              type: "text",
-              onClick: "Submit_PM_Program",
-              size: "small",
-            },
-            style: {
-              marginBottom:"8px"
-            },
-          },
-        },
-        
       ],
     },
-
-  ]
-},
     {
       type: "Control",
       scope: "#/properties/notify",

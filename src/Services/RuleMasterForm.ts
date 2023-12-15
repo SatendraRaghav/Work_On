@@ -1,14 +1,18 @@
-import { getUiSchema } from "@jsonforms/core";
-import { JsonForms, JsonFormsStateContext } from "@jsonforms/react";
+
 import { myService } from "../service/service";
 
 import { RuleMasterSchema } from "../UiSchema/RuleMaster/Schema";
 import { RuleMasterUISchema } from "../UiSchema/RuleMaster/UiSchema";
 import { downloadFile } from "../utils/downloadFile";
 import { actions } from "../Reducer";
+import { isErrorsExist } from "@/utils/isErrorsExist";
+import { userValue } from "@/App";
+import _ from "lodash";
 
-let uploadFlag:unknown;
+
+let uploadFlag: unknown;
 let flag: unknown;
+let runSchema :boolean = true;
 export const RuleMasterForm = (
   store: any,
   dynamicData: any
@@ -21,13 +25,15 @@ export const RuleMasterForm = (
     setPage: async function () {
       uploadFlag = false;
       flag = true;
-      const uiSchema = await this.getUiSchema();
-      store.setUiSchema(uiSchema);
-      const schema = await this.getSchema();
-      store.setSchema(schema);
       const formdata = await this.getFormData();
       store.setFormdata(formdata);
-
+      const uiSchema = this.getUiSchema();
+      store.setUiSchema(uiSchema);
+      const schema = await this.getSchema();
+      
+        store.setSchema(schema);
+      
+      
     },
     getFormData: async function () {
       let formdata: any = {};
@@ -42,54 +48,54 @@ export const RuleMasterForm = (
 
     setEditPage: async function (action: number) {
       let externalDataIds: number[] = [];
-      let uiSchema = JSON.parse(JSON.stringify(RuleMasterUISchema));
+      let cloneSchema = JSON.parse(JSON.stringify(RuleMasterSchema));
       const Api =
         "/master/getDetailById?masterName=com.act21.hyperform3.entity.master.rule.RuleStaging&id=" + action;
       let formdata: any = {};
       await service.get(Api)
-        .then(async(res: any) => {
-          formdata["project"] = res.data.payload.artifactId;
-          formdata["groupId"] = res.data.payload.groupId;
-          formdata["version"] = res.data.payload.version;
-          externalDataIds = res.data.payload.config.externalDataIds;
-           await this.setArtifact(uiSchema,res.data.payload.groupId);
-           await this.setVersion(uiSchema,formdata.groupId,formdata.project)
+        .then(async (res: any) => {
+          formdata["artifactId"] = res.data.artifactId;
+          formdata["groupId"] = res.data.groupId;
+          formdata["version"] = res.data.version;
+          formdata["ruleId"] = res.data.ruleId;
+          externalDataIds = res.data.config.externalDataIds;
+
+          await this.setArtifact(cloneSchema, res.data.groupId);
+          await this.setVersion(cloneSchema, formdata.groupId, formdata.artifactId)
+        
         })
-        .catch((error: any) => {
-          formdata = {version : [{}], project : [{}], groupId : [{}]}
-        })
+
 
       let formdata1 = await this.loadTable(externalDataIds);
       formdata["LoadRecords"] = formdata1;
       return formdata
     },
 
-    getUiSchema: async function () {
-      let uiSchema: any = RuleMasterUISchema;
-      let data: any = null;
-
+    getUiSchema: function () {
+     
+      return RuleMasterUISchema
+  
+    },
+    getSchema: async () => {
+      let schema: any = RuleMasterSchema; 
+      // RuleMasterSchema;
+      const disabled = localStorage.getItem("disabled");
+      schema["disabled"] = disabled === "true" ? true : false;
       await service.get("/impaktApps/getGroups")
         .then((response) => {
-          data = response.data.payload.map((ele: any) => {
-            return { label: ele, value: ele };
+          const data = response.data.payload.map((ele: any) => {
+            return { const: ele, title: ele };
           })
-          uiSchema.elements[1].elements[2].config.main.options = data;
-          return uiSchema;
-        }).catch((error) => {
-          console.log("error : " + error);
-          return [{}];
+          schema.properties.groupId.oneOf = data
         })
-      return uiSchema;
-    },
-    getSchema: () => {
-      return RuleMasterSchema;
+      return schema;
     },
 
     findName: () => {
       if ((store.formData["groupId"] == undefined) || (store.newData["groupId"] !== store.formData["groupId"])) {
         return "artifactId";
       }
-      else if ((store.formData["project"] == undefined) || (store.newData["project"] !== store.formData["project"])) {
+      else if ((store.formData["artifactId"] == undefined) || (store.newData["artifactId"] !== store.formData["artifactId"])) {
         return "version";
       }
       else {
@@ -97,66 +103,91 @@ export const RuleMasterForm = (
       }
     },
 
-    setArtifact : async(uiSchema : any,groupId : string) => {
-      let data :any = null;
+    setArtifact: async (cloneSchema: any, groupId: string) => {
+      let data: any = null;
       await service.post("/impaktApps/getArtifacts", {
         "payload": {
-          "groupId":groupId
+          "groupId": groupId
         },
       })
         .then((response) => {
           data = response.data.payload.map((ele: any) => {
-            return { label: ele, value: ele };
+            return { title: ele, const: ele };
           });
-          uiSchema.elements[1].elements[3].config.main.options = data;
-          uiSchema.elements[1].elements[4].config.main['options'] = [{}];
-          store.setFormdata({...store.newData,project:undefined,version : undefined})
-          store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
-        }).catch((err) => {
-          console.log(err);
+          if(!(_.isEmpty(data))){
+          cloneSchema.properties.artifactId = {
+            ...cloneSchema.properties.artifactId,
+            oneOf: data
+          }}
+          store.setFormdata({ ...store.newData, artifactId: undefined, version: undefined })
+          store.setSchema(cloneSchema)
         })
     },
 
-    setVersion : async(uiSchema : any, groupId : string, project : string) => {
-      let data :any = null;
+    setVersion: async (cloneSchema: any, groupId: string, artifactId: string) => {
+      let data: any = null;
       await service.post("/impaktApps/getVersions", {
         "payload": {
-          "groupId":groupId,
-          "artifactId": project
+          "groupId": groupId,
+          "artifactId": artifactId
         },
       })
         .then((response) => {
           data = response.data.payload.map((ele: any) => {
-            return { label: ele, value: ele };
+            return { title: ele, const: ele };
           });
-          uiSchema.elements[1].elements[4].config.main.options = data;
-          store.setFormdata({...store.newData,version : undefined})
-              store.setUiSchema(JSON.parse(JSON.stringify(uiSchema)));
-        }).catch((err) => {
-          console.log(err);
+          if(!(_.isEmpty(data))){
+          cloneSchema.properties.version = {
+            ...cloneSchema.properties.version,
+            oneOf: data
+          }}
+          store.setFormdata({ ...store.newData, version: undefined })
+          store.setSchema(cloneSchema)
         })
     },
 
     onChange: async function (value: any) {
+
+      if (store.newData?.ruleId != store.formData?.ruleId) {
+        return;
+      }
+
       const action = store.searchParams?.get("id");
-      if(uploadFlag){
+      if (uploadFlag) {
         uploadFlag = false;
         return;
       }
-      if ((action == undefined && (store.newData['groupId'] == undefined && store.formData['groupId'] == undefined && store.newData['project'] == undefined && store.formData['project'] == undefined && store.newData['version'] == undefined && store.formData['version'] == undefined)) || ((store.formData['version'] == undefined && store.newData['version'] != undefined) || (store.newData['version'] != store.formData['version']))) {
+      if ((action == undefined && (store.newData['groupId'] == undefined && store.formData['groupId'] == undefined && store.newData['artifactId'] == undefined && store.formData['artifactId'] == undefined && store.newData['version'] == undefined && store.formData['version'] == undefined)) || ((store.formData['version'] == undefined && store.newData['version'] != undefined) || (store.newData['version'] != store.formData['version']))) {
         return;
       }
-      if(action && flag){
+      if (action && flag) {
         flag = false;
         return;
       }
-      let uiSchema: any = RuleMasterUISchema;
+      let cloneSchema: any = _.cloneDeep(store.schema);
       let name: any = this.findName();
-        if(name === "artifactId"){
-          this.setArtifact(uiSchema, store?.newData?.groupId);
-        }else if(name === "version"){
-          this.setVersion(uiSchema,store?.newData?.groupId,store?.newData?.project);
-        }
+      if (name === "artifactId") {
+        this.setArtifact(cloneSchema, store?.newData?.groupId);
+      } else if (name === "version") {
+        let data: any = null;
+        await service.post("/impaktApps/getArtifacts", {
+          "payload": {
+            "groupId": store.newData?.groupId
+          },
+        })
+          .then((response) => {
+            data = response.data.payload.map((ele: any) => {
+              return { title: ele, const: ele };
+            });
+            if(!(_.isEmpty(data))){
+            cloneSchema.properties.artifactId = {
+              ...cloneSchema.properties.artifactId,
+              oneOf: data
+            }}
+            store.setSchema(cloneSchema)
+          })
+        this.setVersion(cloneSchema, store?.newData?.groupId, store?.newData?.artifactId);
+      }
     },
     uploadFile: async function () {
       const event = dynamicData?.changeEvent;
@@ -218,15 +249,26 @@ export const RuleMasterForm = (
       }
       let id = 0;
       let files: any = [];
-        for(id = 0; id < externalDataIds.length; id++){
-          let result =  await service
-          .get(`/externalData/getById?id=${externalDataIds[id]}&withData=true`);
-          files.push(result);
-        }
-          const result = files.map((elem: any) => {
-            let {name ,id } = elem.data.payload;
-            return { id: id, name: name };
-          });
+      for (id = 0; id < externalDataIds.length; id++) {
+
+        let body = JSON.stringify({
+          withData: true,
+          id: externalDataIds[id],
+        });
+        let result = await service
+          .post("/externalData/getById", body, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).then((response) => {
+            return response;
+          })
+        files.push(result);
+      }
+      const result = files.map((elem: any) => {
+        let { name, id } = elem.data;
+        return { id: id, name: name };
+      });
       return result;
     },
 
@@ -239,49 +281,64 @@ export const RuleMasterForm = (
         });
         const formdata: any = {};
         formdata['LoadRecords'] = externalDataIds;
-        store.setFormdata({...store.formData,...formdata});
+        store.setFormdata({ ...store.formData, ...formdata });
         store.setNotify({ SuccessMessage: "Deleted Successfully", Success: true })
       } catch (error) {
         store.setNotify({ FailMessage: "Failed", Fail: true });
       }
     },
     Download_File_Table: () => {
+      let body = JSON.stringify({
+        withData: true,
+        id: dynamicData?.rowData.id,
+      });
       service
-        .get(`/externalData/getById?withData=true&id=${dynamicData?.rowData?.id}`)
+        .post("/externalData/getById", body, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
         .then((response) => {
-          downloadFile(response.data.payload);
+          downloadFile(response.data);
         })
         .catch((error) => {
           store.setNotify({ FailMessage: "Failed", Fail: true })
         });
     },
     saveData: () => {
-        const { groupId, project, version } = store.formData;
+      if (
+        !isErrorsExist(RuleMasterSchema, store.ctx.core.errors)
+      ) {
+        store.setValidation("ValidateAndShow")
+        store.setNotify({ FailMessage: "Errors on page", Fail: true, })
+      } else {
+        const { groupId, artifactId, version, ruleId } = store.formData;
         const action = store.searchParams?.get("id");
         let externalDataIds = store?.ctx?.core?.data?.LoadRecords.map((val: any) => {
           return val.id;
         });
         service.post("/master/save", {
-          "id": null,
-          "corelationId": null,
-          "payload": {
-            "entityName": "com.act21.hyperform3.entity.master.rule.RuleStaging",
-            "entityValue": {
-              "id": action != undefined ? action : null,
-              "groupId": groupId,
-              "artifactId": project,
-              "version": version,
-              "config": {
-                "externalDataIds": externalDataIds
-              }
+
+          "entityName": "com.act21.hyperform3.entity.master.rule.RuleStaging",
+          "entityValue": {
+            "id": action != undefined ? action : null,
+            "groupId": groupId,
+            "artifactId": artifactId,
+            "version": version,
+            "ruleId": ruleId,
+            "config": {
+              "externalDataIds": externalDataIds
             }
-          }
+          },
+          userId: userValue.payload.userId
+
         }).then((res: any) => {
           store.setNotify({ SuccessMessage: "Save Successfully", Success: true })
           store.navigate("/RuleMasterRecords")
         }).catch((error: any) => {
           store.setNotify({ FailMessage: "Failed", Fail: true })
         })
+      }
     }
   };
 };

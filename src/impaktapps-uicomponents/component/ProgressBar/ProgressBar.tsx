@@ -1,57 +1,56 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 
-const ProgressBar = ({value} : any) => {
+const ProgressBar = ({ value, theme }: any) => {
   const [progress, setProgress] = useState(
-      (value?.main?.data?.achieved / value?.main?.data?.total) *
-        100
+    (value?.main?.data?.achieved / value?.main?.data?.total) * 100
   );
-  useEffect(()=>{
-   setProgress( (value?.main?.data?.achieved / value?.main?.data?.total) *
-   100)
-  },[value.main.data])
+  useEffect(() => {
+    setProgress((value?.main?.data?.achieved / value?.main?.data?.total) * 100);
+  }, [value.main.data]);
   const getColor = () => {
     if (progress < 40) {
-      return ["#e2b6b6","#ff0000"];
+      return ["#e2b6b6", "#ff0000"];
     }
     if (progress < 70) {
-    //   return "#ffa500";  
-    return ["#b6bce2","#3f51b5"]; 
+      return ["#b6bce2", "#3f51b5"];
     } else {
-      return ["#b6e2c2","#2ecc71"];
+      return ["#b6e2c2", "#2ecc71"];
     }
   };
-  if(value?.main?.developOnlyProgresBar){
-    return (<div
-    style={{
-      height: "6px",
-      margin: "auto",
-      borderRadius: "10px",
-      backgroundColor: getColor()[0],
-     
-      marginBottom: "20px",
-    }}
-  >
-    <div
-      className="progress-bar-fill"
-      style={{
-        width: `${progress<100?progress:100}%`,
-        backgroundColor: getColor()[1],
-        // backgroundColor: "#3f51b5",
-        height: "100%",
-        borderRadius: "10px",
-        marginBottom: "20px",
-        // backgroundColor: "#2ecc71",
-        transition: "width 0.5 ease-out",
-      }}
-    ></div>
-  </div>)
+  if (value?.main?.developOnlyProgresBar) {
+    return (
+      <div
+        style={{
+          height: "6px",
+          margin: "auto",
+          borderRadius: "10px",
+          backgroundColor: value?.style?.progressBarColor || getColor()[1],
+
+          marginBottom: "20px",
+        }}
+      >
+        <div
+          className="progress-bar-fill"
+          style={{
+            width: `${progress < 100 ? progress : 100}%`,
+            backgroundColor:
+              value?.style?.progressBarFillColor || getColor()[1],
+            height: "100%",
+            borderRadius: "10px",
+            marginBottom: "20px",
+            transition: "width 0.5 ease-out",
+          }}
+        ></div>
+      </div>
+    );
   }
   return (
     <div
       className="container"
       style={{
-        backgroundColor: "white",
+        backgroundColor: theme?.palette?.secondary.main,
+        color: theme?.palette?.text?.primary,
         borderRadius: "20px",
         width: "auto",
         height: "auto",
@@ -68,7 +67,7 @@ const ProgressBar = ({value} : any) => {
           textAlign: "left",
           fontFamily: "inherit",
           fontSize: "18px",
-          color: "#121926",
+          color: theme?.palette?.text?.primary || "#121926",
         }}
       >
         {value?.main?.heading}
@@ -92,6 +91,7 @@ const ProgressBar = ({value} : any) => {
               fontWeight: 700,
               marginBottom: "20px",
               fontSize: "24px",
+              color: "inherit",
             }}
           >
             {progress.toFixed(2)}%
@@ -104,14 +104,14 @@ const ProgressBar = ({value} : any) => {
               margin: "auto",
               borderRadius: "10px",
               backgroundColor: getColor()[0],
-             
+
               marginBottom: "20px",
             }}
           >
             <div
               className="progress-bar-fill"
               style={{
-                width: `${progress<=100?progress:100}%`,
+                width: `${progress < 100 ? progress : 100}%`,
                 backgroundColor: getColor()[1],
                 // backgroundColor: "#3f51b5",
                 height: "100%",
@@ -126,6 +126,7 @@ const ProgressBar = ({value} : any) => {
         <div
           style={{
             display: "flex",
+            color: theme?.palette?.text?.primary,
             paddingTop: "40px",
             width: "90%",
             margin: "auto",
@@ -134,69 +135,66 @@ const ProgressBar = ({value} : any) => {
           <div style={{ width: "33.33%" }}>
             <div
               style={{
-                textAlign:"left",
-                color: "#697586",
+                textAlign: "left",
                 fontSize: "10px",
+                color: theme?.palette?.text?.inputLabel,
                 marginBottom: "10px",
               }}
             >
-               {value?.main?.bottomLabel_1||"Target"}
+              {value?.main?.bottomLabel_1 || "Target"}
             </div>
             <div
               style={{
-                color: "#121926",
-                textAlign:"left",
+                color: theme?.palette?.text?.primary || "#121926",
+                textAlign: "left",
                 fontWeight: 500,
               }}
             >
-              {value?.main?.data?.total||value?.main?.data?.bottomLabel_1_value}
+              {value?.main?.data?.total ||
+                value?.main?.data?.bottomLabel_1_value}
             </div>
           </div>
           <div style={{ width: "33.33%" }}>
             <div
               style={{
-                textAlign:"center",
-                color: "#697586",
+                textAlign: "center",
+                color: theme?.palette?.text?.inputLabel || "#697586",
                 fontSize: "10px",
                 marginBottom: "10px",
               }}
             >
-                {value?.main?.bottomLabel_2||"Achieved"}
+              {value?.main?.bottomLabel_2 || "Achieved"}
             </div>
             <div
               style={{
-                textAlign:"center",
-                color: "#121926",
+                textAlign: "center",
+                color: theme?.palette?.text?.primary || "#121926",
                 fontWeight: 500,
               }}
             >
-              {value?.main?.data?.achieved||value?.main?.data?.bottomLabel_2_value}
+              {value?.main?.data?.achieved ||
+                value?.main?.data?.bottomLabel_2_value}
             </div>
           </div>
           <div style={{ width: "33.33%" }}>
             <div
               style={{
-                textAlign:"right",
-                color: "#697586",
+                textAlign: "right",
+                color: theme?.palette?.text?.inputLabel || "#697586",
                 fontSize: "10px",
                 marginBottom: "10px",
               }}
             >
-                 {value?.main?.bottomLabel_3||"Average"} 
+              {value?.main?.bottomLabel_3 || "Remaining"}
             </div>
             <div
               style={{
-                textAlign:"right",
-                color: "#121926",
+                textAlign: "right",
+                color: theme?.palette?.text?.primary || "#121926",
                 fontWeight: 500,
               }}
             >
-              {value?.main?.daysCount?
-              Math.round(
-                (value?.main?.data?.achieved / value?.main?.daysCount)
-              )+ value?.main?.bottomLabel_3_averageLabel||"/day"
-              :value?.main?.data?.bottomLabel_3_value 
-           }
+              {value?.main?.data?.bottomLabel_3_value}
             </div>
           </div>
         </div>
@@ -206,5 +204,3 @@ const ProgressBar = ({value} : any) => {
 };
 
 export default ProgressBar;
-
-

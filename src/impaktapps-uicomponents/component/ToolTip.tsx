@@ -8,27 +8,28 @@ const ToolTip = ({ style, top, left, tooltipData }: tooltipProps) => {
   });
   return (
     <TooltipInPortal 
-  
-     key={Math.random()} top={top} left={left}>
+     key={Math.random()}
+      top={top} left={left}
+      >
       <div
         style={{
-          width: "100%",
-          // paddingleft: "10px",
-          height: "auto",
+        minWidth:60,
           textAlign:"center",
           background:"black",
+          padding:"10px",
          boxShadow:"2px 2px 5px black",
           color:"#6c5efb",
-          padding:"15px",
+          backgroundColor:"black",
           ...style?.tooltipStyle,
+          margin:"-20px",
         }}
       >
-        <div style={{paddingBottom:"2px",color:"white"}}>
+        <div style={{padding:"4px 10px",color:style?.tooltipbackground||"white",borderRadius:"5px",fontWeight:700}}>
         {tooltipData[0]}
         </div>
        
       
-      <div style={{marginTop:"10px"}}>
+      <div style={{padding:"4px 10px",borderRadius:"5px",marginTop:"10px",fontWeight:700}}>
         {tooltipData[1]}
       </div>
       </div>

@@ -5,6 +5,8 @@ import { GroupMasterUISchema } from "../UiSchema/GroupMaster/UISchema";
 import { GroupMasterSchema } from "../UiSchema/GroupMaster/Schema";
 import { isErrorsExist } from "../utils/isErrorsExist";
 import { handleErrors } from "@/utils/handleErrors";
+import { userValue } from "@/App";
+import _ from "lodash";
 export const GroupMasterForm = (
   store:any,
   dynamicData:any
@@ -12,14 +14,13 @@ export const GroupMasterForm = (
   const serviceApi = myService(dynamicData?.setLoading,  store.navigate,store);
   return {
     setPage: async function () {
-      store.setFormdata({})
-      const schema = this.getSchema();
-      store.setSchema(schema);
-      const UiSchema = await this.getUiSchema();
-      store.setUiSchema(UiSchema);
       const formData = await this.getFormData();
       store.setFormdata(formData);
-
+      const schema = await this.getSchema();
+      store.setSchema(schema);
+      const UiSchema =  this.getUiSchema();
+      store.setUiSchema(UiSchema);
+  
     },
     getFormData: async function () {
       const action = store.searchParams?.get("id")
@@ -30,33 +31,47 @@ export const GroupMasterForm = (
         await serviceApi
           .get(Api)
           .then((res) => {
-            if (res.data.payload.positionList) {
-              let result = res.data.payload.positionList.map((a: any) => {
-                return { label: a.name, value: a.id }
+            if (res.data.userList) {
+              let result = res.data.userList.map((a: any) => {
+                return  a.id 
               });
-              console.log({ ...res.data.payload, positionList: result })
-              formdata = { ...res.data.payload, positionList: result };
-
+              formdata = { ...res.data, userList:result };
             }
             else {
-              console.log(res.data);
-              formdata = res.data.payload;
-
+              formdata = res.data;
             }
 
 
           })
           .catch(() => { });
       }
-
+  console.log(formdata)
       return formdata;
     },
-    getUiSchema: async function () {
-      const updatedRoleUiSchema = await this.pageLoad();
-      return updatedRoleUiSchema
+    getUiSchema:  function () {
+      return GroupMasterUISchema;
     },
-    getSchema: () => {
-      return GroupMasterSchema;
+    getSchema: async () => {
+      let schema:any = _.cloneDeep(GroupMasterSchema);
+      const disabled = localStorage.getItem("disabled");
+      schema["disabled"] = disabled === "true" ? true : false;
+      await serviceApi
+        .get('/master/getDetails?masterName=com.act21.hyperform3.entity.master.user.User&status=A'
+        )
+        .then((res:any) => {
+         const selectOption = res.data.map((e: any) => {
+            return { title: e.name, const: e.id }
+          });
+          if(!(_.isEmpty(selectOption))){
+         schema.properties.userList = {
+          ... schema?.properties?.userList,
+            type:"array",
+            items:{
+              oneOf:selectOption
+            }
+         }}
+        })
+      return schema;
     },
     backHandler: function () {
       store.navigate("/GroupMasterRecords")
@@ -70,12 +85,12 @@ export const GroupMasterForm = (
         return;
       } 
       let permList: any;
-      if(store.ctx.core.data.positionList){
-        permList=await this.getPosition();
+      if(store.ctx.core.data.userList){
+        permList=await this.getUser();
       }
         console.log(store.ctx.core.data)
-        serviceApi.post("/master/save", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.group.GroupStaging", entityValue: { ...store.ctx.core.data, positionList: permList } } }).then((res) => {
-          if (res.data.status=="SUCCESS") { 
+        serviceApi.post("/master/save", { entityName: "com.act21.hyperform3.entity.group.GroupStaging", entityValue: { ...store.ctx.core.data, userList: permList },userId : userValue.payload.userId }).then((res) => {
+          if (res.status==200) { 
           console.log("save")
           store.setFormdata({ ...store.ctx.core.data});
           store.setNotify({SuccessMessage:"Submitted Successfully",Success:true,})
@@ -88,28 +103,13 @@ export const GroupMasterForm = (
           handleErrors(errorData,store);
     } });
     },
-    pageLoad: async () => {
-      const Ui = GroupMasterUISchema;
-      let selectOption: any[] = [];
-      await serviceApi
-        .get('/master/getDetails?masterName=com.act21.hyperform3.entity.master.position.PositionNewStaging&status=A'
-        )
-        .then((res) => {
-          selectOption = res.data.payload.map((e: any) => {
-            return { label: e.name, value: e.id }
-          });
-          
-          Ui.elements[1].elements[1].config.main.options = selectOption;
-        });
-      console.log(Ui)
-      return Ui;
-    },
-    getPosition: async ()=> {
-      const idlist:any = store.ctx.core.data.positionList.map((a: any) => a.value);
+  
+    getUser: async ()=> {
+      const idlist:any = store.ctx.core.data.userList;
      ;
-      return  serviceApi.post("/master/getDetailsById", { id: 1, payload: { entityName: "com.act21.hyperform3.entity.master.position.PositionNewStaging", entityValue: idlist } }).then((rest) => {
+      return  serviceApi.post("/master/getDetailsById", {  entityName: "com.act21.hyperform3.entity.master.user.User", entityValue: idlist }).then((rest) => {
 
-        return rest.data.payload;
+        return rest.data;
          });
        },
 

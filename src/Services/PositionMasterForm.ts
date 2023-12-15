@@ -6,17 +6,20 @@ import { PositionMasterUISchema } from "../UiSchema/PositionMaster/UISchema";
 import { PositionMasterSchema } from "../UiSchema/PositionMaster/Schema";
 import { isErrorsExist } from "../utils/isErrorsExist";
 import { handleErrors } from "@/utils/handleErrors";
+import { userValue } from "@/App";
+import _ from "lodash";
 export const PositionMasterForm = (store: any, dynamicData: any) => {
   const serviceApi = myService(dynamicData?.setLoading, store.navigate,store);
   return {
     setPage: async function () {
-      store.setFormdata({});
-      const schema = this.getSchema();
+      const formData = await this.getFormData();
+      store.setFormdata(formData);
+      const schema = await this.getSchema();
       store.setSchema(schema);
       const UiSchema = await this.getUiSchema();
       store.setUiSchema(UiSchema);
-      const formData = await this.getFormData();
-      store.setFormdata(formData);
+   
+     
     },
     getFormData: async function () {
       const action = store.searchParams?.get("id");
@@ -26,38 +29,27 @@ export const PositionMasterForm = (store: any, dynamicData: any) => {
         await serviceApi
           .get(Api)
           .then((res) => {
-            if (res.data.payload.type && res.data.payload.parent) {
-              console.log({
-                ...res.data.payload,
-                type: res.data.payload.type.id,
-                parent: res.data.payload.parent.id,
-              });
+            if (res.data.type && res.data.parent) {
+              console.log("parent >>  ",res.data.parent )
               formdata = {
-                ...res.data.payload,
-                type: res.data.payload.type.id,
-                parent: res.data.payload.parent.id,
+                ...res.data,
+                type: res.data.type.id,
+                parent: res.data.parent.id,
               };
-            } else if (res.data.payload.type) {
-              console.log({
-                ...res.data.payload,
-                type: res.data.payload.type.id,
-              });
+            } else if (res.data.type) {
+         
               formdata = {
-                ...res.data.payload,
-                type: res.data.payload.type.id,
+                ...res.data,
+                type: res.data.type.id,
               };
-            } else if (res.data.payload.parent) {
-              console.log({
-                ...res.data.payload,
-                parent: res.data.payload.parent.id,
-              });
+            } else if (res.data.parent) {
+              console.log("parent2 >>  ",res.data.parent )
               formdata = {
-                ...res.data.payload,
-                parent: res.data.payload.parent.id,
+                ...res.data,
+                parent: res.data.parent.id,
               };
             } else {
-              console.log(res.data.payload);
-              formdata = res.data.payload;
+              formdata = res.data;
             }
           })
           .catch(() => {});
@@ -66,11 +58,40 @@ export const PositionMasterForm = (store: any, dynamicData: any) => {
       return formdata;
     },
     getUiSchema: async function () {
-      const updatedPositionUiSchema = await this.pageLoad();
-      return updatedPositionUiSchema;
+      return PositionMasterUISchema;
     },
-    getSchema: () => {
-      return PositionMasterSchema;
+    getSchema: async  () => {
+      let schema:any = PositionMasterSchema;
+      const disabled = localStorage.getItem("disabled");
+      schema["disabled"] = disabled === "true" ? true : false;
+      await serviceApi
+      .get(
+        "/master/getDetails?masterName=com.act21.hyperform3.entity.master.position.PositionTypeNew&status=A"
+      )
+      .then((res) => {
+        const selectOption = res.data.map((e: any) => {
+          return { title: e.name, const: e.id };
+        })
+        if(!(_.isEmpty(selectOption))){
+        schema.properties.type = {
+          oneOf:selectOption
+        }}
+        ;})
+        await serviceApi
+        .get(
+          "/master/getDetails?masterName=com.act21.hyperform3.entity.master.position.PositionNew&status=A"
+        )
+        .then((res) => {
+          const selectParentData = res.data.map((e: any) => {
+            return { title: e.name, const: e.id };
+          });
+          if(!(_.isEmpty(selectParentData))){
+          schema.properties.parent = {
+            oneOf:selectParentData
+          }}
+      
+        });
+      return schema;
     },
     backHandler: function () {
       store.navigate("/PositionMasterRecords");
@@ -94,8 +115,6 @@ export const PositionMasterForm = (store: any, dynamicData: any) => {
             
                 serviceApi
                   .post("/master/save", {
-                    id: 1,
-                    payload: {
                       entityName:
                         "com.act21.hyperform3.entity.master.position.PositionNewStaging",
                       entityValue: {
@@ -103,10 +122,11 @@ export const PositionMasterForm = (store: any, dynamicData: any) => {
                         type: idData,
                         parent: idDataRep,
                       },
-                    },
+                      userId : userValue.payload.userId
+                    
                   })
                   .then((res) => {
-                    if (res.data.status=="SUCCESS") { 
+                    if (res.status==200) { 
                     store.navigate("/PositionMasterRecords");
                     store.setNotify({
                       SuccessMessage: "Submitted Successfully",
@@ -122,48 +142,13 @@ export const PositionMasterForm = (store: any, dynamicData: any) => {
                   });
       }
     },
-    pageLoad: async () => {
-      const Ui = PositionMasterUISchema;
-      let selectOption: any[] = [];
-      let selectParentData: any[] = [];
-      console.log(Ui);
-      await serviceApi
-        .get(
-          "/master/getDetails?masterName=com.act21.hyperform3.entity.master.position.PositionTypeNew&status=A"
-        )
-        .then((res) => {
-          selectOption = res.data?.payload?.map((e: any) => {
-            return { label: e.name, value: e.id };
-          });
-
-          Ui.elements[1].elements[1].config.main.options = selectOption
-            ? selectOption
-            : [{ id: 1 }];
-        });
-      await serviceApi
-        .get(
-          "/master/getDetails?masterName=com.act21.hyperform3.entity.master.position.PositionNew&status=A"
-        )
-        .then((res) => {
-          selectParentData = res.data?.payload?.map((e: any) => {
-            return { label: e.name, value: e.id };
-          });
-
-          Ui.elements[1].elements[2].config.main.options = selectParentData
-            ? selectParentData
-            : [{ id: 1 }];
-        });
-
-      console.log(Ui);
-      return Ui;
-    },
     getType: async ()=> {
      return serviceApi
      .get(
        `/master/getDetailById?masterName=com.act21.hyperform3.entity.master.position.PositionTypeNew&id=${store.ctx.core.data.type}`
      )
      .then((rest) => {
-       return  rest.data.payload;
+       return  rest.data;
         });
       },
 
@@ -173,7 +158,7 @@ export const PositionMasterForm = (store: any, dynamicData: any) => {
          `/master/getDetailById?masterName=com.act21.hyperform3.entity.master.position.PositionNew&id=${store.ctx.core.data.parent}`
        )
        .then((rest1) => {
-         return  rest1.data.payload;
+         return  rest1.data;
           });
         },
   };

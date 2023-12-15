@@ -12,27 +12,9 @@ import { withTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
 import { WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip";
 import BottomAxis from "../BottomAxis";
 import LeftAxis from "../LeftAxis";
+import { BarStackHorizontalProps, CityName, TooltipData } from "../../interface/interface";
 
-type CityName = "New York" | "San Francisco" | "Austin";
 
-type TooltipData = {
-  bar: SeriesPoint<CityTemperature>;
-  key: CityName;
-  index: number;
-  height: number;
-  width: number;
-  x: number;
-  y: number;
-  color: string;
-};
-
-export type BarStackHorizontalProps = {
-  width?: number;
-  height?: number;
-  margin: { top: number; right: number; bottom: number; left: number };
-  events?: boolean;
-  barValue: any;
-};
 export default withTooltip<BarStackHorizontalProps, TooltipData>(
   ({
     width=600,

@@ -1,9 +1,7 @@
-// updated Rule master records
 
-
-import { getUiSchema } from "@jsonforms/core";
 import { myService } from "../service/service";
 import { RuleMasterRecordsUISchema } from "../UiSchema/RuleMasterRecords/UiSchema"
+import { userValue } from "@/App";
 export const RuleMasterRecords = (
   store:any,
   dynamicData:any
@@ -11,9 +9,8 @@ export const RuleMasterRecords = (
 
   const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
-
     setPage: async function () {
-      store.setFormdata({})
+      store.setFormdata({});
       const schema = this.getSchema();
       store.setSchema(schema);
       const UiSchema = await this.getUiSchema();
@@ -26,104 +23,137 @@ export const RuleMasterRecords = (
 
       let dataArray: any = null;
       const Api =
-      "/master/getDetails?masterName=com.act21.hyperform3.entity.master.rule.RuleStaging&status=A";
-    const ApiPending =
-      "/master/getDetails?masterName=com.act21.hyperform3.entity.master.rule.RuleStaging&status=N";
-    const ApiReject =
-      "/master/getDetails?masterName=com.act21.hyperform3.entity.master.rule.RuleStaging&status=R";
-      
+        "/master/getDetails?masterName=com.act21.hyperform3.entity.master.rule.RuleStaging&status=A";
+      const ApiPending = "/master/getPendingActionDetails";
+      const ApiReject =
+        "/master/getDetails?masterName=com.act21.hyperform3.entity.master.rule.RuleStaging&status=R";
+      const ApiRaised = "/master/getPendingRequests";
       await serviceApi
         .get(Api)
         .then((res) => {
-        dataArray = res.data.payload.map((val: any) => {
-          return {id : val.id, artifactId : val.artifactId, groupId : val.groupId, version : val.version}
-        })
-          formData["ApproveRecords"] = dataArray
-          return serviceApi.get(ApiPending);
+          formData["ApproveRecords"] = res.data;
+          const body = {
+            entityName: "com.act21.hyperform3.entity.master.rule.RuleStaging",
+            candidateGroup: userValue.payload.positionTypeName,
+            candidateUser: userValue.payload.positionName,
+            processVariables: {
+              entityName: "com.act21.hyperform3.entity.master.rule.RuleStaging",
+            },
+
+            userName: userValue.payload.username,
+            userId: userValue.payload.userId,
+          };
+          return serviceApi.post(ApiPending, body);
         })
         .then((res) => {
-          dataArray = null;
-          dataArray = res.data.payload.map((val: any) => {
-            return {id : val.id, artifactId : val.artifactId, groupId : val.groupId, version : val.version}
-          })
-          if(dataArray == undefined || dataArray == null){
-            dataArray = [];
-          }
-          formData["PendingRecords"] = dataArray;
+          formData["PendingRecords"] = res.data;
           return serviceApi.get(ApiReject);
         })
         .then((res) => {
-          dataArray = null;
-          dataArray = res.data.payload.map((val: any) => {
-            return {id : val.id, artifactId : val.artifactId, groupId : val.groupId, version : val.version}
-          })
-          if(dataArray == undefined || dataArray == null){
-            dataArray = [];
-          }
-          formData["RejectRecords"]  = dataArray
+          formData["RejectRecords"] = res.data;
+          const body = {
+            entityName: "com.act21.hyperform3.entity.master.rule.RuleStaging",
+            userId: userValue.payload.userId,
+          };
+          return serviceApi.post(ApiRaised, body);
+        })
+        .then((res) => {
+          formData.RaisedRecords = res.data;
         })
         .catch((err) => {
-          formData["ApproveRecords"] = [];
-          formData["PendingRecords"] = [];
-          formData["RejectRecords"]  = [];
+          formData.ApproveRecords = [];
+          formData.PendingRecords = [];
+          formData.RejectRecords = [];
+          formData.RaisedRecords = [];
         });
       return formData;
     },
+    View_Actions: function () {
+      let businessKey = `RuleStaging_${dynamicData?.rowData.id}`;
+      store.navigate(`/MasterActions?businessKey=${businessKey}`);
+    },
     getUiSchema: async () => {
-      return RuleMasterRecordsUISchema
+      return RuleMasterRecordsUISchema;
     },
     getSchema: () => {
       return {};
     },
-    RoleApprover: function () {
-      const Api =
-        `/master/getDetailById?masterName=com.act21.hyperform3.entity.master.rule.RuleStaging&id=${dynamicData?.rowData.id }`;
-      serviceApi
-        .get(Api)
-        .then((res) => {
-          return  serviceApi.post(
-            "/master/action",
-            {id:1,payload:
-              {entityName:"com.act21.hyperform3.entity.master.rule.RuleStaging",
-              entityValue:res.data.payload,
-              action:"A"}},
-          )})
-        .then(async (res) => {
-          let formdata = await this.getFormData();
-          store.setFormdata(formdata);
-          store.setNotify({SuccessMessage:"Approved Successfully",Success:true,})
-        })
-        .catch((e) => {
-          store.setNotify({FailMessage:"Rejected Successfully",Fail:true,})
+    Approve_Records: function () {
+      const pendingRecordsSelected = store.formData.PendingRecords.filter(
+        (e) => e.checked
+      );
+      const taskMapList = pendingRecordsSelected.map((e) => {
+        let data = {};
+        e.taskDetails?.map((childElem) => {
+          data = {
+            ...childElem,
+            completionMap: {
+              action: "Approve",
+              remarks: store?.formData.remarks,
+              actionBy: userValue.payload.userId,
+            },
+          };
+          return;
         });
+        return data;
+      });
+
+      const body = [...taskMapList];
+      serviceApi
+        .post("/workflow/completeTasks", body)
+        .then(async (res) => {
+          const data = await this.getFormData();
+          store.setFormdata(data);
+          store.setNotify({
+            SuccessMessage: "Approved Successfully",
+            Success: true,
+          });
+        })
+        .catch((e) => console.log(e));
     },
     Reject_Records: function () {
-      const Api =
-        `/master/getDetailById?masterName=com.act21.hyperform3.entity.master.rule.RuleStaging&id=${dynamicData?.rowData.id }`;
-      serviceApi
-        .get(Api)
-        .then((res) => {
-          return  serviceApi.post(
-            "/master/action",
-            {id:1,payload:
-              {entityName:"com.act21.hyperform3.entity.master.rule.RuleStaging",
-              entityValue:res.data.payload,
-              action:"R"}},
-          )})
-        .then(async (res) => {
-          let formdata = await this.getFormData();
-          store.setFormdata(formdata);
-          store.setNotify({SuccessMessage:"Rejected Successfully",Success:true})
-        })
-        .catch((e) => {
-          store.setNotify({FailMessage:"Rejected Successfully",Fail:true,})
+      const pendingRecordsSelected = store.formData.PendingRecords.filter(
+        (e) => e.checked
+      );
+      const taskMapList = pendingRecordsSelected.map((e) => {
+        let data = {};
+        e.taskDetails?.map((childElem) => {
+          data = {
+            ...childElem,
+            completionMap: {
+              action: "Reject",
+              remarks: store?.formData.remarks,
+              actionBy: userValue.payload.userId,
+            },
+          };
+          return;
         });
+        return data;
+      });
+
+      const body = [...taskMapList];
+      serviceApi.post("/workflow/completeTasks", body).then(async (res) => {
+        const data = await this.getFormData();
+        store.setFormdata(data);
+        store.setNotify({
+          SuccessMessage: "Rejected Successfully",
+          Success: true,
+        });
+      });
     },
     newRecord: () => {
-      store.navigate("/RuleMaster")
+      localStorage.setItem("disabled", "false");
+      store.navigate("/RuleMaster");
     },
     Edit_Approve_Records: function () {
-      store.navigate(`/RuleMaster?id=${dynamicData?.rowData.id}`)
-    }
+      localStorage.setItem("disabled", "false");
+      store.navigate(
+        `/RuleMaster?id=${dynamicData?.rowData.id}&disabled=false`
+      );
+    },
+    View_Records: function () {
+      localStorage.setItem("disabled", "true");
+      store.navigate(`/RuleMaster?id=${dynamicData?.rowData.id}&disabled=true`);
+    },
   };
 };

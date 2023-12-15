@@ -6,10 +6,9 @@ import { HomeUiSchema } from "../UiSchema/Home/UiSchema";
 store:any,
 dynamicData:any
 ) => {
-  const serviceApi = myService(dynamicData?.setLoading,  store.navigate);
   return {
     setPage: async function () {
-      const formdata = await this.getFormData();
+      const formdata = this.getFormData();
       const schema = this.getSchema();
       const uiSchema = this.getUiSchema();
      
@@ -17,12 +16,8 @@ dynamicData:any
       store.setUiSchema(uiSchema);
       store.setFormdata(formdata);
     },
-    getFormData: async function  () {
-     return {progress:{achieve:200,total:500},
-    slider:[{username:"Raghav"},{username:"Raghav1"},{username:"Satendra"},{username:"Satendra"}]
-    }
-    
-   
+    getFormData: function () {
+      return {new:{box:"Raghav"}};
     },
     getUiSchema: function () {
       return HomeUiSchema;

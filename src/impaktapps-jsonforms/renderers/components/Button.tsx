@@ -5,11 +5,12 @@ import { DataContext } from "../context/Context";
 import { ButtonIcon } from "../common/ButtonIcon";
 import { useJsonForms } from "@jsonforms/react";
 import { CircularProgress, Tooltip } from "@mui/material";
-import PermissionWrapper from "../permissions/PermissionWrapper";
+import ComponentWrapper from "../common/ComponentWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { green } from "@mui/material/colors";
 import { inputProps } from "../interface/inputfieldProps";
 import LoaderInfo from "../common/LoaderInfo";
+import { getComponentProps } from "../common/getComponentProps";
 export const ProgressBar = (
   <CircularProgress
     size={24}
@@ -23,7 +24,7 @@ export const ProgressBar = (
     }}
   />
 );
-export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
+export const ImpaktAppsButton = memo(function ({ uischema, path,data ,schema,rootSchema}: inputProps) {
   const uischemaData = uischema?.config?.main;
   const [loading,setLoading] = useState(false)
   const {
@@ -40,8 +41,11 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
   }
   return (
     <>
-      <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
+      <ComponentWrapper
+      {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)}
+       >
         <Button
+         
           fullWidth={true}
           endIcon={
             uischemaData?.endIcon
@@ -70,7 +74,7 @@ export const ImpaktAppsButton = memo(function ({ uischema, path }: inputProps) {
           {uischemaData?.name}
           {loading && ProgressBar}
         </Button>
-      </PermissionWrapper>
+      </ComponentWrapper>
       <LoaderInfo id={path} loading={loading} />
     </>
   );

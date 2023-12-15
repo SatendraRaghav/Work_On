@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import { JsonFormsDispatch } from "@jsonforms/react";
 import { DataContext } from "../context/Context";
 import { Divider, Typography } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 interface TabPanelProps {
   children: any;
@@ -54,9 +55,10 @@ export default function TabLayout({
   cells,
 }: ArrayControlProps & any) {
   const [value, setValue] = React.useState(0);
+  const location = useLocation();
   React.useEffect(() => {
     setValue(0);
-  }, [uischema?.config?.main?.id]);
+  }, [uischema?.config?.main?.id,location]);
   const { theme } = React.useContext(DataContext);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

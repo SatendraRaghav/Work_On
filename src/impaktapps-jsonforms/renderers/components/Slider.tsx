@@ -1,10 +1,15 @@
 import { ArrayControlProps, UISchemaElement } from '@jsonforms/core'
-import { JsonFormsDispatch, withJsonFormsControlProps } from '@jsonforms/react';
+import { JsonFormsDispatch, useJsonForms, withJsonFormsControlProps } from '@jsonforms/react';
 import { isEmpty } from 'lodash';
 import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
 import { Splide, SplideTrack, SplideSlide } from '@splidejs/react-splide';
 import { Box, Divider, Typography } from '@mui/material';
 import { composePaths } from "@jsonforms/core";
+import { DataContext } from "../context/Context";
+import { getFieldName } from "../permissions/getFieldName";
+import ComponentWrapper from "../common/ComponentWrapper";
+import {useContext} from 'react'
+import { getComponentProps } from '../common/getComponentProps';
 
 const Slider = ({
     path,
@@ -16,7 +21,12 @@ const Slider = ({
     cells,
     rootSchema,
   }: ArrayControlProps | any) => {
+    const { pageName, permissions, theme } = useContext(DataContext);
+    const fieldName = getFieldName(path);
+  
   return (
+    <ComponentWrapper
+    {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)}>
     <div style={{width:"100%",
     borderRadius:"20px",
     margin:"10px",
@@ -89,6 +99,7 @@ const Slider = ({
   </Splide>
   </div>
    </div>
+   </ComponentWrapper>
   )
 }
 

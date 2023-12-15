@@ -4,91 +4,63 @@ import { myService } from "../../service/service";
 import moment from "moment";
 import { ProgramMasterCycleRecordUiSchema } from "../../UiSchema/ProgramCycle.tsx/ProgramCycleRecord/UiSchema";
 import { dynamicDataType } from "../../utils/dynamicDataType";
-export const CycleRecords = (
-  store:any, dynamicData:dynamicDataType
-) => {
+export const CycleRecords = (store: any, dynamicData: dynamicDataType) => {
   const serviceApi = myService(
     dynamicData?.setLoading,
-    
+
     store.navigate
   );
   return {
     setPage: async function () {
       // store.setFormdata({})
-    
-      const UiSchema = await  this.getUiSchema();
-      store.setUiSchema(UiSchema);
+
       const formData = await this.getFormData();
       store.setFormdata(formData);
+      const UiSchema = await this.getUiSchema();
+      store.setUiSchema(UiSchema);
+
       const schema = await this.getSchema();
       store.setSchema(schema);
     },
-    getFormData:  async () => {
-      const fomData:any = {};
-    const Api =
-        "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=A";
-        const ApiPending =
-        "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=N";
-        const ApiReject =
-        "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=R";
-    const data = await serviceApi
-      .get(Api)
-      .then((res) => {
-        const approveData =  res.data?.payload?.map((e:any) => {
-                const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
-                const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
-                return {
-                  id: e.id,
-                  name:e.name,
-                  program: e.program?.name,
-                  startDate: demoStartDate,
-                  endDate: demoEndDate,
-                };
-              });
-        fomData.CycleApproveRecords=approveData;
+    getFormData: async () => {
+      const fomData: any = {};
+      const Api =
+        "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycle&status=A";
 
-        return serviceApi.get(ApiPending);
-      })
-      .then((res) => {
-              const pendingData =  res.data?.payload?.map((e: any) => {
-            const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
-            const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
+      const data = await serviceApi
+        .get(Api)
+        .then((res) => {
+          const approveData = res.data?.map((e: any) => {
+            const demoStartDate = moment(new Date(e.startDate)).format(
+              "DD MMM YYYY"
+            );
+            const demoEndDate = moment(new Date(e.endDate)).format(
+              "DD MMM YYYY"
+            );
             return {
               id: e.id,
-              name:e.name,
+              name: e.name,
               program: e.program?.name,
               startDate: demoStartDate,
               endDate: demoEndDate,
             };
           });
-        fomData.PendingRecords=  pendingData;
-        return serviceApi.get(ApiReject);
-      })
-      .then((res) => {
-              const rejectData =  res?.data?.payload?.map((e:any) => {
-            const demoStartDate =  moment(new Date(e.startDate)).format('DD MMM YYYY');
-            const demoEndDate = moment(new Date(e.endDate)).format('DD MMM YYYY');
-            return {
-              id: e.id,
-              name:e.name,
-              program: e.program?.name,
-              startDate: demoStartDate,
-              endDate: demoEndDate,
-            };
+          fomData.CycleApproveRecords = approveData.sort((a, b) => {
+            return a.id - b.id;
           });
-        fomData.RejectRecords= rejectData;
-        console.log(fomData)
-      })
-      .catch((err) => {
-        fomData.ApproveRecords=  [];
-        fomData.PendingRecords=  [];
-        fomData.RejectRecords=  [];
-      });
+        })
+        .catch((err) => {
+          fomData.CycleApproveRecords = [];
+        });
       return fomData;
+    },
+    View_Actions: function () {
+      let businessKey = `ProgramCycleStaging_${dynamicData?.rowData.id}`;
+      store.navigate(`/MasterActions?businessKey=${businessKey}`);
     },
     getUiSchema: async () => {
       return ProgramMasterCycleRecordUiSchema;
-      // const UiSchema = JSON.parse(JSON.stringify(ProgramMasterCycleRecordUiSchema));      
+      // const UiSchema = JSON.parse(JSON.stringify(ProgramMasterCycleRecordUiSchema));
       // console.log(UiSchema)
       // const Api =
       //   "/master/getDetails?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&status=A";
@@ -152,52 +124,14 @@ export const CycleRecords = (
     getSchema: async () => {
       return {};
     },
-    Approve_Records: function () {
-      const Api =
-        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${dynamicData?.rowData.id }`;
-      serviceApi
-        .get(Api)
-        .then((res) => {
-          return  serviceApi.post(
-            "/master/action",
-            {id:1,payload:
-              {entityName:"com.act21.hyperform3.entity.program.ProgramCycleStaging",
-              entityValue:res.data.payload,
-              action:"A"}},
-
-          )})
-        .then(async (res) => {
-         const data =   await this.getFormData();
-         store.setFormdata(data)
-          store.setNotify({SuccessMessage:"Approved Successfully",Success:true,})
-        })
-        .catch((e) => console.log(e));
-    },
-    Reject_Records: async function () {
-      const Api =
-        `/master/getDetailById?masterName=com.act21.hyperform3.entity.program.ProgramCycleStaging&id=${dynamicData?.rowData.id}`;
-      await serviceApi
-        .get(Api)
-        .then((res) => {
-          return serviceApi.post(
-            "/master/action",
-            {id:1,payload:
-              {entityName:"com.act21.hyperform3.entity.program.ProgramCycleStaging",
-              entityValue:res.data.payload,
-              action:"R"}},
-          );
-        })
-        .then( async (res) => {
-          const data =   await this.getFormData();
-          store.setFormdata(data)
-          store.setNotify({SuccessMessage:"Rejected Successfully",Success:true,})
-        });
-    },
     Edit_Approve_Records: function () {
-      store.navigate(`/CycleForm?id=${dynamicData?.rowData.id}`)
+      store.navigate(`/CycleForm?id=${dynamicData?.rowData.id}`);
     },
     addNewRecords: function () {
-      store.navigate("/CycleForm")
+      store.navigate("/CycleForm");
     },
+    View_Records: function () {
+     store.navigate(`/CycleFormView?id=${dynamicData?.rowData.id}`);
+    }
   };
 };

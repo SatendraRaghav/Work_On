@@ -4,6 +4,7 @@ import Header from "./Header/Header";
 import "./App.css";
 import "impaktapps-jsonforms/src/impaktapps-jsonforms/renderers/layouts/slider.css"
 import { App } from "./impaktapps-jsonforms/lib/index";
+// import { App } from "impaktapps-jsonforms";
 import Box from "@mui/material/Box";
 import { useLocalStorage } from "./Authentication/useLocalStorage";
 import { useProSidebar } from "react-pro-sidebar";
@@ -17,6 +18,7 @@ import { BrowserView, MobileView } from "react-device-detect";
 import Offline from "./Offline";
 import { createTheme, ThemeProvider, ThemeOptions } from "@mui/material/styles";
 import { getTheme } from "./Style/StyleFactory";
+import { downloadCSV } from "./utils/downloadFile";
 export let setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
 export let userValue: any;
 function Hyperform() {
@@ -26,7 +28,8 @@ function Hyperform() {
   const [online, setOnline] = useState(true);
   const [sidebarBoolean, setSidebarBoolean] = useState(false);
   const [appTheme,setAppTheme] = useState(createTheme(getTheme("light") as any))
-  
+   
+
   const handleOffline = ()=>{
     console.log("You are offline")
     setOnline(false)
@@ -120,6 +123,7 @@ function Hyperform() {
             </ThemeProvider>
           </BrowserView>
           <MobileView>
+          <ThemeProvider theme={appTheme}>
             <Header
               handleDrawer={() => setSidebarBoolean((pre) => !pre)}
               userValue={user}
@@ -174,6 +178,7 @@ function Hyperform() {
                 </Box>
               </Drawer>
             </div>
+            </ThemeProvider>
           </MobileView>
         </>
       ) : (
@@ -188,7 +193,10 @@ function Hyperform() {
           }}
         >
           <Box sx={{ margin: "-8px -16px" }}>
+          {window.location.pathname.startsWith("/passwordReset") ?
+          <div style={{marginTop:"10vh",textAlign:"center"}}> Your Reset Page </div>:
             <Login userValue={user} setUserValue={setUser} />
+          }
           </Box>
           <Box sx={{ flexGrow: 1 }}></Box>
           <Footer padding="10px" color="inherit" />

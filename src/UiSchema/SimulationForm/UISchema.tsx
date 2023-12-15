@@ -243,7 +243,7 @@ export const SimulationFormUiSchema: any = {
                 layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
                 main: {
                   label: "Group",
-                  options : [{}],
+                  options : [],
                   color: "secondary",
                   onClick: "typeLoadFunction",
                 },
@@ -263,7 +263,7 @@ export const SimulationFormUiSchema: any = {
                 layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
                 main: {
                   label: "Project",
-                  options: [{}],
+                  options: [],
                   color: "secondary",
                   onClick: "typeLoadFunction",
                 },
@@ -283,7 +283,7 @@ export const SimulationFormUiSchema: any = {
                 layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
                 main: {
                   label: "Version",
-                  options: [{}],
+                  options: [],
                   onClick: "loadExternalData",
                   errorMessage:"Project Not Selected",
                 },

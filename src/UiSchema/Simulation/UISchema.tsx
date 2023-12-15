@@ -179,61 +179,56 @@ export const SimulationUiSchema:any = {
                 layout: 12,
                 main: {
                   allRowsData: [],
-                  columns: {
-                    dataColumns: [
-                      {
-                        accessorKey: "id",
-                        header: "Id",
-                        width: "40",
-                      },
-                      {
-                        accessorKey: "name",
-
-                        header: "Name",
-                      },
-                      {
-                        accessorKey: "status",
-                        header: "Status",
-                      },
-                      {
-                        accessorKey: "startedOn",
-                        header: "Started on",
-                      },
-                      {
-                        accessorKey: "completedOn",
-                        header: "Completed on",
-                      }
-                      
-                    ],
-                    actionColumns: [
-                      {
-                        accessorKey: "Edit_Approve_Records",
-                        header: "Edit Records",
-                        width: 150,
-                        widget: {
-                          type: "Control",
-                          scope: "#/properties/Edit_Records",
-                          options: {
-                            widget: "IconButton",
-                          },
-                          config: {
-                            main: {
-                              color: "info",
-                              size: "small",
-                              tooltipMessage: "Edit This Record",
-                              onClick: "editRecords",
-                              icon: "EditIcon",
-                            },
-                            style: {
-                              color: "#3949ab",
-                            },
-                          },
-                        },
-                      },
-                    ],
-                  },
                 },
               },
+              elements:[
+                {
+                  accessorKey: "id",
+                  header: "Id",
+                  width: "40",
+                },
+                {
+                  accessorKey: "name",
+
+                  header: "Name",
+                },
+                {
+                  accessorKey: "status",
+                  header: "Status",
+                },
+                {
+                  accessorKey: "startedOn",
+                  header: "Started on",
+                },
+                {
+                  accessorKey: "completedOn",
+                  header: "Completed on",
+                },
+                {
+                  accessorKey: "Edit_Approve_Records",
+                  header: "Edit Records",
+                  width: 150,
+                  widget: {
+                    type: "Control",
+                    scope: "#/properties/Edit_Records",
+                    options: {
+                      widget: "IconButton",
+                    },
+                    config: {
+                      main: {
+                        color: "info",
+                        size: "small",
+                        tooltipMessage: "Edit This Record",
+                        onClick: "editRecords",
+                        icon: "EditIcon",
+                      },
+                      style: {
+                        color: "#3949ab",
+                      },
+                    },
+                  },
+                },
+              ]
             },
           ],
         },

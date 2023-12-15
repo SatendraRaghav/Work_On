@@ -1,10 +1,11 @@
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import Notify from '../components/Notify';
 
-const ControlNotify = () => {
+const ControlNotify = (props:any) => {
   
   return(
     <Notify 
+    {...props}
    />)
   }
 

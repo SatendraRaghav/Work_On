@@ -8,17 +8,19 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DataContext } from "../context/Context";
-import PermissionWrapper from "../permissions/PermissionWrapper";
+import ComponentWrapper from "../common/ComponentWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { useJsonForms } from "@jsonforms/react";
 import { inputProps } from "../interface/inputfieldProps";
 import { useDebouncedChange } from "@jsonforms/material-renderers";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { getComponentProps } from "../common/getComponentProps";
 const Password = memo(function (props: inputProps) {
-  const { data, required, errors, enabled, uischema, path, handleChange } =
+  const { data, required, errors, schema,rootSchema, uischema, path, handleChange } =
     props;
   const uischemaData = uischema?.config?.main;
-  const { pageName, permissions, theme, serviceProvider } = useContext(DataContext);
+  const { pageName, permissions, theme, serviceProvider } =
+    useContext(DataContext);
   const fieldName = getFieldName(path);
   const [showPassword, setShowPassword] = useState(false);
   const eventToValue = (ev: any) =>
@@ -30,9 +32,14 @@ const Password = memo(function (props: inputProps) {
     path,
     eventToValue
   );
+  const ctx = useJsonForms();
+  const pathArray = path.split(".");
+  const finalPath = pathArray[pathArray.length-1];
   return (
-    <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
+    <ComponentWrapper
+    {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)} >
       <TextField
+       
         required={required}
         autoFocus={uischemaData?.autoFocus}
         fullWidth
@@ -57,15 +64,11 @@ const Password = memo(function (props: inputProps) {
         }}
         variant={uischemaData?.variant}
         helperText={
-          errors !== ""
-            ? uischemaData?.errorMessage
-              ? uischemaData?.errorMessage
-              : errors
-            : ""
+          errors !== "" ? errors.includes('pattern')?uischemaData?.errorMessage:errors:uischemaData?.helperText
         }
         error={errors !== "" ? true : false}
       />
-    </PermissionWrapper>
+    </ComponentWrapper>
   );
 });
 

@@ -10,4 +10,4 @@ declare global {
 
 const config = window.appConfig;
 
-export const rootUrl: string = "http://" + config.backendHost;
+export const rootUrl: string = "https://" + config.backendHost;

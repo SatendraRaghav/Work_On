@@ -4,3 +4,5 @@ export {default as LineGraph} from "../component/LineGraph/LineGraph"
 export {default as HorizontalBarGraph} from "../component/BarGraph/HorizontalBarGraph"
 export {default as ProgressBar} from "../component/ProgressBar/ProgressBar"
 export {default as SpeedoMeter} from "../component/SpeedoMeter/SpeedoMeter"
+export {default as Card} from "../component/Card/Card";
+export {default as Timer} from "../component/Timer/Timer";

@@ -6,17 +6,20 @@ const Product1 = [
     { x: "f", y: 100 },
     { x: "g", y: 50 },
 ];
-export const finalDataProvider = (type: string, value: any) => {
+
+export const finalDataProvider = (type: string, value: any,theme?:any) => {
     switch (type) {
         case "BarGraph":
+            case "StackBarGraph":    
             return {
                 main: {
-                    type: "barGraph",
+    
                     data: value?.main?.data || [{ x: "ASM", y: 100 }, { x: "SDM", y: 60 }, { x: "DCM", y: 40 }, { x: "RCM", y: 70 }],
                     // [{}] ,
                     header: "Bar Graph",
                     bottomLabel: "Name of Employe",
                     numTicks: 6,
+                    legendAvailable:true,
                     leftLabel: "Value",
                     axisLeft: true,
                     axisBottom: true,
@@ -25,11 +28,18 @@ export const finalDataProvider = (type: string, value: any) => {
                     hideLeftAxisLine: false,
                     hideBottomAxisLine: false,
                     bottomAxisWidth: "10px",
-                    ...value.main
+                    ...value.main,
+                    legend: {
+                        labelColor: "green",
+                        legendTitle: "Our Assests",
+                        direction: "row",
+                        align: "right",
+                        ...value?.main?.legend,
+                    },
                 },
                 style: {
                     containerStyle: {
-                        background: "white",
+                        background: theme.palette.secondary.main,
                         width: "90%",
                         height: "300",
                         borderRadius: "20px",
@@ -44,6 +54,7 @@ export const finalDataProvider = (type: string, value: any) => {
                         padding: "15px 0 1px 20px",
                         width: "100%",
                         fontSize: "18px",
+                        color:theme.palette.text.primary,
                         ...value?.style?.headerStyle
                     },
                     tooltipStyle: {
@@ -53,14 +64,16 @@ export const finalDataProvider = (type: string, value: any) => {
                     labelStyle: {
                         leftLabelMargin: "75",
                         topLabelMargin: "-6",
-                        labelColor: "black",
+                        labelColor: theme.palette.text.primary,
                         leftLabelOffset: 50,
-                        bottomLabelOffset: 10,
-                        tickLabelColor: "balck",
+                        bottomLabelOffset: 45,
+                        tickLabelColor:theme.palette.text.primary,
                         tickFontSize: "10px",
-                        tickColor: "black",
+                        tickColor:theme.palette.text.primary,
                         rightAxisWidth: "0.3px",
                         fontSize: "10px",
+                        
+                      
                         ...value?.style?.labelStyle
                     },
                     barStyle: {
@@ -72,6 +85,7 @@ export const finalDataProvider = (type: string, value: any) => {
                 }
             };
         case "PieGraph":
+
             return {
                 main: {
                     data: value?.main?.data || [{ branch: "Kotak", value: 500 }, { branch: "SBI", value: 700 }, { branch: "HDFC", value: 900 }],
@@ -86,7 +100,7 @@ export const finalDataProvider = (type: string, value: any) => {
                     legendAvailable: true,
                     ...value?.main,
                     legend: {
-                        labelColor: "green",
+                        labelColor:theme.palette.text.primary,
                         legendTitle: "Our Assests",
                         direction: "row",
                         align: "right",
@@ -96,7 +110,7 @@ export const finalDataProvider = (type: string, value: any) => {
 
                 style: {
                     containerStyle: {
-                        background: "white",
+                        background:theme.palette.secondary.main,
                         width: "100%",
                         height: "310",
                         borderRadius: "20px",
@@ -111,6 +125,7 @@ export const finalDataProvider = (type: string, value: any) => {
                         padding: "15px 0 1px 20px",
                         width: "100%",
                         fontSize: "18px",
+                        color:theme.palette.text.primary,
                         ...value?.style?.headerStyle
                     },
                     tooltipStyle: {
@@ -118,7 +133,7 @@ export const finalDataProvider = (type: string, value: any) => {
                         ...value?.style?.tooltipStyle,
                     },
                     labelStyle: {
-                        labelColor: "black",
+                        labelColor:theme.palette.text.primary,
                         labelOffset: 45,
                         leftLabelMargin: "70",
                         topLabelMargin: "-40",
@@ -127,7 +142,7 @@ export const finalDataProvider = (type: string, value: any) => {
                     legendStyle: {
                         legend: {
                             lineHeight: "0.9em",
-                            color: "black",
+                            color: theme.palette.text.primary,
                             fontSize: "10px",
 
                             fontFamily: "arial",
@@ -147,7 +162,7 @@ export const finalDataProvider = (type: string, value: any) => {
                         },
                     },
                     pieStyle: {
-                        colorRange: ["#3f51b5", "rgba(200,0,31,0.9)", "rgba(25,200,205,0.6)"],
+                        colorRange: ["#3f51b5", "rgba(200,0,31,0.9)", "rgba(25,200,205,0.6)","#3f84b5","#b5993f","#fc6f6f"],
                         outerRadius: 120,
                         innerRadius: 60,
                         cornerRadius: 2,
@@ -168,24 +183,24 @@ export const finalDataProvider = (type: string, value: any) => {
                     numHidden: false,
                     tooltipDataKey: ["MAMA New Project", "Second", "Third"],
                     axisLeft: true,
-
+                    legendAvailable:true,
                     axisBottom: true,
                     hideLeftAxisLine: false,
                     hideBottomAxisLine: false,
                     ...value?.main,
                     legend: {
-                        labelColor: "green",
+                        labelColor:theme.palette.text.primary,
                         legendTitle: "Our Assests",
                         direction: "row",
                         align: "right",
-                        colorRectWidth: 20,
+                        // colorRectWidth: 20,
                         ...value?.main?.legend
                     },
                 },
                 style: {
                     containerStyle: {
-                        background: "white",
-                        width: "90%",
+                        background:theme.palette.secondary.main,
+                        width: "100%",
                         height: "300",
                         borderRadius: "20px",
                         padding: "10px 0 2px 0",
@@ -199,10 +214,33 @@ export const finalDataProvider = (type: string, value: any) => {
                         padding: "15px 0 1px 20px",
                         width: "100%",
                         fontSize: "18px",
+                        color:theme.palette.text.primary,
                         ...value?.style?.headerStyle
                     },
+                    legendStyle: {
+                        legend: {
+                            lineHeight: "0.9em",
+                            color: theme.palette.text.primary,
+                            fontSize: "10px",
+
+                            fontFamily: "arial",
+                            padding: "10px 10px",
+                            float: "left",
+                            border: "1px solid rgba(255, 255, 255, 0.3)",
+                            borderRadius: " 8px",
+                            margin: "5px 5px",
+                            ...value?.style?.legendStyle?.legend,
+                        },
+                        legendTitle: {
+                            fontWeight: 500,
+                            marginBottom: "5px",
+                            fontFamily: "roboto",
+                            fontSize: "10px",
+                            ...value?.style?.legendStyle?.legendTitle,
+                        },
+                    },
                     labelStyle: {
-                        labelColor: "black",
+                        labelColor:theme.palette.text.primary,
                         bottomLabelOffset: 20,
                         leftLabelOffset: 50,
                         leftLabelMargin: 80,
@@ -238,7 +276,7 @@ export const finalDataProvider = (type: string, value: any) => {
                 },
                 style: {
                     containerStyle: {
-                        background: "white",
+                        background: theme.palette.secondary.main,
                         width: "90%",
                         height: "300",
                         borderRadius: "20px",
@@ -253,6 +291,7 @@ export const finalDataProvider = (type: string, value: any) => {
                         padding: "15px 0 1px 20px",
                         width: "100%",
                         fontSize: "18px",
+                        color:theme.palette.text.primary,
                         ...value?.style?.headerStyle
                     },
                     tooltipStyle: {
@@ -262,11 +301,11 @@ export const finalDataProvider = (type: string, value: any) => {
                     },
                     labelStyle: {
                         margin: { top: 10, left: 110, right: 40, bottom: 40 },
-                        tickLabelColor: "#6c5efb",
+                        tickLabelColor: theme.palette.text.primary,
                         leftLabelOffset: 140,
                         bottomLabelOffset: 14,
                         tickFontSize: "10px",
-                        tickColor: "#6c5efb",
+                        tickColor:theme.palette.text.primary,
                         rightAxisWidth: "0.3px",
                         fontSize: "10px",
 

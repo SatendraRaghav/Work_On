@@ -49,8 +49,18 @@ const SliderLayout = ({
         drag: "free",
         arrows: true,
         pagination: true,
-        perPage: 3,
-       
+        perPage: 4,
+        breakpoints: {
+          640: {
+            perPage: 1,
+          },
+          750:{
+            perPage:2
+          },
+          1050:{
+            perPage:3
+          }
+        },
         autoScroll: {
           pauseOnHover: true,
           pauseOnFocus: false,

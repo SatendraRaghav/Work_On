@@ -2,33 +2,26 @@ import { JsonFormsStateContext } from "@jsonforms/react";
 import { myService } from "../service/service";
 import { AgencyBranchUISchema } from "../UiSchema/AgencyBranchMaster/UiSchema";
 import { AgencyBranchSchema } from "../UiSchema/AgencyBranchMaster/Schema";
+import { isErrorsExist } from "@/utils/isErrorsExist";
+import { handleErrors } from "@/utils/handleErrors";
+import { userValue } from "@/App";
+import _ from "lodash";
 
 
-export const AgencyBranchForm = (
-  ctx?: JsonFormsStateContext,
-  setFormdata?: any,
-  setUiSchema?: any,
-  setSchema?: any,
-  navigate?: any,
-  otherData?: any,
-  schema?: any,
-  setValidation?: any,
-  setAdditionalErrors?: any,
-  setNotify?:any
-) => {
-  const serviceApi =  myService();
+export const AgencyBranchForm = (store: any, dynamicData: any) => {
+  const serviceApi =  myService(dynamicData?.setLoading, store.navigate,store);
   return {
     setPage: async function () {
-      setFormdata({})
-      const schema = this.getSchema();
-      setSchema(schema);
-      const UiSchema = await this.getUiSchema();
-      setUiSchema(UiSchema);
+      store.setFormdata({});
+      const schema = await this.getSchema();
+      store.setSchema(schema);
+      const UiSchema =  this.getUiSchema();
+      store.setUiSchema(UiSchema);
       const formData = await this.getFormData();
-      setFormdata(formData);
+      store.setFormdata(formData);
     },
     getFormData: async function(){
-       const action =   otherData.searchParams?.get("id")
+      const action = store.searchParams?.get("id");
        let formdata = {}
         if (action) {
             const Api =
@@ -36,13 +29,13 @@ export const AgencyBranchForm = (
             await serviceApi
               .get(Api)
               .then((res) => {
-                if(res.data.payload.agency){
-                  console.log({...res.data.payload,agency:res.data.payload.agency.id});
-                  formdata={...res.data.payload,agency:res.data.payload.agency.id};
+                if(res.data.agency){
+                  console.log({...res.data,agency:res.data.agency.id});
+                  formdata={...res.data,agency:res.data.agency.id};
               }
               else{
-                console.log(res.data.payload);
-                formdata=res.data.payload;
+                console.log(res.data);
+                formdata=res.data;
               }
               })
               .catch(() => {});
@@ -50,49 +43,74 @@ export const AgencyBranchForm = (
       
     return formdata;
     },
-    getUiSchema: async function(){
-        const updatedAgencyUiSchema = await this.pageLoad();
-         return  updatedAgencyUiSchema;
+    getUiSchema:  function(){
+         return  AgencyBranchUISchema;
     },
-    getSchema: () => {
-      return AgencyBranchSchema;
+    getSchema: async function() {
+      let schema = await this.pageLoad();
+      const disabled = localStorage.getItem("disabled");
+      schema["disabled"] = disabled === "true" ? true : false;
+      return schema;
     },
     backHandler: function(){
-      navigate("/AgencyBranchRecords")
+      store.navigate("/AgencyBranchRecords")
     },
-    Submit_RolePermission: async function () {
-       console.log(ctx.core.data)
-       let idData:any;
-       serviceApi.get("/master/getDetailById?masterName=com.act21.hyperform3.entity.master.agency.AgencyMaster&id="+ctx.core.data.agency).then((rest) => {
-           console.log(rest.data.payload);
-           idData=rest.data.payload;
-           console.log({...ctx.core.data,agency:rest.data.payload});
-
-          }).then(()=>{
-       serviceApi.post("/master/save", {id:1,payload:{entityName:"com.act21.hyperform3.entity.master.agency.AgencyBranchStaging",entityValue:{...ctx.core.data,agency:idData}}}).then((res) => {
-            console.log("save")
-            setFormdata({ ...ctx.core.data, notifySuccess: "Success" });
-            console.log(res)
-            navigate("/AgencyBranchRecords")
-        })
-      })
-    .catch(() => {});
-    },
+    Submit: async function () {
+      if (!isErrorsExist(store.schema, store.ctx.core.errors)) {
+        store.setValidation("ValidateAndShow");
+        store.setNotify({
+          FailMessage: "Errors on page",
+          Fail: true,
+        });
+      } else {
+        let idData: any;
+        if(store.ctx.core.data.type){
+          idData=await this.getAgency();
+        }
+       
+       serviceApi.post("/master/save", {entityName:"com.act21.hyperform3.entity.master.agency.AgencyBranchStaging",entityValue:{...store.ctx.core.data,agency:idData},userId : userValue.payload.userId}).then((res) => {
+        if (res.status==200) {
+        store.navigate("/AgencyBranchRecords");
+        store.setNotify({
+          SuccessMessage: "Submitted Successfully",
+          Success: true,
+        });
+      }
+      }).catch((error) => {
+        if( error.response ){
+          console.log(error.response.data); // => the response payload 
+            let errorData=error.response.data.payload;
+            handleErrors(errorData,store);
+      }
+      });
+    }
+  },
      pageLoad: async () => {
-       const Ui = AgencyBranchUISchema;
-       let selectOption: any[] = [];
+       const cloneSchema:any = _.cloneDeep(AgencyBranchSchema)
+      
       await serviceApi
         .get('/master/getDetails?masterName=com.act21.hyperform3.entity.master.agency.AgencyMaster&status=A'
         )
         .then((res) => {
-            selectOption = res.data?.payload?.map((e: any) => {
-                return { label: e.name, value: e.id }
+           const selectOption = res.data?.map((e: any) => {
+                return { title: e.name||String(e.id), const: e.id }
             });
-            Ui.elements[4].value.content.options = selectOption?selectOption:[{id:1}];
-        })
+            if(!(_.isEmpty(selectOption))){
+            cloneSchema.properties.agency = {
+             ...cloneSchema.properties.agency, 
+             oneOf:selectOption
+            }
+          }
+            })
         ;
-       return Ui;
+       return cloneSchema;
      },
+
+     getAgency: async ()=> {
+      serviceApi.get("/master/getDetailById?masterName=com.act21.hyperform3.entity.master.agency.AgencyMaster&id="+store.ctx.core.data.agency).then((rest) => {
+        return  rest.data.payload;
+         });
+       },
     
 
     };

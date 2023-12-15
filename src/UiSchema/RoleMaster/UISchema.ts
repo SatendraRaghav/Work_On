@@ -2,18 +2,18 @@ export const RoleMasterUISchema:any = {
   type: "HorizontalLayout",
   elements: [
     {
-          type: "WrapperLayout",
-          config:{
-            main:{
-              rowSpacing:3,
-              header:true,
-            },
-            defaultStyle:true
-          },
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/programType",
+      type: "WrapperLayout",
+      config: {
+        main: {
+          rowSpacing: 3,
+          header: true,
+        },
+        defaultStyle: true,
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/masterName",
 
               options: {
                 widget: "Box",
@@ -90,8 +90,8 @@ export const RoleMasterUISchema:any = {
             layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
             main: {
               label: "Permission List",
-              options: [],
               required: true,
+              multiple:true,
               errorMessage: "Permissions are not selected",
             },
           },
@@ -114,7 +114,7 @@ export const RoleMasterUISchema:any = {
         },
         {
           type: "Control",
-          scope: "#/properties/btn",
+          scope: "#/properties/SubmitButton",
           options: {
             widget: "Button",
           },

@@ -4,13 +4,14 @@ import { DataContext } from "../context/Context";
 import { ButtonIcon } from "../common/ButtonIcon";
 import { useJsonForms } from "@jsonforms/react";
 import { IconButton, Tooltip } from "@mui/material";
-import PermissionWrapper from "../permissions/PermissionWrapper";
+import ComponentWrapper from "../common/ComponentWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { inputProps } from "../interface/inputfieldProps";
 import LoaderInfo from "../common/LoaderInfo";
 import { ProgressBar } from "./Button";
+import { getComponentProps } from "../common/getComponentProps";
 
-const IconsButton = memo(function ({ uischema, path }: inputProps) {
+const IconsButton = memo(function ({ uischema, path ,schema,rootSchema}: inputProps) {
   const [loading,setLoading] = useState(false)
   const {
     serviceProvider,
@@ -29,12 +30,15 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
     }
   return (
     <>
-    <PermissionWrapper path={`${pageName}:${fieldName}`} permissions={permissions}>
+    <ComponentWrapper 
+          {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)}
+    >
       <IconButton
         sx={{ color: uischemaData?.color?"none":"#3949ab", ...myStyle, ...uischema?.config?.style }}
         size={uischemaData?.size || "medium"}
         color={uischemaData?.color}
         disabled={loading}
+        
         title={uischemaData?.tooltipMessage}
         onKeyDown={e =>callServiceProvider(e)}
         onClick={e =>callServiceProvider(e)}
@@ -47,7 +51,7 @@ const IconsButton = memo(function ({ uischema, path }: inputProps) {
         {myIconComponent}
         {loading && ProgressBar}
       </IconButton>
-    </ PermissionWrapper >
+    </ ComponentWrapper >
     <LoaderInfo id={path} loading={loading}/>
     </>
   );

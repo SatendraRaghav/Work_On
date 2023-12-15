@@ -8,16 +8,17 @@ import { memo, useContext, useState } from "react";
 import { DataContext } from "../context/Context";
 import { useJsonForms } from "@jsonforms/react";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import PermissionWrapper from "../permissions/PermissionWrapper";
+import ComponentWrapper from "../common/ComponentWrapper";
 import { getFieldName } from "../permissions/getFieldName";
 import { inputProps } from "../interface/inputfieldProps";
 import LoaderInfo from "../common/LoaderInfo";
 import { ProgressBar } from "./Button";
+import { getComponentProps } from "../common/getComponentProps";
 const UploadFile = memo(function (props: inputProps) {
-  const { data, handleChange, uischema, path, errors, required } = props;
+  const { data, handleChange, uischema, path, schema,rootSchema, required,errors } = props;
   const uischemaData = uischema.config.main;
   const [loading, setLoading] = useState(false);
-  const { serviceProvider, permissions, id, theme, setNotify } =
+  const { serviceProvider, permissions, id, theme, setNotify,pageName } =
     useContext(DataContext);
   const ctx = useJsonForms();
   const [changeEvent, setChangeEvent] = useState<React.ChangeEvent<
@@ -31,6 +32,7 @@ const UploadFile = memo(function (props: inputProps) {
       event,
       changeEvent: uploadEvent,
       uischemaData,
+      ...uischemaData.additionalData,
       path,
       setLoading,
       paramValue: event?.target?.value,
@@ -38,7 +40,8 @@ const UploadFile = memo(function (props: inputProps) {
   };
   return (
     <>
-      <PermissionWrapper path={`${id}:${fieldName}`} permissions={permissions}>
+      <ComponentWrapper 
+    {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)}>
         <TextField
           sx={{ ...theme.InputFieldStyle, ...uischema.config.style }}
           required={required}
@@ -52,6 +55,11 @@ const UploadFile = memo(function (props: inputProps) {
               Info: true,
             });
           }}
+          
+          error={errors !== "" ? true : false}
+          helperText={
+            errors !== "" && errors.includes('pattern')?uischemaData?.errorMessage:errors
+          }
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -76,11 +84,11 @@ const UploadFile = memo(function (props: inputProps) {
             ),
           }}
           disabled={uischemaData?.disabled}
-          helperText={uischemaData.helperText}
+         
           size={uischemaData.size || "medium"}
           type={"file"}
         />
-      </PermissionWrapper>
+      </ComponentWrapper>
       <LoaderInfo id={path} loading={loading} />
     </>
   );

@@ -1,55 +1,74 @@
 export const ProgramMasterSchema = {
-   type: "object",
-   properties: {
-    name:{
-      type:"string",
-      minLength:1
+  type: "object",
+  properties: {
+    Back_Button: {
+      disabled: false,
     },
-    description:{
-      type:"string", 
-      minLength:1
+    name: {
+      type: "string",
+      minLength: 1,
     },
-    cycleFrequency:{
-      type:"string",
+    description: {
+      type: "string",
+      minLength: 1,
     },
-    groupList:{
-      type:"array",
-    },
-    cycleValue:{
-      type:"string",
-      pattern:"^[0-9]*$",
-      minLength:1
-    },
-    enabled:{
-      type:"string",
-    },
-   externalData: {
 
+    groupList: {},
+
+    enabled: {
+      type: "string",
+    },
+    cyclePeriod:{
+      type:"string",
+      oneOf:  [{ title: "Year", const: "Year" },
+      { title: "Month", const: "Month" },
+      { title: "Week", const: "Week" },
+      { title: "Day", const: "Day" }],
+    },
+    isRecurring: {
+      type: "string",
+    },
+    timeout: {
+      type: "string",
+      pattern: "^[0-9]*$",
+      minLength: 1,
+    },
+    externalData: {
       type: "array",
       items: {
         type: "object",
         properties: {
-          supportedTypes:{
-            type:"string",
-            minLength:3,
-          }
+          supportedTypes: {
+            type: "string",
+            minLength: 3,
+          },
         },
       },
     },
+    
     simulation: {
-
       type: "array",
       items: {
+
         type: "object",
         properties: {
-          supportedTypes:{
-            type:"string",
-            minLength:3,
-          }
+          supportedTypes: {
+            type: "string",
+            minLength: 3,
+          },
         },
       },
     },
-   },
-   required:["name","description","cycleFrequency","cycleValue","enabled","externalData","groupList"],
-  }
-   //supportedTypes
+  },
+  required: [
+    "name",
+    "description",
+    "startDate",
+    "enabled",
+    "externalData",
+    "groupList",
+    "timeout",
+    "isRecurring",
+  ],
+};
+//supportedTypes

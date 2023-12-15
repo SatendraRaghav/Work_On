@@ -4,7 +4,7 @@ import { leftAxisProps } from '../interface/interface';
 const LeftAxis = ({value,yScale,parentWidth}:leftAxisProps) => {
   return (
     <AxisLeft
-              // numTicks={value.main?.numTicks}
+              numTicks={value.main?.numTicks}
               scale={yScale}
               top={0}
               label={value.main?.leftLabel}

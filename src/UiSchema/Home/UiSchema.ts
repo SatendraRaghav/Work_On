@@ -1,79 +1,42 @@
-export const HomeUiSchema: any = {
+export const HomeUiSchema:any = {
   "type": "HorizontalLayout",
   "elements": [
     {
-      type: "Control",
-      scope: "#/properties/slider",
-
-      options: {
-        widget: "Slider",
+      "type": "Control",
+      "scope": "#/properties/username",
+      "layout": 12,
+      "options": {
+        "widget": "Box"
       },
-      elements:[
-        {
-          type: "Control",
-          scope: "#/properties/username",
-
-          options: {
-            widget: "InputField",
-          },
-          config: {
-            layout: 11,
-            main: {
-              label: "Login ID",
-              variant: "outlined",
-              size: "normal",
-              activeEnter: true,
-              helperText: "",
-              errorMessage:"Login ID is required"
-            },
-          },
+      "config": {
+        "main": {
+          "heading": "Welcome to Hyperform",
         },
-      ],
-      config: {
-        layout: 12,
-        main: {
-          label: "Program",
-          options: [{label:"a",value:1}],
-          color: "secondary",
-          required: true,
-          onClick: "loadCycle",
-        },
-      },
+       style:{
+        width:"300px",
+        marginTop:"20vh",
+        "flex":"display",
+        "justifyContent":"center",
+        alignItems:"self"
+       }
+      }
     },
     {
-      type: "Control",
-      scope: "#/properties/b",
-
-      options: {
-        widget: "RollAndDice",
+      "type": "Control",
+      "scope": "#/properties/username",
+      "layout": 12,
+      "options": {
+        "widget": "InputSlider"
       },
-      config: {
-        layout: 12,
-        main: {
-          label: "Program",
-          options: [{label:"a",value:1}],
-          color: "secondary",
-          required: true,
-          onClick: "loadCycle",
-        },
-      }},
-    {
-      type: "Control",
-      scope: "#/properties/progress",
-
-      options: {
-        widget: "RunningBoyProgressBar",
-      },
-      config: {
-        layout: 12,
-        main: {
-          label: "Program",
-          options: [{label:"a",value:1}],
-          color: "secondary",
-          required: true,
-          onClick: "loadCycle",
-        },
-      },
+    config:{
+      main:{
+        label:"Scroe",
+        max:2000,
+        step:200,
+        defaultStyle:true
+      }
+    }
     }
   ]
 }
+

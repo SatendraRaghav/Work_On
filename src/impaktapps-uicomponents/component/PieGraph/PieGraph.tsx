@@ -3,8 +3,8 @@ import DrawPieGraph from "./DrawPieGraph";
 import { ParentSize } from "@visx/responsive";
 import { finalDataProvider } from "../../utils/finalDataProvider";
 
-const PieGraph = ({ value }: any) => {
-  const pieData: any = finalDataProvider("PieGraph", value);
+const PieGraph = ({ value,theme }: any) => {
+  const pieData: any = finalDataProvider("PieGraph", value,theme);
   let PieRender = (
     <ParentSize>
       {(parent) => (
@@ -21,7 +21,9 @@ const PieGraph = ({ value }: any) => {
   );
   return (
     <div style={pieData.style.containerStyle}>
-      {pieData?.main?.header && <div style={pieData.style.headerStyle}>{pieData?.main?.header}</div>}
+      {pieData?.main?.header && <>
+      <div style={pieData.style.headerStyle}>{pieData?.main?.header}</div>
+      </>}
       {PieRender}
     </div>
   );

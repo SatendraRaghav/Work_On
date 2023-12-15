@@ -7,18 +7,19 @@ import {
   AnimatedGrid
 } from "@visx/xychart";
 import Legend from "../Legend";
-const DrawGraph = ({ value }:any) => {
+const DrawGraph = ({ value,parentWidth, parentHeight }:any) => {
   const data = value?.main?.data;
   const arr = (value.main.xAxisValue && value.main.yAxisValue) ? [value.main.xAxisValue,value.main.yAxisValue] : Object.keys(data[0][0]);
   const accessors = { xAccessor: (d:any) => d[arr[0]], yAccessor: (d:any) => d[arr[1]] };
 
 
   return (
-    <>
+    <div>
     {value.main.legendAvailable && 
-    <Legend  value={value}/>
+    <Legend  value={value}
+    colorRange={value?.style?.lineStyle?.colorRange}/>
     }
-    <XYChart height={parseInt(value.style?.containerStyle?.height)} xScale={{ type: "band" }} yScale={{ type: "linear" }}>
+    <XYChart width={parentWidth} height={parentHeight} xScale={{ type: "band" }} yScale={{ type: "linear" }}>
       <AnimatedAxis orientation="left" hideAxisLine={value.main.hideLeftAxisLine}
        label={value.main.leftLabel}
        left={value.style?.labelStyle?.leftLabelMargin||70} 
@@ -79,7 +80,7 @@ const DrawGraph = ({ value }:any) => {
           </div>
         )}
       />
-    </XYChart></>
+    </XYChart></div>
   );
 };
 

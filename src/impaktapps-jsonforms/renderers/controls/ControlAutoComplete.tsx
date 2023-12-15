@@ -1,7 +1,7 @@
 import React from 'react'
 import AutoComplete from '../components/AutoComplete'
 import { inputProps } from '../interface/inputfieldProps'
-import { withJsonFormsControlProps } from '@jsonforms/react'
+import { withJsonFormsContext, withJsonFormsControlProps, withJsonFormsMultiEnumProps, withJsonFormsOneOfEnumProps } from '@jsonforms/react'
 
 const ControlAutoComplete = (props:inputProps) => {
   return (
@@ -9,4 +9,5 @@ const ControlAutoComplete = (props:inputProps) => {
   )
 }
 
-export default withJsonFormsControlProps(ControlAutoComplete)
+export const MultiSelectControl = withJsonFormsMultiEnumProps(withJsonFormsContext(ControlAutoComplete));
+export const SelectControl = withJsonFormsOneOfEnumProps(withJsonFormsContext(ControlAutoComplete));

@@ -13,7 +13,7 @@ export const RolePermissionUISchema:any = {
           elements: [
             {
               type: "Control",
-              scope: "#/properties/programType",
+              scope: "#/properties/masterName",
 
               options: {
                 widget: "Box",
@@ -69,24 +69,72 @@ export const RolePermissionUISchema:any = {
             defaultStyle:true
           },
           elements: [
+            {
+              type: "Control",
+              scope: "#/properties/permName",
+    
+              options: {
+                widget: "InputField",
+              },
+              config: {
+                layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+                main: {
+                  label: "Permission Name",
+                  type: "text",
+                  errorMessage: "Name is empty or invalid",
+                },
+              },
+            },
         {
           type: "Control",
-          scope: "#/properties/permName",
+          scope: "#/properties/pageName",
 
           options: {
-            widget: "InputField",
+            widget: "SelectInputField",
           },
           config: {
-            layout:  {
-              xs: 11,
-              sm: 11,
-              md: 5.5,
-              lg: 5.5,
-            },
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
             main: {
-              label: "Name",
-              type: "text",
-              errorMessage: "Name is empty or invalid",
+              label: "Page Names",
+              options: [],
+              freeSolo:true,
+              required: true,
+              // errorMessage: "Permissions are not selected",
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/component",
+
+          options: {
+            widget: "SelectInputField",
+          },
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            main: {
+              label: "Components",
+              options: [],
+              freeSolo:true,
+              required: true,
+              // errorMessage: "Permissions are not selected",
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/permissions",
+
+          options: {
+            widget: "SelectInputField",
+          },
+          config: {
+            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 5.5 },
+            main: {
+              label: "Permissions",
+              multiple:false,
+              required: true,
+              // errorMessage: "Permissions are not selected",
             },
           },
         },
@@ -117,8 +165,8 @@ export const RolePermissionUISchema:any = {
           config:{layout: {
             xs: 11,
             sm: 11,
-            md: 8.5,
-            lg: 9.5,
+            md: 2.5,
+            lg: 3.0,
           }},
           options: {
             widget: "EmptyBox",
@@ -126,7 +174,7 @@ export const RolePermissionUISchema:any = {
         },
         {
           type: "Control",
-          scope: "#/properties/btn",
+          scope: "#/properties/SubmitButton",
           options: {
             widget: "Button",
           },
@@ -136,7 +184,7 @@ export const RolePermissionUISchema:any = {
               xs: 11,
               sm: 11,
               md: 2.5,
-              lg: 1.5,
+              lg: 2.0,
             },
             main: {
               name: "Submit",

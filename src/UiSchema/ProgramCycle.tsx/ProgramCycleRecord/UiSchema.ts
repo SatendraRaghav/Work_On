@@ -8,55 +8,12 @@ export const ProgramMasterCycleRecordUiSchema: any = {
           rowSpacing: 3,
           header: true,
         },
-        defaultStyle: true
+        defaultStyle: true,
       },
       elements: [
         {
           type: "Control",
-          scope: "#/properties/ArrayType",
-
-          options: {
-            widget: "Array",
-
-            detail: {
-              type: "HorizontalLayout",
-              elements: [
-                {
-                  type: "Control",
-                  scope: "#/properties/programType",
-
-                  options: {
-                    widget: "Button",
-                  },
-                  config: {
-                    layout: 8.5,
-                    main: {
-                      name:"Rgahv",
-                      heading: "Cycle Master",
-                    },
-                  },
-                },
-                {
-                  type: "Control",
-                  scope: "#/properties/programType",
-
-                  options: {
-                    widget: "InputField",
-                  },
-                  config: {
-                    layout: 8.5,
-                    main: {
-                    label:"Input"
-                    },
-                  },
-                },
-              ]
-            }
-          },
-        } ,
-        {
-          type: "Control",
-          scope: "#/properties/programType",
+          scope: "#/properties/masterName",
 
           options: {
             widget: "Box",
@@ -64,7 +21,7 @@ export const ProgramMasterCycleRecordUiSchema: any = {
           config: {
             layout: 8.5,
             main: {
-              heading: "Cycle Master",
+              heading: "Create Program Cycle",
             },
           },
         },
@@ -98,7 +55,7 @@ export const ProgramMasterCycleRecordUiSchema: any = {
       config: {
         main: {
           id: "cycle",
-          tabLabels: ["Approve", "Pending", "Reject"],
+          tabLabels: ["Cycle Records"],
           layout: 12,
         },
       },
@@ -110,196 +67,37 @@ export const ProgramMasterCycleRecordUiSchema: any = {
             widget: "Table",
           },
           config: {
-            main: {
-              columns: {
-                layout: 12,
-                dataColumns: [
-                  {
-                    accessorKey: "id",
-                    // width: "100",
-                    header: "Id",
-
-                    hide: true,
-                  },
-                  {
-                    accessorKey: "name",
-                    // width: "80",
-
-                    header: "Cycle Name",
-                    cellOverflow: "wrap",
-                  },
-                  {
-                    accessorKey: "program",
-                    // width: "80",
-
-                    header: "Program Name",
-                    cellOverflow: "wrap",
-                  },
-                  {
-                    accessorKey: "startDate",
-                    header: "Start Date",
-                  },
-                  {
-                    accessorKey: "endDate",
-                    header: "End Date",
-                  },
-                ],
-                actionColumns: [
-                  {
-                    accessorKey: "Edit_Approve_Records",
-                    header: "Edit",
-                    width: "100",
-                    widget: {
-                      type: "Control",
-                      scope: "#/properties/Edit_Records",
-                      options: {
-                        widget: "IconButton",
-                      },
-                      config: {
-                        main: {
-                          color: "info",
-                          size: "small",
-                          icon: "EditIcon",
-                          onClick: "Edit_Approve_Records",
-                          tooltipMessage: "Edit This Record",
-                        },
-                        style: {
-                          color: "#3949ab",
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
+            main: {},
+          },
+          elements: [
+            {
+              accessorKey: "id",
+              // width: "100",
+              header: "Id",
             },
-          },
-        },
-        {
-          type: "Control",
-          scope: "#/properties/PendingRecords",
+            {
+              accessorKey: "name",
+              // width: "80",
 
-          options: {
-            widget: "Table",
-          },
-          config: {
-            main: {
-              layout: 12,
-              columns: {
-                dataColumns: [
-                  {
-                    accessorKey: "id",
-
-                    align: "right",
-                    hide: true,
-                  },
-                  {
-                    accessorKey: "name",
-
-                    header: "Cycle Name",
-                  },
-                  {
-                    accessorKey: "program",
-
-                    header: "Program Name",
-                  },
-                  {
-                    accessorKey: "startDate",
-                    header: "Start Date",
-                  },
-                  {
-                    accessorKey: "endDate",
-                    header: "End Date",
-                  },
-                ],
-                actionColumns: [
-                  {
-                    accessorKey: "Approve_Records",
-                    header: "Approve",
-                    width: "100",
-                    widget: {
-                      type: "Control",
-                      scope: "#/properties/Approve Records",
-                      options: {
-                        widget: "IconButton",
-                      },
-                      config: {
-                        main: {
-                          icon: "ApproveIcon",
-                          onClick: "Approve_Records",
-                          color: "success",
-                          tooltipMessage: "Approve This Record",
-                        },
-                      },
-                    },
-                  },
-
-                  {
-                    accessorKey: "Reject_Records",
-                    header: "Reject",
-                    width: "100",
-                    widget: {
-                      type: "Control",
-                      scope: "#/properties/Reject_Records",
-                      options: {
-                        widget: "IconButton",
-                      },
-                      config: {
-                        main: {
-                          icon: "RejectIcon",
-                          color: "error",
-                          onClick: "Reject_Records",
-                          tooltipMessage: "Reject This Record",
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
+              header: "Cycle Name",
+              cellOverflow: "wrap",
             },
-          },
-        },
-        {
-          type: "Control",
-          scope: "#/properties/RejectRecords",
-          layout: 12,
-          options: {
-            widget: "Table",
-          },
-          config: {
-            main: {
-              columns: {
-                dataColumns: [
-                  {
-                    accessorKey: "id",
-                    // width: "100",
+            {
+              accessorKey: "program",
+              // width: "80",
 
-                    hide: true,
-                  },
-                  {
-                    accessorKey: "name",
-
-                    header: "Cycle Name",
-                  },
-                  {
-                    accessorKey: "program",
-                    // width: "80",
-
-                    header: "Program Name",
-                  },
-                  {
-                    accessorKey: "startDate",
-                    header: "Start Date",
-                    width: "120",
-                  },
-                  {
-                    accessorKey: "endDate",
-                    header: "End Date",
-                    width: "120",
-                  },
-                ],
-              },
+              header: "Program Name",
+              cellOverflow: "wrap",
             },
-          },
+            {
+              accessorKey: "startDate",
+              header: "Start Date",
+            },
+            {
+              accessorKey: "endDate",
+              header: "End Date",
+            },
+          ],
         },
       ],
     },

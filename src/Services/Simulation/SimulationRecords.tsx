@@ -110,7 +110,7 @@ export const SimulationRecords = (
       //   })
         .catch((error) => {
           console.log(error);
-          return [{}];
+          return [];
         });
         return result;
     },
@@ -160,7 +160,7 @@ export const SimulationRecords = (
         })
           .catch((error) => {
             console.log(error);
-            return [{}];
+            return [];
           });
       }
     },

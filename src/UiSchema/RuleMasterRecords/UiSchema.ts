@@ -1,248 +1,488 @@
-export const RuleMasterRecordsUISchema:any = {
-    type: "HorizontalLayout",
-    elements: [
-      {
-            type: "WrapperLayout",
-            config:{
-              main:{
-                rowSpacing:3,
-                header:true,
-              },
-              defaultStyle:true
+export const RuleMasterRecordsUISchema: any = {
+  type: "HorizontalLayout",
+  elements: [
+    {
+      type: "WrapperLayout",
+      config: {
+        main: {
+          rowSpacing: 3,
+          header: true,
+        },
+        defaultStyle: true,
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/programType",
+
+          options: {
+            widget: "Box",
+          },
+          config: {
+            layout: 8.5,
+            main: {
+              heading: "Rule Master",
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/New_Record",
+
+          options: {
+            widget: "IconButton",
+          },
+          config: {
+            layout: 3,
+            main: {
+              name: "New Records",
+              icon: "AddIcon",
+              size: "small",
+              styleDefault: true,
+              tooltipMessage: "Add New Record",
+              onClick: "newRecord",
+            },
+            style: {
+              float: "right",
             },
             elements: [
               {
-                type: "Control",
-                scope: "#/properties/programType",
-  
-                options: {
-                  widget: "Box",
-                },
-                config: {
-                  layout: 8.5,
-                  main: {
-                    heading: "Rule Master",
+                accessorKey: "id",
+                header: "id",
+              },
+              {
+                accessorKey: "groupId",
+
+                header: "GroupId",
+              },
+              {
+                accessorKey: "artifactId",
+
+                header: "Artifact Id",
+              },
+              {
+                accessorKey: "version",
+
+                header: "Version",
+              },
+              {
+                accessorKey: "ruleId",
+
+                header: "Entry Point",
+              },
+              {
+                accessorKey: "Edit_Approve_Records",
+                header: "Edit",
+
+                widget: {
+                  type: "Control",
+                  scope: "#/properties/Edit_Records",
+                  options: {
+                    widget: "IconButton",
+                  },
+                  config: {
+                    main: {
+                      color: "info",
+                      size: "small",
+                      tooltipMessage: "Edit This Record",
+                      onClick: "Edit_Approve_Records",
+                      icon: "EditIcon",
+                    },
+                    style: {
+                      color: "#3949ab",
+                    },
                   },
                 },
               },
-              {
+            ],
+          },
+        },
+      ],
+    },
+    {
+      type: "TabLayout",
+      config: {
+        main: {
+          tabLabels: ["Approve", "Pending For Approval", "Reject", "Pending"],
+        },
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/ApproveRecords",
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {},
+          },
+
+          elements: [
+            {
+              accessorKey: "id",
+              header: "id",
+            },
+            {
+              accessorKey: "groupId",
+
+              header: "GroupId",
+            },
+            {
+              accessorKey: "artifactId",
+
+              header: "Artifact Id",
+            },
+            {
+              accessorKey: "version",
+
+              header: "Version",
+            },
+            {
+              accessorKey: "ruleId",
+
+              header: "Entry Point",
+            },
+            {
+              accessorKey: "Edit_Approve_Records",
+              header: "Edit",
+
+              widget: {
                 type: "Control",
-                scope: "#/properties/New_Record",
-  
+                scope: "#/properties/Edit_Records",
                 options: {
                   widget: "IconButton",
                 },
                 config: {
-                  layout: 3,
                   main: {
-                    name: "New Records",
-                    icon: "AddIcon",
+                    color: "info",
                     size: "small",
-                    styleDefault: true,
-                    tooltipMessage: "Add New Record",
-                    onClick: "newRecord",
+                    tooltipMessage: "Edit This Record",
+                    onClick: "Edit_Approve_Records",
+                    icon: "EditIcon",
                   },
                   style: {
-                    float: "right",
+                    color: "#3949ab",
                   },
                 },
               },
-            ]
-      },
-      {
-        type: "TabLayout",
-        config: {
-          main: {
-            tabLabels : ["Approve", "Pending", "Reject"],
-           
-          },
+            },
+            {
+              accessorKey: "View_Records",
+              header: "View",
+
+              widget: {
+                type: "Control",
+                scope: "#/properties/View_Records",
+                options: {
+                  widget: "IconButton",
+                },
+                config: {
+                  main: {
+                    color: "info",
+                    size: "small",
+                    icon: "SearchIcon",
+                    onClick: "View_Records",
+                    tooltipMessage: "View This Record",
+                  },
+                  style: {
+                    color: "#3949ab",
+                  },
+                },
+              },
+            },
+          ],
         },
-        elements: [
-          {
-            type: "Control",
-            scope: "#/properties/ApproveRecords",
-            options: {
-              widget: "Table",
-            },
-            config: {
-              main: {
-                columns: {
-                  dataColumns: [
-                    {
-                      accessorKey: "id",
-                      header: "id",
+        {
+          type: "HorizontalLayout",
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/PendingRecords",
+              layout: 12,
+              options: {
+                widget: "Table",
+              },
+              config: {
+                main: {},
+              },
+              elements: [
+                {
+                  accessorKey: "Selected",
+                  header: "Selected",
+                  size: 100,
+                  widget: {
+                    type: "Control",
+                    scope: "#/properties/checked",
+                    options: {
+                      widget: "CheckBox",
                     },
-                    {
-                      accessorKey: "groupId",
-  
-                      header: "GroupId",
+                    config: {
+                      main: {},
                     },
-                    {
-                      accessorKey: "artifactId",
-  
-                      header: "Artifact Id",
+                  },
+                },
+                {
+                  accessorKey: "id",
+                  header: "id",
+                },
+                {
+                  accessorKey: "groupId",
+
+                  header: "Name",
+                },
+                {
+                  accessorKey: "artifactId",
+
+                  header: "Artifact Id",
+                },
+                {
+                  accessorKey: "version",
+
+                  header: "Version",
+                },
+                {
+                  accessorKey: "ruleId",
+
+                  header: "Entry Point",
+                },
+                {
+                  accessorKey: "View_Records",
+                  header: "View",
+
+                  widget: {
+                    type: "Control",
+                    scope: "#/properties/View_Records",
+                    options: {
+                      widget: "IconButton",
                     },
-                    {
-                      accessorKey: "version",
-  
-                      header: "Version",
-                    },
-                  ],
-                  actionColumns: [
-                    {
-                      accessorKey: "Edit_Approve_Records",
-                      header: "Edit",
-  
-                      widget: {
-                        type: "Control",
-                        scope: "#/properties/Edit_Records",
-                        options: {
-                          widget: "IconButton",
-                        },
-                        config: {
-                          main: {
-                            color: "info",
-                            size: "small",
-                            tooltipMessage: "Edit This Record",
-                            onClick: "Edit_Approve_Records",
-                            icon: "EditIcon",
-                          },
-                          style: {
-                            color: "#3949ab",
-                          },
-                        },
+                    config: {
+                      main: {
+                        color: "info",
+                        size: "small",
+                        icon: "SearchIcon",
+                        onClick: "View_Records",
+                        tooltipMessage: "View This Record",
+                      },
+                      style: {
+                        color: "#3949ab",
                       },
                     },
-                  ],
+                  },
+                },
+              ],
+            },
+            {
+              type: "Control",
+              scope: "#/properties/remarks",
+
+              options: {
+                widget: "TextArea",
+              },
+              config: {
+                layout: { xs: 11, sm: 11, md: 11.5, lg: 11.5 },
+                main: {
+                  label: "Remarks",
+                  errorMessage: "Remarks is empty or invalid",
                 },
               },
             },
-          },
-          {
-            type: "Control",
-            scope: "#/properties/PendingRecords",
-            layout: 12,
-            options: {
-              widget: "Table",
-            },
-            config: {
-              main: {
-                columns: {
-                  dataColumns: [
-                    {
-                      accessorKey: "id",
-                      header: "id",
-                    },
-                    {
-                      accessorKey: "groupId",
-  
-                      header: "Name",
-                    },
-                    {
-                      accessorKey: "artifactId",
-  
-                      header: "Artifact Id",
-                    },
-                    {
-                      accessorKey: "version",
-  
-                      header: "Version",
-                    }
-                  ],
-                  actionColumns: [
-                    {
-                      accessorKey: "RoleApprover",
-                      header: "Approve",
-  
-                      widget: {
-                        type: "Control",
-                        scope: "#/properties/Approve2Button",
-                        accessorKeyName: "RoleApprover",
-                        options: {
-                          widget: "IconButton",
-                        },
-                        config: {
-                          main: {
-                            icon: "ApproveIcon",
-                            color: "success",
-                            onClick: "RoleApprover",
-                            tooltipMessage: "Approve This Record",
-                          },
-                        },
-                      },
-                    },
-                    {
-                      accessorKey: "Reject_Records",
-                      header: "Reject",
-  
-                      widget: {
-                        type: "Control",
-                        scope: "#/properties/RejectButton",
-                        accessorKeyName: "Reject_Records",
-                        options: {
-                          widget: "IconButton",
-                        },
-                        config: {
-                          main: {
-                            icon: "RejectIcon",
-                            color: "error",
-                            onClick: "Reject_Records",
-                            tooltipMessage: "Reject This Record",
-                          },
-                        },
-                      },
-                    },
-                  ],
+            {
+              type: "Control",
+              scope: "#/properties/load",
+              options: {
+                widget: "Button",
+              },
+
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 2.75,
+                  lg: 2.75,
+                },
+                main: {
+                  name: "Approve",
+                  variant: "contained",
+                  color: "info",
+                  type: "text",
+                  onClick: "Approve_Records",
+                  size: "large",
                 },
               },
             },
-          },
-          {
-            type: "Control",
-            scope: "#/properties/RejectRecords",
-            layout: 12,
-            options: {
-              widget: "Table",
-            },
-            config: {
-              main: {
-                columns: {
-                  dataColumns: [
-                    {
-                      accessorKey: "id",
-                      header: "id",
-                    },
-                    {
-                      accessorKey: "groupId",
-  
-                      header: "GroupId",
-                    },
-                    {
-                      accessorKey: "artifactId",
-  
-                      header: "Artifact Id",
-                    },
-                    {
-                      accessorKey: "version",
-  
-                      header: "Version",
-                    }
-                  ],
+            {
+              type: "Control",
+              scope: "#/properties/load",
+              options: {
+                widget: "Button",
+              },
+
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 2.75,
+                  lg: 2.75,
+                },
+                main: {
+                  name: "Reject",
+                  variant: "contained",
+                  color: "info",
+                  type: "text",
+                  onClick: "Reject_Records",
+                  size: "large",
                 },
               },
             },
-          },
-        ],
-      },
-      {
-        type: "Control",
-        scope: "#/properties/notify",
-        options: {
-          widget: "Notify",
+            {
+              type: "Control",
+              scope: "#/properties/EmptyBox",
+              config: {
+                layout: {
+                  xs: 5.5,
+                  sm: 7.5,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+              },
+              options: {
+                widget: "EmptyBox",
+              },
+            },
+          ],
         },
-        layout: 6,
+        {
+          type: "Control",
+          scope: "#/properties/RejectRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {},
+          },
+          elements: [
+            {
+              accessorKey: "id",
+              header: "id",
+            },
+            {
+              accessorKey: "groupId",
+
+              header: "GroupId",
+            },
+            {
+              accessorKey: "artifactId",
+
+              header: "Artifact Id",
+            },
+            {
+              accessorKey: "version",
+
+              header: "Version",
+            },
+            {
+              accessorKey: "ruleId",
+
+              header: "Entry Point",
+            },
+          ],
+        },
+        {
+          type: "Control",
+          scope: "#/properties/RaisedRecords",
+          layout: 12,
+          options: {
+            widget: "Table",
+          },
+          config: {
+            main: {},
+          },
+          elements: [
+            {
+              accessorKey: "id",
+              header: "id",
+            },
+            {
+              accessorKey: "groupId",
+
+              header: "Name",
+            },
+            {
+              accessorKey: "artifactId",
+
+              header: "Artifact Id",
+            },
+            {
+              accessorKey: "version",
+
+              header: "Version",
+            },
+            {
+              accessorKey: "ruleId",
+
+              header: "Entry Point",
+            },
+            {
+              accessorKey: "Edit_Approve_Records",
+              header: "Actions",
+              width: 150,
+              widget: {
+                type: "Control",
+                scope: "#/properties/Edit_Records",
+                options: {
+                  widget: "IconButton",
+                },
+                config: {
+                  main: {
+                    color: "info",
+                    size: "small",
+                    tooltipMessage: "View All Actions",
+                    onClick: "View_Actions",
+                    icon: "ReportIcon",
+                  },
+                  style: {
+                    color: "#3949ab",
+                  },
+                },
+              },
+            },
+            {
+              accessorKey: "View_Records",
+              header: "View",
+
+              widget: {
+                type: "Control",
+                scope: "#/properties/View_Records",
+                options: {
+                  widget: "IconButton",
+                },
+                config: {
+                  main: {
+                    color: "info",
+                    size: "small",
+                    icon: "SearchIcon",
+                    onClick: "View_Records",
+                    tooltipMessage: "View This Record",
+                  },
+                  style: {
+                    color: "#3949ab",
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: "Control",
+      scope: "#/properties/notify",
+      options: {
+        widget: "Notify",
       },
-      
-    ],
-  };
+      layout: 6,
+    },
+  ],
+};
   

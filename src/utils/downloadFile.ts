@@ -15,3 +15,31 @@ export  const downloadFile = (obj: any) => {
   URL.revokeObjectURL(url);
   document.body.removeChild(link);
   };
+
+  const convertToCSV = (data) => {
+    const headers = Object.keys(data[0]);
+  
+    const csvContent =
+      headers.join(',') +
+      '\n' +
+      data.map((row) => headers.map((header) => row[header]).join(',')).join('\n');
+  
+    return csvContent;
+  };
+  
+  export const downloadCSV = (data) => {
+    
+  
+    const csv = convertToCSV(data);
+  
+    if (csv) {
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const link = window.document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'data.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+ ;

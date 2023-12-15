@@ -13,7 +13,7 @@ export const PositionTypeMasterUISchema:any = {
           elements: [
             {
               type: "Control",
-              scope: "#/properties/programType",
+              scope: "#/properties/masterName",
 
               options: {
                 widget: "Box",
@@ -119,7 +119,7 @@ export const PositionTypeMasterUISchema:any = {
         },
         {
           type: "Control",
-          scope: "#/properties/btn",
+          scope: "#/properties/SubmitButton",
           options: {
             widget: "Button",
           },

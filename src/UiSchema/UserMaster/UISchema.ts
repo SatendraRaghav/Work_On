@@ -1,20 +1,20 @@
-export const UserMasterUISchema:any = {
+export const UserMasterUISchema: any = {
   type: "HorizontalLayout",
 
   elements: [
     {
       type: "WrapperLayout",
-      config:{
-        main:{
-          rowSpacing:3,
-          header:true,
+      config: {
+        main: {
+          rowSpacing: 3,
+          header: true,
         },
-        defaultStyle:true
+        defaultStyle: true,
       },
       elements: [
         {
           type: "Control",
-          scope: "#/properties/programType",
+          scope: "#/properties/masterName",
 
           options: {
             widget: "Box",
@@ -32,7 +32,6 @@ export const UserMasterUISchema:any = {
               fontSize: "20px",
               // paddingBottom: "8px",
               // borderRadius: "20px",
-             
             },
           },
         },
@@ -84,7 +83,21 @@ export const UserMasterUISchema:any = {
             main: {
               label: "Login ID",
               type: "text",
-        //      errorMessage: "Login ID is empty or invalid",
+              //      errorMessage: "Login ID is empty or invalid",
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/passwordManager",
+
+          options: {
+            widget: "SelectInputField",
+          },
+          config: {
+            layout: { xs: 5.5, sm: 5.5, md: 5.5, lg: 3.6 },
+            main: {
+              label: "Password Manager",
             },
           },
         },
@@ -100,20 +113,6 @@ export const UserMasterUISchema:any = {
             main: {
               label: "Title",
               type: "text",
-              options: [
-                {
-                  label: "Mr.",
-                  value: "Mr.",
-                },
-                {
-                  label: "Ms.",
-                  value: "Ms.",
-                },
-                {
-                  label: "Mrs.",
-                  value: "Mrs.",
-                },
-              ],
             },
           },
         },
@@ -166,23 +165,6 @@ export const UserMasterUISchema:any = {
             },
           },
         },
-
-        {
-          type: "Control",
-          scope: "#/properties/crn",
-
-          options: {
-            widget: "InputField",
-          },
-          config: {
-            layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
-            main: {
-              label: "CRN No.",
-              type: "text",
-              errorMessage: "CRN No. is empty or invalid",
-            },
-          },
-        },
         {
           type: "Control",
           scope: "#/properties/pan",
@@ -226,10 +208,81 @@ export const UserMasterUISchema:any = {
             layout: { xs: 11, sm: 11.5, md: 5.5, lg: 3.6 },
             main: {
               label: "Gender",
-              options: [
-                { label: "Male", value: "Male" },
-                { label: "Female", value: "Female" },
-              ],
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/EmptyBox",
+          config: { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 } },
+          options: {
+            widget: "EmptyBox",
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/EmptyBox",
+          config: { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 } },
+          options: {
+            widget: "EmptyBox",
+          },
+        },
+      ],
+    },
+    {
+      type: "WrapperLayout",
+      config: {
+        main: {
+          label: "Upload Avatar",
+          divider: true,
+        },
+        defaultStyle: true,
+      },
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/uploadAvatarFile",
+          options: {
+            widget: "UploadFile",
+          },
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
+              required: false,
+              onClick: "uploadAvatarSaveFunction",
+              // errorMessage: "Workflow File is not uploaded",
+              // iconStyleDefault:true,
+            },
+            style: {
+              backgroundColor: "none",
+            },
+          },
+        },
+        {
+          type: "Control",
+          scope: "#/properties/downloadAvatarFile",
+          options: {
+            widget: "DownloadFile",
+          },
+          config: {
+            layout: {
+              xs: 11,
+              sm: 11,
+              md: 5.5,
+              lg: 5.5,
+            },
+            main: {
+              required: false,
+              onClick: "Download_Avatar_File",
+              // iconStyleDefault:true,
+            },
+            style: {
+              backgroundColor: "none",
             },
           },
         },
@@ -668,7 +721,6 @@ export const UserMasterUISchema:any = {
           },
           config: {
             layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 },
-           
           },
         },
       ],
@@ -734,6 +786,7 @@ export const UserMasterUISchema:any = {
             },
           },
         },
+
         {
           type: "Control",
           scope: "#/properties/reasonForInactiveMarking",
@@ -750,22 +803,15 @@ export const UserMasterUISchema:any = {
             },
           },
         },
-        // {
-        //   type: "Control",
-        //   scope: "#/properties/EmptyBox",
-        //   config: { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 } },
-        //   options: {
-        //     widget: "EmptyBox",
-        //   },
-        // },
-        // {
-        //   type: "Control",
-        //   scope: "#/properties/EmptyBox",
-        //   config: { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.6 } },
-        //   options: {
-        //     widget: "EmptyBox",
-        //   },
-        // },
+        {
+          type: "Control",
+          scope: "#/properties/EmptyBox",
+          config: { layout: { xs: 11, sm: 5.5, md: 5.5, lg: 3.7 } },
+          options: {
+            widget: "EmptyBox",
+          },
+        },
+
         {
           type: "Control",
           scope: "#/properties/EmptyBox",
@@ -783,7 +829,7 @@ export const UserMasterUISchema:any = {
         },
         {
           type: "Control",
-          scope: "#/properties/btn",
+          scope: "#/properties/SubmitButton",
           options: {
             widget: "Button",
           },
