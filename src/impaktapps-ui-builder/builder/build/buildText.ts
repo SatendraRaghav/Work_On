@@ -8,7 +8,7 @@ export const buildTextField = (config:any,componentScope:string) =>{
     if (config.style) {
       inputField.config.style = JSON.parse(config.style)
     }
-    if(config.layout){
+    if (config.layout) {
       inputField.config.layout = createLayoutFormat(config.layout)
     }
     inputField.config.main.errorMessage = `${config.name} is empty or invalid`;

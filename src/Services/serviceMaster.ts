@@ -1,4 +1,5 @@
-import { pageService } from "impaktapps-ui-builder";
+// import { pageService } from "impaktapps-ui-builder";
+import { pageService } from "@/impaktapps-ui-builder/lib";
 import { myService } from "../service/service";
  import { userValue } from "@/App";
 

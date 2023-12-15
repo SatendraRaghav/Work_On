@@ -46,7 +46,7 @@ export const TableSection = {
                   styleDefault: true,
                   size: "small",
                   onClick: "widgetAddClickHandler",
-                  tooltipMessage: "Back",
+                  tooltipMessage: "Add New",
                 },
                 style: {
                   float: "right", 

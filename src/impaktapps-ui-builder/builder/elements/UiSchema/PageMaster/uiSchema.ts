@@ -72,6 +72,8 @@ export const PageMasterUiSchema: any = {
               label: "Name",
               options: [],
               color: "secondary",
+              errorMessage:"Name should be start with 'page_'",
+              helperText:'Name should be start with "page_"',
               required: true,
             },
           },
@@ -150,7 +152,7 @@ export const PageMasterUiSchema: any = {
                   styleDefault: true,
                   size: "small",
                   onClick: "onAddClickHandler",
-                  tooltipMessage: "Back",
+                  tooltipMessage: "Add New",
                 },
                 style: {
                   float: "right",

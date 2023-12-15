@@ -1,4 +1,5 @@
-import { buildConfig, buildUiSchema,buildSchema } from "impaktapps-ui-builder";
+// import { buildConfig, buildUiSchema,buildSchema } from "impaktapps-ui-builder";
+import { buildConfig, buildUiSchema,buildSchema  } from "@/impaktapps-ui-builder/lib";
 import _ from "lodash";
 
 

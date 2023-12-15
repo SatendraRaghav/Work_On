@@ -34,6 +34,14 @@ export default (FormData: any) => {
 };
 
 export const createLayoutFormat = (config: any[]) => {
+  if(_.isEmpty(config)){
+    return {
+      xs: 11,
+      sm: 11,
+      md: 5.5,
+      lg: 5.5,
+    }
+  }
   let data: any = {};
   config.map((e:any)=>{
     data[e.key] = +e.value

@@ -7,13 +7,13 @@ import { schema } from "../build/buildUiSchema";
 
 interface funcParamsProps {
   store: any,
-   dynamicData: any,
-   config: any,
-  submitHandler:any,
-  service:any
- }
-export default (funcParams:funcParamsProps) => {
-  const {store,dynamicData,config,submitHandler} = funcParams
+  dynamicData: any,
+  config: any,
+  submitHandler: any,
+  service: any
+}
+export default (funcParams: funcParamsProps) => {
+  const { store, dynamicData, config, submitHandler } = funcParams
   return {
     setPage: async function () {
       const formdata = await this.getFormdata();
@@ -26,13 +26,13 @@ export default (funcParams:funcParamsProps) => {
     getFormdata: async function () {
       const id = store.searchParams?.get("id");
       const formData = getFormdataFromLocalStorage()
-      if(formData){
-         return formData;
+      if (formData) {
+        return formData;
       }
       saveFormdataInLocalStorage(config)
-      return config 
+      return config
     },
-    getUiSchema: async function () {  
+    getUiSchema: async function () {
       return PageMasterUiSchema;
     },
     getSchema: () => {
@@ -53,8 +53,9 @@ export default (funcParams:funcParamsProps) => {
       );
     },
     submitPageHandler: async function () {
-      console.log(schema)
-      submitHandler(store,funcParams.service)
+      console.log()
+      if (_.isEmpty(funcParams.store.ctx.core.errors)) {
+        submitHandler(store, funcParams.service)
         .then((saveReturn: any) => {
           localStorage.removeItem("pageFormdata")
           store.navigate(-1)
@@ -63,6 +64,13 @@ export default (funcParams:funcParamsProps) => {
             Success: true,
           });
         })
+      } else {
+        funcParams.store.setValidation("ValidateAndShow");
+        funcParams.store.setNotify({
+          Fail:true,
+          FailMessage:"Errors on Page"
+        })
+      }
     },
     Edit_Components: Component(store, dynamicData).editComponents,
     Delete_Components: Component(store, dynamicData).deleteComponents,
@@ -75,14 +83,14 @@ export default (funcParams:funcParamsProps) => {
       const finalPath = `events[${store.formData.events.length}]`
       store.navigate(`/ComponentEvents?path=${finalPath}&id=${id}`)
     },
-    editEvent:async function () {
+    editEvent: async function () {
       const rowId = dynamicData.path.split(".")[1];
       const id = store.searchParams?.get("id");
       saveFormdataInLocalStorage(store.formData)
       const finalPath = `events[${rowId}]`
       store.navigate(`/ComponentEvents?path=${finalPath}&id=${id}`)
     },
-    deleteEvent:async function () {
+    deleteEvent: async function () {
       const rowId = dynamicData.path.split(".")[1];
       store.formData.events.splice(rowId, 1);
       const response = saveFormdataInLocalStorage(store.formData)

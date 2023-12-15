@@ -8,7 +8,6 @@ export const ComponentSchema:any = {
       { title: "Date", const: "Date" },
       { title: "CheckBox", const: "CheckBox" },
       { title: "Table", const: "Table" },
-      { title: "Lazy Loading Table", const: "LazyLoadingTable" },
       { title: "Array", const: "Array" },
       { title: "Container", const: "WrapperSection" },
       { title: "Tabs", const: "TabSection" },
