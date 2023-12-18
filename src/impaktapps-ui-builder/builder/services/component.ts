@@ -76,12 +76,20 @@ export default (store: any, dynamicData: any) => {
     },
     saveHandler: async function () {
       const path = store.searchParams?.get("path");
-      saveFormdataInLocalStorage(store.formData,path)
+      if (_.isEmpty(store.ctx.core.errors)) {
+        saveFormdataInLocalStorage(store.formData,path)
           store.navigate(-1)
           store.setNotify({
             SuccessMessage: "Save Successfully",
             Success: true,
           });
+      } else {
+        store.setValidation("ValidateAndShow");
+         store.setNotify({
+          Fail:true,
+          FailMessage:"Errors on Page"
+        })
+      }
     },
     onChange: function () {
       if (

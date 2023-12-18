@@ -202,12 +202,11 @@ export const componentBasicUiSchema: any = {
                         },
                         main: {
                           label: "Value",
-                          options: [
-                            {   label: "3", value: "3" },
-                            {   label: "5.5", value: "5.5" },
-                            {   label: "8", value: "8" },
-                            {   label: "12", value: "12" },
-                          ],
+                          type:"number",
+                          freeSolo:true,
+                          helperText:'Number should be in range of 0 to 12',
+                          errorMessage:"Number Can't be greater than 12 and can't be less than 0.",
+                         
                         },
                       },
                     },

@@ -57,6 +57,13 @@ export const ComponentSchema:any = {
           },
           value: {
             type: "string",
+            pattern:"^(?:[1-9]|1[0-2])$",
+            // oneOf:[
+            //   {   title: "3", const: "3" },
+            //   {   title: "5.5", const: "5.5" },
+            //   {   title: "8", const: "8" },
+            //   {   title: "12", const: "12" },
+            // ]
           },
         },
       },
@@ -190,7 +197,12 @@ export const ComponentSchema:any = {
         { title: "Pie Graph", const: "PieGraph" },
         { title: "Horizontal Bar Graph", const: "HorizontalBarGraph" },
       ]
-    }
+    },
+    name:{
+      type:"string",
+      // pattern:"^(?:[1-9]|1[0-2])$"
+    },
+    label:{type:'string'}
   },
-  
+  required:["type","name","label"]
 };
