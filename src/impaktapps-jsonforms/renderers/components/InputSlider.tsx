@@ -69,9 +69,9 @@ export default function InputSlider(props: inputProps) {
         alignItems="center"
         justifyContent={"center"}
       >
-        <Grid item xs>
+        <Grid item xs >
           <Slider
-            color="primary"
+            color="success"
             step={uischemaData.step || 1000}
             marks
             max={uischemaData.max || 10000}

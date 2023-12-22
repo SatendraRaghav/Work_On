@@ -44,7 +44,7 @@ export const createLayoutFormat = (config: any[]) => {
   }
   let data: any = {};
   config.map((e:any)=>{
-    data[e.key] = +e.value
+    data[e.key||"xs"] = +e.value||5.5
   })
   return data;
 };

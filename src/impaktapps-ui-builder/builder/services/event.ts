@@ -20,23 +20,31 @@ export default (
      this.refreshPage(formdata.Handler,store)
     },
     refreshPage: (handlerType: any, store: any) => {
-      const uiSchema = _.cloneDeep(EventUiSchema)
+      const uiSchema = _.cloneDeep(EventUiSchema);
+      const schema:any = _.cloneDeep(EventSchema)
       if (handlerType) {
         if (handlerType === "custom") {
           uiSchema.elements[1].elements[0].elements[2] = getTextArea("eventCode", "Write Custom Code", false)
+          schema.required = ["eventType","Handler","eventCode"]
+
         } else if (handlerType === "api") {
           uiSchema.elements[1].elements[0].elements[2] = APISection;
-
+          schema.required = ["eventType","Handler","method","path"]
         } else if (handlerType === "inBuiltFunction") {
           uiSchema.elements[1].elements[0].elements[2] = getSelectField("inBuiltFunctionType", "Function Name", [
             { label: "RankProvider", value: "RankProvider" },
             { label: "Download File", value: "downloadFile" },
           ])
-          uiSchema.elements[1].elements[0].elements[3] = getTextArea("funcParametersCode", "Write Custom Code for Functions Parameter", true, { xs: 12, sm: 12, md: 6 })
+          uiSchema.elements[1].elements[0].elements[3] = getTextArea("funcParametersCode", "Write Custom Code for Functions Parameter", true, { xs: 12, sm: 12, md: 6 });
+          schema.required = ["eventType","Handler","inBuiltFunctionType"]
         } else if (handlerType === "refresh") {
-          uiSchema.elements[1].elements[0].elements[2] = refreshSectionUiSchema
+          uiSchema.elements[1].elements[0].elements[2] = refreshSectionUiSchema;
+          schema.properties.refreshElements.required = ["value"]
+          schema.properties.refreshElements.items.required = ["value"]
+          schema.required = ["eventType","Handler","refreshElements"]
         }
       }
+      store.setSchema(schema)
       store.setUiSchema(uiSchema)
     },
 

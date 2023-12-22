@@ -57,7 +57,7 @@ export const PayoutProcessingUiSchema: any = {
         },
         {
           type: "Control",
-          scope: "#/properties/load",
+          scope: "#/properties/search",
           options: {
             widget: "Button",
           },

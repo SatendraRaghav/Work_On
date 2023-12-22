@@ -198,7 +198,7 @@ export const PageMasterUiSchema: any = {
                     icon: "EditIcon",
                     color: "primary",
                     onClick: "Edit_Components",
-                    tooltipMessage: "Reject This Record",
+                    tooltipMessage: "Edit This Record",
                   },
                 },
               },

@@ -36,7 +36,57 @@ export const HomeUiSchema:any = {
         defaultStyle:true
       }
     }
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/date",
+      "layout": 12,
+      "options": {
+        "widget": "DateInputField"
+      },
+    config:{
+      main:{
+        label:"Scroe",
+        max:2000,
+        step:200,
+        defaultStyle:true
+      }
     }
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/name",
+      "layout": 12,
+      "options": {
+        "widget": "InputField"
+      },
+    config:{
+      main:{
+        label:"Scroe",
+        max:2000,
+        step:200,
+        defaultStyle:true
+      }
+    }
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/btn",
+      "layout": 12,
+      "options": {
+        "widget": "UploadFile"
+      },
+    config:{
+      main:{
+        label:"Scroe",
+        max:2000,
+        onClick:"click",
+        name:"name",
+        step:200,
+        defaultStyle:true
+      }
+    }
+    },
   ]
 }
 

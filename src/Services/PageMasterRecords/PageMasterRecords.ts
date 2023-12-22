@@ -17,6 +17,7 @@ export const PageMasterRecords = (store:any,dynamicData : any) => {
       getFormdata: async function () {
         let formData:any = {} 
         let data = null;
+        localStorage.removeItem("pageFormdata")
         await service.get("/page/getAll").then(res => {
             data = res.data.payload.map((elem:any) => {
                 return {id : elem.id , name : elem.name};

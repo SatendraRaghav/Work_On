@@ -43,14 +43,14 @@ function buildRule(configObj: any, tableName?: string, arrayHolderName?: boolean
     if (schema.properties?.[tableName]?.items?.properties) {
       if (!schema.properties?.[tableName]?.items?.properties?.[configObj.name]) {
         schema.properties[tableName].items.properties[configObj.name] = {};
-        if (configObj.type === "Select" || configObj.value?.length > 0) {
+        if (configObj.type === "Select" && configObj.value?.length > 0) {
           schema.properties[tableName].items.properties[configObj.name] = {
             oneOf: configObj.value.map((e) => {
               return { const: e.value, title: e.label }
             })
           }
         }
-        else if (configObj.type === "MultipleSelect" || configObj.value?.length > 0) {
+        else if (configObj.type === "MultipleSelect" && configObj.value?.length > 0) {
           schema.properties[tableName].items.properties[configObj.name] = {
             items: {
               oneOf: configObj.value.map((e) => {
@@ -58,6 +58,23 @@ function buildRule(configObj: any, tableName?: string, arrayHolderName?: boolean
               })
             }
           }
+        }
+      }
+    }
+  } else if ((configObj.type === "Select" || configObj.type === "MultipleSelect") && configObj.value?.length > 0) {
+    if (configObj.type === "Select" ) {
+      schema.properties[configObj.name] = {
+        oneOf: configObj.value.map((e) => {
+          return { const: e.value, title: e.label }
+        })
+      }
+    }
+    else if (configObj.type === "MultipleSelect" ) {
+      schema.properties[configObj.name] = {
+        items: {
+          oneOf: configObj.value.map((e) => {
+            return { const: e.value, title: e.label }
+          })
         }
       }
     }
@@ -279,13 +296,13 @@ const buildUiSchema = (config: any) => {
         return buildUiSchema(e)
       });
     }
-  else {
-    elements.elements = config.elements.map((e: any, elemInd: number) => {
-      return buildUiSchema(e)
-    });
+    else {
+      elements.elements = config.elements.map((e: any, elemInd: number) => {
+        return buildUiSchema(e)
+      });
+    }
   }
-}
-return elements;
+  return elements;
 }
 
 

@@ -72,7 +72,7 @@ export const CoreSection = {
         "elementLabelProp": "key",
         detail: {
           type: "HorizontalLayout",
-          
+
           elements: [
             {
               type: "Control",
@@ -89,7 +89,7 @@ export const CoreSection = {
                 },
                 main: {
                   label: "Screen Size",
-  
+
                 },
               },
             },
@@ -109,7 +109,10 @@ export const CoreSection = {
                 },
                 main: {
                   label: "Value",
-                 
+                  type:"number",
+                  // freeSolo:true,
+                  helperText:'Number should be in range of 0 to 12',
+                  errorMessage:"Number Can't be greater than 12 and can't be less than 0.",
                 },
               },
             },
@@ -162,6 +165,8 @@ export const OptionArray: any = {
             },
             main: {
               label: "Value",
+              helperText: 'Number should be in range of 0 to 12',
+              errorMessage: "Number Can't be greater than 12 and can't be less than 0.",
             },
           },
         },
@@ -187,19 +192,4 @@ export const OptionArraySchema = {
   },
 };
 
-export const LayoutArraySchema = {
-  layout: {
-    type: "array",
-    items: {
-      type: "object",
-      properties: {
-        key: {
-          type: "string",
-        },
-        value: {
-          type: "string",
-        },
-      },
-    },
-  },
-};
+

@@ -59,7 +59,7 @@ export const ImpaktAppsButton = memo(function ({ uischema, path,data ,schema,roo
               : false
           }
           color={uischemaData?.color}
-          sx={{ ...theme.Buttonstyle, ...uischema?.config?.style }}
+          sx={ !uischemaData?.enableDefaultStyle ? { ...theme.Buttonstyle, ...uischema?.config?.style }:{}}
           variant={uischemaData?.variant || "contained"}
           size={uischemaData?.size || "medium"}
           disabled={loading || uischemaData?.disabled}

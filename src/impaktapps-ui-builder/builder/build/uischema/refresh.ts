@@ -30,6 +30,25 @@ export const refreshSectionUiSchema = {
                 },
               },
             },
+            {
+              type: "Control",
+              scope: "#/properties/emptyBox",
+
+              options: {
+                widget: "EmptyBox",
+              },
+              config: {
+                layout: {
+                  xs: 11,
+                  sm: 11,
+                  md: 5.5,
+                  lg: 5.5,
+                },
+                main: {
+                 
+                },
+              },
+            },
           ],
         },
       },

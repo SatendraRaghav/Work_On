@@ -9,10 +9,12 @@ export const useTheme = (objProvidedStyle: any) => {
       palette: {
         primary: {
           main: "#eef2f6",
+        
         },
         secondary: {
           main: "#ffffff",
         },
+       
         text: {
           primary: "#000000",
           button: "#ffffff",

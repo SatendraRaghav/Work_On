@@ -3,7 +3,7 @@ import _ from "lodash";
 import { createLayoutFormat } from "./buildConfig";
 
 export const buildButton = (config:any,componentScope:string) =>{
-    const button = _.cloneDeep(Button);
+    const button:any = _.cloneDeep(Button);
     if (config.buttonType) {
       button.options.widget = config.buttonType === "IconButton" ? "IconButton" : "Button";
       config.buttonType === "ButtonWithIconAndText" ?
@@ -14,8 +14,17 @@ export const buildButton = (config:any,componentScope:string) =>{
     if(config.layout){
       button.config.layout = createLayoutFormat(config.layout)
     }
+    if(config.tooltipMessage){
+        button.config.main.tooltipMessage = config.tooltipMessage
+    }
+  
     if(config.defaultStyle){
-      button.config.main.styleDefault = config.defaultStyle==="true"?true:false;
+      if(config.buttonType === "IconButton"){
+        button.config.main.styleDefault = config.defaultStyle==="true"?true:false;
+      }else{
+        button.config.main.enableDefaultStyle = config.defaultStyle==="true"?false:true;
+      }
+     
     }
     button.scope = componentScope;
     if (config.style) {

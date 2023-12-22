@@ -31,6 +31,7 @@ export const Table = function ({
   path,
   schema,
   renderers,
+  handleChange,
   rootSchema,
 }: inputProps) {
   const uischemaData = uischema.config.main;
@@ -201,8 +202,7 @@ export const Table = function ({
         }
       : { isLoading: tableLoading },
     enableRowOrdering: uischemaData?.enableDrag ? true : false,
-    //@ts-ignore
-    muiTableBodyRowDragHandleProps: ({ table }) => ({
+    muiRowDragHandleProps: ({ table }) => ({
       onDragEnd: () => {
         const { draggingRow, hoveredRow } = table.getState();
         const draggableTableData = _.cloneDeep(tableData)
@@ -213,6 +213,8 @@ export const Table = function ({
             draggableTableData.splice(draggingRow.index, 1)[0]
           );
           setTableData(draggableTableData);
+          !uischemaData.lazyLoading && handleChange(path,draggableTableData)
+         
         }
       },
     }),

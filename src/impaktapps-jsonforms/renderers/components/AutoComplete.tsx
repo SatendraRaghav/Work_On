@@ -31,13 +31,19 @@ export const ImpaktAppsAutoComplete = memo(function CustomAutoComplete(
   const [value, setValue] = useState<any>(uischemaData.multiple? []:"");
   useEffect(() => {
     const filteredOptions = [];
-    options?.map((e)=>{
-      if(!(data?.includes(e?.value))){
-      filteredOptions.push(e);
+    options?.map((e) => {
+      if (uischemaData.multiple) {
+        if (!data?.includes(e?.value)) {
+          filteredOptions.push(e);
+        }
+      } else {
+        if (!(data === e?.value)) {
+          filteredOptions.push(e);
+        }
       }
-    })
-    setSelectOptions(filteredOptions|| []);
-  }, [options]);
+    });
+    setSelectOptions(filteredOptions || []);
+  }, [options,data]);
   useEffect(() => {
     if (uischemaData.lazyLoading) {
       throttledFunction();
@@ -166,7 +172,7 @@ export const ImpaktAppsAutoComplete = memo(function CustomAutoComplete(
               }}
               variant="outlined"
               label={uischemaData?.label}
-              disabled={uischemaData?.disabled}
+              disabled={getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema).disabled||uischemaData?.disabled}
               required={required}
               placeholder={uischemaData?.placeholder}
               onChange={

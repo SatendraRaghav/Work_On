@@ -9,6 +9,7 @@ import { getFieldName } from "../permissions/getFieldName";
 import { useJsonForms } from "@jsonforms/react";
 import { inputProps } from "../interface/inputfieldProps";
 import { getComponentProps } from "../common/getComponentProps";
+import Helpertext from "../common/Helpertext";
 
 const Date = memo(function (props: inputProps) {
   const { data, handleChange, uischema, path, schema, required,rootSchema ,errors} = props;
@@ -18,14 +19,16 @@ const Date = memo(function (props: inputProps) {
   const style = theme.useStyles();
   const fieldName = getFieldName(path);
   return (
-    <Stack>
-      <LocalizationProvider
-        dateAdapter={AdapterDayjs}
-        sx={{ ...theme.DateStyleLocal, ...uischema?.config?.dateStyleLocal }}
-      >
-        <ComponentWrapper
+   
+    <ComponentWrapper
        {...getComponentProps(`${pageName}:${fieldName}`,permissions,schema,rootSchema)} 
         >
+      <FormControl fullWidth={true} variant="outlined">
+      <LocalizationProvider
+        dateAdapter={AdapterDayjs}
+        sx={{ ...theme.DateStyleLocal, ...uischema?.config?.dateStyleLocal,color:"red"}}
+      >
+        
           <DatePicker
             label={uischemaData?.label}
             className={style.dateStyle}
@@ -36,21 +39,20 @@ const Date = memo(function (props: inputProps) {
               handleChange(path, newValue);
             }}
             
-            inputFormat={uischemaData?.inputFormat ?? "DD/MM/YYYY"}
+            // onError={}
+            inputFormat={uischemaData?.inputFormat || "DD/MM/YYYY"}
             orientation="landscape"
             views={uischemaData?.views}
             renderInput={(params) => (
               <TextField {...params} required={required} 
-              error={errors !== "" ? true : false}
-              helperText={
-                errors !== "" ? errors.includes('pattern')?uischemaData?.errorMessage:errors:uischemaData?.helperText
-              }
               value={data || null} />
             )}
           />
-        </ComponentWrapper>
+       
       </LocalizationProvider>
-    </Stack>
+      <Helpertext uischemaData={uischemaData} errors={errors} />
+      </FormControl>
+       </ComponentWrapper>
   );
 });
 

@@ -3,12 +3,11 @@ export const PageMasterSchema  = {
     properties: {
       name:{
      type:"string",
-    //  minLength: 6,
+     minLength: 6,
      pattern: '^page_\\w+$'
       },
       label:{
         type:"string",
-        pattern:"^[a-zA-Z0-9]+$"
       },
       layout: {
         type: "array",

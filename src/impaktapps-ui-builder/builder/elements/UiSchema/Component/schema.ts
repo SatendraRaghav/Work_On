@@ -1,39 +1,39 @@
-export const ComponentSchema:any = {
+export const ComponentSchema: any = {
   type: "object",
   properties: {
-    type:{
-    type:"string",
-    oneOf:[
-      { title: "Select", const: "Select" },
-      { title: "Date", const: "Date" },
-      { title: "CheckBox", const: "CheckBox" },
-      { title: "Table", const: "Table" },
-      { title: "Array", const: "Array" },
-      { title: "Container", const: "WrapperSection" },
-      { title: "Tabs", const: "TabSection" },
-      { title: "Text", const: "Text" },
-      { title: "Text Area", const: "TextArea" },
-      { title: "Button", const: "Button" },
-      { title: "Card", const: "card" },
-      { title: "Radio", const: "Radio" },
-      { title: "Rank", const: "Rank" },
-      { title: "SpeedoMeter", const: "SpeedoMeter" },
-      { title: "ProgressBar", const: "ProgressBar" },
-      { title: "Graph", const: "Graph" },
-      { title: "Label", const: "Box" },
-      { title: "Upload File", const: "UploadFile" },
-      { title: "Download File", const: "DownloadFile" },
-      { title: "Empty Box", const: "EmptyBox" },
-      { title: "ProgressBar Card", const: "ProgressBarCard" },
-      { title: "Rank Card", const: "RankCard" },
-      { title: "Runner Boy Progress Bar", const: "RunnerBoyProgressBar" },
-      { title: "Slider", const: "Slider" },
-      { title: "Timer", const: "Timer" },
-      { title: "MultipleSelect", const: "MultipleSelect" },
-      { title: "LeaderBoard", const: "LeaderBoard" },]
+    type: {
+      type: "string",
+      oneOf: [
+        { title: "Array", const: "Array" },
+        { title: "Button", const: "Button" },
+        { title: "Card", const: "card" },
+        { title: "CheckBox", const: "CheckBox" },
+        { title: "Container", const: "WrapperSection" },
+        { title: "Date", const: "Date" },
+        { title: "Download File", const: "DownloadFile" },
+        { title: "Empty Box", const: "EmptyBox" },
+        { title: "Graph", const: "Graph" },
+        { title: "Label", const: "Box" },
+        { title: "LeaderBoard", const: "LeaderBoard" },
+        { title: "MultipleSelect", const: "MultipleSelect" },
+        { title: "ProgressBar", const: "ProgressBar" },
+        { title: "ProgressBar Card", const: "ProgressBarCard" },
+        { title: "Select", const: "Select" },
+        { title: "Slider", const: "Slider" },
+        { title: "SpeedoMeter", const: "SpeedoMeter" },
+        { title: "Radio", const: "Radio" },
+        { title: "Rank", const: "Rank" },
+        { title: "Rank Card", const: "RankCard" },
+        { title: "Runner Boy Progress Bar", const: "RunnerBoyProgressBar" },
+        { title: "Table", const: "Table" },
+        { title: "Tabs", const: "TabSection" },
+        { title: "Text", const: "Text" },
+        { title: "Text Area", const: "TextArea" },
+        { title: "Timer", const: "Timer" },
+        { title: "Upload File", const: "UploadFile" },]
     },
-    method:{
-      type:"string",
+    method: {
+      type: "string",
       oneOf: [
         { title: "Get", const: "get" },
         { title: "Post", const: "post" },
@@ -48,7 +48,7 @@ export const ComponentSchema:any = {
         properties: {
           key: {
             type: "string",
-            oneOf:[
+            oneOf: [
               { title: "Extra Small", const: "xs" },
               { title: "Small", const: "sm" },
               { title: "Medium", const: "md" },
@@ -56,14 +56,8 @@ export const ComponentSchema:any = {
             ],
           },
           value: {
-            type: "string",
-            pattern:"^(?:[1-9]|1[0-2])$",
-            // oneOf:[
-            //   {   title: "3", const: "3" },
-            //   {   title: "5.5", const: "5.5" },
-            //   {   title: "8", const: "8" },
-            //   {   title: "12", const: "12" },
-            // ]
+            // type: "string",
+      
           },
         },
       },
@@ -104,7 +98,7 @@ export const ComponentSchema:any = {
       items: {
         type: "object",
         properties: {
-            eventType: {
+          eventType: {
             type: "string",
           },
           configType: {
@@ -121,7 +115,7 @@ export const ComponentSchema:any = {
           label: {
             type: "string",
           },
-         
+
         },
       },
     },
@@ -133,7 +127,7 @@ export const ComponentSchema:any = {
           label: {
             type: "string",
           },
-         
+
         },
       },
     },
@@ -145,7 +139,7 @@ export const ComponentSchema:any = {
           label: {
             type: "string",
           },
-         
+
         },
       },
     },
@@ -156,16 +150,16 @@ export const ComponentSchema:any = {
         properties: {
           componentName: {
             type: "string",
-            
+
           },
-          validationType:{
-              type: "string",
-              oneOf:[
-                { const: "required", title: "Required" },
-                { const: "minLength", title: "Minimum Length" },
-                { const: "maxLength", title: "Maximum Length" },
-                { const: "pattern", title: "Pattern" },
-              ]
+          validationType: {
+            type: "string",
+            oneOf: [
+              { const: "required", title: "Required" },
+              { const: "minLength", title: "Minimum Length" },
+              { const: "maxLength", title: "Maximum Length" },
+              { const: "pattern", title: "Pattern" },
+            ]
           },
           validationValue: {
             type: "string",
@@ -173,24 +167,24 @@ export const ComponentSchema:any = {
         },
       },
     },
-    buttonType:{
-      type:"string",
-      oneOf:[
-        { title: "Button With Text", const: "Button" },
-        { title: "Button With Icon", const: "IconButton" },
-        { title: "Button With Icon and Text", const: "ButtonWithIconAndText" },
+    buttonType: {
+      type: "string",
+      oneOf: [
+        { title: "Button", const: "Button" },
+        { title: "IconButton", const: "IconButton" },
+        { title: "HybridButton", const: "ButtonWithIconAndText" },
       ]
     },
-    defaultStyle:{
-      type:"string",
-      oneOf:[
+    defaultStyle: {
+      type: "string",
+      oneOf: [
         { title: "Apply Default Style", const: "true" },
         { title: "No Style", const: "false" },
       ]
     },
-    graphType:{
-      type:"string",
-      oneOf:[
+    graphType: {
+      type: "string",
+      oneOf: [
         { title: "Bar Graph", const: "BarGraph" },
         { title: "Stack Bar Graph", const: "StackBarGraph" },
         { title: "Line Graph", const: "LineGraph" },
@@ -198,11 +192,43 @@ export const ComponentSchema:any = {
         { title: "Horizontal Bar Graph", const: "HorizontalBarGraph" },
       ]
     },
-    name:{
+    iconName:{
       type:"string",
-      // pattern:"^(?:[1-9]|1[0-2])$"
+      oneOf:[
+        { title: "Search Icon", const: "SearchIcon" },
+        { title: "Edit Icon", const: "EditIcon" },
+        { title: "Add Icon", const: "AddIcon" },
+        { title: "Send Icon", const: "SendIcon" },
+        { title: "Approve Icon", const: "ApproveIcon" },
+        { title: "RejectIcon", const: "RejectIcon" },
+        { title: "Back Icon", const: "BackIcon" },
+        { title: "Back Icon Second ", const: "BackIcon2" },
+        { title: "Pending Icon", const: "PendingIcon" },
+        { title: "View Icon", const: "ViewIcon" },
+        { title: "Notification Icon", const: "NotificationIcon" },
+        { title: "Person Icon", const: "PersonIcon" },
+        { title: "Report Icon", const: "ReportIcon" },
+        { title: "Error Icon", const: "ErrorIcon" },
+        { title: "Refresh Icon", const: "RefreshIcon" },
+        { title: "Download Icon", const: "DownloadIcon" },
+        { title: "Exception Icon", const: "ExceptionIcon" },
+      ]
     },
-    label:{type:'string'}
+    color:{
+      type:"string",
+      oneOf: [
+        { title: "Primary", const: "primary" },
+        { title: "Secondary", const: "secondary" },
+        { title: "Error", const: "error" },
+        { title: "Success", const: "success" },
+        { title: "Info", const: "info" },
+      ]
+    },
+    name: {
+      type: "string",
+    },
+    label: { type: 'string' }
   },
-  required:["type","name","label"]
+ 
+  required: ["type", "name", "label"]
 };

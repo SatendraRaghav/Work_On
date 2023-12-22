@@ -203,7 +203,7 @@ export const componentBasicUiSchema: any = {
                         main: {
                           label: "Value",
                           type:"number",
-                          freeSolo:true,
+                          // freeSolo:true,
                           helperText:'Number should be in range of 0 to 12',
                           errorMessage:"Number Can't be greater than 12 and can't be less than 0.",
                          

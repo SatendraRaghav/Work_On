@@ -144,7 +144,7 @@ export const getSelectField = (scope: string, label: string, options: { label: s
       main: {
         label: label,
         type: "text",
-        options: options
+        // options: options
       },
     },
   }
@@ -193,17 +193,13 @@ export const buildPropertiesSection = function (type: String) {
     const bottomLabel_3 = getInputField("bottomLabel_3", "Third BottomLabel");
     uiSchema.elements = [heading, bottomLabel_1, bottomLabel_2, bottomLabel_3];
   } else if (type === "card") {
-    uiSchema.elements = [getInputField("url", "Image Url"), getInputField("label", "Label"), getInputField("description", "Description"),];
+    uiSchema.elements = [getInputField("url", "Image Url"), getInputField("label", "Label"), getInputField("description", "Description"),EmptyBox];
   }
   else if (type === "Button") {
-    const caption = getInputField("color", "Color");
-    const size = getInputField("size", "Size");
-    const iconName = getInputField("iconName", "Icon Name");
-    uiSchema.elements = [getSelectField("buttonType", "Button Type", [
-      { label: "Button With Text", value: "Button" },
-      { label: "Button With Icon", value: "IconButton" },
-      { label: "Button With Icon and Text", value: "ButtonWithIconAndText" },
-    ]), iconName, size, caption,
+    const color = getSelectField("color", "Color",[]);
+    const iconName = getSelectField("iconName", "Icon Name",[]);
+    uiSchema.elements = [getSelectField("buttonType", "Button Type", []), iconName,  color,
+    getInputField("tooltipMessage", "Tooltip Message"), 
     getSelectField("defaultStyle", "Default Style", [
       { label: "Apply Default Style", value: "true" },
       { label: "No Style", value: "false" },

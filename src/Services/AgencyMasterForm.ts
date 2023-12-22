@@ -20,11 +20,7 @@ export const AgencyMasterForm = (
       const schema = await this.getSchema();
       store.setSchema(schema);
       const UiSchema =  this.getUiSchema();
-      store.setUiSchema(UiSchema);
-   
-     
-
-    },
+      store.setUiSchema(UiSchema);   },
     getFormData: async function () {
       const action = store.searchParams?.get("id")
       let formdata = {}

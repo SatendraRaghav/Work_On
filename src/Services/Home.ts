@@ -11,7 +11,7 @@ dynamicData:any
       const formdata = this.getFormData();
       const schema = this.getSchema();
       const uiSchema = this.getUiSchema();
-     
+      
       store.setSchema(schema);
       store.setUiSchema(uiSchema);
       store.setFormdata(formdata);
@@ -25,6 +25,9 @@ dynamicData:any
     getSchema: () => {
       return HomeSchema;
     },
+    click:()=>{
+      store.setValidation("ValidateAndShow");
+    }
   };
 };
 
